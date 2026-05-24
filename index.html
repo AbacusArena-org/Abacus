@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Abacus Pro | Tournament Edition | Grandmaster Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        :root {
+            --surface: rgba(255, 255, 255, 0.96);
+            --text: #2d3436;
+            --accent: #1e3a8a; 
+            --accent-light: #2563eb;
+            --green: #00b894;
+            --yellow: #f1c40f;
+            --red: #d63031;
+            --border: #dfe6e9;
+            --sidebar-bg: #ffffff;
+            --card-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        [data-theme="dark"] {
+            --surface: rgba(18, 25, 45, 0.96);
+            --text: #f0f3f8;
+            --border: #2a3a5a;
+            --sidebar-bg: #0f1a2e;
+        }
+        [data-theme="dark-green"] {
+            --surface: rgba(15, 35, 25, 0.96);
+            --text: #e8f5e9;
+            --border: #2a4a3a;
+            --sidebar-bg: #0a1f15;
+        }
+        [data-theme="dark-red"] {
+            --surface: rgba(45, 18, 18, 0.96);
+            --text: #fde0e0;
+            --border: #5a2a2a;
+            --sidebar-bg: #2a0f0f;
+        }
+        [data-theme="dark-purple"] {
+            --surface: rgba(30, 18, 45, 0.96);
+            --text: #f0e8ff;
+            --border: #4a2a6a;
+            --sidebar-bg: #1a0a2a;
+        }
+        
+        [data-theme="nature"] {
+            --surface: rgba(245, 247, 242, 0.96);
+            --text: #2c3e50;
+            --border: #bdc5bd;
+            --sidebar-bg: #f5f7f2;
+        }
+
+        html, body { min-height: 100vh; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: white;
+            font-size: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(0,0,0,0.8);
+        }
+
+        .bg-layer {
+            position: fixed; inset: 0; z-index: -1; 
+            background-size: 140% 140%; background-position: center;
+            opacity: 0; transition: opacity 2.5s ease-in-out;
+        }
+        .bg-layer.layer-active { opacity: 1; }
+        
+        @keyframes slowMotionPan {
+            0% { background-position: 0% 50%; background-size: 140% 140%; }
+            50% { background-position: 100% 50%; background-size: 115% 115%; }
+            100% { background-position: 0% 50%; background-size: 140% 140%; }
+        }
+        .nature-pan-effect { animation: slowMotionPan 60s linear infinite; }
+
+        body { display: flex; flex-direction: column; align-items: center; position: relative; overflow-x: hidden; }
+
+        .top-navbar {
+            width: 100%; max-width: 500px; box-sizing: border-box; padding: 16px 24px; 
+            display: flex; justify-content: space-between; align-items: center; z-index: 500;
+        }
+        .profile-btn {
+            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 12px; 
+            border-radius: 50%; transition: all 0.2s ease; width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem;
+        }
+        .profile-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .settings-gear-btn {
+            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 12px; 
+            border-radius: 50%; transition: all 0.2s ease; width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .settings-gear-btn svg { fill: var(--text); width: 24px; height: 24px; }
+        .settings-gear-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        
+        @keyframes gearInfiniteSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .settings-gear-btn.rotate-active { animation: gearInfiniteSpin 2.5s linear infinite; }
+
+        .user-info-bar {
+            display: flex; justify-content: flex-start; align-items: center;
+            padding: 12px 20px; background: rgba(0,0,0,0.03); border-bottom: 1px solid var(--border);
+            gap: 12px;
+        }
+        .flair-display-main { font-size: 1.8rem; line-height: 1; }
+        .username-display { font-size: 1.2rem; font-weight: 600; }
+
+        #profile-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 6000;
+            background: var(--surface); backdrop-filter: blur(20px);
+            flex-direction: column; padding: 30px; overflow-y: auto;
+        }
+        .profile-fullscreen-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 20px; border-bottom: 2px solid var(--border);
+            margin-bottom: 20px;
+        }
+        .profile-fullscreen-header h2 { margin: 0; font-size: 1.8rem; }
+        .close-profile-fullscreen {
+            font-size: 2rem; cursor: pointer; padding: 10px;
+            border-radius: 50%; transition: 0.2s;
+        }
+        .close-profile-fullscreen:hover { background: rgba(0,0,0,0.1); }
+        .profile-fullscreen-content {
+            max-width: 500px; margin: 0 auto; width: 100%;
+        }
+        .profile-avatar-large {
+            width: 100px; height: 100px; background: var(--accent); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: white; margin: 0 auto 20px;
+        }
+        .profile-rating-large {
+            text-align: center; margin-bottom: 25px;
+        }
+        .profile-rating-large .label { font-size: 0.85rem; opacity: 0.7; }
+        .profile-rating-large .value { font-size: 3rem; font-weight: 800; color: var(--accent); }
+        .username-edit-section {
+            display: flex; align-items: center; justify-content: space-between;
+            background: rgba(0,0,0,0.05); padding: 15px; border-radius: 16px; margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .username-edit-section span { font-size: 1.2rem; font-weight: 600; }
+        .flair-section {
+            background: rgba(0,0,0,0.05); padding: 15px; border-radius: 16px; margin-bottom: 15px;
+        }
+        .flair-display { margin-bottom: 10px; font-size: 1.8rem; }
+        .flair-select-btn {
+            background: var(--accent); color: white; border: none;
+            padding: 12px; border-radius: 40px; width: 100%; font-weight: 600;
+            cursor: pointer; margin-top: 10px;
+        }
+        .history-btn {
+            background: rgba(0,0,0,0.08); border: 1px solid var(--border);
+            padding: 14px; border-radius: 40px; width: 100%; font-weight: 600;
+            cursor: pointer; margin-top: 15px; display: flex;
+            align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .history-btn:hover {
+            background: rgba(0,0,0,0.12);
+            transform: scale(1.02);
+        }
+
+        #history-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 6500;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(12px);
+            flex-direction: column; align-items: center; justify-content: center;
+            padding: 30px;
+        }
+        .history-modal-card {
+            background: var(--surface);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: modalSlideUp 0.3s ease-out;
+        }
+        @keyframes modalSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .history-modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 24px;
+            border-bottom: 2px solid var(--border);
+            background: var(--surface);
+        }
+        .history-modal-header h2 { margin: 0; font-size: 1.5rem; }
+        .history-list-container {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .history-item-modal {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+            transition: background 0.2s ease;
+        }
+        .history-item-modal:hover {
+            background: rgba(0,0,0,0.03);
+        }
+        .history-question-text {
+            font-family: monospace;
+            font-weight: 500;
+        }
+        .history-status {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .history-status.correct { color: var(--green); }
+        .history-status.wrong { color: var(--red); }
+        .close-history-btn {
+            font-size: 1.8rem; cursor: pointer; padding: 8px;
+            border-radius: 50%; transition: 0.2s;
+            width: 40px; height: 40px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .close-history-btn:hover { background: rgba(0,0,0,0.1); }
+
+        #flair-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 7000;
+            background: var(--surface); backdrop-filter: blur(20px);
+            flex-direction: column; padding: 30px; overflow-y: auto;
+        }
+        .flair-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 20px; border-bottom: 2px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--surface);
+            z-index: 10;
+        }
+        .flair-grid-full {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin: 20px 0;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-bottom: 20px;
+        }
+        .flair-item {
+            padding: 12px;
+            text-align: center;
+            border: 2px solid var(--border);
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1.5rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .flair-item.selected { border-color: var(--accent); background: var(--accent); }
+        .flair-item.loading { opacity: 0.6; pointer-events: none; }
+        .flair-item .check-mark {
+            font-size: 0.8rem;
+            display: none;
+            color: var(--green);
+            animation: checkPop 0.3s ease;
+        }
+        .flair-item .loading-spinner {
+            font-size: 0.8rem;
+            display: none;
+        }
+        .flair-item.show-check .check-mark { display: block; }
+        .flair-item.show-spinner .loading-spinner { display: block; }
+        @keyframes checkPop {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.3); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .edit-loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border);
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(12px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .loading-spinner-large {
+            width: 60px;
+            height: 60px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: var(--green);
+            border-right-color: var(--accent-light);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        .loading-text {
+            color: white;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .loading-text i {
+            font-size: 1.2rem;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        #splash-screen {
+            position: fixed; inset: 0; background: #c0392b; color: #f1c40f;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s;
+        }
+        .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 30px; }
+        .enter-btn {
+            margin-top: 20px; padding: 14px 50px;
+            background: #f1c40f;
+            color: #c0392b;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .enter-btn:hover {
+            transform: scale(1.05);
+            background: #ffd700;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .enter-btn:active {
+            transform: scale(0.98);
+        }
+
+        .page-wrapper { display: flex; flex-direction: column; align-items: center; padding: 10px 0 30px 0; width: 100%; position: relative; z-index: 10; }
+
+        .game-container {
+            width: 90%; max-width: 500px; min-height: 82vh; background: var(--surface); border-radius: 24px;
+            box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text);
+            border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden;
+        }
+
+        .signal-row { display: flex; justify-content: center; gap: 12px; padding: 12px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
+        .light-bulb { width: 14px; height: 14px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
+        .header-stats { display: flex; justify-content: space-between; padding: 20px 25px; border-bottom: 1px solid var(--border); }
+        .rating-val { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
+
+        .timer-bar-container { margin: 10px 15px; background: rgba(0,0,0,0.1); border-radius: 10px; height: 8px; overflow: hidden; display: none; }
+        .timer-bar-fill { width: 100%; height: 100%; background: var(--green); border-radius: 10px; transition: width 0.05s linear; }
+        .timer-bar-fill.warning { background: #f39c12; }
+        .timer-bar-fill.danger { background: var(--red); }
+        .timer-number { font-size: 1.5rem; font-weight: bold; color: var(--red); text-align: center; margin: 5px 0; display: none; }
+
+        .themes-horizontal {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+        .theme-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: 2px solid var(--border);
+            border-radius: 40px;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            text-align: center;
+        }
+        .theme-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .controls-row { display: flex; justify-content: center; gap: 8px; padding: 15px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); transition: opacity 0.2s; }
+        .controls-disabled { pointer-events: none; opacity: 0.5; }
+        .manual-select { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 10px; border-radius: 12px; font-size: 0.85rem; flex: 1; outline: none; font-weight: 500; cursor: pointer; }
+        .toggle-btn { cursor: pointer; padding: 10px 14px; border-radius: 12px; border: 2px solid var(--accent); font-size: 0.85rem; font-weight: 700; color: var(--accent); min-width: 95px; text-align: center; background: transparent; }
+        .toggle-btn.active { background: var(--accent); color: #fff; }
+
+        main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 0; }
+        #display { font-size: 8rem; font-weight: 800; min-height: 140px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text); }
+        .ready-text { font-size: 2.5rem !important; color: #b2bec3; }
+
+        .input-area { padding: 25px; display: flex; flex-direction: column; align-items: center; gap: 15px; border-top: 1px solid var(--border); }
+        input { width: 180px; padding: 14px; border: 2px solid var(--border); border-radius: 16px; font-size: 2rem; text-align: center; outline: none; background: var(--surface); color: var(--text); font-weight: 600; }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(30,58,138,0.2); }
+        button { width: 230px; padding: 16px; border: none; border-radius: 40px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
+        #submit-btn { background: var(--green); color: #fff; display: none; }
+        #action-btn { background: var(--accent); color: #fff; }
+
+        .sidebar-overlay-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; }
+        #central-settings-modal {
+            position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh; 
+            background: var(--sidebar-bg); z-index: 2100; box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+            padding: 40px 30px; overflow-y: auto; color: var(--text);
+            transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+        }
+        .sidebar-active #central-settings-modal { transform: translateX(0); }
+        .sidebar-active .sidebar-overlay-backdrop { display: block; }
+
+        #pane-about-fullscreen {
+            display: none; position: fixed; inset: 0; z-index: 4000; 
+            padding: 40px; overflow-y: auto; text-align: left;
+            background: #c0392b !important; color: #ffffff !important;
+        }
+        .about-centered {
+            max-width: 800px;
+            margin: 80px auto 0 auto;
+            line-height: 1.75;
+        }
+        #manifesto-screen {
+            display: none; position: fixed; inset: 0; z-index: 4000; 
+            padding: 40px; overflow-y: auto; text-align: left;
+            background: #2980b9 !important; color: #ffffff !important;
+        }
+        .manifesto-centered {
+            max-width: 800px;
+            margin: 80px auto 0 auto;
+            line-height: 1.7;
+        }
+
+        .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 5; color: #f1c40f; background: rgba(0,0,0,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .back-arena-btn { position: absolute; top: 25px; left: 25px; background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 5; }
+
+        .panel-wrapper-content { width: 100%; margin-top: 20px; }
+        .settings-nav-tabs { display: flex; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
+        .tab-nav-link { padding: 10px 12px; font-weight: 600; cursor: pointer; border-radius: 12px; color: var(--text); opacity: 0.6; font-size: 0.85rem; flex: 1; text-align: center; }
+        .tab-nav-link.tab-active { opacity: 1; background: var(--accent); color: #fff; }
+        .settings-pane-section { display: none; }
+        .settings-pane-section.pane-active { display: block; }
+
+        .rank-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .rank-table th, .rank-table td { border: 1px solid rgba(255,255,255,0.2); padding: 12px; color: white; text-align: left; }
+        .rank-table th { background: rgba(255,255,255,0.15); font-weight: 700; }
+        .read-more-link { color: #ffeb3b; font-weight: bold; cursor: pointer; text-decoration: underline; margin-left: 8px; }
+
+        .difficulty-info { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 16px; margin: 8px 15px; font-size: 0.7rem; text-align: center; font-weight: 500; }
+        .fair-play-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-align: center; margin: 10px auto; width: fit-content; display: none; }
+    </style>
+</head>
+<body onload="initApp()">
+
+    <div class="bg-layer layer-active" id="bg-layer-1"></div>
+    <div class="bg-layer" id="bg-layer-2"></div>
+    
+    <div class="music-control" id="musicControlBtn" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+    
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner-large"></div>
+        <div class="loading-text"><i class="fas fa-hourglass-half"></i> Loading<span>...</span></div>
+    </div>
+
+    <div id="splash-screen">
+        <div class="splash-logo">AbacusArena.org</div>
+        <button class="enter-btn" id="splashEnterBtn"><i class="fas fa-arrow-right"></i> ENTER WEBSITE</button>
+    </div>
+
+    <div class="page-wrapper" id="mainAppWrapper" style="display: none;">
+        <div class="top-navbar">
+            <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
+            <button id="gear-trigger" class="settings-gear-btn" onclick="openControlSuite()">
+                <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+            </button>
+        </div>
+
+        <div class="user-info-bar">
+            <span class="flair-display-main" id="mainFlair">🏆</span>
+            <span class="username-display" id="mainUsername">Grandmaster</span>
+        </div>
+
+        <div class="game-container">
+            <div class="signal-row"><div id="light-r" class="light-bulb"></div><div id="light-y" class="light-bulb"></div><div id="light-g" class="light-bulb"></div></div>
+
+            <div class="header-stats">
+                <div><div style="font-size: 0.7rem;">RATING</div><div class="rating-val" id="rating-ui">1500</div></div>
+                <div style="text-align: right;"><div style="font-size: 0.7rem;">STAKES</div><div>Win: <span style="color: var(--green)" id="win-stake">+--</span><br>Loss: <span style="color: var(--red)" id="loss-stake">---</span></div></div>
+            </div>
+
+            <div class="timer-bar-container" id="timerBarContainer"><div class="timer-bar-fill" id="timerBarFill"></div></div>
+            <div id="timerNumber" class="timer-number"></div>
+            
+            <div class="difficulty-info" id="difficultyDisplay"><i class="fas fa-chart-line"></i> Loading...</div>
+            <div class="fair-play-banner" id="fairPlayBanner"><i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION ACTIVE</div>
+
+            <div class="controls-row" id="controlsRow">
+                <div id="mode-toggle" class="toggle-btn active" onclick="toggleMode()"><i class="fas fa-trophy"></i> RATED</div>
+                <select id="sel-digits" class="manual-select" disabled>
+                    <option value="1">1 Digit</option><option value="2">2 Digits</option><option value="3">3 Digits</option><option value="4">4 Digits</option><option value="5">5 Digits</option>
+                </select>
+                <select id="sel-rows" class="manual-select" disabled>
+                    <option value="2">2 Rows</option><option value="3">3 Rows</option><option value="5">5 Rows</option><option value="10">10 Rows</option><option value="15">15 Rows</option><option value="20">20 Rows</option><option value="25">25 Rows</option><option value="30">30 Rows</option><option value="40">40 Rows</option><option value="50">50 Rows</option>
+                </select>
+                <select id="sel-time" class="manual-select" disabled>
+                    <option value="5000">5.0s</option><option value="3000">3.0s</option><option value="2000">2.0s</option><option value="1000">1.0s</option><option value="800">0.8s</option><option value="700">0.7s</option><option value="500">0.5s</option><option value="300">0.3s</option>
+                </select>
+            </div>
+
+            <main><div id="display" class="ready-text">READY</div></main>
+
+            <div class="input-area">
+                <input type="number" id="user-ans" placeholder="?" disabled autocomplete="off">
+                <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
+                <button id="action-btn" onclick="initiateGame()"><i class="fas fa-play"></i> NEW SESSION</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-fullscreen">
+        <div class="profile-fullscreen-header">
+            <h2><i class="fas fa-user-circle"></i> Player Profile</h2>
+            <div class="close-profile-fullscreen" onclick="closeProfileFullscreen()"><i class="fas fa-times"></i></div>
+        </div>
+        <div class="profile-fullscreen-content">
+            <div class="profile-avatar-large"><i class="fas fa-user"></i></div>
+            <div class="profile-rating-large">
+                <div class="label">Current Rating</div>
+                <div class="value" id="profileRatingLarge">1500</div>
+            </div>
+            <div class="username-edit-section" id="usernameEditBtn">
+                <span id="profileUsername">Grandmaster</span>
+                <i class="fas fa-pencil-alt edit-icon"></i>
+            </div>
+            <div class="flair-section">
+                <div class="flair-display"><i class="fas fa-tag"></i> Current Flair: <span id="profileFlair">🏆</span></div>
+                <button class="flair-select-btn" onclick="openFlairFullscreen()"><i class="fas fa-plus"></i> Change Flair</button>
+            </div>
+            <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Last 5 Games</button>
+        </div>
+    </div>
+
+    <div id="history-fullscreen">
+        <div class="history-modal-card">
+            <div class="history-modal-header">
+                <h2><i class="fas fa-history"></i> Last 5 Games</h2>
+                <div class="close-history-btn" onclick="closeHistoryFullscreen()"><i class="fas fa-times"></i></div>
+            </div>
+            <div class="history-list-container" id="historyListModal"></div>
+        </div>
+    </div>
+
+    <div id="flair-fullscreen">
+        <div class="flair-header">
+            <h2><i class="fas fa-tag"></i> Choose Your Flair (250)</h2>
+            <div class="close-profile-fullscreen" onclick="closeFlairFullscreen()"><i class="fas fa-times"></i></div>
+        </div>
+        <div id="flairGridFull" class="flair-grid-full"></div>
+    </div>
+
+    <div class="sidebar-overlay-backdrop" onclick="closeControlSuite()"></div>
+    <div id="central-settings-modal">
+        <span class="close-panel-btn" onclick="closeControlSuite()"><i class="fas fa-times"></i></span>
+        <div class="panel-wrapper-content">
+            <div class="settings-nav-tabs">
+                <div id="nav-tab-themes" class="tab-nav-link tab-active" onclick="switchSettingsPane('themes')"><i class="fas fa-palette"></i> Themes</div>
+                <div id="nav-tab-about" class="tab-nav-link" onclick="switchSettingsPane('about')"><i class="fas fa-info-circle"></i> About</div>
+            </div>
+            <div id="pane-themes" class="settings-pane-section pane-active">
+                <h3>🎨 Themes</h3>
+                <div class="themes-horizontal">
+                    <button class="theme-btn" onclick="applyThemeWithLoading('light')"><i class="fas fa-sun"></i> Light</button>
+                    <button class="theme-btn" onclick="applyThemeWithLoading('dark')"><i class="fas fa-moon"></i> Dark</button>
+                    <button class="theme-btn" onclick="applyThemeWithLoading('nature')"><i class="fas fa-tree"></i> Nature</button>
+                </div>
+            </div>
+            <div id="pane-about" class="settings-pane-section"><h3>📖 About</h3><button class="segmented-node" onclick="openAboutWithLoading()" style="background:var(--accent); color:white; border:none; width:100%; padding:12px; border-radius:40px;"><i class="fas fa-external-link-alt"></i> Open Fullscreen About Page</button></div>
+        </div>
+    </div>
+
+    <!-- FULL ABOUT PAGE WITH PROPER TABLE -->
+    <div id="pane-about-fullscreen">
+        <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div class="about-centered">
+            <h2 style="font-family: 'Dancing Script'; color: #ffffff; font-size: 3.5rem; text-align: center; margin: 0 0 10px 0;">AbacusArena.org</h2>
+            <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:0 0 30px 0;">Project Started: April 23, 2026</p>
+            <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
+            <p style="font-size:1.05rem; margin-bottom:5px;">This website is <strong>free for everyone, forever.</strong></p>
+            <p style="font-size:1.05rem; margin-top:0;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us! <span class="read-more-link" onclick="openManifestoWithLoading()">Read More <i class="fas fa-arrow-right"></i></span></p>
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
+            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0;">
+                <li style="margin-bottom: 8px;">Any attempt to refresh or close the tab while a sum is in progress results in a <strong>-25 Rating Penalty</strong> inside the server.</li>
+                <li style="margin-bottom: 8px;">Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
+                <li style="margin-bottom: 8px;">Wrong answer in Fair Play Verification Zone = -25 Rating Penalty</li>
+            </ul>
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-crown"></i> Elite Standings</h3>
+            <p style="font-size:1.05rem;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Ranges</h3>
+            <table class="rank-table">
+                <thead>
+                    <tr><th>Rating Rank</th><th>Setup Configuration Matrix</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1200 - 1499</td><td>1 Digit | 2 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1500 - 1599</td><td>1 Digit | 3 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1600 - 1699</td><td>1 Digit | 5 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1700 - 1799</td><td>1 Digit | 10 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1800 - 1899</td><td>2 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1900 - 1999</td><td>2 Digits | 10 Rows | 1.2s display timing parameters</td></tr>
+                    <tr><td>2000 - 2099</td><td>2 Digits | 10 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2100 - 2199</td><td>2 Digits | 10 Rows | 0.95s display timing parameters</td></tr>
+                    <tr><td>2200 - 2299</td><td>2 Digits | 15 Rows | 1.2s display timing parameters</td></tr>
+                    <tr><td>2300 - 2399</td><td>2 Digits | 15 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2400 - 2499</td><td>2 Digits | 15 Rows | 0.95s display timing parameters</td></tr>
+                    <tr><td>2500 - 2599</td><td>3 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2600 - 2699</td><td>3 Digits | 7 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2700 - 2799</td><td>3 Digits | 10 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2800 - 2899</td><td>4 Digits | 5 Rows | 0.95s display timing parameters</td></tr>
+                    <tr><td>2900 - 2999</td><td>4 Digits | 7 Rows | 0.90s display timing parameters</td></tr>
+                    <tr><td>3000 - 3099</td><td>4 Digits | 10 Rows | 0.85s display timing parameters</td></tr>
+                    <tr><td>3100 - 3199</td><td>4 Digits | 15 Rows | 0.80s display timing parameters</td></tr>
+                    <tr><td>3200 - 3299</td><td>5 Digits | 10 Rows | 0.75s display timing parameters</td></tr>
+                    <tr><td>3300 - 3399</td><td>5 Digits | 15 Rows | 0.70s display timing parameters</td></tr>
+                    <tr><td>3400 - 3499</td><td>5 Digits | 20 Rows | 0.65s display timing parameters</td></tr>
+                    <tr><td>3500 - 3599</td><td>5 Digits | 25 Rows | 0.60s display timing parameters</td></tr>
+                    <tr><td>3600 - 3699</td><td>5 Digits | 30 Rows | 0.55s display timing parameters</td></tr>
+                    <tr><td>3700 - 3799</td><td>5 Digits | 35 Rows | 0.50s display timing parameters</td></tr>
+                    <tr><td>3800 - 3899</td><td>5 Digits | 40 Rows | 0.45s display timing parameters</td></tr>
+                    <tr><td>3900 - 3999</td><td>5 Digits | 45 Rows | 0.40s display timing parameters</td></tr>
+                    <tr><td>4000 - 5199</td><td>5 Digits | 50 Rows | 0.35s display timing parameters</td></tr>
+                    <tr><td>5200+</td><td>5 Digits | 50 Rows | 0.25s display timing parameters</td></tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">© 2026 AbacusArena.org. All Rights Reserved.</p></div>
+        </div>
+    </div>
+
+    <div id="manifesto-screen">
+        <button class="back-arena-btn" onclick="closeManifesto()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div class="manifesto-centered">
+            <h1 style="font-family:'Dancing Script'; color:#f1c40f; font-size:2.8rem; text-align: center;"><i class="fas fa-brain"></i> Our Digital Philosophy</h1>
+            <p>Modern internet spaces are broken. Countless educational websites subsist by cluttering screens with intrusive advertisements or locking their best features away behind aggressive paywalls. We fundamentally refuse to follow this pattern. Our project is built on the belief that premium learning tools should never be restricted by financial status.</p>
+            <h3 style="color:#f1c40f;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h3>
+            <p>Imagine arriving at a restaurant, only to be told you must pay a premium cover charge just to open the menu and look at the list of available items. Does that feel right? Or imagine buying an educational textbook, only to find every other page blacked out with a lock icon demanding a monthly subscription. Education shouldn't be hidden in the shadows.</p>
+            <p>We believe that clarity, accessibility, and focus are the absolute prerequisites for mastering complex mental skills like rapid calculation. True learning platforms should exist to elevate their students, not exploit their attention spans.</p>
+            <h3 style="color:#f1c40f;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h3>
+            <p>We proudly draw inspiration from open systems like <strong>Lichess.org</strong>. On our platform, every user—regardless of background, location, or financial standing—will always have total, unrestricted access to every single feature we build. No tiers, no hidden premiums, and no systemic biases.</p>
+            <h3 style="color:#f1c40f;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h3>
+            <p>As our active student directory grows, running real-time global rankings, persistent leaderboard systems, secure user databases, and reliable computational servers will incur ongoing infrastructure costs. To handle this sustainably, we intend to implement an optional donation module in the future once the user base scales significantly.</p>
+            <p>However, let us make one promise absolute: <strong>Donors will receive the exact same application experience and feature access as everyone else.</strong> Financial contributions will strictly serve to support background server upkeep, ensuring the ecosystem stays alive and robust for the community. We are here to create value, and we intend to remain exactly like this forever.</p>
+            <div style="margin-top: 50px; text-align: center;"><p>AbacusArena.org • Built on Integrity</p></div>
+        </div>
+    </div>
+
+    <script>
+        let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
+        let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
+        let isRated = true;
+        let sequence = [], timerInterval, winPoints, lossPoints;
+        let themeIntervalId;
+        let historyGames = JSON.parse(localStorage.getItem('game-history')) || [];
+        let gameInProgress = false;
+        let appTheme = localStorage.getItem('abacus-app-theme') || 'light';
+        let username = localStorage.getItem('username') || 'Grandmaster';
+        let selectedFlair = localStorage.getItem('selected-flair') || '🏆';
+        
+        let manualDigits = 1;
+        let manualRows = 2;
+        let manualTime = 1000;
+        
+        let musicEnabled = true;
+        let bgMusic = document.getElementById('bgMusic');
+
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            const btn = document.getElementById('musicControlBtn');
+            if (musicEnabled) {
+                bgMusic.play().catch(e => console.log('Autoplay prevented'));
+                btn.innerHTML = '<i class="fas fa-music"></i>';
+                btn.style.opacity = '0.7';
+            } else {
+                bgMusic.pause();
+                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.style.opacity = '0.5';
+            }
+        }
+
+        function enableAudio() {
+            if (musicEnabled) {
+                bgMusic.play().catch(e => console.log('Audio play prevented'));
+            }
+            document.removeEventListener('click', enableAudio);
+            document.removeEventListener('touchstart', enableAudio);
+        }
+        document.addEventListener('click', enableAudio);
+        document.addEventListener('touchstart', enableAudio);
+
+        const uniqueFlairs = [
+            "🏆", "⚡", "🔥", "🎯", "🧮", "👑", "🌟", "💎", "🦅", "🐉", "⚔️", "🛡️", "🎭", "📈", "🏔️",
+            "🌊", "🌀", "⭐", "🎖️", "🔱", "🌙", "☀️", "🌸", "🍂", "❄️", "🌈", "🎨", "📚", "🔬", "💡",
+            "🎪", "🏹", "🎲", "📖", "⚙️", "❤️", "💪", "🧠", "🎵", "🎧", "🐺", "🦁", "🐯", "🐻", "🐼",
+            "🐨", "🐸", "🐙", "🦋", "🐝", "🌵", "🍀", "🌻", "🌺", "🍁", "🍎", "🍕", "🚀", "⌛", "⏰",
+            "📌", "🔑", "💍", "🎓", "🏅", "🎗️", "🎈", "🎉", "🎊", "✨", "🌠", "💧", "🌪️", "🌍", "🌎",
+            "🌏", "🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘", "🎤", "🎸", "🎹", "🎺", "🎻", "🥁",
+            "⚽", "🏀", "🏈", "⚾", "🎾", "🏐", "🏉", "🎱", "🏓", "🏸", "🥊", "🥋", "⛳", "🏊", "🚴",
+            "🏋️", "🤸", "🧘", "🎬", "🎷", "🎮", "🕹️", "💻", "📱", "⌚", "📷", "🎥", "📺", "🔭", "💊",
+            "💉", "🧪", "🧬", "⚗️", "🧫", "🧴", "🧹", "🧺", "🧻", "🧼", "🧽", "🧯", "🔦", "🧰", "🔧",
+            "🔩", "🧲", "🔨", "⛏️", "💣", "🔫", "🪓", "🔪", "🗡️", "🔮", "📿", "🧿", "💰", "💳", "💴",
+            "💵", "💶", "💷", "💸", "💹", "💱", "💲", "🪙", "📉", "📊", "📋", "📍", "📎", "🖊️", "🖌️",
+            "🖍️", "📏", "✂️", "🖇️", "📁", "📂", "🗂️", "📅", "📆", "🗓️", "📌", "📍", "📎", "🖇️", "🔗",
+            "🧷", "🧸", "🎀", "🎁", "🎄", "🎃", "🎍", "🎋", "🎏", "🎐", "🎑", "🎇", "🎆", "🧨", "✨",
+            "🎈", "🎉", "🎊", "🎀", "🎗️", "🎟️", "🎫", "🎖️", "🏆", "🏅", "🥇", "🥈", "🥉", "⚽", "🏀",
+            "🏈", "⚾", "🥎", "🎾", "🏐", "🏉", "🥍", "🏏", "🏑", "🏒", "🥅", "⛳", "🏸", "🏹", "🎣",
+            "🤿", "🥊", "🥋", "🎽", "🥌", "🛷", "🎿", "⛷️", "🏂", "🏄", "🚣", "🏊", "🧗", "🤺", "⛹️",
+            "🤾", "🏌️", "🏇", "🧘", "🏋️", "🚴", "🚵", "🏎️", "🏍️", "✈️", "🚀", "🛸", "🚁", "⛵", "🚤"
+        ];
+        
+        const allFlairs = [...new Set(uniqueFlairs)].slice(0, 250);
+
+        function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
+        function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
+
+        function updateMainDisplay() {
+            document.getElementById('mainUsername').innerHTML = username.length > 15 ? username.substring(0, 13) + '...' : username;
+            document.getElementById('mainFlair').innerHTML = selectedFlair;
+        }
+
+        function openProfileFullscreen() { updateProfileFullscreen(); document.getElementById('profile-fullscreen').style.display = 'flex'; }
+        function closeProfileFullscreen() { document.getElementById('profile-fullscreen').style.display = 'none'; }
+        
+        function openHistoryWithAnimation() {
+            showLoading();
+            setTimeout(() => {
+                renderHistoryModal();
+                hideLoading();
+                document.getElementById('history-fullscreen').style.display = 'flex';
+            }, 2000);
+        }
+        
+        function renderHistoryModal() {
+            let container = document.getElementById('historyListModal');
+            if (!historyGames.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text);">— No games yet —</div>'; return; }
+            container.innerHTML = historyGames.slice(0,5).map(g => `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status ${g.correct ? 'correct' : 'wrong'}">${g.correct ? '✓' : '✗'}</span></div>`).join('');
+        }
+        function closeHistoryFullscreen() { document.getElementById('history-fullscreen').style.display = 'none'; }
+        
+        function openFlairFullscreen() { generateFlairGridFull(); document.getElementById('flair-fullscreen').style.display = 'flex'; }
+        function closeFlairFullscreen() { document.getElementById('flair-fullscreen').style.display = 'none'; }
+        
+        function generateFlairGridFull() { 
+            let grid = document.getElementById('flairGridFull'); 
+            grid.innerHTML = ''; 
+            allFlairs.forEach(f => { 
+                let div = document.createElement('div'); 
+                div.className = 'flair-item'; 
+                if(f === selectedFlair) div.classList.add('selected'); 
+                div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span style="font-size:1.5rem;">${f}</span>`;
+                div.onclick = () => selectFlairWithAnimation(div, f); 
+                grid.appendChild(div); 
+            }); 
+        }
+        
+        function selectFlairWithAnimation(element, flair) {
+            if (element.classList.contains('loading')) return;
+            element.classList.add('loading');
+            element.querySelector('.loading-spinner').style.display = 'block';
+            setTimeout(() => {
+                element.querySelector('.loading-spinner').style.display = 'none';
+                selectedFlair = flair;
+                localStorage.setItem('selected-flair', selectedFlair);
+                updateProfileFullscreen();
+                updateMainDisplay();
+                element.querySelector('.check-mark').style.display = 'block';
+                setTimeout(() => {
+                    element.querySelector('.check-mark').style.display = 'none';
+                    element.classList.remove('loading');
+                    closeFlairFullscreen();
+                    generateFlairGridFull();
+                }, 800);
+            }, 800);
+        }
+        
+        function editUsernameWithAnimation() {
+            let editSection = document.getElementById('usernameEditBtn');
+            editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>';
+            editSection.style.pointerEvents = 'none';
+            setTimeout(() => {
+                let newName = prompt("Enter your username:", username);
+                if (newName && newName.trim()) {
+                    username = newName.trim();
+                    localStorage.setItem('username', username);
+                    editSection.innerHTML = `<span id="profileUsername">${username}</span><span style="color:var(--green);"><i class="fas fa-check"></i></span>`;
+                    setTimeout(() => {
+                        updateProfileFullscreen();
+                        updateMainDisplay();
+                        editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`;
+                        editSection.style.pointerEvents = 'auto';
+                    }, 800);
+                } else {
+                    editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`;
+                    editSection.style.pointerEvents = 'auto';
+                }
+            }, 400);
+        }
+        
+        function updateProfileFullscreen() { 
+            document.getElementById('profileRatingLarge').innerText = rating; 
+            document.getElementById('profileUsername').innerText = username; 
+            document.getElementById('profileFlair').innerHTML = selectedFlair; 
+        }
+
+        const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
+        let darkIndex = 0;
+        
+        function applyThemeWithLoading(t) { 
+            showLoading();
+            setTimeout(() => {
+                if (t === 'dark') {
+                    darkIndex = (darkIndex + 1) % darkThemes.length;
+                    appTheme = darkThemes[darkIndex];
+                } else {
+                    appTheme = t;
+                }
+                localStorage.setItem('abacus-app-theme', appTheme); 
+                document.documentElement.setAttribute('data-theme', appTheme); 
+                startThemeChangerLoop();
+                hideLoading();
+                closeControlSuite();
+            }, 600);
+        }
+        
+        function openAboutWithLoading() {
+            showLoading();
+            setTimeout(() => {
+                closeControlSuite();
+                document.getElementById('pane-about-fullscreen').style.display = 'block';
+                hideLoading();
+            }, 600);
+        }
+        
+        function openManifestoWithLoading() {
+            showLoading();
+            setTimeout(() => {
+                document.getElementById('manifesto-screen').style.display = 'block';
+                hideLoading();
+            }, 600);
+        }
+        
+        function startSplashImmediate() {
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('mainAppWrapper').style.display = 'flex';
+            }, 500);
+        }
+
+        const themesData = {
+            light: { type: 'gradient', cycle: [['#eee3ff','#e0f2fe'],['#e0f2fe','#e6fffa'],['#e6fffa','#fef9c3']] },
+            dark: { type: 'gradient', cycle: [['#0a1628','#1a2a4a'],['#0a1f1a','#1a3a2a'],['#1f0a0a','#3a1a1a'],['#1a0a2a','#2a1a3a']] },
+            'dark-green': { type: 'gradient', cycle: [['#0a1f1a','#1a3a2a'],['#0a2a1a','#1a4a2a']] },
+            'dark-red': { type: 'gradient', cycle: [['#1f0a0a','#3a1a1a'],['#2a0a0a','#4a1a1a']] },
+            'dark-purple': { type: 'gradient', cycle: [['#1a0a2a','#2a1a3a'],['#2a0a3a','#3a1a4a']] },
+            nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'] }
+        };
+        let currentActiveLayer = 1, themeCycleIndex = 0;
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function addHistory(questionStr, isCorrect) { 
+            historyGames.unshift({ q: questionStr, correct: isCorrect }); 
+            if (historyGames.length > 5) historyGames.pop(); 
+            localStorage.setItem('game-history', JSON.stringify(historyGames)); 
+        }
+
+        function startThemeChangerLoop() { 
+            if (themeIntervalId) clearInterval(themeIntervalId); 
+            let l1 = document.getElementById('bg-layer-1'), l2 = document.getElementById('bg-layer-2'); 
+            let trigger = () => { 
+                let config = themesData[appTheme] || themesData.light;
+                let active = currentActiveLayer === 1 ? l1 : l2; 
+                let hidden = currentActiveLayer === 1 ? l2 : l1; 
+                hidden.classList.remove('nature-pan-effect'); 
+                if (config.type === 'gradient') { 
+                    let grad = config.cycle[themeCycleIndex % config.cycle.length]; 
+                    hidden.style.background = `linear-gradient(135deg, ${grad[0]}, ${grad[1]})`; 
+                    themeCycleIndex++; 
+                } else { 
+                    hidden.style.background = `url('${config.cycle[themeCycleIndex % config.cycle.length]}')`; 
+                    hidden.style.backgroundSize = '140% 140%'; 
+                    hidden.classList.add('nature-pan-effect'); 
+                    themeCycleIndex++; 
+                } 
+                active.classList.remove('layer-active'); 
+                hidden.classList.add('layer-active'); 
+                currentActiveLayer = currentActiveLayer === 1 ? 2 : 1; 
+            }; 
+            trigger(); 
+            themeIntervalId = setInterval(trigger, 10000); 
+        }
+
+        function initApp() { 
+            updateRatingUI(); 
+            updateMainDisplay();
+            document.documentElement.setAttribute('data-theme', appTheme); 
+            startThemeChangerLoop(); 
+            updateDifficultyDisplay(); 
+            
+            const digitsSelect = document.getElementById('sel-digits');
+            const rowsSelect = document.getElementById('sel-rows');
+            const timeSelect = document.getElementById('sel-time');
+            
+            digitsSelect.addEventListener('change', function() { manualDigits = parseInt(this.value); });
+            rowsSelect.addEventListener('change', function() { manualRows = parseInt(this.value); });
+            timeSelect.addEventListener('change', function() { manualTime = parseInt(this.value); });
+            
+            let wasInterrupted = localStorage.getItem('sum-interrupted') === 'true'; 
+            if (wasInterrupted && isRated) { 
+                rating = Math.max(1000, rating - 25); 
+                localStorage.setItem('abacus-rating', rating); 
+                localStorage.removeItem('sum-interrupted'); 
+                updateRatingUI(); 
+                alert("⚠️ Penalty Applied: You left during an active sum! -25 Rating"); 
+            } 
+            document.getElementById('splashEnterBtn').onclick = startSplashImmediate;
+            document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
+            document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
+        }
+        
+        window.addEventListener('beforeunload', function(e) { if (gameInProgress && isRated) localStorage.setItem('sum-interrupted', 'true'); });
+        function openControlSuite() { if(!gameInProgress) { document.getElementById('gear-trigger').classList.add('rotate-active'); document.body.classList.add('sidebar-active'); } }
+        function closeControlSuite() { document.getElementById('gear-trigger').classList.remove('rotate-active'); document.body.classList.remove('sidebar-active'); }
+        function switchSettingsPane(p) { document.querySelectorAll('.tab-nav-link').forEach(t => t.classList.remove('tab-active')); document.querySelectorAll('.settings-pane-section').forEach(sec => sec.classList.remove('pane-active')); document.getElementById(`nav-tab-${p}`).classList.add('tab-active'); document.getElementById(`pane-${p}`).classList.add('pane-active'); }
+        function closeAboutViewPage() { document.getElementById('pane-about-fullscreen').style.display = 'none'; }
+        function closeManifesto() { document.getElementById('manifesto-screen').style.display = 'none'; }
+        function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
+        
+        function calculateStakes() { 
+            if (!isRated) { 
+                winPoints = 0; 
+                lossPoints = 0; 
+            } 
+            else if (gamesPlayed < 5) { 
+                winPoints = Math.floor(Math.random() * 41) + 120;
+                lossPoints = Math.floor(Math.random() * 41) + 90;
+            } 
+            else { 
+                winPoints = Math.floor(Math.random() * 5) + 10;
+                lossPoints = Math.floor(Math.random() * 5) + 9;
+            } 
+            document.getElementById('win-stake').innerText = `+${winPoints}`; 
+            document.getElementById('loss-stake').innerText = `-${lossPoints}`; 
+        }
+
+        function getNormalDifficulty() {
+            if (!isRated) {
+                return { digits: manualDigits, rows: manualRows, time: manualTime };
+            }
+            let r = rating;
+            if (r < 1500) return { digits: 1, rows: 2, time: 1000 };
+            if (r < 1600) return { digits: 1, rows: 3, time: 1000 };
+            if (r < 1700) return { digits: 1, rows: 5, time: 1000 };
+            if (r < 1800) return { digits: 1, rows: 10, time: 1000 };
+            if (r < 1900) return { digits: 2, rows: 5, time: 1000 };
+            if (r < 2000) return { digits: 2, rows: 10, time: 1200 };
+            if (r < 2100) return { digits: 2, rows: 10, time: 1000 };
+            if (r < 2200) return { digits: 2, rows: 10, time: 950 };
+            if (r < 2300) return { digits: 2, rows: 15, time: 1200 };
+            if (r < 2400) return { digits: 2, rows: 15, time: 1000 };
+            if (r < 2500) return { digits: 2, rows: 15, time: 950 };
+            if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
+            if (r < 2700) return { digits: 3, rows: 7, time: 1000 };
+            if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
+            if (r < 2900) return { digits: 4, rows: 5, time: 950 };
+            if (r < 3000) return { digits: 4, rows: 7, time: 900 };
+            if (r < 3100) return { digits: 4, rows: 10, time: 850 };
+            if (r < 3200) return { digits: 4, rows: 15, time: 800 };
+            if (r < 3300) return { digits: 5, rows: 10, time: 750 };
+            if (r < 3400) return { digits: 5, rows: 15, time: 700 };
+            if (r < 3500) return { digits: 5, rows: 20, time: 650 };
+            if (r < 3600) return { digits: 5, rows: 25, time: 600 };
+            if (r < 3700) return { digits: 5, rows: 30, time: 550 };
+            if (r < 3800) return { digits: 5, rows: 35, time: 500 };
+            if (r < 3900) return { digits: 5, rows: 40, time: 450 };
+            if (r < 4000) return { digits: 5, rows: 45, time: 400 };
+            if (r < 5200) return { digits: 5, rows: 50, time: 350 };
+            return { digits: 5, rows: 50, time: 250 };
+        }
+
+        let currentFairPlayActive = false;
+
+        function isInFairPlayZone() {
+            let r = rating;
+            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 700, fairPlay: true, timerSecs: 5 };
+            if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2000 && r <= 2015) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2100 && r <= 2115) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2300 && r <= 2315) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2400 && r <= 2415) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2500 && r <= 2515) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2600 && r <= 2615) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2700 && r <= 2715) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2800 && r <= 2815) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 2900 && r <= 2915) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3000 && r <= 3015) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            let remainder = r % 100;
+            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 4900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 5000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            return null;
+        }
+
+        function getFinalDifficulty() { 
+            let fairPlay = isInFairPlayZone(); 
+            if (fairPlay && isRated) { 
+                currentFairPlayActive = true;
+                document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · 5s Timer · WRONG = -25 RATING`;
+                document.getElementById('fairPlayBanner').style.display = 'inline-block'; 
+                return fairPlay; 
+            } 
+            currentFairPlayActive = false;
+            document.getElementById('fairPlayBanner').style.display = 'none'; 
+            return getNormalDifficulty(); 
+        }
+
+        function updateDifficultyDisplay() { 
+            let diff = getFinalDifficulty(); 
+            document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(2)}s`; 
+        }
+        
+        function toggleMode() { 
+            if(gameInProgress) return; 
+            isRated = !isRated; 
+            let btn = document.getElementById('mode-toggle'); 
+            btn.innerHTML = isRated ? '<i class="fas fa-trophy"></i> RATED' : '<i class="fas fa-sliders-h"></i> MANUAL'; 
+            btn.classList.toggle('active'); 
+            let selects = document.querySelectorAll('.manual-select');
+            selects.forEach(s => s.disabled = isRated);
+            if (!isRated) {
+                manualDigits = parseInt(document.getElementById('sel-digits').value);
+                manualRows = parseInt(document.getElementById('sel-rows').value);
+                manualTime = parseInt(document.getElementById('sel-time').value);
+            }
+            updateRatingUI(); 
+        }
+        
+        function updateRatingUI() { 
+            document.getElementById('rating-ui').innerText = rating; 
+            calculateStakes(); 
+            updateDifficultyDisplay(); 
+        }
+        
+        function disableControls(disabled) { 
+            gameInProgress = disabled; 
+            let controlsRow = document.getElementById('controlsRow'); 
+            let gearBtn = document.getElementById('gear-trigger'); 
+            if(disabled) { 
+                controlsRow.classList.add('controls-disabled'); 
+                gearBtn.style.pointerEvents = 'none'; 
+                gearBtn.style.opacity = '0.5'; 
+            } else { 
+                controlsRow.classList.remove('controls-disabled'); 
+                gearBtn.style.pointerEvents = 'auto'; 
+                gearBtn.style.opacity = '1'; 
+            } 
+        }
+
+        async function initiateGame() {
+            if(gameInProgress) return;
+            disableControls(true);
+            let display = document.getElementById('display');
+            display.classList.remove('ready-text');
+            display.style.color = 'var(--text)';
+            document.getElementById('action-btn').disabled = true;
+            document.getElementById('user-ans').value = '';
+            display.innerText = "";
+            let lr = document.getElementById('light-r'), ly = document.getElementById('light-y'), lg = document.getElementById('light-g');
+            lr.style.background = "var(--red)"; playSfx(550, 'sine', 0.12);
+            await new Promise(r => setTimeout(r, 1000)); lr.style.background = "#b2bec3";
+            ly.style.background = "#f1c40f"; playSfx(550, 'sine', 0.12);
+            await new Promise(r => setTimeout(r, 1000)); ly.style.background = "#b2bec3";
+            lg.style.background = "var(--green)"; playSfx(850, 'sine', 0.2);
+            await new Promise(r => setTimeout(r, 1000)); lg.style.background = "#b2bec3";
+            let diff = getFinalDifficulty();
+            sequence = [];
+            for (let i = 0; i < diff.rows; i++) {
+                let min = Math.pow(10, diff.digits - 1);
+                let max = Math.pow(10, diff.digits) - 1;
+                let n = Math.floor(Math.random() * (max - min + 1)) + min;
+                sequence.push(n);
+                display.innerText = n;
+                playSfx(1000, 'sine', 0.05);
+                await new Promise(r => setTimeout(r, diff.time));
+                display.innerText = '';
+                await new Promise(r => setTimeout(r, 100));
+            }
+            display.innerText = "?";
+            startTimer();
+        }
+        
+        function startTimer() {
+            let timerSecs = isRated ? 7 : 10;
+            if (currentFairPlayActive) {
+                timerSecs = 5;
+            }
+            let barContainer = document.getElementById('timerBarContainer');
+            let barFill = document.getElementById('timerBarFill');
+            let timerNumber = document.getElementById('timerNumber');
+            if (isRated) { 
+                barContainer.style.display = 'block'; 
+                timerNumber.style.display = 'none'; 
+                barFill.style.width = '100%'; 
+                barFill.classList.remove('warning', 'danger'); 
+            } else { 
+                barContainer.style.display = 'none'; 
+                timerNumber.style.display = 'block'; 
+                timerNumber.innerText = timerSecs.toFixed(1); 
+            }
+            document.getElementById('user-ans').disabled = false; 
+            document.getElementById('user-ans').focus();
+            document.getElementById('submit-btn').style.display = 'block'; 
+            document.getElementById('action-btn').style.display = 'none';
+            let timeLeft = timerSecs;
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft -= 0.1;
+                if (!isRated) document.getElementById('timerNumber').innerText = timeLeft.toFixed(1);
+                if (isRated) { 
+                    let percent = (timeLeft / timerSecs) * 100; 
+                    barFill.style.width = `${percent}%`; 
+                    if (percent < 30) barFill.classList.add('danger'); 
+                    else if (percent < 60) barFill.classList.add('warning'); 
+                }
+                if (timeLeft <= 0) finalize(null);
+            }, 100);
+        }
+        
+        function validateInput() { let val = parseInt(document.getElementById('user-ans').value); document.getElementById('user-ans').value = ''; finalize(isNaN(val) ? null : val); }
+        
+        function finalize(userVal) {
+            clearInterval(timerInterval);
+            document.getElementById('timerBarContainer').style.display = 'none'; document.getElementById('timerNumber').style.display = 'none';
+            let actualSum = sequence.reduce((a, b) => a + b, 0);
+            let display = document.getElementById('display');
+            document.getElementById('user-ans').disabled = true; document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('action-btn').style.display = 'block'; document.getElementById('action-btn').disabled = false;
+            
+            let isCorrect = (userVal === actualSum);
+            
+            if (isCorrect) {
+                if (isRated) rating += winPoints;
+                display.innerText = "✓"; display.style.color = "var(--green)"; playSfx(1200, 'sine', 0.3);
+                addHistory(`${sequence.join('+')}=${actualSum}`, true);
+            } else {
+                if (currentFairPlayActive && isRated) {
+                    rating = Math.max(1000, rating - 25);
+                    addHistory(`${sequence.join('+')}=${actualSum} ❌ FAIR PLAY PENALTY -25`, false);
+                } else if (isRated) {
+                    rating = Math.max(1000, rating - lossPoints);
+                    addHistory(`${sequence.join('+')}=${actualSum}`, false);
+                } else {
+                    addHistory(`${sequence.join('+')}=${actualSum}`, false);
+                }
+                display.innerText = "✗ " + actualSum; display.style.color = "var(--red)"; playSfx(150, 'sawtooth', 0.4);
+            }
+            
+            setTimeout(() => { display.innerText = "READY"; display.classList.add('ready-text'); display.style.color = '#b2bec3'; }, 2000);
+            gamesPlayed++; localStorage.setItem('abacus-rating', rating); localStorage.setItem('abacus-games', gamesPlayed);
+            updateRatingUI(); disableControls(false);
+        }
+        
+        document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
+    </script>
+</body>
+</html>
