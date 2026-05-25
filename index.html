@@ -661,13 +661,7 @@
                     🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
                     ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
                     🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
-                    🙏 Thanks for joining us!! 🙏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </span>
-                <span class="ticker-text" aria-hidden="true">
-                    🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
-                    ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
-                    🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
-                    🙏 Thanks for joining us!! 🙏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    🙏 Thanks for joining us!! 🙏
                 </span>
             </div>
         </div>
@@ -682,7 +676,6 @@
         max-width: 100%;
     }
 
-    /* Fixed container alignment */
     .ticker-wrapper {
         margin: 20px 0 10px 0; 
         overflow: hidden; 
@@ -690,15 +683,13 @@
         border-radius: 40px; 
         padding: 12px 0; 
         width: 100%;
-        display: flex;
     }
     
-    /* Reconstructed smooth animation track */
     .ticker-scroll {
-        display: flex;
+        display: inline-block;
         white-space: nowrap;
-        padding-left: 100%; /* Start off-screen to the right */
-        animation: scrollText 20s linear infinite;
+        /* Changed from 9s to 16s for a much smoother, moderate speed */
+        animation: scrollTextFull 16s linear infinite;
     }
     
     .ticker-text {
@@ -706,25 +697,22 @@
         font-size: 0.9rem; 
         font-weight: 500; 
         letter-spacing: 0.5px;
-        flex-shrink: 0;
+        display: inline-block;
     }
     
-    @keyframes scrollText {
+    @keyframes scrollTextFull {
         0% {
-            transform: translate3d(0, 0, 0);
+            transform: translate3d(100%, 0, 0); 
         }
         100% {
-            /* Smoothly moves exactly half the distance of the combined texts */
-            transform: translate3d(-50%, 0, 0); 
+            transform: translate3d(-100%, 0, 0); 
         }
     }
     
-    /* Pause on hover safely */
     .ticker-wrapper:hover .ticker-scroll {
         animation-play-state: paused;
     }
 </style>
-            <h2 style="font-family: 'Dancing Script'; color: #ffffff; font-size: 3.5rem; text-align: center; margin: 0 0 10px 0;">AbacusArena.org</h2>
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:0 0 30px 0;">Project Started: April 23, 2026</p>
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
