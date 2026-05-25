@@ -630,6 +630,110 @@
     <div id="pane-about-fullscreen">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
+            <div style="text-align: center; margin: 35px 0;">
+    <div style="display: inline-block; background: linear-gradient(135deg, #2c5f8a, #1e3a5f); border-radius: 35px; padding: 35px 60px; box-shadow: 0 15px 40px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.2); width: 100%; max-width: 680px; box-sizing: border-box;">
+        
+        <!-- FIXED - Abacus Icon (Stays in Middle) -->
+        <div style="margin-bottom: 20px; text-align: center;">
+            <svg width="75" height="75" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                <rect x="15" y="22" width="70" height="56" rx="5" fill="none" stroke="#f1c40f" stroke-width="2.5"/>
+                <line x1="25" y1="36" x2="75" y2="36" stroke="#f1c40f" stroke-width="2"/>
+                <line x1="25" y1="50" x2="75" y2="50" stroke="#f1c40f" stroke-width="2"/>
+                <line x1="25" y1="64" x2="75" y2="64" stroke="#f1c40f" stroke-width="2"/>
+                <circle cx="40" cy="36" r="5" fill="#f1c40f"/>
+                <circle cx="60" cy="36" r="5" fill="#f1c40f"/>
+                <circle cx="35" cy="50" r="5" fill="#f1c40f"/>
+                <circle cx="50" cy="50" r="5" fill="#f1c40f"/>
+                <circle cx="65" cy="50" r="5" fill="#f1c40f"/>
+                <circle cx="45" cy="64" r="5" fill="#f1c40f"/>
+                <circle cx="55" cy="64" r="5" fill="#f1c40f"/>
+                <rect x="17" y="20" width="5" height="60" rx="2.5" fill="#f1c40f"/>
+                <rect x="78" y="20" width="5" height="60" rx="2.5" fill="#f1c40f"/>
+            </svg>
+        </div>
+        
+        <!-- FIXED - Title (Stays in Middle) -->
+        <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.2); text-align: center;">
+            AbacusArena.org
+        </h2>
+        
+        <!-- SCROLLING TICKER - Unique icons, | as separator -->
+        <div style="margin: 20px 0 10px 0; overflow: hidden; white-space: nowrap; background: rgba(0,0,0,0.3); border-radius: 40px; padding: 12px 0; max-width: 100%;">
+            <div id="tickerText" style="display: inline-block; white-space: nowrap; will-change: transform;">
+                <span style="color: #ffd700; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px;">
+                    🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
+                    ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
+                    🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
+                    🙏 Thanks for joining us!! 🙏 &nbsp;&nbsp;&nbsp;
+                </span>
+            </div>
+        </div>
+        
+        <!-- Subtle Gold Line -->
+        <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
+    </div>
+</div>
+
+<style>
+    body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+</style>
+
+<script>
+    (function() {
+        const ticker = document.getElementById('tickerText');
+        if (!ticker) return;
+        
+        let scrollPosition = 0;
+        let animationId = null;
+        let isPaused = false;
+        
+        function getContainerWidth() {
+            const container = ticker.parentElement;
+            return container ? container.clientWidth : 480;
+        }
+        
+        function startTicker() {
+            const containerWidth = getContainerWidth();
+            const textWidth = ticker.scrollWidth;
+            
+            if (textWidth <= containerWidth) return;
+            
+            scrollPosition = containerWidth;
+            ticker.style.transform = `translateX(${scrollPosition}px)`;
+            
+            function animate() {
+                if (!isPaused) {
+                    scrollPosition -= 1.2;
+                    
+                    if (scrollPosition <= -textWidth) {
+                        scrollPosition = containerWidth;
+                    }
+                    
+                    ticker.style.transform = `translateX(${scrollPosition}px)`;
+                }
+                animationId = requestAnimationFrame(animate);
+            }
+            
+            if (animationId) cancelAnimationFrame(animationId);
+            animate();
+        }
+        
+        const container = ticker.parentElement;
+        if (container) {
+            container.addEventListener('mouseenter', () => { isPaused = true; });
+            container.addEventListener('mouseleave', () => { isPaused = false; });
+        }
+        
+        window.addEventListener('load', startTicker);
+        window.addEventListener('resize', () => {
+            if (animationId) cancelAnimationFrame(animationId);
+            startTicker();
+        });
+    })();
+</script>
             <h2 style="font-family: 'Dancing Script'; color: #ffffff; font-size: 3.5rem; text-align: center; margin: 0 0 10px 0;">AbacusArena.org</h2>
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:0 0 30px 0;">Project Started: April 23, 2026</p>
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
