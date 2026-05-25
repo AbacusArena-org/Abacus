@@ -630,10 +630,9 @@
     <div id="pane-about-fullscreen">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
-            <div style="text-align: center; margin: 35px 0;">
-    <div style="display: inline-block; background: linear-gradient(135deg, #2c5f8a, #1e3a5f); border-radius: 35px; padding: 35px 60px; box-shadow: 0 15px 40px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.2); width: 100%; max-width: 680px; box-sizing: border-box;">
+            <div style="text-align: center; margin: 35px 0; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="display: inline-block; background: linear-gradient(135deg, #2c5f8a, #1e3a5f); border-radius: 35px; padding: 35px 60px; box-shadow: 0 15px 40px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.2); width: 100%; max-width: 680px; box-sizing: border-box; overflow: hidden;">
         
-        <!-- FIXED - Abacus Icon -->
         <div style="margin-bottom: 20px; text-align: center;">
             <svg width="75" height="75" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
                 <rect x="15" y="22" width="70" height="56" rx="5" fill="none" stroke="#f1c40f" stroke-width="2.5"/>
@@ -652,100 +651,79 @@
             </svg>
         </div>
         
-        <!-- FIXED - Title -->
-        <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.2); text-align: center;">
+        <h2 style="font-family: 'Dancing Script', cursive, serif; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.2); text-align: center;">
             AbacusArena.org
         </h2>
         
-        <!-- SCROLLING TICKER - With gap at the end -->
-        <div style="margin: 20px 0 10px 0; background: rgba(0,0,0,0.3); border-radius: 40px; padding: 12px 0; max-width: 100%; overflow: hidden;">
-            <div id="tickerContainer" style="white-space: nowrap; display: inline-block; width: 100%; overflow: hidden;">
-                <div id="tickerText" style="display: inline-block; white-space: nowrap;">
-                    <span style="color: #ffd700; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px;">
-                        🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
-                        ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
-                        🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
-                        🙏 Thanks for joining us!! 🙏 
-                    </span>
-                    <span style="color: #ffd700; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px; margin-left: 60px;">
-                        🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
-                        ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
-                        🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
-                        🙏 Thanks for joining us!! 🙏 
-                    </span>
-                </div>
+        <div class="ticker-wrapper">
+            <div class="ticker-scroll">
+                <span class="ticker-text">
+                    🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
+                    ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
+                    🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
+                    🙏 Thanks for joining us!! 🙏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+                <span class="ticker-text" aria-hidden="true">
+                    🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; 
+                    ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 
+                    🌟 Community-Driven 🌟 &nbsp;|&nbsp; 
+                    🙏 Thanks for joining us!! 🙏 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
             </div>
         </div>
         
-        <!-- Subtle Gold Line -->
         <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
     </div>
 </div>
 
-<script>
-    (function() {
-        var tickerText = document.getElementById('tickerText');
-        var tickerContainer = document.getElementById('tickerContainer');
-        
-        if (!tickerText || !tickerContainer) return;
-        
-        var containerWidth = tickerContainer.parentElement.clientWidth;
-        var textWidth = tickerText.scrollWidth / 2;
-        var position = containerWidth;
-        var speed = 1.2;
-        var animationId = null;
-        var isPaused = false;
-        var atEnd = false;
-        var pauseTimer = null;
-        
-        function animate() {
-            if (!isPaused) {
-                if (!atEnd) {
-                    position -= speed;
-                    
-                    // When reaching the end (text about to finish)
-                    if (position <= -textWidth + 50) {
-                        atEnd = true;
-                        position = -textWidth + 50;
-                        tickerText.style.transform = 'translateX(' + position + 'px)';
-                        
-                        // Pause for 1.5 seconds at the end
-                        if (pauseTimer) clearTimeout(pauseTimer);
-                        pauseTimer = setTimeout(function() {
-                            position = containerWidth;
-                            atEnd = false;
-                            tickerText.style.transform = 'translateX(' + position + 'px)';
-                        }, 1500);
-                        return;
-                    }
-                    
-                    tickerText.style.transform = 'translateX(' + position + 'px)';
-                }
-            }
-            animationId = requestAnimationFrame(animate);
+<style>
+    body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    /* Fixed container alignment */
+    .ticker-wrapper {
+        margin: 20px 0 10px 0; 
+        overflow: hidden; 
+        background: rgba(0,0,0,0.3); 
+        border-radius: 40px; 
+        padding: 12px 0; 
+        width: 100%;
+        display: flex;
+    }
+    
+    /* Reconstructed smooth animation track */
+    .ticker-scroll {
+        display: flex;
+        white-space: nowrap;
+        padding-left: 100%; /* Start off-screen to the right */
+        animation: scrollText 20s linear infinite;
+    }
+    
+    .ticker-text {
+        color: #ffd700; 
+        font-size: 0.9rem; 
+        font-weight: 500; 
+        letter-spacing: 0.5px;
+        flex-shrink: 0;
+    }
+    
+    @keyframes scrollText {
+        0% {
+            transform: translate3d(0, 0, 0);
         }
-        
-        // Pause on hover
-        var tickerWrapper = tickerContainer.parentElement;
-        tickerWrapper.addEventListener('mouseenter', function() { isPaused = true; });
-        tickerWrapper.addEventListener('mouseleave', function() { isPaused = false; });
-        
-        // Initial position
-        tickerText.style.transform = 'translateX(' + containerWidth + 'px)';
-        
-        // Start animation
-        animate();
-        
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            containerWidth = tickerContainer.parentElement.clientWidth;
-            position = containerWidth;
-            atEnd = false;
-            if (pauseTimer) clearTimeout(pauseTimer);
-            tickerText.style.transform = 'translateX(' + position + 'px)';
-        });
-    })();
-</script>
+        100% {
+            /* Smoothly moves exactly half the distance of the combined texts */
+            transform: translate3d(-50%, 0, 0); 
+        }
+    }
+    
+    /* Pause on hover safely */
+    .ticker-wrapper:hover .ticker-scroll {
+        animation-play-state: paused;
+    }
+</style>
             <h2 style="font-family: 'Dancing Script'; color: #ffffff; font-size: 3.5rem; text-align: center; margin: 0 0 10px 0;">AbacusArena.org</h2>
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:0 0 30px 0;">Project Started: April 23, 2026</p>
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
