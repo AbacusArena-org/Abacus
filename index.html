@@ -736,16 +736,16 @@
                 </thead>
                 <tbody>
                     <tr><td>1200 - 1499</td><td>1 Digit | 2 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1500 - 1599</td><td>1 Digit | 3 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1600 - 1699</td><td>1 Digit | 5 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1700 - 1799</td><td>1 Digit | 10 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1800 - 1899</td><td>2 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1900 - 1999</td><td>2 Digits | 10 Rows | 1.2s display timing parameters</td></tr>
-                    <tr><td>2000 - 2099</td><td>2 Digits | 10 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1500 - 1599</td><td>1 Digit | 5 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1600 - 1699</td><td>1 Digit | 10 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>1700 - 1799</td><td>1 Digit | 10 Rows | 0.75s display timing parameters</td></tr>
+                    <tr><td>1800 - 1899</td><td>1 Digits | 15 Rows | 0.7s display timing parameters</td></tr>
+                    <tr><td>1900 - 1999</td><td>2 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2000 - 2099</td><td>2 Digits | 10 Rows | 1.2s display timing parameters</td></tr>
                     <tr><td>2100 - 2199</td><td>2 Digits | 10 Rows | 0.95s display timing parameters</td></tr>
-                    <tr><td>2200 - 2299</td><td>2 Digits | 15 Rows | 1.2s display timing parameters</td></tr>
-                    <tr><td>2300 - 2399</td><td>2 Digits | 15 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2400 - 2499</td><td>2 Digits | 15 Rows | 0.95s display timing parameters</td></tr>
+                    <tr><td>2200 - 2299</td><td>2 Digits | 15 Rows | 1.0s display timing parameters</td></tr>
+                    <tr><td>2300 - 2399</td><td>2 Digits | 15 Rows | 0.75s display timing parameters</td></tr>
+                    <tr><td>2400 - 2499</td><td>2 Digits | 15 Rows | 0.70s display timing parameters</td></tr>
                     <tr><td>2500 - 2599</td><td>3 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
                     <tr><td>2600 - 2699</td><td>3 Digits | 7 Rows | 1.0s display timing parameters</td></tr>
                     <tr><td>2700 - 2799</td><td>3 Digits | 10 Rows | 1.0s display timing parameters</td></tr>
@@ -1101,16 +1101,16 @@
             }
             let r = rating;
             if (r < 1500) return { digits: 1, rows: 2, time: 1000 };
-            if (r < 1600) return { digits: 1, rows: 3, time: 1000 };
-            if (r < 1700) return { digits: 1, rows: 5, time: 1000 };
-            if (r < 1800) return { digits: 1, rows: 10, time: 1000 };
-            if (r < 1900) return { digits: 2, rows: 5, time: 1000 };
-            if (r < 2000) return { digits: 2, rows: 10, time: 1200 };
-            if (r < 2100) return { digits: 2, rows: 10, time: 1000 };
+            if (r < 1600) return { digits: 1, rows: 5, time: 1000 };
+            if (r < 1700) return { digits: 1, rows: 10, time: 1000 };
+            if (r < 1800) return { digits: 1, rows: 10, time: 750 };
+            if (r < 1900) return { digits: 1, rows: 15, time: 700 };
+            if (r < 2000) return { digits: 2, rows: 5, time: 1000 };
+            if (r < 2100) return { digits: 2, rows: 10, time: 1200 };
             if (r < 2200) return { digits: 2, rows: 10, time: 950 };
-            if (r < 2300) return { digits: 2, rows: 15, time: 1200 };
-            if (r < 2400) return { digits: 2, rows: 15, time: 1000 };
-            if (r < 2500) return { digits: 2, rows: 15, time: 950 };
+            if (r < 2300) return { digits: 2, rows: 15, time: 1000 };
+            if (r < 2400) return { digits: 2, rows: 15, time: 750 };
+            if (r < 2500) return { digits: 2, rows: 15, time: 700 };
             if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
             if (r < 2700) return { digits: 3, rows: 7, time: 1000 };
             if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
