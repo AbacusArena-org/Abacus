@@ -1272,40 +1272,40 @@ window.addEventListener('beforeunload', function(e) {
 
         function isInFairPlayZone() {
             let r = rating;
-            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 700, fairPlay: true, timerSecs: 5 };
-            if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2000 && r <= 2015) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2100 && r <= 2115) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2300 && r <= 2315) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2400 && r <= 2415) return { digits: 1, rows: 10, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2500 && r <= 2515) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2600 && r <= 2615) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2700 && r <= 2715) return { digits: 1, rows: 15, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2800 && r <= 2815) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 2900 && r <= 2915) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3000 && r <= 3015) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 450, fairPlay: true, timerSecs: 3 };
+            if (r >= 2000 && r <= 2015) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 };
+            if (r >= 2100 && r <= 2115) return { digits: 1, rows: 7, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2300 && r <= 2315) return { digits: 1, rows: 10, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2400 && r <= 2415) return { digits: 1, rows: 10, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2500 && r <= 2515) return { digits: 1, rows: 15, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2600 && r <= 2615) return { digits: 1, rows: 15, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2700 && r <= 2715) return { digits: 1, rows: 15, time: 350, fairPlay: true, timerSecs: 3 };
+            if (r >= 2800 && r <= 2815) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 2900 && r <= 2915) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3000 && r <= 3015) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
             let remainder = r % 100;
-            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 4900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
-            if (r >= 5000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 5 };
+            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4100 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 4900 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 5000 && remainder <= 15) return { digits: 1, rows: 25, time: 500, fairPlay: true, timerSecs: 3 };
             return null;
         }
 
@@ -1313,7 +1313,7 @@ window.addEventListener('beforeunload', function(e) {
             let fairPlay = isInFairPlayZone(); 
             if (fairPlay && isRated) { 
                 currentFairPlayActive = true;
-                document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · 5s Timer · WRONG = -25 RATING`;
+                document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · 3s Timer · WRONG = -25 RATING`;
                 document.getElementById('fairPlayBanner').style.display = 'inline-block'; 
                 return fairPlay; 
             } 
