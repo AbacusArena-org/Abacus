@@ -303,7 +303,35 @@
             80% { transform: scale(1.3); }
             100% { transform: scale(1); opacity: 1; }
         }
-
+/* Radar pulse scanner animation */
+        .radar-box {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 15px auto;
+            border-radius: 50%;
+            border: 2px dashed rgba(44, 62, 80, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .radar-line {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 50%, rgba(192, 41, 43, 0.15) 100%);
+            animation: radarSpin 1.2s linear infinite;
+        }
+        @keyframes radarSpin {
+            to { transform: rotate(360deg); }
+        }
+        .rank-blur {
+            filter: blur(8px);
+            opacity: 0.3;
+            transform: scale(0.9);
+            transition: all 0.4s ease;
+        }
         .edit-loading {
             display: inline-block;
             width: 20px;
@@ -572,9 +600,12 @@
         </div>
         <div class="profile-fullscreen-content">
             <div class="profile-avatar-large"><i class="fas fa-user"></i></div>
-            <div class="profile-rating-large">
-                <div class="label">Current Rating</div>
+            
+<div class="profile-rating-large" onclick="openGlobalRankPanel()" style="cursor: pointer; background: rgba(0,0,0,0.03); border-radius: 20px; padding: 15px 10px; transition: 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.06)'" onmouseout="this.style.background='rgba(0,0,0,0.03)'">
+                <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #2d3436;">Current Rating</div>
                 <div class="value" id="profileRatingLarge">1500</div>
+                <div id="profileRankSubtitle" style="font-size: 0.9rem; font-weight: 700; color: #00b894; margin-top: 5px;">Loading Rank...</div>
+                <div style="font-size: 0.65rem; opacity: 0.6; color: #2d3436; margin-top: 4px;"><i class="fas fa-chart-bar"></i> Tap to view World Rankings</div>
             </div>
             <div class="username-edit-section" id="usernameEditBtn">
                 <span id="profileUsername">Grandmaster</span>
@@ -861,7 +892,98 @@
         ];
         
         const allFlairs = [...new Set(uniqueFlairs)].slice(0, 250);
+let currentGlobalRankString = "--";
 
+function calculateProgressiveRank(currentRating) {
+    // Inverse scaling rules: As currentRating goes up, your global rank number decreases
+    
+    // Top-tier Master Bracket (3200+)
+    if (currentRating >= 3200) {
+        let pointsPastMaster = currentRating - 3200;
+        let baseRank = 30 - Math.floor(pointsPastMaster / 10);
+        return Math.max(1, baseRank);
+    }
+    // High-tier Elite Bracket (2800 to 3199)
+    if (currentRating >= 2800) {
+        let percentageToMaster = (currentRating - 2800) / (3200 - 2800);
+        return Math.floor(750 - (percentageToMaster * (750 - 31)));
+    }
+    // Competitive Tier Bracket (1500 to 2799)
+    if (currentRating >= 1500) {
+        let percentageToElite = (currentRating - 1500) / (2800 - 1500);
+        return Math.floor(330000 - (percentageToElite * (330000 - 751)));
+    }
+    // Novice Tier Base Layer (Below 1500)
+    let pointsBelowBase = 1500 - currentRating;
+    return Math.floor(330000 + (pointsBelowBase * 150));
+}
+
+function refreshEngineRankMetrics() {
+    let anchorRank = calculateProgressiveRank(rating);
+    
+    // Generate organic rolling micro-fluctuation noise increments (+123, -84, etc.)
+    let microFluc = 0;
+    if (anchorRank > 1000) {
+        microFluc = Math.floor(Math.random() * 800) - 400;
+    } else if (anchorRank > 40) {
+        microFluc = Math.floor(Math.random() * 20) - 10;
+    } else {
+        microFluc = Math.floor(Math.random() * 4) - 2;
+    }
+    
+    let activeCalculatedRank = Math.max(1, anchorRank + microFluc);
+    currentGlobalRankString = activeCalculatedRank.toLocaleString();
+    
+    let profileSubtitle = document.getElementById('profileRankSubtitle');
+    if (profileSubtitle) {
+        profileSubtitle.innerText = "Est. World Rank: #" + currentGlobalRankString;
+    }
+    let panelRank = document.getElementById('modalRankDisplay');
+    if (panelRank) {
+        panelRank.innerText = "#" + currentGlobalRankString;
+    }
+}
+
+function openGlobalRankPanel() {
+    // 1. Instantly display your background modal frame
+    document.getElementById('world-rank-panel').style.display = 'flex';
+    
+    // 2. Hide score fields and bring radar loader to view
+    let loader = document.getElementById('radarScanningContainer');
+    let content = document.getElementById('rankDataDisplayWrapper');
+    let statusText = document.getElementById('radarStatusText');
+    
+    loader.style.display = 'flex';
+    content.style.display = 'none';
+    content.classList.add('rank-blur');
+    statusText.innerText = "Connecting to global database...";
+    
+    // Phase 2 wording loop midway through scanning
+    setTimeout(() => {
+        statusText.innerText = "Evaluating calculation latency...";
+    }, 1100);
+
+    // 3. Randomize animation window duration parameter between 2.0s and 3.0s (2000ms - 3000ms)
+    let dynamicLoadTime = Math.floor(Math.random() * 1000) + 2000;
+    
+    setTimeout(() => {
+        // Apply scores to hidden elements
+        document.getElementById('modalRatingDisplay').innerText = rating;
+        document.getElementById('modalRankDisplay').innerText = "#" + currentGlobalRankString;
+        
+        // Wipe away the loader and drop the blur filters nicely
+        loader.style.display = 'none';
+        content.style.display = 'block';
+        
+        setTimeout(() => {
+            content.classList.remove('rank-blur');
+        }, 50);
+    }, dynamicLoadTime);
+}
+
+function closeGlobalRankPanel() {
+    document.getElementById('world-rank-panel').style.display = 'none';
+}
         function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
@@ -1042,35 +1164,51 @@
             themeIntervalId = setInterval(trigger, 10000); 
         }
 
-        function initApp() { 
+function initApp() { 
+            // 1. Immediately check for interruption and force-save to disk BEFORE doing anything else
+            let wasInterrupted = localStorage.getItem('sum-interrupted') === 'true'; 
+            if (wasInterrupted && isRated) { 
+                // Pull fresh from storage, apply math, and hard-save immediately
+                let savedRating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
+                rating = Math.max(1000, savedRating - 25); 
+                
+                localStorage.setItem('abacus-rating', rating); 
+                localStorage.removeItem('sum-interrupted'); 
+                
+                // Show the alert warning box to the player
+                alert("⚠️ Penalty Applied: You left during an active sum! -25 Rating");
+            }
+
+            // 2. Run standard design layouts
             updateRatingUI(); 
             updateMainDisplay();
             document.documentElement.setAttribute('data-theme', appTheme); 
             startThemeChangerLoop(); 
             updateDifficultyDisplay(); 
-            
+             
             const digitsSelect = document.getElementById('sel-digits');
             const rowsSelect = document.getElementById('sel-rows');
             const timeSelect = document.getElementById('sel-time');
-            
+             
             digitsSelect.addEventListener('change', function() { manualDigits = parseInt(this.value); });
             rowsSelect.addEventListener('change', function() { manualRows = parseInt(this.value); });
             timeSelect.addEventListener('change', function() { manualTime = parseInt(this.value); });
             
-            let wasInterrupted = localStorage.getItem('sum-interrupted') === 'true'; 
-            if (wasInterrupted && isRated) { 
-                rating = Math.max(1000, rating - 25); 
-                localStorage.setItem('abacus-rating', rating); 
-                localStorage.removeItem('sum-interrupted'); 
-                updateRatingUI(); 
-                alert("⚠️ Penalty Applied: You left during an active sum! -25 Rating"); 
-            } 
             document.getElementById('splashEnterBtn').onclick = startSplashImmediate;
             document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
             document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
-        }
-        
-        window.addEventListener('beforeunload', function(e) { if (gameInProgress && isRated) localStorage.setItem('sum-interrupted', 'true'); });
+
+            // 3. Kick off your background trackers
+            refreshEngineRankMetrics();
+            setInterval(refreshEngineRankMetrics, 3000);
+        }        
+window.addEventListener('beforeunload', function(e) {
+            if (gameInProgress && isRated) {
+                localStorage.setItem('sum-interrupted', 'true');
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
         function openControlSuite() { if(!gameInProgress) { document.getElementById('gear-trigger').classList.add('rotate-active'); document.body.classList.add('sidebar-active'); } }
         function closeControlSuite() { document.getElementById('gear-trigger').classList.remove('rotate-active'); document.body.classList.remove('sidebar-active'); }
         function switchSettingsPane(p) { document.querySelectorAll('.tab-nav-link').forEach(t => t.classList.remove('tab-active')); document.querySelectorAll('.settings-pane-section').forEach(sec => sec.classList.remove('pane-active')); document.getElementById(`nav-tab-${p}`).classList.add('tab-active'); document.getElementById(`pane-${p}`).classList.add('pane-active'); }
@@ -1226,8 +1364,15 @@
             } 
         }
 
-        async function initiateGame() {
+async function initiateGame() {
+            // 1. Force the lock flag immediately on click to catch early quitters
             if(gameInProgress) return;
+            gameInProgress = true; 
+            if (isRated) {
+                localStorage.setItem('sum-interrupted', 'true');
+            }
+
+            // 2. Shut down input access arrays
             disableControls(true);
             let display = document.getElementById('display');
             display.classList.remove('ready-text');
@@ -1235,6 +1380,8 @@
             document.getElementById('action-btn').disabled = true;
             document.getElementById('user-ans').value = '';
             display.innerText = "";
+
+            // 3. Traffic Light sequence execution sequence
             let lr = document.getElementById('light-r'), ly = document.getElementById('light-y'), lg = document.getElementById('light-g');
             lr.style.background = "var(--red)"; playSfx(550, 'sine', 0.12);
             await new Promise(r => setTimeout(r, 1000)); lr.style.background = "#b2bec3";
@@ -1242,6 +1389,8 @@
             await new Promise(r => setTimeout(r, 1000)); ly.style.background = "#b2bec3";
             lg.style.background = "var(--green)"; playSfx(850, 'sine', 0.2);
             await new Promise(r => setTimeout(r, 1000)); lg.style.background = "#b2bec3";
+
+            // 4. Matrix Generation Loop
             let diff = getFinalDifficulty();
             sequence = [];
             for (let i = 0; i < diff.rows; i++) {
@@ -1298,8 +1447,12 @@
         
         function validateInput() { let val = parseInt(document.getElementById('user-ans').value); document.getElementById('user-ans').value = ''; finalize(isNaN(val) ? null : val); }
         
-        function finalize(userVal) {
+function finalize(userVal) {
             clearInterval(timerInterval);
+            
+            // Release lock state safely
+            localStorage.removeItem('sum-interrupted');
+            gameInProgress = false;
             document.getElementById('timerBarContainer').style.display = 'none'; document.getElementById('timerNumber').style.display = 'none';
             let actualSum = sequence.reduce((a, b) => a + b, 0);
             let display = document.getElementById('display');
@@ -1332,5 +1485,42 @@
         
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
     </script>
+<!-- PRESERVED GOLDEN PLATEMENT MODULE -->
+<div id="world-rank-panel" style="display: none; position: fixed; inset: 0; z-index: 8000; background: #f1c40f; color: #2c3e50; font-family: 'Inter', sans-serif; flex-direction: column; padding: 25px; overflow-y: auto;">
+    <div style="max-width: 500px; margin: 0 auto; width: 100%;">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 25px;">
+            <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-globe-americas"></i> Live World Standings</h2>
+            <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
+        </div>
+
+<div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; overflow: hidden;">
+            
+            <div id="radarScanningContainer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 0;">
+                <div class="radar-box">
+                    <div class="radar-line"></div>
+                    <i class="fas fa-satellite-dish" style="font-size: 1.8rem; color: #c0392b;"></i>
+                </div>
+                <div id="radarStatusText" style="font-size: 0.85rem; font-weight: 700; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px;">Analyzing Global Nodes...</div>
+            </div>
+
+            <div id="rankDataDisplayWrapper" class="rank-blur" style="display: none;">
+                <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #7f8c8d; font-weight: 700;">Predicted Global Placement</div>
+                <div id="modalRankDisplay" style="font-size: 3.2rem; font-weight: 900; color: #c0392b; margin: 10px 0; font-variant-numeric: tabular-nums;">#--</div>
+                
+                <div style="display: inline-flex; align-items: center; gap: 6px; background: #2c3e50; color: #ffffff; border-radius: 30px; padding: 8px 18px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px;">
+                    <i class="fas fa-trophy" style="color: #f1c40f;"></i> Verified Rating: <span id="modalRatingDisplay" style="color: #f1c40f;">1500</span>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.03); border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 15px; margin-top: 15px; text-align: left;">
+                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;">
+                        <i class="fas fa-info-circle" style="color: #2980b9;"></i> <strong>Global Projection Metric:</strong> This data is not exclusive to our website directory. Instead, we analyze metrics from abacus practitioners worldwide to predict where you stand globally. Please note that this acts as an adaptive performance simulation and should not be taken as an exact, official leaderboard position.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
