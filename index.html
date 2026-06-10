@@ -1409,7 +1409,7 @@ async function initiateGame() {
         function startTimer() {
             let timerSecs = isRated ? 7 : 10;
             if (currentFairPlayActive) {
-                timerSecs = 5;
+                timerSecs = 3;
             }
             let barContainer = document.getElementById('timerBarContainer');
             let barFill = document.getElementById('timerBarFill');
