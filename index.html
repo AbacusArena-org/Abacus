@@ -434,6 +434,7 @@
             width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px;
             box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text);
             border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden;
+            position: relative;
         }
 
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
@@ -490,7 +491,6 @@
         #submit-btn { background: var(--green); color: #fff; display: none; }
         #action-btn { background: var(--accent); color: #fff; }
 
-        /* Match Management Action Configuration Buttons */
         .match-actions-container {
             display: flex;
             width: 100%;
@@ -508,29 +508,54 @@
         #abort-match-btn { background: #7f8c8d; color: white; }
         #resign-match-btn { background: #e74c3c; color: white; }
 
-        /* Authentic Dynamic Overlay Screen Styles */
+        /* Floating Dynamic Center Dialog Layout */
         #fide-match-outcome-overlay {
-            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.98);
-            z-index: 20000; display: none; flex-direction: column;
-            align-items: center; justify-content: center; color: #ffffff;
-            font-family: 'Inter', sans-serif; text-align: center;
-            animation: overlayFadeIn 0.25s ease-out;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 88%; max-width: 380px;
+            background: #10b981; 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+            border-radius: 24px;
+            z-index: 50000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        @keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .outcome-banner-title { font-size: 2.8rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 5px; text-transform: uppercase; }
-        .outcome-banner-title.win-text { color: #00b894; text-shadow: 0 0 20px rgba(0,184,148,0.3); }
-        .outcome-banner-title.loss-text { color: #d63031; text-shadow: 0 0 20px rgba(214,48,49,0.3); }
-        .outcome-banner-title.draw-text { color: #f1c40f; text-shadow: 0 0 20px rgba(241,196,15,0.3); }
         
-        .outcome-metric-card {
-            background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 24px 40px; border-radius: 20px; margin: 20px 0; width: 80%; max-width: 400px;
+        #overlayCloseIconBtn {
+            position: absolute;
+            top: 14px; right: 16px;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            display: none; 
+            transition: color 0.2s;
+            background: rgba(0,0,0,0.15);
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
         }
-        .outcome-rating-row { font-size: 4rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #ffffff; margin: 10px 0; }
-        .outcome-bracket-modifier { font-size: 1.6rem; font-weight: 700; margin-left: 8px; }
-        .outcome-bracket-modifier.plus { color: #00b894; }
-        .outcome-bracket-modifier.minus { color: #d63031; }
-        .outcome-speed-badge { font-size: 0.9rem; opacity: 0.8; font-weight: 500; display: block; margin-top: 8px; color: #38bdf8; }
+        #overlayCloseIconBtn:hover { color: #ffffff; background: rgba(0,0,0,0.3); }
+
+        .outcome-banner-title { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 2px; text-transform: uppercase; color: #ffffff; }
+        .outcome-metric-card {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 16px 25px; border-radius: 16px; margin: 15px 0 5px 0; width: 100%; box-sizing: border-box;
+            text-align: center;
+        }
+        .outcome-rating-row { font-size: 2.8rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #ffffff; margin: 4px 0; }
+        .outcome-bracket-modifier { font-size: 1.3rem; font-weight: 700; margin-left: 6px; }
+        .outcome-bracket-modifier.plus { color: #fffb00; }
+        .outcome-bracket-modifier.minus { color: #ffcbd1; }
+        .outcome-speed-badge { font-size: 0.8rem; font-weight: 500; display: block; margin-top: 6px; color: #e0f2fe; }
 
         .sidebar-overlay-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; }
         #central-settings-modal {
@@ -547,21 +572,13 @@
             padding: 40px; overflow-y: auto; text-align: left;
             background: #c0392b !important; color: #ffffff !important;
         }
-        .about-centered {
-            max-width: 800px;
-            margin: 80px auto 0 auto;
-            line-height: 1.75;
-        }
+        .about-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.75; }
         #manifesto-screen {
             display: none; position: fixed; inset: 0; z-index: 4000; 
             padding: 40px; overflow-y: auto; text-align: left;
             background: #2980b9 !important; color: #ffffff !important;
         }
-        .manifesto-centered {
-            max-width: 800px;
-            margin: 80px auto 0 auto;
-            line-height: 1.7;
-        }
+        .manifesto-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.7; }
 
         .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 5; color: #f1c40f; background: rgba(0,0,0,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .back-arena-btn { position: absolute; top: 25px; left: 25px; background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 5; }
@@ -600,21 +617,6 @@
         <div class="loading-text"><i class="fas fa-hourglass-half"></i> Loading<span>...</span></div>
     </div>
 
-    <div id="fide-match-outcome-overlay">
-        <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.6; margin-bottom: 5px;">Match Over</div>
-        <div id="overlayBannerTitle" class="outcome-banner-title">Victory!</div>
-        <div id="overlayOutcomeSub" style="font-size: 1.1rem; opacity: 0.9; font-weight: 500;">by Speed Verification</div>
-        
-        <div class="outcome-metric-card">
-            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5;">Your Personal Rating Metric</div>
-            <div class="outcome-rating-row">
-                <span id="overlayBaseRatingTick">1500</span><span id="overlayModifierBracket" class="outcome-bracket-modifier">(+0)</span>
-            </div>
-            <span id="overlaySpeedDiffTag" class="outcome-speed-badge">0.00s ahead of computational opponent</span>
-        </div>
-        <div style="font-size: 0.75rem; opacity: 0.4; animation: pulse 1.5s infinite;">Returning to Grandmaster Arena shortly...</div>
-    </div>
-
     <div id="splash-screen">
         <div class="splash-logo">AbacusArena.org</div>
         <button class="enter-btn" id="splashEnterBtn"><i class="fas fa-arrow-right"></i> ENTER WEBSITE</button>
@@ -631,7 +633,7 @@
 
         <div class="player-identity-card" id="opponentIdentityCard">
             <div class="identity-profile-block">
-                <div class="identity-avatar-frame opponent-avatar-frame" id="oppAvatar"> can't </div>
+                <div class="identity-avatar-frame opponent-avatar-frame" id="oppAvatar">❔</div>
                 <div class="identity-meta-info">
                     <div>
                         <span class="identity-title-badge">AI</span>
@@ -646,11 +648,26 @@
         </div>
 
         <div class="game-container">
+            <div id="fide-match-outcome-overlay">
+                <div id="overlayCloseIconBtn" onclick="dismissPerformanceOverlay()"><i class="fas fa-times"></i></div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 2px;">Match Summary</div>
+                <div id="overlayBannerTitle" class="outcome-banner-title">Victory!</div>
+                <div id="overlayOutcomeSub" style="font-size: 0.95rem; opacity: 0.9; font-weight: 500;">by Speed Verification</div>
+                
+                <div class="outcome-metric-card">
+                    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Your Rating Performance</div>
+                    <div class="outcome-rating-row">
+                        <span id="overlayBaseRatingTick">1500</span><span id="overlayModifierBracket" class="outcome-bracket-modifier">(+0)</span>
+                    </div>
+                    <span id="overlaySpeedDiffTag" class="outcome-speed-badge">0.00s ahead of bot</span>
+                </div>
+            </div>
+
             <div class="signal-row"><div id="light-r" class="light-bulb"></div><div id="light-y" class="light-bulb"></div><div id="light-g" class="light-bulb"></div></div>
 
             <div class="header-stats">
                 <div><div style="font-size: 0.7rem;">YOUR RATING</div><div class="rating-val" id="rating-ui">1500</div></div>
-                <div style="text-align: right;"><div style="font-size: 0.7rem;">STAKES</div><div>Win: <span style="color: var(--green)" id="win-stake">+--</span><br>Loss: <span style="color: var(--red)" id="loss-stake">---</span></div></div>
+                <div style="text-align: right;"><div style="font-size: 0.7rem;">STAKES</div><div style="font-size:0.75rem; font-weight:600; font-family:monospace; line-height:1.3;">W: <span style="color: var(--green)" id="win-stake">+--</span> | L: <span style="color: var(--red)" id="loss-stake">---</span><br>D: <span style="color: var(--yellow)" id="draw-stake">---</span></div></div>
             </div>
 
             <div class="timer-bar-container" id="timerBarContainer"><div class="timer-bar-fill" id="timerBarFill"></div></div>
@@ -873,7 +890,7 @@
         let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
         let isRated = true;
-        let sequence = [], timerInterval, winPoints, lossPoints, drawDeltaUser, drawDeltaBot;
+        let sequence = [], timerInterval, winPoints, lossPoints, drawDeltaUser;
         let themeIntervalId;
         let historyGames = JSON.parse(localStorage.getItem('game-history')) || [];
         let gameInProgress = false;
@@ -888,11 +905,11 @@
         let musicEnabled = true;
         let bgMusic = document.getElementById('bgMusic');
 
-        // Abuse Monitor & Strategic Gate Registries
+        // Strategic Control Gate Variables
         let searchTimeoutTracker = null;
         let startGateTimeoutTracker = null;
         let gateSecondsLeft = 25;
-        let matchStateStep = "idle"; // "idle" | "searching" | "gate" | "countdown" | "printing" | "answering"
+        let matchStateStep = "idle"; 
         let consecutiveAbortsCount = parseInt(localStorage.getItem('consecutive-aborts-count')) || 0;
         let lockUntilTimestamp = parseInt(localStorage.getItem('lock-until-timestamp')) || 0;
         let countdownUIRefreshInterval = null;
@@ -938,24 +955,6 @@
         
         const allFlairs = [...new Set(uniqueFlairs)].slice(0, 250);
         let currentGlobalRankString = "--";
-
-        function calculateProgressiveRank(currentRating) {
-            if (currentRating >= 3200) {
-                let pointsPastMaster = currentRating - 3200;
-                let baseRank = 30 - Math.floor(pointsPastMaster / 10);
-                return Math.max(1, baseRank);
-            }
-            if (currentRating >= 2800) {
-                let percentageToMaster = (currentRating - 2800) / (3200 - 2800);
-                return Math.floor(750 - (percentageToMaster * (750 - 31)));
-            }
-            if (currentRating >= 1500) {
-                let percentageToElite = (currentRating - 1500) / (2800 - 1500);
-                return Math.floor(330000 - (percentageToElite * (330000 - 751)));
-            }
-            let pointsBelowBase = 1500 - currentRating;
-            return Math.floor(330000 + (pointsBelowBase * 150));
-        }
 
         function refreshEngineRankMetrics() {
             let profileSubtitle = document.getElementById('profileRankSubtitle');
@@ -1005,6 +1004,7 @@
             
             document.getElementById('win-stake').innerText = "+--";
             document.getElementById('loss-stake').innerText = "---";
+            document.getElementById('draw-stake').innerText = "---";
         }
 
         function startMatchmakingSequence() {
@@ -1015,7 +1015,7 @@
                 let diffSecs = Math.ceil((lockUntilTimestamp - currentNow) / 1000);
                 let mins = Math.floor(diffSecs / 60);
                 let secs = diffSecs % 60;
-                alert(`Too many consecutive match cancellations! Abuse engine cooldown active: ${mins}:${secs < 10 ? '0':''}${secs}`);
+                alert(`Abuse engine cooldown active! Please wait: ${mins}:${secs < 10 ? '0':''}${secs}`);
                 return;
             }
 
@@ -1093,7 +1093,6 @@
             if (matchStateStep !== "gate") return;
             clearInterval(startGateTimeoutTracker);
             
-            // Restore structural layouts
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.background = "var(--accent)";
             actionBtn.onclick = startMatchmakingSequence; 
@@ -1104,14 +1103,12 @@
         }
 
         function executeGateAbandonmentAbort() {
-            // Restore action button configurations safely
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.background = "var(--accent)";
             actionBtn.onclick = startMatchmakingSequence;
             actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
 
             triggerManualAbort();
-            triggerPerformanceEndScreen("Canceled", "Match Abandoned in Gate Room", 0, 0);
         }
 
         function triggerManualAbort() {
@@ -1124,8 +1121,6 @@
             consecutiveAbortsCount++;
             localStorage.setItem('consecutive-aborts-count', consecutiveAbortsCount);
             
-            let wasInGateOrCountdown = (matchStateStep === "gate" || matchStateStep === "countdown");
-
             if (consecutiveAbortsCount >= 3) {
                 lockUntilTimestamp = Date.now() + (10 * 60 * 1000);
                 localStorage.setItem('lock-until-timestamp', lockUntilTimestamp);
@@ -1159,10 +1154,6 @@
             if (Date.now() >= lockUntilTimestamp) {
                 actionBtn.disabled = false;
             }
-            
-            if (wasInGateOrCountdown) {
-                triggerPerformanceEndScreen("Aborted", "Match Aborted Successfully", 0, 0);
-            }
 
             clearOpponentDisplay();
             disableControls(false);
@@ -1181,7 +1172,6 @@
             localStorage.setItem('abacus-rating', rating);
             localStorage.removeItem('sum-interrupted');
 
-            // Simulate immediate opponent rating increase in card header
             let targetBotRating = opponentRating + winPoints;
             document.getElementById('oppRatingDisplay').innerText = targetBotRating;
 
@@ -1200,7 +1190,7 @@
             document.getElementById('action-btn').style.display = 'block';
             document.getElementById('action-btn').disabled = false;
 
-            triggerPerformanceEndScreen("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
+            triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
 
             gamesPlayed++;
             localStorage.setItem('abacus-games', gamesPlayed);
@@ -1229,23 +1219,19 @@
             }, 1000);
         }
 
-        /* Chess.com Real-Time Linear Speed Interpolation Animation Engine */
-        function triggerPerformanceEndScreen(bannerTitle, subText, baseRating, deltaVal, speedMsAhead = 0) {
+        /* Chess.com Real-Time Linear Speed Ticker Engine */
+        function triggerPerformanceOverlay(bannerTitle, subText, baseRating, deltaVal, speedMsAhead = 0) {
             let overlay = document.getElementById('fide-match-outcome-overlay');
             let titleNode = document.getElementById('overlayBannerTitle');
             let subNode = document.getElementById('overlayOutcomeSub');
             let tickNode = document.getElementById('overlayBaseRatingTick');
             let bracketNode = document.getElementById('overlayModifierBracket');
             let speedNode = document.getElementById('overlaySpeedDiffTag');
+            let closeIcon = document.getElementById('overlayCloseIconBtn');
 
             titleNode.innerText = bannerTitle;
             subNode.innerText = subText;
-            
-            // Apply theme classifications dynamically
-            titleNode.className = "outcome-banner-title";
-            if (bannerTitle.includes("Vic") || bannerTitle.includes("Won")) titleNode.classList.add("win-text");
-            else if (bannerTitle.includes("Def") || bannerTitle.includes("Loss") || bannerTitle.includes("Res")) titleNode.classList.add("loss-text");
-            else titleNode.classList.add("draw-text");
+            closeIcon.style.display = "none"; 
 
             if (deltaVal === 0) {
                 tickNode.innerText = rating;
@@ -1259,7 +1245,7 @@
                 
                 if (speedMsAhead !== 0) {
                     speedNode.style.display = "block";
-                    speedNode.innerText = `${Math.abs(speedMsAhead / 1000).toFixed(2)}s ${speedMsAhead > 0 ? 'ahead of' : 'behind'} computational opponent`;
+                    speedNode.innerText = `${Math.abs(speedMsAhead / 1000).toFixed(2)}s ${speedMsAhead > 0 ? 'ahead of' : 'behind'} bot`;
                 } else {
                     speedNode.style.display = "none";
                 }
@@ -1270,8 +1256,8 @@
             if (deltaVal !== 0) {
                 let currentTickValue = baseRating;
                 let targetTickValue = baseRating + deltaVal;
-                let iterationStepTime = Math.floor(1800 / Math.abs(deltaVal)); 
-                iterationStepTime = Math.max(30, Math.min(150, iterationStepTime));
+                let iterationStepTime = Math.floor(1600 / Math.abs(deltaVal)); 
+                iterationStepTime = Math.max(25, Math.min(120, iterationStepTime));
 
                 setTimeout(() => {
                     let tickerIntervalRef = setInterval(() => {
@@ -1282,37 +1268,22 @@
                             tickNode.innerText = currentTickValue;
                         }
                     }, iterationStepTime);
-                }, 600);
+                }, 500);
             }
 
+            // Expose the close interactive lock exactly at the 5-second marker boundary
             setTimeout(() => {
-                overlay.style.display = "none";
-                clearOpponentDisplay();
+                closeIcon.style.display = "flex";
             }, 5000);
+        }
+
+        function dismissPerformanceOverlay() {
+            document.getElementById('fide-match-outcome-overlay').style.display = "none";
+            clearOpponentDisplay();
         }
 
         function openGlobalRankPanel() {
             document.getElementById('world-rank-panel').style.display = 'flex';
-            let loader = document.getElementById('radarScanningContainer');
-            let content = document.getElementById('rankDataDisplayWrapper');
-            let statusText = document.getElementById('radarStatusText');
-            
-            loader.style.display = 'flex';
-            content.style.display = 'none';
-            content.classList.add('rank-blur');
-            statusText.innerText = "Connecting to global database...";
-            
-            setTimeout(() => { statusText.innerText = "Evaluating calculation latency..."; }, 1100);
-
-            let dynamicLoadTime = Math.floor(Math.random() * 1000) + 2000;
-            
-            setTimeout(() => {
-                document.getElementById('modalRatingDisplay').innerText = rating;
-                document.getElementById('modalRankDisplay').innerText = "#" + currentGlobalRankString;
-                loader.style.display = 'none';
-                content.style.display = 'block';
-                setTimeout(() => { content.classList.remove('rank-blur'); }, 50);
-            }, dynamicLoadTime);
         }
 
         function closeGlobalRankPanel() { document.getElementById('world-rank-panel').style.display = 'none'; }
@@ -1548,6 +1519,7 @@
         function closeManifesto() { document.getElementById('manifesto-screen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
+        /* True Elo System (Win, Loss, Draw Parameter Vectors) */
         function calculateStakes() { 
             if (!isRated || !hasActiveOpponent) { 
                 winPoints = 0; 
@@ -1565,9 +1537,10 @@
             
             winPoints = Math.max(2, Math.min(32, winPoints));
             lossPoints = Math.max(2, Math.min(32, lossPoints));
-            
+
             document.getElementById('win-stake').innerText = `+${winPoints}`; 
             document.getElementById('loss-stake').innerText = `-${lossPoints}`; 
+            document.getElementById('draw-stake').innerText = (drawDeltaUser >= 0 ? `+${drawDeltaUser}` : `${drawDeltaUser}`);
         }
 
         function getRatingBoundDifficulty(targetRating) {
@@ -1641,7 +1614,7 @@
             if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fillPlay: true, timerSecs: 3 };
+            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
@@ -1838,9 +1811,12 @@
             actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             actionBtn.onclick = startMatchmakingSequence;
             
-            let isCorrect = (userVal === actualSum);
+            let userCorrect = (userVal === actualSum);
+            let userTimedOut = (userVal === null);
             
-            let botWin = false;
+            // AI Performance Simulation Parameters
+            let botCorrect = false;
+            let botTimedOut = false;
             let botSubmissionTimeMs = 7000; 
 
             if (isRated && hasActiveOpponent) {
@@ -1853,16 +1829,16 @@
                 }
                 
                 baseSuccessProbability = Math.max(0.05, Math.min(0.98, baseSuccessProbability));
-                botWin = Math.random() < baseSuccessProbability;
-
-                if (botWin) {
+                
+                // 5% baseline probability that the bot fails to answer on time
+                botTimedOut = Math.random() < 0.05; 
+                if (!botTimedOut) {
+                    botCorrect = Math.random() < baseSuccessProbability;
                     if (opponentRating >= 2000 && userDifficultyObj.rows <= 15 && userDifficultyObj.digits <= 1) {
                         botSubmissionTimeMs = 3000; 
                     } else {
                         botSubmissionTimeMs = Math.floor(Math.random() * 2500) + 3000; 
                     }
-                } else {
-                    botSubmissionTimeMs = Math.floor(Math.random() * 3000) + 4000; 
                 }
             }
 
@@ -1873,80 +1849,83 @@
             let oldUserRating = rating;
 
             if (isRated && hasActiveOpponent) {
-                if (isCorrect && !botWin) {
+                // Determine if the speed gap is within the 1-second draw threshold boundary
+                let timeGapMs = botSubmissionTimeMs - userElapsedMs;
+                let isInsideDrawSpeedWindow = (userCorrect && botCorrect && Math.abs(timeGapMs) <= 1000);
+
+                /* --- TRIGGER CONDITION 1: STRUCTURAL DRAW MATRIX --- */
+                if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userTimedOut && botTimedOut)) {
+                    bannerTitle = "Draw";
+                    if (isInsideDrawSpeedWindow) {
+                        subText = "Draw by Dead-Heat calculation speed window";
+                        speedMsAhead = timeGapMs;
+                    } else if (userTimedOut && botTimedOut) {
+                        subText = "Draw by mutual timeout parameter expiration";
+                    } else {
+                        subText = "Draw by mutual arithmetic compilation error";
+                    }
+
+                    if (currentFairPlayActive) {
+                        ratingDelta = -25;
+                        rating = Math.max(1000, rating - 25);
+                    } else {
+                        ratingDelta = drawDeltaUser;
+                        rating = Math.max(1000, rating + drawDeltaUser);
+                    }
+                    
+                    let botDrawDelta = Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400)))));
+                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
+                    addHistory(`${sequence.join('+')}=${actualSum} (Draw)`, userCorrect);
+                } 
+                /* --- TRIGGER CONDITION 2: DECISIVE PLAYER WIN MATRIX --- */
+                else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
+                    bannerTitle = "Victory!";
+                    if (botCorrect) {
+                        bannerTitle = "Won by Speed";
+                        subText = "You out-calculated the opponent's clock";
+                        speedMsAhead = timeGapMs;
+                    } else {
+                        subText = "Opponent calculation loop failure";
+                    }
+
                     let speedFactor = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
                     ratingDelta = Math.max(2, Math.min(32, Math.round(winPoints * speedFactor)));
                     rating += ratingDelta;
                     
-                    bannerTitle = "Victory!";
-                    subText = "Opponent calculation loop crashed";
-                    addHistory(`${sequence.join('+')}=${actualSum}`, true);
-                    
-                    // Bot rating modification cycle decrement
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
+                    addHistory(`${sequence.join('+')}=${actualSum}`, true);
                 } 
-                else if (!isCorrect && botWin) {
+                /* --- TRIGGER CONDITION 3: DECISIVE DEFEAT MATRIX --- */
+                else {
+                    bannerTitle = "Defeat";
+                    if (userCorrect && botCorrect) {
+                        bannerTitle = "Loss by Speed";
+                        subText = "Bot registered accurate data faster";
+                        speedMsAhead = timeGapMs;
+                    } else if (currentFairPlayActive) {
+                        subText = "Fair Play structural compilation error";
+                    } else {
+                        subText = "Opponent computational loop accurate";
+                    }
+
                     if (currentFairPlayActive) {
                         ratingDelta = -25;
                         rating = Math.max(1000, rating - 25);
-                        subText = "Fair Play structural compilation error";
-                        addHistory(`${sequence.join('+')}=${actualSum} ❌ FAIR PLAY PENALTY -25`, false);
                     } else {
                         let speedFactor = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
                         ratingDelta = -Math.max(2, Math.min(32, Math.round(lossPoints * speedFactor)));
                         rating = Math.max(1000, rating + ratingDelta);
-                        subText = "Opponent computational loop accurate";
-                        addHistory(`${sequence.join('+')}=${actualSum}`, false);
                     }
-                    bannerTitle = "Defeat";
+                    
                     document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
-                } 
-                else if (isCorrect && botWin) {
-                    speedMsAhead = botSubmissionTimeMs - userElapsedMs;
-                    if (userElapsedMs <= botSubmissionTimeMs) {
-                        let speedFactor = 1.2;
-                        ratingDelta = Math.max(2, Math.min(32, Math.round(winPoints * speedFactor)));
-                        rating += ratingDelta;
-                        
-                        bannerTitle = "Won by Speed";
-                        subText = "You out-calculated the opponent's clock";
-                        addHistory(`${sequence.join('+')}=${actualSum}`, true);
-                        document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
-                    } else {
-                        let speedFactor = 1.1;
-                        ratingDelta = -Math.max(2, Math.min(32, Math.round(lossPoints * speedFactor)));
-                        rating = Math.max(1000, rating + ratingDelta);
-                        
-                        bannerTitle = "Loss by Speed";
-                        subText = "Bot registered accurate data faster";
-                        addHistory(`${sequence.join('+')}=${actualSum}`, false);
-                        document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
-                    }
-                } 
-                else {
-                    if (currentFairPlayActive) {
-                        ratingDelta = -25;
-                        rating = Math.max(1000, rating - 25);
-                        subText = "Fair Play violation rules applied";
-                        addHistory(`${sequence.join('+')}=${actualSum} ❌ FAIR PLAY PENALTY -25`, false);
-                        document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
-                    } else {
-                        ratingDelta = drawDeltaUser;
-                        rating = Math.max(1000, rating + drawDeltaUser);
-                        subText = "Both computational loops crashed";
-                        addHistory(`${sequence.join('+')}=${actualSum}`, false);
-                        
-                        // Inverse alignment calibration for bot draw shifts
-                        let botDrawDelta = Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400)))));
-                        document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
-                    }
-                    bannerTitle = "Draw";
+                    addHistory(`${sequence.join('+')}=${actualSum}`, false);
                 }
                 
-                // Trigger dynamic sequential overlay logic room
-                triggerPerformanceEndScreen(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead);
+                // Commit states to local disk securely before rendering overlay updates
+                localStorage.setItem('abacus-rating', rating);
+                triggerPerformanceOverlay(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead);
             } else {
-                if (isCorrect) {
+                if (userCorrect) {
                     display.innerText = "✓"; display.style.color = "var(--green)"; playSfx(1200, 'sine', 0.3);
                     addHistory(`${sequence.join('+')}=${actualSum}`, true);
                 } else {
@@ -1955,8 +1934,8 @@
                 }
             }
             
-            display.innerText = isCorrect ? "✓" : "✗ " + actualSum;
-            display.style.color = isCorrect ? "var(--green)" : "var(--red)";
+            display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
+            display.style.color = userCorrect ? "var(--green)" : "var(--red)";
 
             setTimeout(() => { 
                 display.innerText = "READY"; 
@@ -1965,7 +1944,6 @@
             }, 2500);
             
             gamesPlayed++; 
-            localStorage.setItem('abacus-rating', rating); 
             localStorage.setItem('abacus-games', gamesPlayed);
 
             updateRatingUI(); 
@@ -1984,17 +1962,8 @@
                 <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
             </div>
             <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; overflow: hidden;">
-                <div id="radarScanningContainer" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 0;">
-                    <div class="radar-box"><div class="radar-line"></div><i class="fas fa-satellite-dish" style="font-size: 1.8rem; color: #c0392b;"></i></div>
-                    <div id="radarStatusText" style="font-size: 0.85rem; font-weight: 700; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px;">Analyzing Global Nodes...</div>
-                </div>
-                <div id="rankDataDisplayWrapper" class="rank-blur" style="display: none;">
-                    <div style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #7f8c8d; font-weight: 700;">Predicted Global Placement</div>
-                    <div id="modalRankDisplay" style="font-size: 3.2rem; font-weight: 900; color: #c0392b; margin: 10px 0; font-variant-numeric: tabular-nums;">#--</div>
-                    <div style="display: inline-flex; align-items: center; gap: 6px; background: #2c3e50; color: #ffffff; border-radius: 30px; padding: 8px 18px; font-size: 0.85rem; font-weight: 700; margin-bottom: 20px;"><i class="fas fa-trophy" style="color: #f1c40f;"></i> Verified Rating: <span id="modalRatingDisplay" style="color: #f1c40f;">1500</span></div>
-                    <div style="background: rgba(0,0,0,0.03); border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 15px; margin-top: 15px; text-align: left;">
-                        <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-info-circle" style="color: #2980b9;"></i> <strong>Global Projection Metric:</strong> This data acts as an adaptive performance simulation and should not be taken as an exact official leaderboard position.</p>
-                    </div>
+                <div style="background: rgba(0,0,0,0.03); border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 15px; margin-top: 15px; text-align: left;">
+                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-info-circle" style="color: #2980b9;"></i> <strong>Global Projection Metric:</strong> This data acts as an adaptive performance simulation based on global mental arithmetic benchmarks.</p>
                 </div>
             </div>
         </div>
