@@ -11,6 +11,7 @@
         * {
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
         }
         :root {
             --surface: rgba(255, 255, 255, 0.96);
@@ -100,29 +101,22 @@
         body { display: flex; flex-direction: column; align-items: center; position: relative; overflow-x: hidden; }
 
         .top-navbar {
-            width: 100%; max-width: 500px; box-sizing: border-box; padding: 10px 24px 4px 24px; 
+            width: 100%; max-width: 500px; padding: 12px 24px 4px 24px; 
             display: flex; justify-content: space-between; align-items: center; z-index: 500;
         }
-        .profile-btn {
-            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 12px; 
+        .profile-btn, .settings-gear-btn {
+            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 10px; 
             border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: var(--text);
+            font-size: 1.3rem; color: var(--text);
         }
-        .profile-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
-        .settings-gear-btn {
-            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 12px; 
-            border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .settings-gear-btn svg { fill: var(--text); width: 22px; height: 22px; }
-        .settings-gear-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .profile-btn:hover, .settings-gear-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
         
         @keyframes gearInfiniteSpin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
-        .settings-gear-btn.rotate-active { animation: gearInfiniteSpin 2.5s linear infinite; }
+        .settings-gear-btn.rotate-active i { animation: gearInfiniteSpin 2.5s linear infinite; }
 
         .player-identity-card {
             width: 90%; max-width: 500px;
@@ -132,6 +126,7 @@
             border-radius: 12px; border: 1px solid rgba(0,0,0,0.05);
             color: var(--text); backdrop-filter: blur(5px);
         }
+        .player-identity-card.card-hidden { display: none; }
         .identity-profile-block { display: flex; align-items: center; gap: 10px; }
         .identity-avatar-frame {
             width: 36px; height: 36px; background: var(--accent); color: white;
@@ -322,34 +317,6 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        .radar-box {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            margin: 15px auto;
-            border-radius: 50%;
-            border: 2px dashed rgba(44, 62, 80, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .radar-line {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: conic-gradient(from 0deg, transparent 50%, rgba(192, 41, 43, 0.15) 100%);
-            animation: radarSpin 1.2s linear infinite;
-        }
-        @keyframes radarSpin {
-            to { transform: rotate(360deg); }
-        }
-        .rank-blur {
-            filter: blur(8px);
-            opacity: 0.3;
-            transform: scale(0.9);
-            transition: all 0.4s ease;
-        }
         .edit-loading {
             display: inline-block;
             width: 20px;
@@ -439,7 +406,9 @@
 
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
         .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
-        .header-stats { display: flex; justify-content: space-between; padding: 15px 25px; border-bottom: 1px solid var(--border); }
+        
+        .header-stats { display: flex; justify-content: center; padding: 15px 25px; border-bottom: 1px solid var(--border); align-items: center; text-align: center; }
+        .header-center-pill { display: flex; flex-direction: column; align-items: center; }
         .rating-val { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
         #rating-ui { font-size: 2.2rem; }
 
@@ -448,31 +417,6 @@
         .timer-bar-fill.warning { background: #f39c12; }
         .timer-bar-fill.danger { background: var(--red); }
         .timer-number { font-size: 1.5rem; font-weight: bold; color: var(--red); text-align: center; margin: 5px 0; display: none; }
-
-        .themes-horizontal {
-            display: flex;
-            flex-direction: row;
-            gap: 10px;
-            justify-content: space-between;
-            margin: 10px 0;
-        }
-        .theme-btn {
-            flex: 1;
-            padding: 12px 8px;
-            border: 2px solid var(--border);
-            border-radius: 40px;
-            background: transparent;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.2s;
-            text-align: center;
-            color: var(--text);
-        }
-        .theme-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
 
         .controls-row { display: flex; justify-content: center; gap: 8px; padding: 12px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); transition: opacity 0.2s; }
         .controls-disabled { pointer-events: none; opacity: 0.5; }
@@ -597,6 +541,50 @@
 
         .difficulty-info { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 16px; margin: 6px 15px; font-size: 0.75rem; text-align: center; font-weight: 500; }
         .fair-play-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-align: center; margin: 10px auto; width: fit-content; display: none; }
+
+        /* Leaderboard Scroll Styles */
+        .leaderboard-container-scroll {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            max-height: 52vh;
+            overflow-y: auto;
+            border: 2px solid #2c3e50;
+        }
+        .leaderboard-row-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .leaderboard-row-item.user-special-row {
+            background: #e0f2fe !important;
+            border: 2px dashed #0284c7;
+            position: sticky;
+            bottom: 0;
+            top: 0;
+            z-index: 50;
+        }
+        .leaderboard-identity-group { display: flex; align-items: center; gap: 8px; }
+        .leaderboard-badge-num { width: 55px; font-weight: 800; color: #7f8c8d; }
+        
+        /* Specialized Chess.com style red bot title badge design block */
+        .leaderboard-bot-badge {
+            background: #cd3c32;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 3px;
+            margin-right: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            vertical-align: middle;
+        }
     </style>
 </head>
 <body onload="initApp()">
@@ -627,7 +615,7 @@
         <div class="top-navbar">
             <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
             <button id="gear-trigger" class="settings-gear-btn" onclick="openControlSuite()">
-                <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                <i class="fas fa-cog"></i>
             </button>
         </div>
 
@@ -666,8 +654,10 @@
             <div class="signal-row"><div id="light-r" class="light-bulb"></div><div id="light-y" class="light-bulb"></div><div id="light-g" class="light-bulb"></div></div>
 
             <div class="header-stats">
-                <div><div style="font-size: 0.7rem;">YOUR RATING</div><div class="rating-val" id="rating-ui">1500</div></div>
-                <div style="text-align: right;"><div style="font-size: 0.7rem;">STAKES</div><div style="font-size:0.75rem; font-weight:600; font-family:monospace; line-height:1.3;">W: <span style="color: var(--green)" id="win-stake">+--</span> | L: <span style="color: var(--red)" id="loss-stake">---</span><br>D: <span style="color: var(--yellow)" id="draw-stake">---</span></div></div>
+                <div class="header-center-pill">
+                    <div style="font-size: 0.7rem; letter-spacing: 0.5px; opacity: 0.8; font-weight: 600;">YOUR ARENA RATING</div>
+                    <div class="rating-val" id="rating-ui">1500</div>
+                </div>
             </div>
 
             <div class="timer-bar-container" id="timerBarContainer"><div class="timer-bar-fill" id="timerBarFill"></div></div>
@@ -689,7 +679,9 @@
                 </select>
             </div>
 
-            <main><div id="display" class="ready-text">READY</div></main>
+            <div class="main-display-area" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+                <main><div id="display" class="ready-text">READY</div></main>
+            </div>
 
             <div class="input-area">
                 <input type="number" id="user-ans" placeholder="?" disabled autocomplete="off">
@@ -829,6 +821,17 @@
             </ul>
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-crown"></i> Elite Standings</h3>
             <p style="font-size:1.05rem;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
+            
+            <h3 style="color: #ffeb3b; margin: 35px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-calculator"></i> Rating Acceleration & Deflection Model</h3>
+            <p style="font-size:1.05rem; line-height:1.6; color:#fff;">
+                Your performance ranking operates under a specialized statistical Elo evaluation algorithm with a dynamic K-factor index of 32. Your rating metrics fluctuate based on the following behavioral vectors:
+            </p>
+            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0; line-height:1.6;">
+                <li style="margin-bottom: 6px;"><strong>Rating Multipliers (Increases):</strong> Successfully submitting correct compilation results shifts your value upwards. If you out-pace your opponent's baseline chronometer speed, an accelerated speed multiplier index scales your output up to a ceiling optimization boundary of +32 points.</li>
+                <li style="margin-bottom: 6px;"><strong>Deflection Degradation (Decreases):</strong> Registering incorrect responses or allowing the absolute countdown clock sequence to exhaust automatically drops your value parameter. Resigning inside an active matchmaking timeline applies a variable deficit modifier.</li>
+                <li style="margin-bottom: 6px;"><strong>Fair Play Infractions:</strong> Violating structure verification zones or breaking connectivity during flash streams prompts an immediate administrative collection script resulting in a flat -25 points penalty deduction.</li>
+            </ul>
+
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Ranges</h3>
             <table class="rank-table">
                 <thead><tr><th>Rating Cutoff</th><th>Setup Configuration Matrix</th></tr></thead>
@@ -886,6 +889,25 @@
         </div>
     </div>
 
+    <!-- Live Leaderboard Overlay UI Panel Layout Sheet -->
+    <div id="world-rank-panel" style="display: none; position: fixed; inset: 0; z-index: 8000; background: #f1c40f; color: #2c3e50; font-family: 'Inter', sans-serif; flex-direction: column; padding: 25px; overflow-y: auto;">
+        <div style="max-width: 500px; margin: 0 auto; width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy"></i> Live Arena Standings</h2>
+                <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
+            </div>
+            
+            <!-- Dynamic Board Rendering Frame -->
+            <div class="leaderboard-container-scroll" id="leaderboardScrollList"></div>
+
+            <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 15px;">
+                <div style="text-align: left;">
+                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-bolt" style="color: #e67e22;"></i> <strong>Real-time Active Pulse Matrix:</strong> Global standings update continuously every 3 seconds. Top elite bracket floor requires a minimum of 2800+ rating parameters.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
@@ -905,7 +927,7 @@
         let musicEnabled = true;
         let bgMusic = document.getElementById('bgMusic');
 
-        // Strategic Control Gate Variables
+        // Control Gate Variables
         let searchTimeoutTracker = null;
         let startGateTimeoutTracker = null;
         let gateSecondsLeft = 25;
@@ -917,11 +939,29 @@
 
         let opponentRating = 0; 
         let hasActiveOpponent = false;
-        const aiNames = [
-            "AlphaAbacus", "StockfishMental", "DeepBead", "SorobanPro", "MatrixCortex", 
-            "QuantumBead", "CerebralCalculus", "VectorMind", "HyperAbacus", "OmegaArith"
-        ];
-        const aiAvatars = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾"];
+
+        // Massively Expanded Prefix + Suffix Matrix compiling 625+ unique AI combinations
+        const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
+        const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
+        
+        let aiNames = [];
+        let aiAvatars = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾", "👑", "🎯", "🔥", "💎", "🌟", "🐱", "🦊", "🦁", "🦅", "🦉"];
+
+        // Compiles 600+ entries natively to guarantee no empty spots or repeats
+        function buildComprehensiveAIPools() {
+            aiNames = [];
+            for (let p of firstPrefixList) {
+                for (let s of secondSuffixList) {
+                    aiNames.push(p + s);
+                }
+            }
+            aiNames.sort(() => Math.random() - 0.5);
+        }
+
+        // Global Leaderboard State Properties
+        let generatedBotLeaderboardArray = [];
+        let globalRankPulseTimerId = null;
+        let rankFluctuationOffset = 0;
 
         function toggleMusic() {
             musicEnabled = !musicEnabled;
@@ -956,6 +996,126 @@
         const allFlairs = [...new Set(uniqueFlairs)].slice(0, 250);
         let currentGlobalRankString = "--";
 
+        // Generate Bot List Data
+        function initLeaderboardDataMatrix() {
+            generatedBotLeaderboardArray = [];
+            for (let i = 0; i < 100; i++) {
+                let baseBotRating = Math.round(4450 - (i * 16.5) + (Math.random() * 12));
+                baseBotRating = Math.max(2800, baseBotRating); 
+                
+                let seedName = aiNames[i % aiNames.length] + "_" + (Math.floor(Math.random() * 899) + 100);
+                let seedFlair = uniqueFlairs[Math.floor(Math.random() * uniqueFlairs.length)];
+                
+                generatedBotLeaderboardArray.push({
+                    isBot: true,
+                    name: seedName,
+                    flair: seedFlair,
+                    rating: baseBotRating
+                });
+            }
+            sortAndRenderLeaderboardMatrix();
+        }
+
+        // 3-sec background updates loop task execution
+        function processLeaderboardPulseTick() {
+            if (!generatedBotLeaderboardArray.length) return;
+            
+            let botsToUpdateCount = Math.floor(Math.random() * 11) + 15;
+            for (let k = 0; k < botsToUpdateCount; k++) {
+                let targetIdx = Math.floor(Math.random() * generatedBotLeaderboardArray.length);
+                let deltaShift = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 8) + 2);
+                
+                generatedBotLeaderboardArray[targetIdx].rating += deltaShift;
+                if (generatedBotLeaderboardArray[targetIdx].rating < 2800) {
+                    generatedBotLeaderboardArray[targetIdx].rating = 2800;
+                }
+            }
+
+            // Controlled drift fluctuation of 100 to 500 ranks smoothly
+            rankFluctuationOffset = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 401) + 100);
+
+            sortAndRenderLeaderboardMatrix();
+        }
+
+        function sortAndRenderLeaderboardMatrix() {
+            generatedBotLeaderboardArray = generatedBotLeaderboardArray.filter(item => !item.isUser);
+            generatedBotLeaderboardArray.sort((a, b) => b.rating - a.rating);
+
+            let calculatedUserRank = "--";
+            let displayListContainer = document.getElementById('leaderboardScrollList');
+            
+            if (!displayListContainer) return;
+
+            if (rating >= generatedBotLeaderboardArray[99].rating) {
+                let userObjPosition = {
+                    isUser: true,
+                    name: username,
+                    flair: selectedFlair,
+                    rating: rating
+                };
+                generatedBotLeaderboardArray.push(userObjPosition);
+                generatedBotLeaderboardArray.sort((a, b) => b.rating - a.rating);
+                
+                let foundRankIdx = generatedBotLeaderboardArray.findIndex(el => el.isUser);
+                calculatedUserRank = foundRankIdx + 1;
+            } else {
+                let baseCalculatedRank = 100000;
+                if (rating >= 2000) {
+                    let ratingRangeScale = (2800 - rating) / 800; 
+                    baseCalculatedRank = Math.round(101 + (ratingRangeScale * 29899));
+                } else if (rating >= 1000) {
+                    let ratingRangeScale = (2000 - rating) / 1000;
+                    baseCalculatedRank = Math.round(30000 + (ratingRangeScale * 70000));
+                }
+                calculatedUserRank = Math.max(101, baseCalculatedRank + rankFluctuationOffset);
+            }
+
+            currentGlobalRankString = calculatedUserRank;
+
+            let innerHTMLContentAccumulator = "";
+            let maximumRenderBoundLength = Math.min(100, generatedBotLeaderboardArray.length);
+            let userWasRenderedInTop100Grid = false;
+
+            for (let m = 0; m < maximumRenderBoundLength; m++) {
+                let rowData = generatedBotLeaderboardArray[m];
+                let rankPointerId = m + 1;
+                
+                if (rowData.isUser) {
+                    userWasRenderedInTop100Grid = true;
+                    innerHTMLContentAccumulator += `
+                        <div class="leaderboard-row-item user-special-row">
+                            <div class="leaderboard-identity-group">
+                                <span class="leaderboard-badge-num">#${rankPointerId}</span>
+                                <span>${rowData.flair} ${rowData.name} <small>(You)</small></span>
+                            </div>
+                            <div style="color:#0284c7; font-weight:800;">${rowData.rating}</div>
+                        </div>`;
+                } else {
+                    innerHTMLContentAccumulator += `
+                        <div class="leaderboard-row-item">
+                            <div class="leaderboard-identity-group">
+                                <span class="leaderboard-badge-num">#${rankPointerId}</span>
+                                <span><span class="leaderboard-bot-badge">AI</span>${rowData.flair} ${rowData.name}</span>
+                            </div>
+                            <div style="color:#2c3e50; opacity:0.8;">${rowData.rating}</div>
+                        </div>`;
+                }
+            }
+
+            if (!userWasRenderedInTop100Grid) {
+                innerHTMLContentAccumulator += `
+                    <div class="leaderboard-row-item user-special-row">
+                        <div class="leaderboard-identity-group">
+                            <span class="leaderboard-badge-num" style="width:55px;">#${calculatedUserRank}</span>
+                            <span>${selectedFlair} ${username} <small>(You)</small></span>
+                        </div>
+                        <div style="color:#0284c7; font-weight:800;">${rating}</div>
+                    </div>`;
+            }
+
+            displayListContainer.innerHTML = innerHTMLContentAccumulator;
+        }
+
         function refreshEngineRankMetrics() {
             let profileSubtitle = document.getElementById('profileRankSubtitle');
             if (profileSubtitle) {
@@ -980,7 +1140,7 @@
             
             document.getElementById('oppRatingDisplay').innerText = opponentRating;
             
-            let randomName = aiNames[Math.floor(Math.random() * aiNames.length)];
+            let randomName = aiNames[Math.floor(Math.random() * aiNames.length)] + "_" + (Math.floor(Math.random() * 89) + 10);
             let randomAvatar = aiAvatars[Math.floor(Math.random() * aiAvatars.length)];
             document.getElementById('oppNameDisplay').innerText = randomName;
             document.getElementById('oppAvatar').innerText = randomAvatar;
@@ -1001,10 +1161,6 @@
             dot.className = "identity-status-dot";
             dot.style.background = "#b2bec3";
             hasActiveOpponent = false;
-            
-            document.getElementById('win-stake').innerText = "+--";
-            document.getElementById('loss-stake').innerText = "---";
-            document.getElementById('draw-stake').innerText = "---";
         }
 
         function startMatchmakingSequence() {
@@ -1197,6 +1353,7 @@
             updateRatingUI();
             updateMainDisplay();
             disableControls(false);
+            sortAndRenderLeaderboardMatrix();
         }
 
         function startCooldownTickerLoop() {
@@ -1219,7 +1376,7 @@
             }, 1000);
         }
 
-        /* Chess.com Real-Time Linear Speed Ticker Engine */
+        /* overlay functions */
         function triggerPerformanceOverlay(bannerTitle, subText, baseRating, deltaVal, speedMsAhead = 0) {
             let overlay = document.getElementById('fide-match-outcome-overlay');
             let titleNode = document.getElementById('overlayBannerTitle');
@@ -1271,7 +1428,6 @@
                 }, 500);
             }
 
-            // Expose the close interactive lock exactly at the 5-second marker boundary
             setTimeout(() => {
                 closeIcon.style.display = "flex";
             }, 5000);
@@ -1283,6 +1439,7 @@
         }
 
         function openGlobalRankPanel() {
+            sortAndRenderLeaderboardMatrix();
             document.getElementById('world-rank-panel').style.display = 'flex';
         }
 
@@ -1470,6 +1627,8 @@
         }
 
         function initApp() { 
+            buildComprehensiveAIPools();
+            
             let wasInterrupted = localStorage.getItem('sum-interrupted') === 'true'; 
             if (wasInterrupted && isRated) { 
                 let savedRating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
@@ -1502,6 +1661,10 @@
             document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
             document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
 
+            initLeaderboardDataMatrix();
+            if (globalRankPulseTimerId) clearInterval(globalRankPulseTimerId);
+            globalRankPulseTimerId = setInterval(processLeaderboardPulseTick, 3000);
+
             refreshEngineRankMetrics();
             setInterval(refreshEngineRankMetrics, 3000);
         }        
@@ -1519,7 +1682,7 @@
         function closeManifesto() { document.getElementById('manifesto-screen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
-        /* True Elo System (Win, Loss, Draw Parameter Vectors) */
+        /* Stakes engine logic metrics mapping template */
         function calculateStakes() { 
             if (!isRated || !hasActiveOpponent) { 
                 winPoints = 0; 
@@ -1537,10 +1700,6 @@
             
             winPoints = Math.max(2, Math.min(32, winPoints));
             lossPoints = Math.max(2, Math.min(32, lossPoints));
-
-            document.getElementById('win-stake').innerText = `+${winPoints}`; 
-            document.getElementById('loss-stake').innerText = `-${lossPoints}`; 
-            document.getElementById('draw-stake').innerText = (drawDeltaUser >= 0 ? `+${drawDeltaUser}` : `${drawDeltaUser}`);
         }
 
         function getRatingBoundDifficulty(targetRating) {
@@ -1557,7 +1716,7 @@
             if (r < 2400) return { digits: 2, rows: 15, time: 750 };
             if (r < 2500) return { digits: 2, rows: 15, time: 700 };
             if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
-            if (r < 2700) return { digits: 3, rows: 7, time: 1000 };
+            if (r < 2700) return {digits: 3, rows: 7, time: 1000 };
             if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
             if (r < 2900) return { digits: 4, rows: 5, time: 950 };
             if (r < 3000) return { digits: 4, rows: 7, time: 900 };
@@ -1652,10 +1811,10 @@
             
             let oppCard = document.getElementById('opponentIdentityCard');
             if (isRated) {
-                oppCard.style.display = 'flex';
+                oppCard.classList.remove('card-hidden');
                 clearOpponentDisplay();
             } else {
-                oppCard.style.display = 'none';
+                oppCard.classList.add('card-hidden');
             }
 
             if (!isRated) {
@@ -1812,9 +1971,7 @@
             actionBtn.onclick = startMatchmakingSequence;
             
             let userCorrect = (userVal === actualSum);
-            let userTimedOut = (userVal === null);
             
-            // AI Performance Simulation Parameters
             let botCorrect = false;
             let botTimedOut = false;
             let botSubmissionTimeMs = 7000; 
@@ -1830,7 +1987,6 @@
                 
                 baseSuccessProbability = Math.max(0.05, Math.min(0.98, baseSuccessProbability));
                 
-                // 5% baseline probability that the bot fails to answer on time
                 botTimedOut = Math.random() < 0.05; 
                 if (!botTimedOut) {
                     botCorrect = Math.random() < baseSuccessProbability;
@@ -1849,17 +2005,15 @@
             let oldUserRating = rating;
 
             if (isRated && hasActiveOpponent) {
-                // Determine if the speed gap is within the 1-second draw threshold boundary
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
                 let isInsideDrawSpeedWindow = (userCorrect && botCorrect && Math.abs(timeGapMs) <= 1000);
 
-                /* --- TRIGGER CONDITION 1: STRUCTURAL DRAW MATRIX --- */
-                if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userTimedOut && botTimedOut)) {
+                if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userVal === null && botTimedOut)) {
                     bannerTitle = "Draw";
                     if (isInsideDrawSpeedWindow) {
                         subText = "Draw by Dead-Heat calculation speed window";
                         speedMsAhead = timeGapMs;
-                    } else if (userTimedOut && botTimedOut) {
+                    } else if (userVal === null && botTimedOut) {
                         subText = "Draw by mutual timeout parameter expiration";
                     } else {
                         subText = "Draw by mutual arithmetic compilation error";
@@ -1875,9 +2029,8 @@
                     
                     let botDrawDelta = Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400)))));
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
-                    addHistory(`${sequence.join('+')}=${actualSum} (Draw)`, userCorrect);
+                    addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect);
                 } 
-                /* --- TRIGGER CONDITION 2: DECISIVE PLAYER WIN MATRIX --- */
                 else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     bannerTitle = "Victory!";
                     if (botCorrect) {
@@ -1893,9 +2046,8 @@
                     rating += ratingDelta;
                     
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
-                    addHistory(`${sequence.join('+')}=${actualSum}`, true);
+                    addHistory(sequence.join('+') + '=' + actualSum, true);
                 } 
-                /* --- TRIGGER CONDITION 3: DECISIVE DEFEAT MATRIX --- */
                 else {
                     bannerTitle = "Defeat";
                     if (userCorrect && botCorrect) {
@@ -1918,19 +2070,18 @@
                     }
                     
                     document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
-                    addHistory(`${sequence.join('+')}=${actualSum}`, false);
+                    addHistory(sequence.join('+') + '=' + actualSum, false);
                 }
                 
-                // Commit states to local disk securely before rendering overlay updates
                 localStorage.setItem('abacus-rating', rating);
                 triggerPerformanceOverlay(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead);
             } else {
                 if (userCorrect) {
                     display.innerText = "✓"; display.style.color = "var(--green)"; playSfx(1200, 'sine', 0.3);
-                    addHistory(`${sequence.join('+')}=${actualSum}`, true);
+                    addHistory(sequence.join('+') + '=' + actualSum, true);
                 } else {
                     display.innerText = "✗ " + actualSum; display.style.color = "var(--red)"; playSfx(150, 'sawtooth', 0.4);
-                    addHistory(`${sequence.join('+')}=${actualSum}`, false);
+                    addHistory(sequence.join('+') + '=' + actualSum, false);
                 }
             }
             
@@ -1949,24 +2100,11 @@
             updateRatingUI(); 
             updateMainDisplay();
             disableControls(false);
+            sortAndRenderLeaderboardMatrix();
         }
         
         document.getElementById('user-ans').disabled = true;
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
     </script>
-
-    <div id="world-rank-panel" style="display: none; position: fixed; inset: 0; z-index: 8000; background: #f1c40f; color: #2c3e50; font-family: 'Inter', sans-serif; flex-direction: column; padding: 25px; overflow-y: auto;">
-        <div style="max-width: 500px; margin: 0 auto; width: 100%;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 25px;">
-                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-globe-americas"></i> Live World Standings</h2>
-                <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
-            </div>
-            <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 20px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-bottom: 20px; position: relative; overflow: hidden;">
-                <div style="background: rgba(0,0,0,0.03); border-top: 1px dashed rgba(0,0,0,0.15); padding-top: 15px; margin-top: 15px; text-align: left;">
-                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-info-circle" style="color: #2980b9;"></i> <strong>Global Projection Metric:</strong> This data acts as an adaptive performance simulation based on global mental arithmetic benchmarks.</p>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
