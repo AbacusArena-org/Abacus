@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Abacus Pro | Tournament Edition | Grandmaster Arena</title>
     <meta name="google-site-verification" content="sWe3iji_Ok89o8DAW7f-h5AGskrIgsQM0MGFug6MPJo" />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght=700&family=Inter:wght=400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght=700&family=Inter:wght=400;500;600;700;800&family=Orbitron:wght=700&family=Caveat:wght=700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -24,6 +24,9 @@
             --border: #dfe6e9;
             --sidebar-bg: #ffffff;
             --card-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --flash-color: #2d3436;
+            --flash-font: 'Inter', sans-serif;
+            --flash-style: normal;
         }
 
         [data-theme="dark"] {
@@ -31,31 +34,35 @@
             --text: #f0f3f8;
             --border: #2a3a5a;
             --sidebar-bg: #0f1a2e;
+            --flash-color: #f0f3f8;
         }
         [data-theme="dark-green"] {
             --surface: rgba(15, 35, 25, 0.96);
             --text: #e8f5e9;
             --border: #2a4a3a;
             --sidebar-bg: #0a1f15;
+            --flash-color: #e8f5e9;
         }
         [data-theme="dark-red"] {
             --surface: rgba(45, 18, 18, 0.96);
             --text: #fde0e0;
             --border: #5a2a2a;
             --sidebar-bg: #2a0f0f;
+            --flash-color: #fde0e0;
         }
         [data-theme="dark-purple"] {
             --surface: rgba(30, 18, 45, 0.96);
             --text: #f0e8ff;
             --border: #4a2a6a;
             --sidebar-bg: #1a0a2a;
+            --flash-color: #f0e8ff;
         }
-        
         [data-theme="nature"] {
             --surface: rgba(245, 247, 242, 0.96);
             --text: #2c3e50;
             --border: #bdc5bd;
             --sidebar-bg: #f5f7f2;
+            --flash-color: #2c3e50;
         }
 
         html, body { min-height: 100vh; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
@@ -189,16 +196,19 @@
             padding: 12px; border-radius: 40px; width: 100%; font-weight: 600;
             cursor: pointer; margin-top: 10px;
         }
+        .studio-trigger-btn {
+            background: linear-gradient(135deg, #2563eb, #1e40af); color: white; border: none;
+            padding: 14px; border-radius: 40px; width: 100%; font-weight: 700;
+            cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.25); transition: all 0.2s ease;
+        }
+        .studio-trigger-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
         .history-btn {
             background: rgba(0,0,0,0.08); border: 1px solid var(--border);
             padding: 14px; border-radius: 40px; width: 100%; font-weight: 600;
             cursor: pointer; margin-top: 15px; display: flex;
             align-items: center; justify-content: center; gap: 8px;
             transition: all 0.2s ease;
-        }
-        .history-btn:hover {
-            background: rgba(0,0,0,0.12);
-            transform: scale(1.02);
         }
 
         #history-fullscreen {
@@ -208,201 +218,96 @@
             padding: 30px;
         }
         .history-modal-card {
-            background: var(--surface);
-            border-radius: 28px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 80vh;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            animation: modalSlideUp 0.3s ease-out;
+            background: var(--surface); border-radius: 28px; width: 100%; max-width: 500px; max-height: 80vh; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); animation: modalSlideUp 0.3s ease-out;
         }
         @keyframes modalSlideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .history-modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 20px 24px;
-            border-bottom: 2px solid var(--border);
-            background: var(--surface);
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 2px solid var(--border); background: var(--surface);
         }
         .history-modal-header h2 { margin: 0; font-size: 1.5rem; }
-        .history-list-container {
-            padding: 20px;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
+        .history-list-container { padding: 20px; max-height: 60vh; overflow-y: auto; }
         .history-item-modal {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 0.95rem;
-            transition: background 0.2s ease;
+            display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem; transition: background 0.2s ease;
         }
-        .history-item-modal:hover {
-            background: rgba(0,0,0,0.03);
-        }
-        .history-question-text {
-            font-family: monospace;
-            font-weight: 500;
-        }
-        .history-status {
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
+        .history-item-modal:hover { background: rgba(0,0,0,0.03); }
+        .history-question-text { font-family: monospace; font-weight: 500; }
+        .history-status { font-weight: 700; font-size: 1.1rem; }
         .history-status.correct { color: var(--green); }
         .history-status.wrong { color: var(--red); }
         .close-history-btn {
-            font-size: 1.8rem; cursor: pointer; padding: 8px;
-            border-radius: 50%; transition: 0.2s;
-            width: 40px; height: 40px;
-            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; cursor: pointer; padding: 8px; border-radius: 50%; transition: 0.2s; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
         }
         .close-history-btn:hover { background: rgba(0,0,0,0.1); }
 
         #flair-fullscreen {
-            display: none; position: fixed; inset: 0; z-index: 7000;
-            background: var(--surface); backdrop-filter: blur(20px);
-            flex-direction: column; padding: 30px; overflow-y: auto;
+            display: none; position: fixed; inset: 0; z-index: 7000; background: var(--surface); backdrop-filter: blur(20px); flex-direction: column; padding: 30px; overflow-y: auto;
         }
         .flair-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 20px; border-bottom: 2px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--surface);
-            z-index: 10;
+            display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 10;
         }
         .flair-grid-full {
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 12px;
-            margin: 20px 0;
-            max-height: 70vh;
-            overflow-y: auto;
-            padding-bottom: 20px;
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 20px 0; max-height: 70vh; overflow-y: auto; padding-bottom: 20px;
         }
         .flair-item {
-            padding: 12px;
-            text-align: center;
-            border: 2px solid var(--border);
-            border-radius: 60px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 1.5rem;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
+            padding: 12px; text-align: center; border: 2px solid var(--border); border-radius: 60px; cursor: pointer; transition: 0.2s; font-size: 1.5rem; position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px;
         }
         .flair-item.selected { border-color: var(--accent); background: var(--accent); }
         .flair-item.loading { opacity: 0.6; pointer-events: none; }
-        .flair-item .check-mark {
-            font-size: 0.8rem;
-            display: none;
-            color: var(--green);
-            animation: checkPop 0.3s ease;
-        }
-        .flair-item .loading-spinner {
-            font-size: 0.8rem;
-            display: none;
-        }
-        .flair-item.show-check .check-mark { display: block; }
-        .flair-item.show-spinner .loading-spinner { display: block; }
-        @keyframes checkPop {
-            0% { transform: scale(0); opacity: 0; }
-            80% { transform: scale(1.3); }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .flair-item .check-mark { font-size: 0.8rem; display: none; color: var(--green); animation: checkPop 0.3s ease; }
+        .flair-item .loading-spinner { display: none; font-size: 0.8rem; }
+        @keyframes checkPop { 0% { transform: scale(0); opacity: 0; } 80% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
 
-        .edit-loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--border);
-            border-top-color: var(--green);
-            border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+        /* Custom Aesthetics Studio Screen Sheet Overlay */
+        #aesthetics-studio-screen {
+            display: none; position: fixed; inset: 0; z-index: 7500; background: var(--surface); backdrop-filter: blur(25px); flex-direction: column; padding: 25px; overflow-y: auto; color: var(--text);
         }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .studio-header-row {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px;
         }
+        .studio-header-row h2 { margin: 0; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
+        .studio-card-container { max-width: 500px; margin: 0 auto; width: 100%; }
         
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(12px);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 25px;
+        .setting-sub-box { background: rgba(0,0,0,0.03); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
+        .setting-sub-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .config-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .config-select-btn {
+            background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 10px; font-size: 0.8rem; border-radius: 10px; cursor: pointer; font-weight: 600; transition: all 0.2s; width: 100%; text-align: center;
         }
-        .loading-spinner-large {
-            width: 60px;
-            height: 60px;
-            border: 3px solid rgba(255,255,255,0.2);
-            border-top-color: var(--green);
-            border-right-color: var(--accent-light);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        .loading-text {
-            color: white;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .loading-text i {
-            font-size: 1.2rem;
-            animation: pulse 1s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
+        .config-select-btn:hover { background: rgba(0,0,0,0.05); }
+        .config-select-btn.setting-active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        
+        .interactive-preview-box {
+            width: 100%; height: 75px; background: var(--surface); border: 2px dashed var(--border); border-radius: 12px; margin-top: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; overflow: hidden; position: relative;
         }
 
-        #splash-screen {
-            position: fixed; inset: 0; background: #c0392b; color: #f1c40f;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s;
+        /* Handwriting animation effect nodes */
+        @keyframes writeInNote {
+            0% { opacity: 0; transform: scale(0.85) rotate(-3deg); filter: blur(2px); }
+            15% { opacity: 1; transform: scale(1.02) rotate(1deg); filter: blur(0); }
+            90% { opacity: 1; transform: scale(1) rotate(0deg); }
+            100% { opacity: 0; transform: scale(1.05) rotate(2deg); }
         }
+        .font-write-animated { animation: writeInNote 1s ease-in-out infinite; font-family: 'Caveat', cursive !important; font-weight: 700 !important; color: #2c3e50 !important; }
+
+        .edit-loading { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); z-index: 10000; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 25px; }
+        .loading-spinner-large { width: 60px; height: 60px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--green); border-right-color: var(--accent-light); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-text { color: white; font-size: 1.2rem; letter-spacing: 1px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        .loading-text i { font-size: 1.2rem; animation: pulse 1s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        #splash-screen { position: fixed; inset: 0; background: #c0392b; color: #f1c40f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s; }
         .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 30px; }
-        .enter-btn {
-            margin-top: 20px; padding: 14px 50px;
-            background: #f1c40f;
-            color: #c0392b;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 1.2rem;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .enter-btn:hover {
-            transform: scale(1.05);
-            background: #ffd700;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-        .enter-btn:active {
-            transform: scale(0.98);
-        }
+        .enter-btn { margin-top: 20px; padding: 14px 50px; background: #f1c40f; color: #c0392b; border: none; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 1.2rem; transition: all 0.2s ease; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .enter-btn:hover { transform: scale(1.05); background: #ffd700; box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
 
         .page-wrapper { display: flex; flex-direction: column; align-items: center; padding: 4px 0 20px 0; width: 100%; position: relative; z-index: 10; }
-
-        .game-container {
-            width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px;
-            box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text);
-            border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden;
-            position: relative;
-        }
+        .game-container { width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; }
 
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
         .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
@@ -425,8 +330,8 @@
         .toggle-btn.active { background: var(--accent); color: #fff; }
 
         main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 0; }
-        #display { font-size: 7rem; font-weight: 800; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--text); }
-        .ready-text { font-size: 2.2rem !important; color: #b2bec3; }
+        #display { font-size: 7rem; font-weight: 800; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--flash-color); font-family: var(--flash-font); font-style: var(--flash-style); }
+        .ready-text { font-size: 2.2rem !important; color: #b2bec3 !important; font-family: 'Inter', sans-serif !important; font-style: normal !important; animation: none !important; }
 
         .input-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; border-top: 1px solid var(--border); }
         input { width: 180px; padding: 12px; border: 2px solid var(--border); border-radius: 16px; font-size: 1.8rem; text-align: center; outline: none; background: var(--surface); color: var(--text); font-weight: 600; }
@@ -435,66 +340,17 @@
         #submit-btn { background: var(--green); color: #fff; display: none; }
         #action-btn { background: var(--accent); color: #fff; }
 
-        .match-actions-container {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-            gap: 10px;
-            margin-top: -4px;
-        }
-        .action-control-btn {
-            width: 110px;
-            padding: 8px 12px;
-            font-size: 0.8rem;
-            border-radius: 20px;
-            display: none;
-        }
+        .match-actions-container { display: flex; width: 100%; justify-content: center; gap: 10px; margin-top: -4px; }
+        .action-control-btn { width: 110px; padding: 8px 12px; font-size: 0.8rem; border-radius: 20px; display: none; }
         #abort-match-btn { background: #7f8c8d; color: white; }
         #resign-match-btn { background: #e74c3c; color: white; }
 
-        /* Floating Dynamic Center Dialog Layout */
-        #fide-match-outcome-overlay {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 88%; max-width: 380px;
-            background: #10b981; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.4);
-            border-radius: 24px;
-            z-index: 50000;
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-family: 'Inter', sans-serif;
-            padding: 30px 20px;
-            box-sizing: border-box;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
-        
-        #overlayCloseIconBtn {
-            position: absolute;
-            top: 14px; right: 16px;
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            display: none; 
-            transition: color 0.2s;
-            background: rgba(0,0,0,0.15);
-            width: 32px; height: 32px;
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-        }
+        #fide-match-outcome-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; max-width: 380px; background: #10b981; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border-radius: 24px; z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; font-family: 'Inter', sans-serif; padding: 30px 20px; box-sizing: border-box; border: 2px solid rgba(255,255,255,0.2); }
+        #overlayCloseIconBtn { position: absolute; top: 14px; right: 16px; font-size: 1.2rem; color: rgba(255,255,255,0.7); cursor: pointer; display: none; transition: color 0.2s; background: rgba(0,0,0,0.15); width: 32px; height: 32px; border-radius: 50%; align-items: center; justify-content: center; }
         #overlayCloseIconBtn:hover { color: #ffffff; background: rgba(0,0,0,0.3); }
 
         .outcome-banner-title { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 2px; text-transform: uppercase; color: #ffffff; }
-        .outcome-metric-card {
-            background: rgba(0, 0, 0, 0.15);
-            padding: 16px 25px; border-radius: 16px; margin: 15px 0 5px 0; width: 100%; box-sizing: border-box;
-            text-align: center;
-        }
+        .outcome-metric-card { background: rgba(0, 0, 0, 0.15); padding: 16px 25px; border-radius: 16px; margin: 15px 0 5px 0; width: 100%; box-sizing: border-box; text-align: center; }
         .outcome-rating-row { font-size: 2.8rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #ffffff; margin: 4px 0; }
         .outcome-bracket-modifier { font-size: 1.3rem; font-weight: 700; margin-left: 6px; }
         .outcome-bracket-modifier.plus { color: #fffb00; }
@@ -502,26 +358,13 @@
         .outcome-speed-badge { font-size: 0.8rem; font-weight: 500; display: block; margin-top: 6px; color: #e0f2fe; }
 
         .sidebar-overlay-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; }
-        #central-settings-modal {
-            position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh; 
-            background: var(--sidebar-bg); z-index: 2100; box-shadow: -5px 0 30px rgba(0,0,0,0.2);
-            padding: 40px 30px; overflow-y: auto; color: var(--text);
-            transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
-        }
+        #central-settings-modal { position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh; background: var(--sidebar-bg); z-index: 2100; box-shadow: -5px 0 30px rgba(0,0,0,0.2); padding: 40px 30px; overflow-y: auto; color: var(--text); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1); }
         .sidebar-active #central-settings-modal { transform: translateX(0); }
         .sidebar-active .sidebar-overlay-backdrop { display: block; }
 
-        #pane-about-fullscreen {
-            display: none; position: fixed; inset: 0; z-index: 4000; 
-            padding: 40px; overflow-y: auto; text-align: left;
-            background: #c0392b !important; color: #ffffff !important;
-        }
+        #pane-about-fullscreen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #c0392b !important; color: #ffffff !important; }
         .about-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.75; }
-        #manifesto-screen {
-            display: none; position: fixed; inset: 0; z-index: 4000; 
-            padding: 40px; overflow-y: auto; text-align: left;
-            background: #2980b9 !important; color: #ffffff !important;
-        }
+        #manifesto-screen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #2980b9 !important; color: #ffffff !important; }
         .manifesto-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.7; }
 
         .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 5; color: #f1c40f; background: rgba(0,0,0,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -539,52 +382,19 @@
         .rank-table th { background: rgba(255,255,255,0.15); font-weight: 700; }
         .read-more-link { color: #ffeb3b; font-weight: bold; cursor: pointer; text-decoration: underline; margin-left: 8px; }
 
+        .themes-horizontal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .theme-btn { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; font-size: 0.8rem; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; width: 100%; }
+        .theme-btn:hover { background: rgba(0,0,0,0.05); }
+
         .difficulty-info { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 16px; margin: 6px 15px; font-size: 0.75rem; text-align: center; font-weight: 500; }
         .fair-play-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-align: center; margin: 10px auto; width: fit-content; display: none; }
 
-        /* Leaderboard Scroll Styles */
-        .leaderboard-container-scroll {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 16px;
-            max-height: 52vh;
-            overflow-y: auto;
-            border: 2px solid #2c3e50;
-        }
-        .leaderboard-row-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            font-size: 0.95rem;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-        .leaderboard-row-item.user-special-row {
-            background: #e0f2fe !important;
-            border: 2px dashed #0284c7;
-            position: sticky;
-            bottom: 0;
-            top: 0;
-            z-index: 50;
-        }
+        .leaderboard-container-scroll { background: rgba(255, 255, 255, 0.95); border-radius: 16px; max-height: 52vh; overflow-y: auto; border: 2px solid #2c3e50; }
+        .leaderboard-row-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 0.95rem; font-weight: 600; color: #2c3e50; }
+        .leaderboard-row-item.user-special-row { background: #e0f2fe !important; border: 2px dashed #0284c7; position: sticky; bottom: 0; top: 0; z-index: 50; }
         .leaderboard-identity-group { display: flex; align-items: center; gap: 8px; }
         .leaderboard-badge-num { width: 55px; font-weight: 800; color: #7f8c8d; }
-        
-        /* Specialized Chess.com style red bot title badge design block */
-        .leaderboard-bot-badge {
-            background: #cd3c32;
-            color: white;
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 1px 5px;
-            border-radius: 3px;
-            margin-right: 4px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            display: inline-block;
-            vertical-align: middle;
-        }
+        .leaderboard-bot-badge { background: #cd3c32; color: white; font-size: 0.65rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; vertical-align: middle; }
     </style>
 </head>
 <body onload="initApp()">
@@ -716,7 +526,7 @@
             <div class="close-profile-fullscreen" onclick="closeProfileFullscreen()"><i class="fas fa-times"></i></div>
         </div>
         <div class="profile-fullscreen-content">
-            <div class="profile-avatar-large"><i class="fas fa-user"></i></div>
+            <div class="profile-avatar-large" id="profileAvatarDisplayFrame" style="cursor:pointer;" onclick="openFlairFullscreen()">🏆</div>
             
             <div class="profile-rating-large" onclick="openGlobalRankPanel()" style="cursor: pointer; background: rgba(0,0,0,0.03); border-radius: 20px; padding: 15px 10px; transition: 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.06)'" onmouseout="this.style.background='rgba(0,0,0,0.03)'">
                 <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #2d3436;">Current Rating</div>
@@ -728,10 +538,8 @@
                 <span id="profileUsername">Grandmaster</span>
                 <i class="fas fa-pencil-alt edit-icon"></i>
             </div>
-            <div class="flair-section">
-                <div class="flair-display"><i class="fas fa-tag"></i> Current Flair: <span id="profileFlair">🏆</span></div>
-                <button class="flair-select-btn" onclick="openFlairFullscreen()"><i class="fas fa-plus"></i> Change Flair</button>
-            </div>
+            
+            <button class="studio-trigger-btn" onclick="openAestheticsStudio()"><i class="fas fa-palette"></i> Aesthetics Studio</button>
             <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Last 5 Games</button>
         </div>
     </div>
@@ -748,10 +556,47 @@
 
     <div id="flair-fullscreen">
         <div class="flair-header">
-            <h2><i class="fas fa-tag"></i> Choose Your Flair (250)</h2>
+            <h2><i class="fas fa-tag"></i> Choose Identity Avatar (320)</h2>
             <div class="close-profile-fullscreen" onclick="closeFlairFullscreen()"><i class="fas fa-times"></i></div>
         </div>
         <div id="flairGridFull" class="flair-grid-full"></div>
+    </div>
+
+    <!-- Customized Aesthetics Studio Full Screen Overlay Component Sheet Mapping -->
+    <div id="aesthetics-studio-screen">
+        <div class="studio-card-container">
+            <div class="studio-header-row">
+                <h2><i class="fas fa-magic"></i> Aesthetics Studio</h2>
+                <div class="close-history-btn" onclick="closeAestheticsStudio()"><i class="fas fa-times"></i></div>
+            </div>
+
+            <div class="setting-sub-box">
+                <div class="setting-sub-title"><i class="fas fa-volume-up"></i> Ticking Metronome Sound</div>
+                <div class="config-select-grid">
+                    <button class="config-select-btn" id="tick-sound-sine" onclick="setTickSoundStyle('sine')">Sine Pulse</button>
+                    <button class="config-select-btn" id="tick-sound-triangle" onclick="setTickSoundStyle('triangle')">Triangle Echo</button>
+                    <button class="config-select-btn" id="tick-sound-woodblock" onclick="setTickSoundStyle('woodblock')">Wood Percussion</button>
+                    <button class="config-select-btn" id="tick-sound-mechanical" onclick="setTickSoundStyle('mechanical')">Gear Click</button>
+                </div>
+                <div class="interactive-preview-box" id="sound-preview-panel" style="font-size:0.85rem; font-weight:600; cursor:pointer; background:rgba(0,0,0,0.02);" onclick="triggerAuditorySample()">
+                    <i class="fas fa-play" style="margin-right:6px; color:var(--accent);"></i> Test Ticking Audio Output
+                </div>
+            </div>
+
+            <div class="setting-sub-box">
+                <div class="setting-sub-title"><i class="fas fa-font"></i> Typography & Text Contrasts</div>
+                <div class="config-select-grid" style="grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button class="config-select-btn" id="font-style-normal" onclick="setTypographyConfiguration('normal')">Standard Display</button>
+                    <button class="config-select-btn" id="font-style-l2r" onclick="setTypographyConfiguration('l2r')">Light → Dark</button>
+                    <button class="config-select-btn" id="font-style-r2l" onclick="setTypographyConfiguration('r2l')">Dark → Light</button>
+                    <button class="config-select-btn" id="font-style-stylish" onclick="setTypographyConfiguration('stylish')">Sci-Fi Matrix</button>
+                    <button class="config-select-btn" id="font-style-handwritten" onclick="setTypographyConfiguration('handwritten')" style="grid-column: span 2;">Stylish Handwriting Note</button>
+                </div>
+                <div class="interactive-preview-box" id="typography-preview-panel">
+                    <span id="preview-text-node">742</span>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="sidebar-overlay-backdrop" onclick="closeControlSuite()"></div>
@@ -763,7 +608,7 @@
                 <div id="nav-tab-about" class="tab-nav-link" onclick="switchSettingsPane('about')"><i class="fas fa-info-circle"></i> About</div>
             </div>
             <div id="pane-themes" class="settings-pane-section pane-active">
-                <h3>🎨 Themes</h3>
+                <h3>🎨 System Themes</h3>
                 <div class="themes-horizontal">
                     <button class="theme-btn" onclick="applyThemeWithLoading('light')"><i class="fas fa-sun"></i> Light</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('dark')"><i class="fas fa-moon"></i> Dark</button>
@@ -889,17 +734,13 @@
         </div>
     </div>
 
-    <!-- Live Leaderboard Overlay UI Panel Layout Sheet -->
-    <div id="world-rank-panel" style="display: none; position: fixed; inset: 0; z-index: 8000; background: #f1c40f; color: #2c3e50; font-family: 'Inter', sans-serif; flex-direction: column; padding: 25px; overflow-y: auto;">
+    <div id="world-rank-panel">
         <div style="max-width: 500px; margin: 0 auto; width: 100%;">
             <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 20px;">
                 <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy"></i> Live Arena Standings</h2>
                 <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
             </div>
-            
-            <!-- Dynamic Board Rendering Frame -->
             <div class="leaderboard-container-scroll" id="leaderboardScrollList"></div>
-
             <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 15px;">
                 <div style="text-align: left;">
                     <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-bolt" style="color: #e67e22;"></i> <strong>Real-time Active Pulse Matrix:</strong> Global standings update continuously every 3 seconds. Top elite bracket floor requires a minimum of 2800+ rating parameters.</p>
@@ -940,14 +781,37 @@
         let opponentRating = 0; 
         let hasActiveOpponent = false;
 
+        // Custom Settings Properties
+        let soundStyleSetting = localStorage.getItem('abacus-sound-style') || 'sine';
+        let typographySetting = localStorage.getItem('abacus-typography-style') || 'normal';
+        let previewCycleIntervalId = null;
+
         // Massively Expanded Prefix + Suffix Matrix compiling 625+ unique AI combinations
         const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
         const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
         
         let aiNames = [];
-        let aiAvatars = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾", "👑", "🎯", "🔥", "💎", "🌟", "🐱", "🦊", "🦁", "🦅", "🦉"];
+        
+        // Exact 320 Identity Avatar Elements Asset Pool
+        let aiAvatars = [
+            "🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟","🐱","🦊","🦁","🦅","🦉",
+            "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞",
+            "🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
+            "🦘","🦬","🦙","🐐","🦌","🐕","🐩","🐈","🐇","🦫","🦔","🐿️","🦡","🦥"," Otter","🧗","🏇","⛷️","🏂",
+            "🏌️","🏄","🚣","🏊","🏋️","🚴","🪂","👨‍💻","👩‍💻","🧙","🧝","🧛","🧟","🧞","🧜","🧚","💂","🤵","🥷","🧑‍🚀",
+            "🌍","🪐","☀️","🌙","⭐","🌌","☁️","🌪️","🌊","⛰️","🌋","🏕️","🍄","🪵","🍁","🌵","🌴","🌲","☘️","🌹",
+            "🍕","🍔","🍟","🍣","🌮","🍦","🍩","🍪","🍫","☕","🥤","🧉","🍺","🍷","🥃","🥝","🍓","🍉","🍎","🍏",
+            "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🛹","🚲",
+            "🚗","🏍️","✈️","🚀","🚁","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
+            "🔑","🔒","🔓","🔨","🪓","🛡️","⚔️","📯","🔔","🏺","📿","💈","🧿","🪞","🧪","🔬","🔭","🩺","🩹",
+            "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📘","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳",
+            "💍","眼镜","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","外套","袜","裙","🧳","🎨","🎬",
+            "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","棋","🎯","🎳","🎮","🎰","🎴","🎭","🎟️","🎟️","🎬",
+            "🟥","🟧","🟨","🟩","🟦","🟪","🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬",
+            "💭","🗯️","🪔","🧲","🧱","🪵","🪢","🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🚲","🛴","🛹","🛼","🚏",
+            "⛵","🛥️","🛳️","⛴️","🚢","🛫","🛬","🪂","💺","🛰️","🛸","🪐","🌠","🌌","🌌","⛅","⛈️","🌤️","🍂","🍁"
+        ];
 
-        // Compiles 600+ entries natively to guarantee no empty spots or repeats
         function buildComprehensiveAIPools() {
             aiNames = [];
             for (let p of firstPrefixList) {
@@ -958,7 +822,6 @@
             aiNames.sort(() => Math.random() - 0.5);
         }
 
-        // Global Leaderboard State Properties
         let generatedBotLeaderboardArray = [];
         let globalRankPulseTimerId = null;
         let rankFluctuationOffset = 0;
@@ -987,24 +850,17 @@
         document.addEventListener('click', enableAudio);
         document.addEventListener('touchstart', enableAudio);
 
-        const uniqueFlairs = [
-            "🏆", "⚡", "🔥", "🎯", "🧮", "👑", "🌟", "💎", "🦅", "🐉", "⚔️", "🛡️", "🎭", "📈", "🏔️",
-            "🌊", "🌀", "⭐", "🎖️", "🔱", "🌙", "☀️", "🌸", "🍂", "❄️", "🌈", "🎨", "📚", "🔬", "💡",
-            "🎪", "🏹", "🎲", "📖", "⚙️", "❤️", "💪", "🧠", "🎵", "🎧", "🐺", "🦁", "🐯", "🐻", "🐼"
-        ];
-        
-        const allFlairs = [...new Set(uniqueFlairs)].slice(0, 250);
+        const uniqueFlairs = aiAvatars.slice(0, 250);
+        const allFlairs = aiAvatars.slice(0, 320);
         let currentGlobalRankString = "--";
 
-        // Generate Bot List Data
         function initLeaderboardDataMatrix() {
             generatedBotLeaderboardArray = [];
             for (let i = 0; i < 100; i++) {
                 let baseBotRating = Math.round(4450 - (i * 16.5) + (Math.random() * 12));
                 baseBotRating = Math.max(2800, baseBotRating); 
-                
                 let seedName = aiNames[i % aiNames.length] + "_" + (Math.floor(Math.random() * 899) + 100);
-                let seedFlair = uniqueFlairs[Math.floor(Math.random() * uniqueFlairs.length)];
+                let seedFlair = allFlairs[Math.floor(Math.random() * allFlairs.length)];
                 
                 generatedBotLeaderboardArray.push({
                     isBot: true,
@@ -1016,24 +872,18 @@
             sortAndRenderLeaderboardMatrix();
         }
 
-        // 3-sec background updates loop task execution
         function processLeaderboardPulseTick() {
             if (!generatedBotLeaderboardArray.length) return;
-            
             let botsToUpdateCount = Math.floor(Math.random() * 11) + 15;
             for (let k = 0; k < botsToUpdateCount; k++) {
                 let targetIdx = Math.floor(Math.random() * generatedBotLeaderboardArray.length);
                 let deltaShift = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 8) + 2);
-                
                 generatedBotLeaderboardArray[targetIdx].rating += deltaShift;
                 if (generatedBotLeaderboardArray[targetIdx].rating < 2800) {
                     generatedBotLeaderboardArray[targetIdx].rating = 2800;
                 }
             }
-
-            // Controlled drift fluctuation of 100 to 500 ranks smoothly
             rankFluctuationOffset = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 401) + 100);
-
             sortAndRenderLeaderboardMatrix();
         }
 
@@ -1043,19 +893,12 @@
 
             let calculatedUserRank = "--";
             let displayListContainer = document.getElementById('leaderboardScrollList');
-            
             if (!displayListContainer) return;
 
             if (rating >= generatedBotLeaderboardArray[99].rating) {
-                let userObjPosition = {
-                    isUser: true,
-                    name: username,
-                    flair: selectedFlair,
-                    rating: rating
-                };
+                let userObjPosition = { isUser: true, name: username, flair: selectedFlair, rating: rating };
                 generatedBotLeaderboardArray.push(userObjPosition);
                 generatedBotLeaderboardArray.sort((a, b) => b.rating - a.rating);
-                
                 let foundRankIdx = generatedBotLeaderboardArray.findIndex(el => el.isUser);
                 calculatedUserRank = foundRankIdx + 1;
             } else {
@@ -1071,7 +914,6 @@
             }
 
             currentGlobalRankString = calculatedUserRank;
-
             let innerHTMLContentAccumulator = "";
             let maximumRenderBoundLength = Math.min(100, generatedBotLeaderboardArray.length);
             let userWasRenderedInTop100Grid = false;
@@ -1079,7 +921,6 @@
             for (let m = 0; m < maximumRenderBoundLength; m++) {
                 let rowData = generatedBotLeaderboardArray[m];
                 let rankPointerId = m + 1;
-                
                 if (rowData.isUser) {
                     userWasRenderedInTop100Grid = true;
                     innerHTMLContentAccumulator += `
@@ -1112,32 +953,23 @@
                         <div style="color:#0284c7; font-weight:800;">${rating}</div>
                     </div>`;
             }
-
             displayListContainer.innerHTML = innerHTMLContentAccumulator;
         }
 
         function refreshEngineRankMetrics() {
             let profileSubtitle = document.getElementById('profileRankSubtitle');
-            if (profileSubtitle) {
-                profileSubtitle.innerText = "Est. World Cutoff: " + rating;
-            }
+            if (profileSubtitle) profileSubtitle.innerText = "Est. World Cutoff: " + rating;
         }
 
         function generateOpponentProfile() {
             let roll = Math.random() * 100;
             let offset = 0;
-
-            if (roll <= 30) {
-                offset = Math.floor(Math.random() * 11) + 20;
-            } else if (roll <= 80) {
-                offset = Math.floor(Math.random() * 101);
-            } else {
-                offset = Math.floor(Math.random() * 301);
-            }
+            if (roll <= 30) offset = Math.floor(Math.random() * 11) + 20;
+            else if (roll <= 80) offset = Math.floor(Math.random() * 101);
+            else offset = Math.floor(Math.random() * 301);
 
             let sign = Math.random() > 0.5 ? 1 : -1;
             opponentRating = Math.max(1000, rating + (offset * sign));
-            
             document.getElementById('oppRatingDisplay').innerText = opponentRating;
             
             let randomName = aiNames[Math.floor(Math.random() * aiNames.length)] + "_" + (Math.floor(Math.random() * 89) + 10);
@@ -1146,9 +978,7 @@
             document.getElementById('oppAvatar').innerText = randomAvatar;
 
             let dot = document.getElementById('oppStatusDot');
-            dot.className = "identity-status-dot";
-            dot.style.background = "#2ecc71";
-            
+            dot.className = "identity-status-dot"; dot.style.background = "#2ecc71";
             hasActiveOpponent = true;
             calculateStakes();
         }
@@ -1158,58 +988,34 @@
             document.getElementById('oppNameDisplay').innerText = "No Active Match";
             document.getElementById('oppAvatar').innerText = "❔";
             let dot = document.getElementById('oppStatusDot');
-            dot.className = "identity-status-dot";
-            dot.style.background = "#b2bec3";
+            dot.className = "identity-status-dot"; dot.style.background = "#b2bec3";
             hasActiveOpponent = false;
         }
 
         function startMatchmakingSequence() {
             if (gameInProgress) return;
-            
             let currentNow = Date.now();
             if (currentNow < lockUntilTimestamp) {
                 let diffSecs = Math.ceil((lockUntilTimestamp - currentNow) / 1000);
-                let mins = Math.floor(diffSecs / 60);
-                let secs = diffSecs % 60;
-                alert(`Abuse engine cooldown active! Please wait: ${mins}:${secs < 10 ? '0':''}${secs}`);
+                alert(`Abuse engine cooldown active! Please wait: ${Math.floor(diffSecs / 60)}:${diffSecs % 60 < 10 ? '0':''}${diffSecs % 60}`);
                 return;
             }
+            if (!isRated) { initiateGame(); return; }
 
-            if (!isRated) {
-                initiateGame();
-                return;
-            }
-
-            gameInProgress = true;
-            matchStateStep = "searching";
-            disableControls(true);
-            
+            gameInProgress = true; matchStateStep = "searching"; disableControls(true);
             document.getElementById('action-btn').style.display = "none";
             document.getElementById('abort-match-btn').style.display = "block";
             document.getElementById('resign-match-btn').style.display = "none";
 
             let display = document.getElementById('display');
-            display.classList.remove('ready-text');
-            display.innerText = "";
-
+            display.className = ""; display.innerText = "";
             let dot = document.getElementById('oppStatusDot');
-            dot.className = "identity-status-dot searching";
-            dot.style.background = "#f1c40f";
+            dot.className = "identity-status-dot searching"; dot.style.background = "#f1c40f";
             document.getElementById('oppNameDisplay').innerText = "Searching...";
             document.getElementById('oppRatingDisplay').innerText = "----";
             document.getElementById('oppAvatar').innerText = "⏳";
 
-            let searchRoll = Math.random() * 100;
-            let searchDuration = 3000; 
-
-            if (searchRoll <= 70) {
-                searchDuration = Math.floor(Math.random() * 2001) + 3000; 
-            } else if (searchRoll <= 80) {
-                searchDuration = Math.floor(Math.random() * 2001) + 5000; 
-            } else {
-                searchDuration = Math.floor(Math.random() * 3001) + 7000; 
-            }
-
+            let searchDuration = Math.floor(Math.random() * 2001) + 3000;
             searchTimeoutTracker = setTimeout(() => {
                 generateOpponentProfile();
                 enterReadyGateState();
@@ -1217,166 +1023,104 @@
         }
 
         function enterReadyGateState() {
-            matchStateStep = "gate";
-            gateSecondsLeft = 25;
-            
-            let display = document.getElementById('display');
-            display.innerText = "";
-            
+            matchStateStep = "gate"; gateSecondsLeft = 25;
+            let display = document.getElementById('display'); display.innerText = "";
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.display = "block";
-            actionBtn.disabled = false;
+            actionBtn.style.display = "block"; actionBtn.disabled = false;
             actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
-            actionBtn.style.background = "var(--green)";
-            actionBtn.onclick = launchConfirmedFlashing;
-
+            actionBtn.style.background = "var(--green)"; actionBtn.onclick = launchConfirmedFlashing;
             document.getElementById('abort-match-btn').style.display = "block";
             document.getElementById('resign-match-btn').style.display = "none";
 
             if (startGateTimeoutTracker) clearInterval(startGateTimeoutTracker);
             startGateTimeoutTracker = setInterval(() => {
                 gateSecondsLeft--;
-                if (gateSecondsLeft <= 0) {
-                    clearInterval(startGateTimeoutTracker);
-                    executeGateAbandonmentAbort();
-                } else {
-                    actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
-                }
+                if (gateSecondsLeft <= 0) { clearInterval(startGateTimeoutTracker); executeGateAbandonmentAbort(); }
+                else actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
             }, 1000);
         }
 
         function launchConfirmedFlashing() {
             if (matchStateStep !== "gate") return;
             clearInterval(startGateTimeoutTracker);
-            
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
-            actionBtn.onclick = startMatchmakingSequence; 
-            actionBtn.style.display = "none";
-            actionBtn.disabled = true;
-
+            actionBtn.style.background = "var(--accent)"; actionBtn.style.display = "none"; actionBtn.disabled = true;
             initiateGame();
         }
 
         function executeGateAbandonmentAbort() {
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
-            actionBtn.onclick = startMatchmakingSequence;
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
-
+            actionBtn.style.background = "var(--accent)"; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             triggerManualAbort();
         }
 
         function triggerManualAbort() {
             if (matchStateStep !== "searching" && matchStateStep !== "gate" && matchStateStep !== "countdown") return;
-            
             if (searchTimeoutTracker) clearTimeout(searchTimeoutTracker);
             if (startGateTimeoutTracker) clearInterval(startGateTimeoutTracker);
             if (timerInterval) clearInterval(timerInterval);
             
-            consecutiveAbortsCount++;
-            localStorage.setItem('consecutive-aborts-count', consecutiveAbortsCount);
-            
+            consecutiveAbortsCount++; localStorage.setItem('consecutive-aborts-count', consecutiveAbortsCount);
             if (consecutiveAbortsCount >= 3) {
-                lockUntilTimestamp = Date.now() + (10 * 60 * 1000);
-                localStorage.setItem('lock-until-timestamp', lockUntilTimestamp);
-                consecutiveAbortsCount = 0;
-                localStorage.setItem('consecutive-aborts-count', 0);
+                lockUntilTimestamp = Date.now() + (10 * 60 * 1000); localStorage.setItem('lock-until-timestamp', lockUntilTimestamp);
+                consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
                 startCooldownTickerLoop();
             }
 
-            gameInProgress = false;
-            matchStateStep = "idle";
-            localStorage.removeItem('sum-interrupted');
-            
+            gameInProgress = false; matchStateStep = "idle"; localStorage.removeItem('sum-interrupted');
             document.getElementById('light-r').style.background = "#b2bec3";
             document.getElementById('light-y').style.background = "#b2bec3";
             document.getElementById('light-g').style.background = "#b2bec3";
             
             let display = document.getElementById('display');
-            display.innerText = "READY";
-            display.classList.add('ready-text');
-            display.style.color = '#b2bec3';
+            display.innerText = "READY"; display.className = "ready-text";
 
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
-            actionBtn.onclick = startMatchmakingSequence;
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
-
+            actionBtn.style.background = "var(--accent)"; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             document.getElementById('abort-match-btn').style.display = "none";
             document.getElementById('resign-match-btn').style.display = "none";
             document.getElementById('action-btn').style.display = "block";
-            
-            if (Date.now() >= lockUntilTimestamp) {
-                actionBtn.disabled = false;
-            }
+            if (Date.now() >= lockUntilTimestamp) actionBtn.disabled = false;
 
-            clearOpponentDisplay();
-            disableControls(false);
-            updateRatingUI();
+            clearOpponentDisplay(); disableControls(false); updateRatingUI();
         }
 
         function triggerManualResign() {
             if (matchStateStep !== "printing" && matchStateStep !== "answering") return;
             if (timerInterval) clearInterval(timerInterval);
-            
-            consecutiveAbortsCount = 0;
-            localStorage.setItem('consecutive-aborts-count', 0);
+            consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
             
             let oldUserRating = rating;
-            rating = Math.max(1000, rating - lossPoints);
-            localStorage.setItem('abacus-rating', rating);
+            rating = Math.max(1000, rating - lossPoints); localStorage.setItem('abacus-rating', rating);
             localStorage.removeItem('sum-interrupted');
+            document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
 
-            let targetBotRating = opponentRating + winPoints;
-            document.getElementById('oppRatingDisplay').innerText = targetBotRating;
-
-            gameInProgress = false;
-            matchStateStep = "idle";
-            
+            gameInProgress = false; matchStateStep = "idle";
             let display = document.getElementById('display');
-            display.innerText = "READY";
-            display.classList.add('ready-text');
-            display.style.color = '#b2bec3';
+            display.innerText = "READY"; display.className = "ready-text";
             
             document.getElementById('user-ans').disabled = true;
             document.getElementById('submit-btn').style.display = 'none';
             document.getElementById('abort-match-btn').style.display = "none";
             document.getElementById('resign-match-btn').style.display = "none";
             document.getElementById('action-btn').style.display = 'block';
-            document.getElementById('action-btn').disabled = false;
 
             triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
-
-            gamesPlayed++;
-            localStorage.setItem('abacus-games', gamesPlayed);
-            updateRatingUI();
-            updateMainDisplay();
-            disableControls(false);
-            sortAndRenderLeaderboardMatrix();
+            gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
+            updateRatingUI(); updateMainDisplay(); disableControls(false); sortAndRenderLeaderboardMatrix();
         }
 
         function startCooldownTickerLoop() {
             if (countdownUIRefreshInterval) clearInterval(countdownUIRefreshInterval);
-            let actionBtn = document.getElementById('action-btn');
-            
-            actionBtn.disabled = true;
+            let actionBtn = document.getElementById('action-btn'); actionBtn.disabled = true;
             countdownUIRefreshInterval = setInterval(() => {
                 let remainingTime = lockUntilTimestamp - Date.now();
-                if (remainingTime <= 0) {
-                    clearInterval(countdownUIRefreshInterval);
-                    actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
-                    actionBtn.disabled = false;
-                    return;
-                }
+                if (remainingTime <= 0) { clearInterval(countdownUIRefreshInterval); actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`; actionBtn.disabled = false; return; }
                 let secsTotal = Math.ceil(remainingTime / 1000);
-                let mins = Math.floor(secsTotal / 60);
-                let secs = secsTotal % 60;
-                actionBtn.innerHTML = `<i class="fas fa-clock"></i> Lock: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                actionBtn.innerHTML = `<i class="fas fa-clock"></i> Lock: ${Math.floor(secsTotal / 60)}:${secsTotal % 60 < 10 ? '0' : ''}${secsTotal % 60}`;
             }, 1000);
         }
 
-        /* overlay functions */
         function triggerPerformanceOverlay(bannerTitle, subText, baseRating, deltaVal, speedMsAhead = 0) {
             let overlay = document.getElementById('fide-match-outcome-overlay');
             let titleNode = document.getElementById('overlayBannerTitle');
@@ -1386,64 +1130,37 @@
             let speedNode = document.getElementById('overlaySpeedDiffTag');
             let closeIcon = document.getElementById('overlayCloseIconBtn');
 
-            titleNode.innerText = bannerTitle;
-            subNode.innerText = subText;
-            closeIcon.style.display = "none"; 
-
+            titleNode.innerText = bannerTitle; subNode.innerText = subText; closeIcon.style.display = "none"; 
             if (deltaVal === 0) {
-                tickNode.innerText = rating;
-                bracketNode.innerText = "(+0)";
-                bracketNode.className = "outcome-bracket-modifier";
-                speedNode.style.display = "none";
+                tickNode.innerText = rating; bracketNode.innerText = "(+0)"; bracketNode.className = "outcome-bracket-modifier"; speedNode.style.display = "none";
             } else {
                 tickNode.innerText = baseRating;
                 bracketNode.innerText = (deltaVal > 0 ? `(+${deltaVal})` : `(${deltaVal})`);
                 bracketNode.className = "outcome-bracket-modifier " + (deltaVal > 0 ? "plus" : "minus");
-                
                 if (speedMsAhead !== 0) {
                     speedNode.style.display = "block";
                     speedNode.innerText = `${Math.abs(speedMsAhead / 1000).toFixed(2)}s ${speedMsAhead > 0 ? 'ahead of' : 'behind'} bot`;
-                } else {
-                    speedNode.style.display = "none";
-                }
+                } else speedNode.style.display = "none";
             }
-
             overlay.style.display = "flex";
 
             if (deltaVal !== 0) {
-                let currentTickValue = baseRating;
-                let targetTickValue = baseRating + deltaVal;
-                let iterationStepTime = Math.floor(1600 / Math.abs(deltaVal)); 
-                iterationStepTime = Math.max(25, Math.min(120, iterationStepTime));
-
+                let currentTickValue = baseRating; let targetTickValue = baseRating + deltaVal;
+                let iterationStepTime = Math.max(25, Math.min(120, Math.floor(1600 / Math.abs(deltaVal))));
                 setTimeout(() => {
                     let tickerIntervalRef = setInterval(() => {
-                        if (currentTickValue === targetTickValue) {
-                            clearInterval(tickerIntervalRef);
-                        } else {
-                            currentTickValue += (deltaVal > 0 ? 1 : -1);
-                            tickNode.innerText = currentTickValue;
-                        }
+                        if (currentTickValue === targetTickValue) clearInterval(tickerIntervalRef);
+                        else { currentTickValue += (deltaVal > 0 ? 1 : -1); tickNode.innerText = currentTickValue; }
                     }, iterationStepTime);
                 }, 500);
             }
-
-            setTimeout(() => {
-                closeIcon.style.display = "flex";
-            }, 5000);
+            setTimeout(() => closeIcon.style.display = "flex", 5000);
         }
 
-        function dismissPerformanceOverlay() {
-            document.getElementById('fide-match-outcome-overlay').style.display = "none";
-            clearOpponentDisplay();
-        }
-
-        function openGlobalRankPanel() {
-            sortAndRenderLeaderboardMatrix();
-            document.getElementById('world-rank-panel').style.display = 'flex';
-        }
-
+        function dismissPerformanceOverlay() { document.getElementById('fide-match-outcome-overlay').style.display = "none"; clearOpponentDisplay(); }
+        function openGlobalRankPanel() { sortAndRenderLeaderboardMatrix(); document.getElementById('world-rank-panel').style.display = 'flex'; }
         function closeGlobalRankPanel() { document.getElementById('world-rank-panel').style.display = 'none'; }
+        
         function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
@@ -1451,18 +1168,28 @@
             document.getElementById('mainUsername').innerHTML = username.length > 15 ? username.substring(0, 13) + '...' : username;
             document.getElementById('mainFlair').innerHTML = selectedFlair;
             document.getElementById('userBottomRatingDisplay').innerText = rating;
+            let displayFrame = document.getElementById('profileAvatarDisplayFrame');
+            if (displayFrame) displayFrame.innerText = selectedFlair;
         }
 
         function openProfileFullscreen() { updateProfileFullscreen(); document.getElementById('profile-fullscreen').style.display = 'flex'; }
         function closeProfileFullscreen() { document.getElementById('profile-fullscreen').style.display = 'none'; }
         
+        // Open Aesthetics Screen studio from profile layout link click
+        function openAestheticsStudio() {
+            updateCustomControlsUI();
+            updateTypographyStyles();
+            startInteractivePreviewCycledLoop();
+            document.getElementById('aesthetics-studio-screen').style.display = 'flex';
+        }
+        function closeAestheticsStudio() {
+            if (previewCycleIntervalId) clearInterval(previewCycleIntervalId);
+            document.getElementById('aesthetics-studio-screen').style.display = 'none';
+        }
+
         function openHistoryWithAnimation() {
             showLoading();
-            setTimeout(() => {
-                renderHistoryModal();
-                hideLoading();
-                document.getElementById('history-fullscreen').style.display = 'flex';
-            }, 2000);
+            setTimeout(() => { renderHistoryModal(); hideLoading(); document.getElementById('history-fullscreen').style.display = 'flex'; }, 2000);
         }
         
         function renderHistoryModal() {
@@ -1476,11 +1203,9 @@
         function closeFlairFullscreen() { document.getElementById('flair-fullscreen').style.display = 'none'; }
         
         function generateFlairGridFull() { 
-            let grid = document.getElementById('flairGridFull'); 
-            grid.innerHTML = ''; 
+            let grid = document.getElementById('flairGridFull'); grid.innerHTML = ''; 
             allFlairs.forEach(f => { 
-                let div = document.createElement('div'); 
-                div.className = 'flair-item'; 
+                let div = document.createElement('div'); div.className = 'flair-item'; 
                 if(f === selectedFlair) div.classList.add('selected'); 
                 div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span style="font-size:1.5rem;">${f}</span>`;
                 div.onclick = () => selectFlairWithAnimation(div, f); 
@@ -1490,52 +1215,33 @@
         
         function selectFlairWithAnimation(element, flair) {
             if (element.classList.contains('loading')) return;
-            element.classList.add('loading');
-            element.querySelector('.loading-spinner').style.display = 'block';
+            element.classList.add('loading'); element.querySelector('.loading-spinner').style.display = 'block';
             setTimeout(() => {
                 element.querySelector('.loading-spinner').style.display = 'none';
-                selectedFlair = flair;
-                localStorage.setItem('selected-flair', selectedFlair);
-                updateProfileFullscreen();
-                updateMainDisplay();
+                selectedFlair = flair; localStorage.setItem('selected-flair', selectedFlair);
+                updateProfileFullscreen(); updateMainDisplay();
                 element.querySelector('.check-mark').style.display = 'block';
                 setTimeout(() => {
-                    element.querySelector('.check-mark').style.display = 'none';
-                    element.classList.remove('loading');
-                    closeFlairFullscreen();
-                    generateFlairGridFull();
+                    element.querySelector('.check-mark').style.display = 'none'; element.classList.remove('loading');
+                    closeFlairFullscreen(); generateFlairGridFull();
                 }, 800);
             }, 800);
         }
         
         function editUsernameWithAnimation() {
             let editSection = document.getElementById('usernameEditBtn');
-            editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>';
-            editSection.style.pointerEvents = 'none';
+            editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>'; editSection.style.pointerEvents = 'none';
             setTimeout(() => {
                 let newName = prompt("Enter your username:", username);
                 if (newName && newName.trim()) {
-                    username = newName.trim();
-                    localStorage.setItem('username', username);
+                    username = newName.trim(); localStorage.setItem('username', username);
                     editSection.innerHTML = `<span id="profileUsername">${username}</span><span style="color:var(--green);"><i class="fas fa-check"></i></span>`;
-                    setTimeout(() => {
-                        updateProfileFullscreen();
-                        updateMainDisplay();
-                        editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`;
-                        editSection.style.pointerEvents = 'auto';
-                    }, 800);
-                } else {
-                    editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`;
-                    editSection.style.pointerEvents = 'auto';
-                }
+                    setTimeout(() => { updateProfileFullscreen(); updateMainDisplay(); editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; }, 800);
+                } else { editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; }
             }, 400);
         }
         
-        function updateProfileFullscreen() { 
-            document.getElementById('profileRatingLarge').innerText = rating; 
-            document.getElementById('profileUsername').innerText = username; 
-            document.getElementById('profileFlair').innerHTML = selectedFlair; 
-        }
+        function updateProfileFullscreen() { document.getElementById('profileRatingLarge').innerText = rating; document.getElementById('profileUsername').innerText = username; }
 
         const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
         let darkIndex = 0;
@@ -1543,138 +1249,183 @@
         function applyThemeWithLoading(t) { 
             showLoading();
             setTimeout(() => {
-                if (t === 'dark') {
-                    darkIndex = (darkIndex + 1) % darkThemes.length;
-                    appTheme = darkThemes[darkIndex];
-                } else {
-                    appTheme = t;
-                }
-                localStorage.setItem('abacus-app-theme', appTheme); 
-                document.documentElement.setAttribute('data-theme', appTheme); 
-                startThemeChangerLoop();
-                hideLoading();
-                closeControlSuite();
+                if (t === 'dark') { darkIndex = (darkIndex + 1) % darkThemes.length; appTheme = darkThemes[darkIndex]; } 
+                else appTheme = t;
+                localStorage.setItem('abacus-app-theme', appTheme); document.documentElement.setAttribute('data-theme', appTheme); 
+                startThemeChangerLoop(); hideLoading(); closeControlSuite(); updateTypographyStyles();
             }, 600);
         }
         
-        function openAboutWithLoading() {
-            showLoading();
-            setTimeout(() => {
-                closeControlSuite();
-                document.getElementById('pane-about-fullscreen').style.display = 'block';
-                hideLoading();
-            }, 600);
-        }
-        
-        function openManifestoWithLoading() {
-            showLoading();
-            setTimeout(() => {
-                document.getElementById('manifesto-screen').style.display = 'block';
-                hideLoading();
-            }, 600);
-        }
-        
-        function startSplashImmediate() {
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('mainAppWrapper').style.display = 'flex';
-                clearOpponentDisplay(); 
-            }, 500);
-        }
+        function openAboutWithLoading() { showLoading(); setTimeout(() => { closeControlSuite(); document.getElementById('pane-about-fullscreen').style.display = 'block'; hideLoading(); }, 600); }
+        function openManifestoWithLoading() { showLoading(); setTimeout(() => { document.getElementById('manifesto-screen').style.display = 'block'; hideLoading(); }, 600); }
+        function startSplashImmediate() { document.getElementById('splash-screen').style.opacity = '0'; setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; document.getElementById('mainAppWrapper').style.display = 'flex'; clearOpponentDisplay(); }, 500); }
 
         const themesData = {
-            light: { type: 'gradient', cycle: [['#eee3ff','#e0f2fe'],['#e0f2fe','#e6fffa'],['#e6fffa','#fef9c3']] },
-            dark: { type: 'gradient', cycle: [['#0a1628','#1a2a4a'],['#0a1f1a','#1a3a2a'],['#1f0a0a','#3a1a1a'],['#1a0a2a','#2a1a3a']] },
-            'dark-green': { type: 'gradient', cycle: [['#0a1f1a','#1a3a2a'],['#0a2a1a','#1a4a2a']] },
-            'dark-red': { type: 'gradient', cycle: [['#1f0a0a','#3a1a1a'],['#2a0a0a','#4a1a1a']] },
-            'dark-purple': { type: 'gradient', cycle: [['#1a0a2a','#2a1a3a'],['#2a0a3a','#3a1a4a']] },
+            light: { type: 'gradient', cycle: [['#eee3ff','#e0f2fe'],['#e0f2fe','#e6fffa']] },
+            dark: { type: 'gradient', cycle: [['#0a1628','#1a2a4a'],['#0a1f1a','#1a3a2a']] },
+            'dark-green': { type: 'gradient', cycle: [['#0a1f1a','#1a3a2a']] },
+            'dark-red': { type: 'gradient', cycle: [['#1f0a0a','#3a1a1a']] },
+            'dark-purple': { type: 'gradient', cycle: [['#1a0a2a','#2a1a3a']] },
             nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'] }
         };
         let currentActiveLayer = 1, themeCycleIndex = 0;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        function addHistory(questionStr, isCorrect) { 
-            historyGames.unshift({ q: questionStr, correct: isCorrect }); 
-            if (historyGames.length > 5) historyGames.pop(); 
-            localStorage.setItem('game-history', JSON.stringify(historyGames)); 
-        }
+        function addHistory(questionStr, isCorrect) { historyGames.unshift({ q: questionStr, correct: isCorrect }); if (historyGames.length > 5) historyGames.pop(); localStorage.setItem('game-history', JSON.stringify(historyGames)); }
 
         function startThemeChangerLoop() { 
             if (themeIntervalId) clearInterval(themeIntervalId); 
             let l1 = document.getElementById('bg-layer-1'), l2 = document.getElementById('bg-layer-2'); 
             let trigger = () => { 
                 let config = themesData[appTheme] || themesData.light;
-                let active = currentActiveLayer === 1 ? l1 : l2; 
-                let hidden = currentActiveLayer === 1 ? l2 : l1; 
+                let active = currentActiveLayer === 1 ? l1 : l2; let hidden = currentActiveLayer === 1 ? l2 : l1; 
                 hidden.classList.remove('nature-pan-effect'); 
-                if (config.type === 'gradient') { 
-                    let grad = config.cycle[themeCycleIndex % config.cycle.length]; 
-                    hidden.style.background = `linear-gradient(135deg, ${grad}, ${grad})`; 
-                    themeCycleIndex++; 
-                } else { 
-                    hidden.style.background = `url('${config.cycle[themeCycleIndex % config.cycle.length]}')`; 
-                    hidden.style.backgroundSize = '140% 140%'; 
-                    hidden.classList.add('nature-pan-effect'); 
-                    themeCycleIndex++; 
-                } 
-                active.classList.remove('layer-active'); 
-                hidden.classList.add('layer-active'); 
-                currentActiveLayer = currentActiveLayer === 1 ? 2 : 1; 
+                if (config.type === 'gradient') { hidden.style.background = `linear-gradient(135deg, ${config.cycle[themeCycleIndex % config.cycle.length]}, ${config.cycle[themeCycleIndex % config.cycle.length]})`; themeCycleIndex++; } 
+                else { hidden.style.background = `url('${config.cycle[0]}')`; hidden.style.backgroundSize = '140% 140%'; hidden.classList.add('nature-pan-effect'); } 
+                active.classList.remove('layer-active'); hidden.classList.add('layer-active'); currentActiveLayer = currentActiveLayer === 1 ? 2 : 1; 
             }; 
-            trigger(); 
-            themeIntervalId = setInterval(trigger, 10000); 
+            trigger(); themeIntervalId = setInterval(trigger, 10000); 
+        }
+
+        // Configuration Setter Layout Modules
+        function setTickSoundStyle(styleName) { soundStyleSetting = styleName; localStorage.setItem('abacus-sound-style', styleName); updateCustomControlsUI(); triggerAudioTone(1000, 0.06); }
+        function setTypographyConfiguration(styleName) { typographySetting = styleName; localStorage.setItem('abacus-typography-style', styleName); updateCustomControlsUI(); updateTypographyStyles(); }
+
+        function updateCustomControlsUI() {
+            document.querySelectorAll('#aesthetics-studio-screen .config-select-btn').forEach(btn => btn.classList.remove('setting-active'));
+            let soundBtn = document.getElementById(`tick-sound-${soundStyleSetting}`); if (soundBtn) soundBtn.classList.add('setting-active');
+            let fontBtn = document.getElementById(`font-style-${typographySetting}`); if (fontBtn) fontBtn.classList.add('setting-active');
+        }
+
+        function updateTypographyStyles() {
+            let root = document.documentElement;
+            let isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement.getAttribute('data-theme') !== 'nature';
+            let displayNode = document.getElementById('display');
+            
+            if (displayNode) displayNode.classList.remove('font-write-animated');
+
+            if (typographySetting === 'normal') {
+                root.style.setProperty('--flash-color', isDarkTheme ? '#f0f3f8' : '#2d3436');
+                root.style.setProperty('--flash-font', "'Inter', sans-serif");
+                root.style.setProperty('--flash-style', 'normal');
+            } 
+            else if (typographySetting === 'l2r') {
+                root.style.setProperty('--flash-color', isDarkTheme ? '#f0f3f8' : '#2d3436');
+                root.style.setProperty('--flash-font', "'Inter', sans-serif");
+                root.style.setProperty('--flash-style', 'normal');
+            } 
+            else if (typographySetting === 'r2l') {
+                root.style.setProperty('--flash-color', isDarkTheme ? 'rgba(240,243,248,0.15)' : 'rgba(45,52,54,0.15)');
+                root.style.setProperty('--flash-font', "'Inter', sans-serif");
+                root.style.setProperty('--flash-style', 'normal');
+            } 
+            else if (typographySetting === 'stylish') {
+                root.style.setProperty('--flash-color', '#f1c40f');
+                root.style.setProperty('--flash-font', "'Orbitron', sans-serif");
+                root.style.setProperty('--flash-style', 'normal');
+            }
+            else if (typographySetting === 'handwritten') {
+                root.style.setProperty('--flash-color', '#2c3e50');
+                root.style.setProperty('--flash-font', "'Caveat', cursive");
+                root.style.setProperty('--flash-style', 'normal');
+                if (displayNode && matchStateStep === "printing") displayNode.classList.add('font-write-animated');
+            }
+            
+            let previewText = document.getElementById('preview-text-node');
+            if (previewText) applyTypographyContrastStyle(previewText, false);
+        }
+
+        function applyTypographyContrastStyle(targetElement, altStateToggle) {
+            let isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement.getAttribute('data-theme') !== 'nature';
+            targetElement.className = "";
+            targetElement.style.fontFamily = "var(--flash-font)";
+            
+            if (typographySetting === 'normal') {
+                targetElement.style.color = isDarkTheme ? '#f0f3f8' : '#2d3436';
+            }
+            else if (typographySetting === 'l2r') {
+                targetElement.style.color = altStateToggle ? (isDarkTheme ? 'rgba(240,243,248,0.15)' : 'rgba(45,52,54,0.15)') : (isDarkTheme ? '#f0f3f8' : '#2d3436');
+            } 
+            else if (typographySetting === 'r2l') {
+                targetElement.style.color = altStateToggle ? (isDarkTheme ? '#f0f3f8' : '#2d3436') : (isDarkTheme ? 'rgba(240,243,248,0.15)' : 'rgba(45,52,54,0.15)');
+            } 
+            else if (typographySetting === 'stylish') {
+                targetElement.style.color = '#f1c40f';
+            }
+            else if (typographySetting === 'handwritten') {
+                targetElement.className = "font-write-animated";
+            }
+        }
+
+        function startInteractivePreviewCycledLoop() {
+            if (previewCycleIntervalId) clearInterval(previewCycleIntervalId);
+            let previewText = document.getElementById('preview-text-node');
+            let innerStateToggle = false;
+            
+            previewCycleIntervalId = setInterval(() => {
+                let randomThreeDigitNum = Math.floor(Math.random() * 900) + 100;
+                if (previewText) {
+                    previewText.innerText = randomThreeDigitNum;
+                    innerStateToggle = !innerStateToggle;
+                    applyTypographyContrastStyle(previewText, innerStateToggle);
+                }
+            }, 1000); // 1-second accelerated aesthetic refresh rate
+        }
+
+        function triggerAuditorySample() { triggerAudioTone(800, 0.08); }
+
+        function triggerAudioTone(freq, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            
+            if (soundStyleSetting === 'sine') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            } 
+            else if (soundStyleSetting === 'triangle') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(freq * 0.8, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.25, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+            } 
+            else if (soundStyleSetting === 'woodblock') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq * 1.5, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(freq * 0.6, audioCtx.currentTime + 0.03);
+                gain.gain.setValueAtTime(0.4, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.04);
+            } 
+            else if (soundStyleSetting === 'mechanical') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(120, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.6, audioCtx.currentTime); gain.gain.linearRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
+            }
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
         }
 
         function initApp() { 
             buildComprehensiveAIPools();
-            
             let wasInterrupted = localStorage.getItem('sum-interrupted') === 'true'; 
             if (wasInterrupted && isRated) { 
-                let savedRating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
-                rating = Math.max(1000, savedRating - 25); 
-                
-                localStorage.setItem('abacus-rating', rating); 
-                localStorage.removeItem('sum-interrupted'); 
+                rating = Math.max(1000, (parseInt(localStorage.getItem('abacus-rating')) || 1500) - 25); 
+                localStorage.setItem('abacus-rating', rating); localStorage.removeItem('sum-interrupted'); 
                 alert("⚠️ Penalty Applied: You left during an active sum! -25 Rating");
             }
 
-            if (Date.now() < lockUntilTimestamp) {
-                startCooldownTickerLoop();
-            }
-
-            updateRatingUI(); 
-            updateMainDisplay();
-            document.documentElement.setAttribute('data-theme', appTheme); 
-            startThemeChangerLoop(); 
-            updateDifficultyDisplay(); 
+            if (Date.now() < lockUntilTimestamp) startCooldownTickerLoop();
+            updateRatingUI(); updateMainDisplay();
+            document.documentElement.setAttribute('data-theme', appTheme); startThemeChangerLoop(); updateDifficultyDisplay(); 
              
-            const digitsSelect = document.getElementById('sel-digits');
-            const rowsSelect = document.getElementById('sel-rows');
-            const timeSelect = document.getElementById('sel-time');
-             
-            digitsSelect.addEventListener('change', function() { manualDigits = parseInt(this.value); });
-            rowsSelect.addEventListener('change', function() { manualRows = parseInt(this.value); });
-            timeSelect.addEventListener('change', function() { manualTime = parseInt(this.value); });
+            document.getElementById('sel-digits').addEventListener('change', function() { manualDigits = parseInt(this.value); });
+            document.getElementById('sel-rows').addEventListener('change', function() { manualRows = parseInt(this.value); });
+            document.getElementById('sel-time').addEventListener('change', function() { manualTime = parseInt(this.value); });
             
             document.getElementById('splashEnterBtn').onclick = startSplashImmediate;
             document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
             document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
 
             initLeaderboardDataMatrix();
-            if (globalRankPulseTimerId) clearInterval(globalRankPulseTimerId);
             globalRankPulseTimerId = setInterval(processLeaderboardPulseTick, 3000);
-
-            refreshEngineRankMetrics();
             setInterval(refreshEngineRankMetrics, 3000);
+
+            updateCustomControlsUI(); updateTypographyStyles();
         }        
-        window.addEventListener('beforeunload', function(e) {
-            if (gameInProgress && isRated && (matchStateStep === "printing" || matchStateStep === "answering")) {
-                localStorage.setItem('sum-interrupted', 'true');
-                e.preventDefault();
-                e.returnValue = '';
-            }
-        });
+        window.addEventListener('beforeunload', function(e) { if (gameInProgress && isRated && (matchStateStep === "printing" || matchStateStep === "answering")) { localStorage.setItem('sum-interrupted', 'true'); e.preventDefault(); e.returnValue = ''; } });
         function openControlSuite() { if(!gameInProgress) { document.getElementById('gear-trigger').classList.add('rotate-active'); document.body.classList.add('sidebar-active'); } }
         function closeControlSuite() { document.getElementById('gear-trigger').classList.remove('rotate-active'); document.body.classList.remove('sidebar-active'); }
         function switchSettingsPane(p) { document.querySelectorAll('.tab-nav-link').forEach(t => t.classList.remove('tab-active')); document.querySelectorAll('.settings-pane-section').forEach(sec => sec.classList.remove('pane-active')); document.getElementById(`nav-tab-${p}`).classList.add('tab-active'); document.getElementById(`pane-${p}`).classList.add('pane-active'); }
@@ -1682,327 +1433,146 @@
         function closeManifesto() { document.getElementById('manifesto-screen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
-        /* Stakes engine logic metrics mapping template */
         function calculateStakes() { 
-            if (!isRated || !hasActiveOpponent) { 
-                winPoints = 0; 
-                lossPoints = 0; 
-                drawDeltaUser = 0;
-                return;
-            } 
-            
+            if (!isRated || !hasActiveOpponent) { winPoints = 0; lossPoints = 0; drawDeltaUser = 0; return; } 
             let expectedScoreUser = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
-            let kFactor = 32;
-            
-            winPoints = Math.round(kFactor * (1 - expectedScoreUser));
-            lossPoints = Math.round(kFactor * expectedScoreUser);
-            drawDeltaUser = Math.round(kFactor * (0.5 - expectedScoreUser));
-            
-            winPoints = Math.max(2, Math.min(32, winPoints));
-            lossPoints = Math.max(2, Math.min(32, lossPoints));
+            winPoints = Math.max(2, Math.min(32, Math.round(32 * (1 - expectedScoreUser))));
+            lossPoints = Math.max(2, Math.min(32, Math.round(32 * expectedScoreUser)));
+            drawDeltaUser = Math.round(32 * (0.5 - expectedScoreUser));
         }
 
         function getRatingBoundDifficulty(targetRating) {
             let r = targetRating;
-            if (r < 1500) return { digits: 1, rows: 2, time: 1000 };
-            if (r < 1600) return { digits: 1, rows: 5, time: 1000 };
-            if (r < 1700) return { digits: 1, rows: 10, time: 1000 };
-            if (r < 1800) return { digits: 1, rows: 10, time: 750 };
-            if (r < 1900) return { digits: 1, rows: 15, time: 700 };
-            if (r < 2000) return { digits: 2, rows: 5, time: 1000 };
-            if (r < 2100) return { digits: 2, rows: 10, time: 1200 };
-            if (r < 2200) return { digits: 2, rows: 10, time: 950 };
-            if (r < 2300) return { digits: 2, rows: 15, time: 1000 };
-            if (r < 2400) return { digits: 2, rows: 15, time: 750 };
-            if (r < 2500) return { digits: 2, rows: 15, time: 700 };
-            if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
-            if (r < 2700) return {digits: 3, rows: 7, time: 1000 };
-            if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
-            if (r < 2900) return { digits: 4, rows: 5, time: 950 };
-            if (r < 3000) return { digits: 4, rows: 7, time: 900 };
-            if (r < 3100) return { digits: 4, rows: 10, time: 850 };
-            if (r < 3200) return { digits: 4, rows: 15, time: 800 };
-            if (r < 3300) return { digits: 5, rows: 10, time: 750 };
-            if (r < 3400) return { digits: 5, rows: 15, time: 700 };
-            if (r < 3500) return { digits: 5, rows: 20, time: 650 };
-            if (r < 3600) return { digits: 5, rows: 25, time: 600 };
-            if (r < 3700) return { digits: 5, rows: 30, time: 550 };
-            if (r < 3800) return { digits: 5, rows: 35, time: 500 };
-            if (r < 3900) return { digits: 5, rows: 40, time: 450 };
-            if (r < 4000) return { digits: 5, rows: 45, time: 400 };
-            if (r < 5200) return { digits: 5, rows: 50, time: 350 };
-            return { digits: 5, rows: 50, time: 250 };
+            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; if (r < 1800) return { digits: 1, rows: 10, time: 750 }; if (r < 1900) return { digits: 1, rows: 15, time: 700 }; if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; if (r < 2200) return { digits: 2, rows: 10, time: 950 }; if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; if (r < 2400) return { digits: 2, rows: 15, time: 750 }; if (r < 2500) return { digits: 2, rows: 15, time: 700 }; if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; if (r < 2700) return {digits: 3, rows: 7, time: 1000 }; if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; if (r < 2900) return { digits: 4, rows: 5, time: 950 }; if (r < 3000) return { digits: 4, rows: 7, time: 900 }; if (r < 3100) return { digits: 4, rows: 10, time: 850 }; if (r < 3200) return { digits: 4, rows: 15, time: 800 }; if (r < 3300) return { digits: 5, rows: 10, time: 750 }; if (r < 3400) return { digits: 5, rows: 15, time: 700 }; if (r < 3500) return { digits: 5, rows: 20, time: 650 }; if (r < 3600) return { digits: 5, rows: 25, time: 600 }; if (r < 3700) return { digits: 5, rows: 30, time: 550 }; if (r < 3800) return { digits: 5, rows: 35, time: 500 }; if (r < 3900) return { digits: 5, rows: 40, time: 450 }; if (r < 4000) return { digits: 5, rows: 45, time: 400 }; if (r < 5200) return { digits: 5, rows: 50, time: 350 }; return { digits: 5, rows: 50, time: 250 };
         }
 
-        function getNormalDifficulty() {
-            if (!isRated) {
-                return { digits: manualDigits, rows: manualRows, time: manualTime };
-            }
-            return getRatingBoundDifficulty(rating);
-        }
-
+        function getNormalDifficulty() { return !isRated ? { digits: manualDigits, rows: manualRows, time: manualTime } : getRatingBoundDifficulty(rating); }
         let currentFairPlayActive = false;
 
         function isInFairPlayZone() {
             let r = rating;
-            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 450, fairPlay: true, timerSecs: 3 };
-            if (r >= 2000 && r <= 2015) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 };
-            if (r >= 2100 && r <= 2115) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 };
-            if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 450, fairPlay: true, timerSecs: 3 };
-            if (r >= 2300 && r <= 2315) return { digits: 1, rows: 25, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2400 && r <= 2415) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2500 && r <= 2515) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2600 && r <= 2615) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2700 && r <= 2715) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2800 && r <= 2815) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 2900 && r <= 2915) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 3000 && r <= 3015) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
+            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2000 && r <= 2015) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2100 && r <= 2115) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2300 && r <= 2315) return { digits: 1, rows: 25, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2400 && r <= 2415) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2500 && r <= 2515) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2600 && r <= 2615) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2700 && r <= 2715) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2800 && r <= 2815) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2900 && r <= 2915) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 3000 && r <= 3015) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
             let remainder = r % 100;
-            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
-            if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4100 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 4900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
-            if (r >= 5000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4100 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 5000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             return null;
         }
 
-        function getFinalDifficulty() { 
-            let fairPlay = isInFairPlayZone(); 
-            if (fairPlay && isRated) { 
-                currentFairPlayActive = true;
-                document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · 3s Timer · WRONG = -25 RATING`;
-                document.getElementById('fairPlayBanner').style.display = 'inline-block'; 
-                return fairPlay; 
-            } 
-            currentFairPlayActive = false;
-            document.getElementById('fairPlayBanner').style.display = 'none'; 
-            return getNormalDifficulty(); 
-        }
-
-        function updateDifficultyDisplay() { 
-            let diff = getFinalDifficulty(); 
-            document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(2)}s`; 
-        }
+        function getFinalDifficulty() { let fairPlay = isInFairPlayZone(); if (fairPlay && isRated) { currentFairPlayActive = true; document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · 3s Timer · WRONG = -25 RATING`; document.getElementById('fairPlayBanner').style.display = 'inline-block'; return fairPlay; } currentFairPlayActive = false; document.getElementById('fairPlayBanner').style.display = 'none'; return getNormalDifficulty(); }
+        function updateDifficultyDisplay() { let diff = getFinalDifficulty(); document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(2)}s`; }
         
         function toggleMode() { 
-            if(gameInProgress) return; 
-            isRated = !isRated; 
-            let btn = document.getElementById('mode-toggle'); 
-            btn.innerHTML = isRated ? '<i class="fas fa-trophy"></i> RATED' : '<i class="fas fa-sliders-h"></i> MANUAL'; 
-            btn.classList.toggle('active'); 
-            let selects = document.querySelectorAll('.manual-select');
-            selects.forEach(s => s.disabled = isRated);
-            
+            if(gameInProgress) return; isRated = !isRated; 
+            let btn = document.getElementById('mode-toggle'); btn.innerHTML = isRated ? '<i class="fas fa-trophy"></i> RATED' : '<i class="fas fa-sliders-h"></i> MANUAL'; btn.classList.toggle('active'); 
+            document.querySelectorAll('.manual-select').forEach(s => s.disabled = isRated);
             let oppCard = document.getElementById('opponentIdentityCard');
-            if (isRated) {
-                oppCard.classList.remove('card-hidden');
-                clearOpponentDisplay();
-            } else {
-                oppCard.classList.add('card-hidden');
-            }
-
-            if (!isRated) {
-                manualDigits = parseInt(document.getElementById('sel-digits').value);
-                manualRows = parseInt(document.getElementById('sel-rows').value);
-                manualTime = parseInt(document.getElementById('sel-time').value);
-            }
+            if (isRated) { oppCard.classList.remove('card-hidden'); clearOpponentDisplay(); } else oppCard.classList.add('card-hidden');
+            if (!isRated) { manualDigits = parseInt(document.getElementById('sel-digits').value); manualRows = parseInt(document.getElementById('sel-rows').value); manualTime = parseInt(document.getElementById('sel-time').value); }
             updateRatingUI(); 
         }
         
-        function updateRatingUI() { 
-            document.getElementById('rating-ui').innerText = rating; 
-            calculateStakes(); 
-            updateDifficultyDisplay(); 
-        }
-        
-        function disableControls(disabled) { 
-            let controlsRow = document.getElementById('controlsRow'); 
-            let gearBtn = document.getElementById('gear-trigger'); 
-            if(disabled) { 
-                controlsRow.classList.add('controls-disabled'); 
-                gearBtn.style.pointerEvents = 'none'; 
-                gearBtn.style.opacity = '0.5'; 
-            } else { 
-                controlsRow.classList.remove('controls-disabled'); 
-                gearBtn.style.pointerEvents = 'auto'; 
-                gearBtn.style.opacity = '1'; 
-            } 
-        }
+        function updateRatingUI() { document.getElementById('rating-ui').innerText = rating; calculateStakes(); updateDifficultyDisplay(); }
+        function disableControls(disabled) { let controlsRow = document.getElementById('controlsRow'); let gearBtn = document.getElementById('gear-trigger'); if(disabled) { controlsRow.classList.add('controls-disabled'); gearBtn.style.pointerEvents = 'none'; gearBtn.style.opacity = '0.5'; } else { controlsRow.classList.remove('controls-disabled'); gearBtn.style.pointerEvents = 'auto'; gearBtn.style.opacity = '1'; } }
 
         async function initiateGame() {
-            matchStateStep = "countdown";
-            gameInProgress = true; 
-            if (isRated) {
-                localStorage.setItem('sum-interrupted', 'true');
-            }
-
+            matchStateStep = "countdown"; gameInProgress = true; if (isRated) localStorage.setItem('sum-interrupted', 'true');
             disableControls(true);
-            let display = document.getElementById('display');
-            display.classList.remove('ready-text');
-            display.style.color = 'var(--text)';
-            document.getElementById('action-btn').disabled = true;
-            document.getElementById('user-ans').value = '';
-            display.innerText = "";
-
-            document.getElementById('abort-match-btn').style.display = isRated ? "block" : "none";
-            document.getElementById('resign-match-btn').style.display = "none";
+            let display = document.getElementById('display'); display.className = "";
+            document.getElementById('action-btn').disabled = true; document.getElementById('user-ans').value = ''; display.innerText = "";
+            document.getElementById('abort-match-btn').style.display = isRated ? "block" : "none"; document.getElementById('resign-match-btn').style.display = "none";
 
             let lr = document.getElementById('light-r'), ly = document.getElementById('light-y'), lg = document.getElementById('light-g');
             lr.style.background = "var(--red)"; playSfx(550, 'sine', 0.12);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
-            lr.style.background = "#b2bec3";
-            ly.style.background = "#f1c40f"; playSfx(550, 'sine', 0.12);
+            lr.style.background = "#b2bec3"; ly.style.background = "#f1c40f"; playSfx(550, 'sine', 0.12);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
-            ly.style.background = "#b2bec3";
-            lg.style.background = "var(--green)"; playSfx(850, 'sine', 0.2);
+            ly.style.background = "#b2bec3"; lg.style.background = "var(--green)"; playSfx(850, 'sine', 0.2);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
             lg.style.background = "#b2bec3";
 
             matchStateStep = "printing";
-            document.getElementById('abort-match-btn').style.display = "none";
-            document.getElementById('resign-match-btn').style.display = isRated ? "block" : "none";
+            document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = isRated ? "block" : "none";
 
-            let diff = getFinalDifficulty();
-            sequence = [];
+            let diff = getFinalDifficulty(); sequence = [];
+            updateTypographyStyles(); // Apply typographic style mappings to board
+
             for (let i = 0; i < diff.rows; i++) {
                 if (matchStateStep === "idle") return;
-                let min = Math.pow(10, diff.digits - 1);
-                let max = Math.pow(10, diff.digits) - 1;
-                let n = Math.floor(Math.random() * (max - min + 1)) + min;
-                sequence.push(n);
+                let min = Math.pow(10, diff.digits - 1); let max = Math.pow(10, diff.digits) - 1;
+                let n = Math.floor(Math.random() * (max - min + 1)) + min; sequence.push(n);
+                
                 display.innerText = n;
-                playSfx(1000, 'sine', 0.05);
+                if (typographySetting === 'l2r' || typographySetting === 'r2l') {
+                    applyTypographyContrastStyle(display, false);
+                }
+                triggerAudioTone(1000, 0.05);
+                
                 await new Promise(r => setTimeout(r, diff.time));
                 display.innerText = '';
                 await new Promise(r => setTimeout(r, 100));
             }
             if (matchStateStep === "idle") return;
-            display.innerText = "?";
+            display.innerText = "?"; display.className = ""; display.removeAttribute('style');
             startTimer();
         }
         
         function startTimer() {
-            matchStateStep = "answering";
-            inputTriggerStartTime = Date.now(); 
-
-            let timerSecs = isRated ? 7 : 10;
-            if (currentFairPlayActive) {
-                timerSecs = 3;
-            }
+            matchStateStep = "answering"; inputTriggerStartTime = Date.now(); 
+            let timerSecs = isRated ? 7 : 10; if (currentFairPlayActive) timerSecs = 3;
             let barContainer = document.getElementById('timerBarContainer');
             let barFill = document.getElementById('timerBarFill');
             let timerNumber = document.getElementById('timerNumber');
-            if (isRated) { 
-                barContainer.style.display = 'block'; 
-                timerNumber.style.display = 'none'; 
-                barFill.style.width = '100%'; 
-                barFill.classList.remove('warning', 'danger'); 
-            } else { 
-                barContainer.style.display = 'none'; 
-                timerNumber.style.display = 'block'; 
-                timerNumber.innerText = timerSecs.toFixed(1); 
-            }
-            document.getElementById('user-ans').disabled = false; 
-            document.getElementById('user-ans').focus();
-            document.getElementById('submit-btn').style.display = 'block'; 
-            document.getElementById('action-btn').style.display = 'none';
+            
+            if (isRated) { barContainer.style.display = 'block'; timerNumber.style.display = 'none'; barFill.style.width = '100%'; barFill.className = 'timer-bar-fill'; } 
+            else { barContainer.style.display = 'none'; timerNumber.style.display = 'block'; timerNumber.innerText = timerSecs.toFixed(1); }
+            
+            document.getElementById('user-ans').disabled = false; document.getElementById('user-ans').focus();
+            document.getElementById('submit-btn').style.display = 'block'; document.getElementById('action-btn').style.display = 'none';
             let timeLeft = timerSecs;
+            
             if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 timeLeft -= 0.1;
                 if (!isRated) document.getElementById('timerNumber').innerText = timeLeft.toFixed(1);
-                if (isRated) { 
-                    let percent = (timeLeft / timerSecs) * 100; 
-                    barFill.style.width = `${percent}%`; 
-                    if (percent < 30) barFill.classList.add('danger'); 
-                    else if (percent < 60) barFill.classList.add('warning'); 
+                if (isRated) {
+                    let percent = (timeLeft / timerSecs) * 100; barFill.style.width = `${percent}%`; 
+                    if (percent < 30) barFill.classList.add('danger'); else if (percent < 60) barFill.classList.add('warning'); 
                 }
                 if (timeLeft <= 0) finalize(null, timerSecs * 1000);
             }, 100);
         }
         
-        function validateInput() { 
-            let elapsedSubmissionMs = Date.now() - inputTriggerStartTime;
-            let val = parseInt(document.getElementById('user-ans').value); 
-            document.getElementById('user-ans').value = ''; 
-            finalize(isNaN(val) ? null : val, elapsedSubmissionMs); 
-        }
+        function validateInput() { finalize(parseInt(document.getElementById('user-ans').value), Date.now() - inputTriggerStartTime); document.getElementById('user-ans').value = ''; }
         
         function finalize(userVal, userElapsedMs) {
-            clearInterval(timerInterval);
-            localStorage.removeItem('sum-interrupted');
-            gameInProgress = false;
-            matchStateStep = "idle";
-            
-            consecutiveAbortsCount = 0;
-            localStorage.setItem('consecutive-aborts-count', 0);
-
-            document.getElementById('timerBarContainer').style.display = 'none'; 
-            document.getElementById('timerNumber').style.display = 'none';
+            clearInterval(timerInterval); localStorage.removeItem('sum-interrupted'); gameInProgress = false; matchStateStep = "idle";
+            consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
+            document.getElementById('timerBarContainer').style.display = 'none'; document.getElementById('timerNumber').style.display = 'none';
             
             let actualSum = sequence.reduce((a, b) => a + b, 0);
             let display = document.getElementById('display');
+            display.className = ""; display.removeAttribute('style');
             
-            document.getElementById('user-ans').disabled = true; 
-            document.getElementById('submit-btn').style.display = 'none';
-            document.getElementById('abort-match-btn').style.display = "none";
-            document.getElementById('resign-match-btn').style.display = "none";
+            document.getElementById('user-ans').disabled = true; document.getElementById('submit-btn').style.display = 'none';
+            document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = "none";
             
-            let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.display = 'block'; 
-            actionBtn.disabled = false;
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
-            actionBtn.onclick = startMatchmakingSequence;
+            let actionBtn = document.getElementById('action-btn'); actionBtn.style.display = 'block'; actionBtn.disabled = false; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             
             let userCorrect = (userVal === actualSum);
-            
-            let botCorrect = false;
-            let botTimedOut = false;
-            let botSubmissionTimeMs = 7000; 
+            let botCorrect = false, botTimedOut = false, botSubmissionTimeMs = 7000; 
 
             if (isRated && hasActiveOpponent) {
                 let userDifficultyObj = getRatingBoundDifficulty(rating);
-                let difficultyGap = (opponentRating - rating);
-                let baseSuccessProbability = 0.50 + (difficultyGap / 800); 
-                
-                if (opponentRating >= 2000 && userDifficultyObj.rows <= 15 && userDifficultyObj.digits <= 1) {
-                    baseSuccessProbability = 0.99; 
-                }
-                
-                baseSuccessProbability = Math.max(0.05, Math.min(0.98, baseSuccessProbability));
+                let baseSuccessProbability = Math.max(0.05, Math.min(0.98, 0.50 + ((opponentRating - rating) / 800))); 
+                if (opponentRating >= 2000 && userDifficultyObj.rows <= 15 && userDifficultyObj.digits <= 1) baseSuccessProbability = 0.99; 
                 
                 botTimedOut = Math.random() < 0.05; 
                 if (!botTimedOut) {
                     botCorrect = Math.random() < baseSuccessProbability;
-                    if (opponentRating >= 2000 && userDifficultyObj.rows <= 15 && userDifficultyObj.digits <= 1) {
-                        botSubmissionTimeMs = 3000; 
-                    } else {
-                        botSubmissionTimeMs = Math.floor(Math.random() * 2500) + 3000; 
-                    }
+                    botSubmissionTimeMs = (opponentRating >= 2000 && userDifficultyObj.rows <= 15 && userDifficultyObj.digits <= 1) ? 3000 : Math.floor(Math.random() * 2500) + 3000;
                 }
             }
 
-            let bannerTitle = "";
-            let subText = "";
-            let ratingDelta = 0;
-            let speedMsAhead = 0;
-            let oldUserRating = rating;
+            let bannerTitle = "", subText = "", ratingDelta = 0, speedMsAhead = 0, oldUserRating = rating;
 
             if (isRated && hasActiveOpponent) {
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
@@ -2010,97 +1580,38 @@
 
                 if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userVal === null && botTimedOut)) {
                     bannerTitle = "Draw";
-                    if (isInsideDrawSpeedWindow) {
-                        subText = "Draw by Dead-Heat calculation speed window";
-                        speedMsAhead = timeGapMs;
-                    } else if (userVal === null && botTimedOut) {
-                        subText = "Draw by mutual timeout parameter expiration";
-                    } else {
-                        subText = "Draw by mutual arithmetic compilation error";
-                    }
-
-                    if (currentFairPlayActive) {
-                        ratingDelta = -25;
-                        rating = Math.max(1000, rating - 25);
-                    } else {
-                        ratingDelta = drawDeltaUser;
-                        rating = Math.max(1000, rating + drawDeltaUser);
-                    }
-                    
-                    let botDrawDelta = Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400)))));
-                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
+                    subText = isInsideDrawSpeedWindow ? "Draw by Dead-Heat calculation speed window" : (userVal === null && botTimedOut ? "Draw by mutual timeout parameter expiration" : "Draw by mutual arithmetic compilation error");
+                    ratingDelta = currentFairPlayActive ? -25 : drawDeltaUser;
+                    rating = Math.max(1000, rating + ratingDelta);
+                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400))))));
                     addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect);
                 } 
                 else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
-                    bannerTitle = "Victory!";
-                    if (botCorrect) {
-                        bannerTitle = "Won by Speed";
-                        subText = "You out-calculated the opponent's clock";
-                        speedMsAhead = timeGapMs;
-                    } else {
-                        subText = "Opponent calculation loop failure";
-                    }
-
-                    let speedFactor = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
-                    ratingDelta = Math.max(2, Math.min(32, Math.round(winPoints * speedFactor)));
-                    rating += ratingDelta;
-                    
+                    bannerTitle = botCorrect ? "Won by Speed" : "Victory!";
+                    subText = botCorrect ? "You out-calculated the opponent's clock" : "Opponent calculation loop failure";
+                    ratingDelta = Math.max(2, Math.min(32, Math.round(winPoints * Math.max(0.7, 1.3 - (userElapsedMs / 7000))))); rating += ratingDelta;
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
                     addHistory(sequence.join('+') + '=' + actualSum, true);
                 } 
                 else {
-                    bannerTitle = "Defeat";
-                    if (userCorrect && botCorrect) {
-                        bannerTitle = "Loss by Speed";
-                        subText = "Bot registered accurate data faster";
-                        speedMsAhead = timeGapMs;
-                    } else if (currentFairPlayActive) {
-                        subText = "Fair Play structural compilation error";
-                    } else {
-                        subText = "Opponent computational loop accurate";
-                    }
-
-                    if (currentFairPlayActive) {
-                        ratingDelta = -25;
-                        rating = Math.max(1000, rating - 25);
-                    } else {
-                        let speedFactor = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
-                        ratingDelta = -Math.max(2, Math.min(32, Math.round(lossPoints * speedFactor)));
-                        rating = Math.max(1000, rating + ratingDelta);
-                    }
-                    
+                    bannerTitle = (userCorrect && botCorrect) ? "Loss by Speed" : "Defeat";
+                    subText = (userCorrect && botCorrect) ? "Bot registered data faster" : (currentFairPlayActive ? "Fair Play structural compilation error" : "Opponent computational loop accurate");
+                    ratingDelta = currentFairPlayActive ? -25 : -Math.max(2, Math.min(32, Math.round(lossPoints * Math.max(0.7, 0.5 + (userElapsedMs / 7000)))));
+                    rating = Math.max(1000, rating + ratingDelta);
                     document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
                     addHistory(sequence.join('+') + '=' + actualSum, false);
                 }
-                
                 localStorage.setItem('abacus-rating', rating);
                 triggerPerformanceOverlay(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead);
             } else {
-                if (userCorrect) {
-                    display.innerText = "✓"; display.style.color = "var(--green)"; playSfx(1200, 'sine', 0.3);
-                    addHistory(sequence.join('+') + '=' + actualSum, true);
-                } else {
-                    display.innerText = "✗ " + actualSum; display.style.color = "var(--red)"; playSfx(150, 'sawtooth', 0.4);
-                    addHistory(sequence.join('+') + '=' + actualSum, false);
-                }
+                playSfx(userCorrect ? 1200 : 150, userCorrect ? 'sine' : 'sawtooth', userCorrect ? 0.3 : 0.4);
+                addHistory(sequence.join('+') + '=' + actualSum, userCorrect);
             }
             
-            display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
-            display.style.color = userCorrect ? "var(--green)" : "var(--red)";
-
-            setTimeout(() => { 
-                display.innerText = "READY"; 
-                display.classList.add('ready-text'); 
-                display.style.color = '#b2bec3'; 
-            }, 2500);
-            
-            gamesPlayed++; 
-            localStorage.setItem('abacus-games', gamesPlayed);
-
-            updateRatingUI(); 
-            updateMainDisplay();
-            disableControls(false);
-            sortAndRenderLeaderboardMatrix();
+            display.innerText = userCorrect ? "✓" : "✗ " + actualSum; display.style.color = userCorrect ? "var(--green)" : "var(--red)";
+            setTimeout(() => { display.innerText = "READY"; display.className = "ready-text"; display.removeAttribute('style'); }, 2500);
+            gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
+            updateRatingUI(); updateMainDisplay(); disableControls(false); sortAndRenderLeaderboardMatrix();
         }
         
         document.getElementById('user-ans').disabled = true;
