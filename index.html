@@ -14,40 +14,69 @@
             box-sizing: border-box;
         }
         :root {
-            --surface: rgba(255, 255, 255, 0.98);
-            --text: #000000;
-            --accent: #000000; 
-            --accent-light: #333333;
-            --green: #000000;
-            --yellow: #000000;
-            --red: #000000;
-            --border: #000000;
+            --surface: rgba(255, 255, 255, 0.96);
+            --text: #2d3436;
+            --accent: #1e3a8a; 
+            --accent-light: #2563eb;
+            --green: #00b894;
+            --yellow: #f1c40f;
+            --red: #d63031;
+            --border: #dfe6e9;
             --sidebar-bg: #ffffff;
-            --card-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            --flash-color: #000000;
+            --card-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            --flash-color: #2d3436;
             --flash-font: 'Inter', sans-serif;
             --flash-style: normal;
         }
 
-        [data-theme="dark"], [data-theme="dark-green"], [data-theme="dark-red"], [data-theme="dark-purple"], [data-theme="nature"] {
-            --surface: rgba(255, 255, 255, 0.98);
-            --text: #000000;
-            --border: #000000;
-            --sidebar-bg: #ffffff;
-            --flash-color: #000000;
+        [data-theme="dark"] {
+            --surface: rgba(18, 25, 45, 0.96);
+            --text: #f0f3f8;
+            --border: #2a3a5a;
+            --sidebar-bg: #0f1a2e;
+            --flash-color: #f0f3f8;
+        }
+        [data-theme="dark-green"] {
+            --surface: rgba(15, 35, 25, 0.96);
+            --text: #e8f5e9;
+            --border: #2a4a3a;
+            --sidebar-bg: #0a1f15;
+            --flash-color: #e8f5e9;
+        }
+        [data-theme="dark-red"] {
+            --surface: rgba(45, 18, 18, 0.96);
+            --text: #fde0e0;
+            --border: #5a2a2a;
+            --sidebar-bg: #2a0f0f;
+            --flash-color: #fde0e0;
+        }
+        [data-theme="dark-purple"] {
+            --surface: rgba(30, 18, 45, 0.96);
+            --text: #f0e8ff;
+            --border: #4a2a6a;
+            --sidebar-bg: #1a0a2a;
+            --flash-color: #f0e8ff;
+        }
+        [data-theme="nature"] {
+            --surface: rgba(245, 247, 242, 0.96);
+            --text: #2c3e50;
+            --border: #bdc5bd;
+            --sidebar-bg: #f5f7f2;
+            --flash-color: #2c3e50;
         }
 
-        html, body { min-height: 100vh; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; background: #f3f4f6; }
+        html, body { min-height: 100vh; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
 
         .music-control {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 9999;
-            background: #000000;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
             border-radius: 50%;
-            width: 46px;
-            height: 46px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -55,15 +84,16 @@
             transition: all 0.2s ease;
             color: white;
             font-size: 1.2rem;
-            border: 2px solid #000000;
+            border: 1px solid rgba(255,255,255,0.2);
         }
+        .music-control:hover { transform: scale(1.1); background: rgba(0,0,0,0.8); }
 
         .bg-layer {
             position: fixed; inset: 0; z-index: -1; 
             background-size: 140% 140%; background-position: center;
             opacity: 0; transition: opacity 2.5s ease-in-out;
         }
-        .bg-layer.layer-active { opacity: 0.15; }
+        .bg-layer.layer-active { opacity: 1; }
         
         @keyframes slowMotionPan {
             0% { background-position: 0% 50%; background-size: 140% 140%; }
@@ -75,16 +105,16 @@
         body { display: flex; flex-direction: column; align-items: center; position: relative; overflow-x: hidden; }
 
         .top-navbar {
-            width: 100%; max-width: 540px; padding: 16px 20px 4px 20px; 
+            width: 100%; max-width: 500px; padding: 12px 24px 4px 24px; 
             display: flex; justify-content: space-between; align-items: center; z-index: 500;
         }
         .profile-btn, .settings-gear-btn {
-            background: #ffffff; border: 2px solid #000000; cursor: pointer; padding: 0; 
-            border-radius: 14px; transition: all 0.2s ease; width: 48px; height: 48px;
+            background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 10px; 
+            border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: #000000; box-shadow: 0 4px 0 #000000;
+            font-size: 1.3rem; color: var(--text);
         }
-        .profile-btn:active, .settings-gear-btn:active { transform: translateY(4px); box-shadow: 0 0 0 #000000; }
+        .profile-btn:hover, .settings-gear-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
         
         @keyframes gearInfiniteSpin {
             from { transform: rotate(0deg); }
@@ -93,238 +123,266 @@
         .settings-gear-btn.rotate-active i { animation: gearInfiniteSpin 2.5s linear infinite; }
 
         .player-identity-card {
-            width: 92%; max-width: 540px;
+            width: 90%; max-width: 500px;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 14px 20px; margin: 8px 0;
-            background: #ffffff;
-            border-radius: 20px; border: 2px solid #000000;
-            color: #000000; box-shadow: 0 6px 0 #000000;
+            padding: 12px 18px; margin: 6px 0;
+            background: var(--surface);
+            border-radius: 16px; border: 1px solid var(--border);
+            color: var(--text); backdrop-filter: blur(5px); box-shadow: var(--card-shadow);
         }
         .player-identity-card.card-hidden { display: none; }
-        .identity-profile-block { display: flex; align-items: center; gap: 14px; }
+        .identity-profile-block { display: flex; align-items: center; gap: 12px; }
         .identity-avatar-frame {
-            width: 44px; height: 44px; background: #ffffff; color: #000000;
-            border: 2px solid #000000; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; font-weight: bold;
+            width: 40px; height: 40px; background: var(--accent); color: white;
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: bold;
         }
-        .identity-meta-info { display: flex; flex-direction: column; gap: 2px; }
+        .opponent-avatar-frame { background: #57606f; }
+        .identity-meta-info { display: flex; flex-direction: column; }
         .identity-title-badge {
-            background: #000000; color: #ffffff; font-size: 0.7rem; font-weight: 800;
-            padding: 2px 6px; border-radius: 4px; margin-right: 6px; display: inline-block;
+            background: #cd3c32; color: white; font-size: 0.65rem; font-weight: 800;
+            padding: 1px 4px; border-radius: 3px; margin-right: 4px; display: inline-block;
             vertical-align: middle; letter-spacing: 0.5px;
         }
-        .identity-username { font-weight: 800; font-size: 1.05rem; color: #000000; vertical-align: middle; }
-        .identity-rating-tag { font-size: 0.9rem; font-weight: 700; color: #000000; font-variant-numeric: tabular-nums; }
-        .identity-status-dot { width: 12px; height: 12px; background: #000000; border: 2px solid #000000; border-radius: 50%; display: inline-block; }
-        
-        @keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
-        .identity-status-dot.searching { animation: pulse 1s ease-in-out infinite; }
+        .identity-username { font-weight: 700; font-size: 0.95rem; vertical-align: middle; }
+        .identity-rating-tag { font-size: 0.85rem; opacity: 0.75; font-variant-numeric: tabular-nums; }
+        .identity-status-dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; display: inline-block; }
+        .identity-status-dot.searching { background: #f1c40f; animation: pulse 1s ease-in-out infinite; }
 
         #profile-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6000;
-            background: #ffffff; flex-direction: column; padding: 30px; overflow-y: auto;
+            background: var(--surface); backdrop-filter: blur(20px);
+            flex-direction: column; padding: 30px; overflow-y: auto;
         }
         .profile-fullscreen-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 20px; border-bottom: 2px solid #000000; margin-bottom: 20px;
-            color: #000000;
+            padding-bottom: 20px; border-bottom: 2px solid var(--border);
+            margin-bottom: 20px;
         }
-        .profile-fullscreen-header h2 { margin: 0; font-size: 1.8rem; font-weight: 800; }
+        .profile-fullscreen-header h2 { margin: 0; font-size: 1.8rem; }
         .close-profile-fullscreen {
-            font-size: 1.8rem; color: #000000; cursor: pointer; padding: 6px;
-            border: 2px solid #000000; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; cursor: pointer; padding: 10px;
+            border-radius: 50%; transition: 0.2s;
         }
+        .close-profile-fullscreen:hover { background: rgba(0,0,0,0.1); }
         .profile-fullscreen-content { max-width: 500px; margin: 0 auto; width: 100%; }
         .profile-avatar-large {
-            width: 110px; height: 110px; background: #ffffff; border: 2px solid #000000; border-radius: 24px;
-            display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 0 #000000;
-            font-size: 3.5rem; color: #000000; margin: 10px auto 25px;
+            width: 100px; height: 100px; background: var(--accent); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: white; margin: 0 auto 20px;
         }
         .profile-rating-large { text-align: center; margin-bottom: 25px; }
-        .profile-rating-large .label { font-size: 0.9rem; font-weight: 700; color: #000000; text-transform: uppercase; letter-spacing: 0.5px; }
-        .profile-rating-large .value { font-size: 3.5rem; font-weight: 900; color: #000000; }
-        
+        .profile-rating-large .label { font-size: 0.85rem; opacity: 0.7; }
+        .profile-rating-large .value { font-size: 3rem; font-weight: 800; color: var(--accent); }
         .username-edit-section {
             display: flex; align-items: center; justify-content: space-between;
-            background: #ffffff; border: 2px solid #000000; padding: 16px; border-radius: 16px; margin-bottom: 15px;
-            cursor: pointer; color: #000000; font-weight: 800; box-shadow: 0 4px 0 #000000;
+            background: rgba(0,0,0,0.05); padding: 15px; border-radius: 16px; margin-bottom: 15px;
+            cursor: pointer;
         }
-        .username-edit-section span { font-size: 1.15rem; }
+        .username-edit-section span { font-size: 1.2rem; font-weight: 600; }
         
         .studio-trigger-btn {
-            background: #ffffff; color: #000000; border: 2px solid #000000;
-            padding: 16px; border-radius: 40px; width: 100%; font-weight: 800; font-size: 1rem;
+            background: linear-gradient(135deg, #2563eb, #1e40af); color: white; border: none;
+            padding: 14px; border-radius: 40px; width: 100%; font-weight: 700;
             cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 5px 0 #000000; transition: all 0.1s ease;
+            box-shadow: 0 4px 15px rgba(37,99,235,0.25); transition: all 0.2s ease;
         }
-        .studio-trigger-btn:active, .history-btn:active, .flair-select-btn:active { transform: translateY(4px); box-shadow: 0 1px 0 #000000; }
-        
+        .studio-trigger-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
         .history-btn {
-            background: #ffffff; color: #000000; border: 2px solid #000000;
-            padding: 16px; border-radius: 40px; width: 100%; font-weight: 800; font-size: 1rem;
+            background: rgba(0,0,0,0.08); border: 1px solid var(--border);
+            padding: 14px; border-radius: 40px; width: 100%; font-weight: 600;
             cursor: pointer; margin-top: 15px; display: flex;
-            align-items: center; justify-content: center; gap: 8px; box-shadow: 0 5px 0 #000000;
+            align-items: center; justify-content: center; gap: 8px;
+            transition: all 0.2s ease;
         }
 
         #history-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6500;
-            background: rgba(0,0,0,0.6); flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(12px);
+            flex-direction: column; padding: 30px; align-items: center; justify-content: center;
         }
         .history-modal-card {
-            background: #ffffff; border: 2px solid #000000; border-radius: 24px; width: 100%; max-width: 480px; max-height: 80vh; overflow: hidden; box-shadow: 0 20px 0 rgba(0,0,0,0.2);
+            background: var(--surface); border-radius: 28px; width: 100%; max-width: 500px; max-height: 80vh; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
         }
         .history-modal-header {
-            display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 2px solid #000000; background: #ffffff; color: #000000;
+            display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 2px solid var(--border); background: var(--surface);
         }
-        .history-modal-header h2 { margin: 0; font-size: 1.4rem; font-weight: 800; }
-        .history-list-container { padding: 10px 20px; max-height: 55vh; overflow-y: auto; color: #000000; }
+        .history-modal-header h2 { margin: 0; font-size: 1.5rem; }
+        .history-list-container { padding: 20px; max-height: 60vh; overflow-y: auto; }
         .history-item-modal {
-            display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 2px dashed #000000; font-size: 1.05rem; color: #000000;
+            display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem;
         }
-        .history-question-text { font-family: monospace; font-weight: 700; }
-        .history-status { font-weight: 900; font-size: 1.2rem; color: #000000; }
+        .history-question-text { font-family: monospace; font-weight: 500; }
+        .history-status { font-weight: 700; font-size: 1.1rem; }
+        .history-status.correct { color: var(--green); }
+        .history-status.wrong { color: var(--red); }
         .close-history-btn {
-            font-size: 1.5rem; color: #000000; cursor: pointer; border: 2px solid #000000; border-radius: 50%; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem; cursor: pointer; padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
         }
+        .close-history-btn:hover { background: rgba(0,0,0,0.1); }
 
         #flair-fullscreen {
-            display: none; position: fixed; inset: 0; z-index: 7000; background: #ffffff; flex-direction: column; padding: 30px; overflow-y: auto;
+            display: none; position: fixed; inset: 0; z-index: 7000; background: var(--surface); backdrop-filter: blur(20px); flex-direction: column; padding: 30px; overflow-y: auto;
         }
         .flair-header {
-            display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2px solid #000000; position: sticky; top: 0; background: #ffffff; z-index: 10; color: #000000;
+            display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 2px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 10;
         }
-        .flair-header h2 { font-weight: 800; margin: 0; }
         .flair-grid-full {
-            display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 20px 0; padding-bottom: 20px;
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; margin: 20px 0; max-height: 70vh; overflow-y: auto; padding-bottom: 20px;
         }
         .flair-item {
-            padding: 14px 0; text-align: center; border: 2px solid #000000; border-radius: 16px; cursor: pointer; transition: 0.1s; font-size: 1.6rem; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #ffffff; box-shadow: 0 4px 0 #000000;
+            padding: 12px; text-align: center; border: 2px solid var(--border); border-radius: 60px; cursor: pointer; transition: 0.2s; font-size: 1.5rem; position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px;
         }
-        .flair-item.selected { background: #000000; color: #ffffff; }
-        .flair-item.selected span { filter: brightness(1); }
-        .flair-item:active { transform: translateY(4px); box-shadow: 0 0 0 #000000; }
-        .flair-item .check-mark { font-size: 0.8rem; display: none; color: #000000; position: absolute; top: 2px; right: 2px; }
-        .flair-item .loading-spinner { display: none; font-size: 1rem; color: #000000; }
+        .flair-item.selected { border-color: var(--accent); background: var(--accent); }
+        .flair-item.loading { opacity: 0.6; pointer-events: none; }
+        .flair-item .check-mark { font-size: 0.8rem; display: none; color: var(--green); }
+        .flair-item .loading-spinner { display: none; font-size: 0.8rem; }
 
         #aesthetics-studio-screen {
-            display: none; position: fixed; inset: 0; z-index: 7500; background: #ffffff; flex-direction: column; padding: 25px; overflow-y: auto; color: #000000;
+            display: none; position: fixed; inset: 0; z-index: 7500; background: var(--surface); backdrop-filter: blur(25px); flex-direction: column; padding: 25px; overflow-y: auto; color: var(--text);
         }
         .studio-header-row {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000000; padding-bottom: 15px; margin-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px;
         }
         .studio-header-row h2 { margin: 0; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .studio-card-container { max-width: 500px; margin: 0 auto; width: 100%; }
         
-        .setting-sub-box { background: #ffffff; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 2px solid #000000; box-shadow: 0 5px 0 #000000; }
-        .setting-sub-title { font-size: 1rem; font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
-        .config-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .setting-sub-box { background: rgba(0,0,0,0.03); border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid var(--border); }
+        .setting-sub-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .config-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
         .config-select-btn {
-            background: #ffffff; color: #000000; border: 2px solid #000000; padding: 12px 8px; font-size: 0.85rem; border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.1s; width: 100%; text-align: center; box-shadow: 0 3px 0 #000000;
+            background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 10px; font-size: 0.8rem; border-radius: 10px; cursor: pointer; font-weight: 600; width: 100%; text-align: center;
         }
-        .config-select-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #000000; }
-        .config-select-btn.setting-active { background: #000000; color: #ffffff !important; border-color: #000000; }
+        .config-select-btn.setting-active { background: var(--accent); color: #fff; border-color: var(--accent); }
         
         .interactive-preview-box {
-            width: 100%; height: 80px; background: #ffffff; border: 2px dashed #000000; border-radius: 14px; margin-top: 14px; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; font-weight: 900; overflow: hidden; position: relative;
+            width: 100%; height: 75px; background: var(--surface); border: 2px dashed var(--border); border-radius: 12px; margin-top: 12px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; font-weight: 800; overflow: hidden; position: relative;
         }
 
-        .edit-loading { display: inline-block; width: 20px; height: 20px; border: 2px solid #000000; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        .edit-loading { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border); border-top-color: var(--green); border-radius: 50%; animation: spin 0.6s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .loading-overlay { position: fixed; inset: 0; background: #ffffff; z-index: 10000; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
-        .loading-spinner-large { width: 50px; height: 50px; border: 4px solid #e5e7eb; border-top-color: #000000; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        .loading-text { color: #000000; font-size: 1.2rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+        .loading-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(12px); z-index: 10000; display: none; align-items: center; justify-content: center; flex-direction: column; gap: 25px; }
+        .loading-spinner-large { width: 60px; height: 60px; border: 3px solid rgba(255,255,255,0.2); border-top-color: var(--green); border-right-color: var(--accent-light); border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-text { color: white; font-size: 1.2rem; letter-spacing: 1px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        #splash-screen { position: fixed; inset: 0; background: #ffffff; color: #000000; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; }
-        .splash-logo { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3rem; text-align: center; color: #000000; letter-spacing: -1px; margin-bottom: 25px; }
-        .enter-btn { padding: 16px 45px; background: #ffffff; color: #000000; border: 3px solid #000000; border-radius: 16px; cursor: pointer; font-weight: 900; font-size: 1.15rem; box-shadow: 0 8px 0 #000000; transition: all 0.1s ease; }
-        .enter-btn:active { transform: translateY(6px); box-shadow: 0 2px 0 #000000; }
+        #splash-screen { position: fixed; inset: 0; background: #c0392b; color: #f1c40f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s; }
+        .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 30px; }
+        .enter-btn { margin-top: 20px; padding: 14px 50px; background: #f1c40f; color: #c0392b; border: none; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
         .page-wrapper { display: flex; flex-direction: column; align-items: center; padding: 4px 0 20px 0; width: 100%; position: relative; z-index: 10; }
-        .game-container { width: 92%; max-width: 540px; min-height: 62vh; background: #ffffff; border-radius: 28px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: #000000; border: 3px solid #000000; overflow: hidden; position: relative; }
+        .game-container { width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; }
 
-        .signal-row { display: flex; justify-content: center; gap: 16px; padding: 14px; background: #ffffff; border-bottom: 2px solid #000000; }
-        .light-bulb { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #000000; background: #ffffff; transition: background 0.1s; }
+        .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
+        .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
         
-        .header-stats { display: flex; justify-content: center; padding: 16px; border-bottom: 2px solid #000000; align-items: center; text-align: center; background: #ffffff; }
+        .header-stats { display: flex; justify-content: center; padding: 15px 25px; border-bottom: 1px solid var(--border); align-items: center; text-align: center; }
         .header-center-pill { display: flex; flex-direction: column; align-items: center; }
-        .rating-val { font-weight: 900; color: #000000; font-variant-numeric: tabular-nums; }
-        #rating-ui { font-size: 2.5rem; letter-spacing: -1px; }
+        .rating-val { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
+        #rating-ui { font-size: 2.2rem; }
 
-        .timer-bar-container { margin: 12px 20px; background: #ffffff; border: 2px solid #000000; border-radius: 10px; height: 14px; overflow: hidden; display: none; }
-        .timer-bar-fill { width: 100%; height: 100%; background: #000000; transition: width 0.05s linear; }
-        .timer-number { font-size: 1.6rem; font-weight: 900; color: #000000; text-align: center; margin: 5px 0; display: none; }
+        .timer-bar-container { margin: 10px 15px; background: rgba(0,0,0,0.1); border-radius: 10px; height: 8px; overflow: hidden; display: none; }
+        .timer-bar-fill { width: 100%; height: 100%; background: var(--green); border-radius: 10px; transition: width 0.05s linear; }
+        .timer-bar-fill.warning { background: #f39c12; }
+        .timer-bar-fill.danger { background: var(--red); }
+        .timer-number { font-size: 1.5rem; font-weight: bold; color: var(--red); text-align: center; margin: 5px 0; display: none; }
 
-        .controls-row { display: flex; justify-content: center; gap: 10px; padding: 14px; background: #ffffff; border-bottom: 2px solid #000000; }
-        .controls-disabled { pointer-events: none; opacity: 0.6; }
-        .manual-select { background: #ffffff; color: #000000; border: 2px solid #000000; padding: 10px; border-radius: 12px; font-size: 0.9rem; flex: 1; outline: none; font-weight: 700; cursor: pointer; }
-        .toggle-btn { cursor: pointer; padding: 10px 14px; border-radius: 12px; border: 2px solid #000000; font-size: 0.9rem; font-weight: 800; color: #000000; min-width: 105px; text-align: center; background: #ffffff; box-shadow: 0 3px 0 #000000; }
-        .toggle-btn.active { background: #000000; color: #ffffff; box-shadow: 0 0 0 #000000; transform: translateY(3px); }
+        .controls-row { display: flex; justify-content: center; gap: 8px; padding: 12px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); }
+        .controls-disabled { pointer-events: none; opacity: 0.5; }
+        .manual-select { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; border-radius: 12px; font-size: 0.85rem; flex: 1; outline: none; font-weight: 500; cursor: pointer; }
+        .toggle-btn { cursor: pointer; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--accent); font-size: 0.85rem; font-weight: 700; color: var(--accent); min-width: 95px; text-align: center; background: transparent; }
+        .toggle-btn.active { background: var(--accent); color: #fff; }
 
-        main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px 0; background: #ffffff; }
-        #display { font-size: 7.5rem; font-weight: 900; min-height: 140px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--flash-color); font-family: var(--flash-font); font-style: var(--flash-style); letter-spacing: -2px; }
-        .ready-text { font-size: 2.6rem !important; color: #000000 !important; font-family: 'Inter', sans-serif !important; font-style: normal !important; font-weight: 900; letter-spacing: 0px !important; }
+        main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 0; }
+        #display { font-size: 7rem; font-weight: 800; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--flash-color); font-family: var(--flash-font); font-style: var(--flash-style); }
+        .ready-text { font-size: 2.2rem !important; color: #b2bec3 !important; font-family: 'Inter', sans-serif !important; font-style: normal !important; }
 
-        .input-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 14px; border-top: 2px solid #000000; background: #ffffff; }
-        input { width: 200px; padding: 12px; border: 3px solid #000000; border-radius: 16px; font-size: 2rem; text-align: center; outline: none; background: #ffffff; color: #000000; font-weight: 800; }
-        button { width: 240px; padding: 16px; border: 2px solid #000000; border-radius: 40px; cursor: pointer; font-weight: 900; font-size: 1.05rem; box-shadow: 0 5px 0 #000000; transition: all 0.1s ease; }
-        button:active { transform: translateY(4px); box-shadow: 0 1px 0 #000000; }
-        #submit-btn { background: #ffffff; color: #000000; display: none; }
-        #action-btn { background: #ffffff; color: #000000; }
+        .input-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; border-top: 1px solid var(--border); }
+        input { width: 180px; padding: 12px; border: 2px solid var(--border); border-radius: 16px; font-size: 1.8rem; text-align: center; outline: none; background: var(--surface); color: var(--text); font-weight: 600; }
+        button { width: 230px; padding: 14px; border: none; border-radius: 40px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
+        #submit-btn { background: var(--green); color: #fff; display: none; }
+        #action-btn { background: var(--accent); color: #fff; }
 
-        .match-actions-container { display: flex; width: 100%; justify-content: center; gap: 12px; margin-top: -2px; }
-        .action-control-btn { width: 115px; padding: 10px 12px; font-size: 0.85rem; border-radius: 20px; display: none; background: #ffffff; color: #000000; }
+        .match-actions-container { display: flex; width: 100%; justify-content: center; gap: 10px; margin-top: -4px; }
+        .action-control-btn { width: 110px; padding: 8px 12px; font-size: 0.8rem; border-radius: 20px; display: none; }
+        #abort-match-btn { background: #7f8c8d; color: white; }
+        #resign-match-btn { background: #e74c3c; color: white; }
 
-        #fide-match-outcome-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: #ffffff; box-shadow: 0 25px 0 rgba(0,0,0,0.15); border-radius: 24px; z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; color: #000000; padding: 30px 20px; border: 3px solid #000000; box-sizing: border-box; }
-        #overlayCloseIconBtn { position: absolute; top: 14px; right: 16px; font-size: 1.1rem; color: #000000; cursor: pointer; display: none; background: #ffffff; border: 2px solid #000000; width: 34px; height: 34px; border-radius: 50%; align-items: center; justify-content: center; }
+        #fide-match-outcome-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 88%; max-width: 380px; background: #10b981; box-shadow: 0 20px 50px rgba(0,0,0,0.4); border-radius: 24px; z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; padding: 30px 20px; box-sizing: border-box; border: 2px solid rgba(255,255,255,0.2); }
+        #overlayCloseIconBtn { position: absolute; top: 14px; right: 16px; font-size: 1.2rem; color: rgba(255,255,255,0.7); cursor: pointer; display: none; background: rgba(0,0,0,0.15); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        .outcome-banner-title { font-size: 2.4rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 2px; text-transform: uppercase; color: #000000; }
-        .outcome-metric-card { background: #ffffff; border: 2px dashed #000000; padding: 16px 20px; border-radius: 16px; margin: 15px 0 5px 0; width: 100%; box-sizing: border-box; text-align: center; }
-        .outcome-rating-row { font-size: 3rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #000000; margin: 4px 0; }
-        .outcome-bracket-modifier { font-size: 1.4rem; font-weight: 800; margin-left: 6px; color: #000000 !important; }
-        .outcome-speed-badge { font-size: 0.85rem; font-weight: 700; display: block; margin-top: 6px; color: #000000; }
+        .outcome-banner-title { font-size: 2.3rem; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 2px; text-transform: uppercase; color: #ffffff; }
+        .outcome-metric-card { background: rgba(0, 0, 0, 0.15); padding: 16px 25px; border-radius: 16px; margin: 15px 0 5px 0; width: 100%; box-sizing: border-box; text-align: center; }
+        .outcome-rating-row { font-size: 2.8rem; font-weight: 900; font-variant-numeric: tabular-nums; color: #ffffff; margin: 4px 0; }
+        .outcome-bracket-modifier { font-size: 1.3rem; font-weight: 700; margin-left: 6px; }
+        .outcome-bracket-modifier.plus { color: #fffb00; }
+        .outcome-bracket-modifier.minus { color: #ffcbd1; }
+        .outcome-speed-badge { font-size: 0.8rem; font-weight: 500; display: block; margin-top: 6px; color: #e0f2fe; }
 
-        .sidebar-overlay-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; }
-        #central-settings-modal { position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh; background: #ffffff; z-index: 2100; border-left: 3px solid #000000; padding: 40px 30px; overflow-y: auto; color: #000000; transform: translateX(100%); transition: transform 0.2s ease-out; }
+        .sidebar-overlay-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 2000; }
+        #central-settings-modal { position: fixed; top: 0; right: 0; width: 100%; max-width: 420px; height: 100vh; background: var(--sidebar-bg); z-index: 2100; box-shadow: -5px 0 30px rgba(0,0,0,0.2); padding: 40px 30px; overflow-y: auto; color: var(--text); transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1); }
         .sidebar-active #central-settings-modal { transform: translateX(0); }
         .sidebar-active .sidebar-overlay-backdrop { display: block; }
 
-        #pane-about-fullscreen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #ffffff !important; color: #000000 !important; }
-        .about-centered { max-width: 800px; margin: 60px auto 0 auto; line-height: 1.75; }
-        #manifesto-screen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #ffffff !important; color: #000000 !important; }
-        .manifesto-centered { max-width: 800px; margin: 60px auto 0 auto; line-height: 1.7; }
+        #pane-about-fullscreen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #c0392b !important; color: #ffffff !important; }
+        .about-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.75; }
+        #manifesto-screen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #2980b9 !important; color: #ffffff !important; }
+        .manifesto-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.7; }
 
-        .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 1.6rem; cursor: pointer; z-index: 5; color: #000000; background: #ffffff; border: 2px solid #000000; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .back-arena-btn { position: absolute; top: 25px; left: 25px; background: #ffffff; color: #000000; border: 2px solid #000000; padding: 10px 20px; font-weight: 800; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 5; box-shadow: 0 3px 0 #000000; }
-        .back-arena-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #000000; }
+        .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 5; color: #f1c40f; background: rgba(0,0,0,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .back-arena-btn { position: absolute; top: 25px; left: 25px; background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 5; }
 
         .panel-wrapper-content { width: 100%; margin-top: 20px; }
-        .settings-nav-tabs { display: flex; gap: 8px; border-bottom: 2px solid #000000; padding-bottom: 10px; margin-bottom: 20px; }
-        .tab-nav-link { padding: 10px 12px; font-weight: 800; cursor: pointer; border-radius: 12px; border: 2px solid transparent; color: #000000; opacity: 0.5; font-size: 0.9rem; flex: 1; text-align: center; }
-        .tab-nav-link.tab-active { opacity: 1; background: #ffffff; border-color: #000000; }
+        .settings-nav-tabs { display: flex; gap: 8px; border-bottom: 2px solid var(--border); padding-bottom: 10px; margin-bottom: 20px; }
+        .tab-nav-link { padding: 10px 12px; font-weight: 600; cursor: pointer; border-radius: 12px; color: var(--text); opacity: 0.6; font-size: 0.85rem; flex: 1; text-align: center; }
+        .tab-nav-link.tab-active { opacity: 1; background: var(--accent); color: #fff; }
         .settings-pane-section { display: none; }
         .settings-pane-section.pane-active { display: block; }
 
-        .rank-table { width: 100%; border-collapse: collapse; margin: 20px 0; border: 2px solid #000000; }
-        .rank-table th, .rank-table td { border: 2px solid #000000; padding: 12px; color: #000000; text-align: left; font-weight: 600; }
-        .rank-table th { background: #f3f4f6; font-weight: 900; }
-        .read-more-link { color: #000000; font-weight: 900; cursor: pointer; text-decoration: underline; margin-left: 8px; }
+        .rank-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .rank-table th, .rank-table td { border: 1px solid rgba(255,255,255,0.2); padding: 12px; color: white; text-align: left; }
+        .rank-table th { background: rgba(255,255,255,0.15); font-weight: 700; }
+        .read-more-link { color: #ffeb3b; font-weight: bold; cursor: pointer; text-decoration: underline; margin-left: 8px; }
 
-        .themes-horizontal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .theme-btn { background: #ffffff; color: #000000; border: 2px solid #000000; padding: 10px 4px; font-size: 0.85rem; border-radius: 10px; cursor: pointer; font-weight: 700; box-shadow: 0 3px 0 #000000; }
-        .theme-btn:active { transform: translateY(3px); box-shadow: 0 0 0 #000000; }
+        .themes-horizontal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+        .theme-btn { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; font-size: 0.8rem; border-radius: 8px; cursor: pointer; font-weight: 600; width: 100%; }
 
-        .difficulty-info { background: #ffffff; border: 2px solid #000000; border-radius: 40px; padding: 8px 16px; margin: 6px 20px; font-size: 0.8rem; text-align: center; font-weight: 700; }
-        .fair-play-banner { background: #000000; color: white; padding: 8px 18px; border-radius: 40px; font-size: 0.75rem; font-weight: 800; text-align: center; margin: 10px auto; width: fit-content; display: none; border: 2px solid #000000; }
+        .difficulty-info { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 16px; margin: 6px 15px; font-size: 0.75rem; text-align: center; font-weight: 500; }
+        .fair-play-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-align: center; margin: 10px auto; width: fit-content; display: none; }
 
-        /* Modified Standalone Global Leaderboard Panel Elements */
-        #world-rank-panel { display: none; position: fixed; inset: 0; z-index: 8500; background: #ffffff; flex-direction: column; padding: 30px; overflow-y: auto; }
-        .leaderboard-container-scroll { background: #ffffff; border-radius: 20px; border: 2px solid #000000; overflow-y: auto; flex-grow: 1; margin-bottom: 10px; }
-        .leaderboard-row-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 2px solid #000000; font-size: 1rem; font-weight: 700; color: #000000; }
-        .leaderboard-row-item.user-special-row { background: #f3f4f6 !important; border: 3px solid #000000; position: sticky; bottom: 0; top: 0; z-index: 50; }
-        .leaderboard-identity-group { display: flex; align-items: center; gap: 10px; }
-        .leaderboard-badge-num { width: 55px; font-weight: 900; color: #000000; }
-        .leaderboard-bot-badge { background: #000000; color: white; font-size: 0.65rem; font-weight: 800; padding: 2px 6px; border-radius: 4px; margin-right: 6px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; vertical-align: middle; }
+        /* Standing Matrix Framework Overlays */
+        #world-rank-panel { display: none; position: fixed; inset: 0; z-index: 8500; background: var(--surface); backdrop-filter: blur(20px); flex-direction: column; padding: 30px; overflow-y: auto; }
+        .leaderboard-container-scroll { background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 2px solid #2c3e50; overflow-y: auto; flex-grow: 1; margin-bottom: 12px; }
+        .leaderboard-row-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 0.95rem; font-weight: 600; color: #2c3e50; }
+        .leaderboard-row-item.user-special-row { background: #e0f2fe !important; border: 2px dashed #0284c7; position: sticky; bottom: 0; top: 0; z-index: 50; }
+        .leaderboard-identity-group { display: flex; align-items: center; gap: 8px; }
+        .leaderboard-badge-num { width: 55px; font-weight: 800; color: #7f8c8d; }
+        .leaderboard-bot-badge { background: #cd3c32; color: white; font-size: 0.65rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; vertical-align: middle; }
+
+        /* Dynamic Moving GIF-like Element Frame Animations */
+        @keyframes colorFlashCycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .moving-gif-card {
+            background: linear-gradient(-45deg, #c0392b, #d35400, #9b59b6, #2980b9);
+            background-size: 300% 300%;
+            animation: colorFlashCycle 6s ease infinite;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s;
+        }
+        .moving-gif-card:hover { transform: scale(1.01); }
+
+        /* Custom Specific Blue Variant for Philosophy */
+        .moving-gif-card.philosophy-blue {
+            background: linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad);
+            background-size: 300% 300%;
+        }
     </style>
 </head>
 <body onload="initApp()">
@@ -332,22 +390,17 @@
     <div class="bg-layer layer-active" id="bg-layer-1"></div>
     <div class="bg-layer" id="bg-layer-2"></div>
     
-    <div class="music-control" id="musicControlBtn" onclick="toggleMusic()">
-        <i class="fas fa-music"></i>
-    </div>
-    
-    <audio id="bgMusic" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+
+
 
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner-large"></div>
-        <div class="loading-text">Loading Data<span>...</span></div>
+        <div class="loading-text"><i class="fas fa-hourglass-half"></i> Loading Arena Matrix<span>...</span></div>
     </div>
 
     <div id="splash-screen">
         <div class="splash-logo">AbacusArena.org</div>
-        <button class="enter-btn" id="splashEnterBtn">ENTER WEBSITE <i class="fas fa-arrow-right"></i></button>
+        <button class="enter-btn" id="splashEnterBtn"><i class="fas fa-arrow-right"></i> ENTER WEBSITE</button>
     </div>
 
     <div class="page-wrapper" id="mainAppWrapper" style="display: none;">
@@ -367,23 +420,23 @@
                         <span class="identity-title-badge">AI</span>
                         <span class="identity-username" id="oppNameDisplay">No Active Match</span>
                     </div>
-                    <div class="identity-rating-tag">Rating: <span id="oppRatingDisplay" class="rating-val" style="font-size:0.9srem;">----</span></div>
+                    <div class="identity-rating-tag">Rating: <span id="oppRatingDisplay" class="rating-val" style="font-size:0.85rem;">----</span></div>
                 </div>
             </div>
             <div>
-                <span class="identity-status-dot" id="oppStatusDot"></span>
+                <span class="identity-status-dot" style="background:#b2bec3;" id="oppStatusDot"></span>
             </div>
         </div>
 
         <div class="game-container">
             <div id="fide-match-outcome-overlay">
                 <div id="overlayCloseIconBtn" onclick="dismissPerformanceOverlay()"><i class="fas fa-times"></i></div>
-                <div style="font-size: 0.75rem; font-weight:800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Match Summary</div>
+                <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; opacity: 0.75; margin-bottom: 2px;">Match Summary</div>
                 <div id="overlayBannerTitle" class="outcome-banner-title">Victory!</div>
-                <div id="overlayOutcomeSub" style="font-size: 0.95rem; font-weight: 700;">by Speed Verification</div>
+                <div id="overlayOutcomeSub" style="font-size: 0.95rem; opacity: 0.9; font-weight: 500;">by Speed Verification</div>
                 
                 <div class="outcome-metric-card">
-                    <div style="font-size: 0.75rem; font-weight:800; text-transform: uppercase; opacity: 0.8;">Your Rating Performance</div>
+                    <div style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.7;">Your Rating Performance</div>
                     <div class="outcome-rating-row">
                         <span id="overlayBaseRatingTick">1500</span><span id="overlayModifierBracket" class="outcome-bracket-modifier">(+0)</span>
                     </div>
@@ -395,7 +448,7 @@
 
             <div class="header-stats">
                 <div class="header-center-pill">
-                    <div style="font-size: 0.75rem; letter-spacing: 0.5px; opacity: 0.9; font-weight: 800;">YOUR ARENA RATING</div>
+                    <div style="font-size: 0.7rem; letter-spacing: 0.5px; opacity: 0.8; font-weight: 600;">YOUR ARENA RATING</div>
                     <div class="rating-val" id="rating-ui">1500</div>
                 </div>
             </div>
@@ -404,7 +457,7 @@
             <div id="timerNumber" class="timer-number"></div>
             
             <div class="difficulty-info" id="difficultyDisplay"><i class="fas fa-bolt"></i> Loading Parameters...</div>
-            <div class="fair-play-banner" id="fairPlayBanner">🔒 FAIR PLAY VERIFICATION ACTIVE</div>
+            <div class="fair-play-banner" id="fairPlayBanner"><i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION ACTIVE</div>
 
             <div class="controls-row" id="controlsRow">
                 <div id="mode-toggle" class="toggle-btn active" onclick="toggleMode()"><i class="fas fa-trophy"></i> RATED</div>
@@ -425,7 +478,7 @@
 
             <div class="input-area">
                 <input type="number" id="user-ans" placeholder="?" disabled autocomplete="off">
-                <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT ANSWER</button>
+                <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
                 <button id="action-btn" onclick="startMatchmakingSequence()"><i class="fas fa-play"></i> NEW SESSION</button>
                 
                 <div class="match-actions-container">
@@ -444,7 +497,7 @@
                 </div>
             </div>
             <div>
-                <span class="identity-status-dot" style="background:#000000;"></span>
+                <span class="identity-status-dot"></span>
             </div>
         </div>
 
@@ -458,14 +511,14 @@
         <div class="profile-fullscreen-content">
             <div class="profile-avatar-large" id="profileAvatarDisplayFrame" style="cursor:pointer;" onclick="openFlairFullscreen()">🏆</div>
             
-            <div class="profile-rating-large" style="background: #ffffff; border: 2px solid #000000; border-radius: 20px; padding: 20px 10px; box-shadow: 0 4px 0 #000000;">
-                <div class="label">Current Rating</div>
+            <div class="profile-rating-large" style="background: rgba(0,0,0,0.03); border-radius: 20px; padding: 15px 10px;">
+                <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #2d3436;">Current Rating</div>
                 <div class="value" id="profileRatingLarge" style="font-variant-numeric: tabular-nums;">1500</div>
-                <div id="profileRankSubtitle" style="font-size: 1rem; font-weight: 800; color: #000000; margin-top: 5px;">Loading Cutoff...</div>
+                <div id="profileRankSubtitle" style="font-size: 0.9rem; font-weight: 700; color: #00b894; margin-top: 5px;">Loading Cutoff...</div>
             </div>
 
-            <button class="studio-trigger-btn" onclick="openGlobalRankPanelDeferred()" style="margin-top:20px; background:#000000; color:#ffffff;"><i class="fas fa-trophy"></i> Open Leaderboard</button>
-            <div style="height:2px; background:#000000; margin: 20px 0; dashed;"></div>
+            <button class="studio-trigger-btn" onclick="openGlobalRankPanelDeferred()" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245,158,11,0.35);"><i class="fas fa-trophy"></i> View Leaderboard</button>
+            <div style="height: 1px; background: var(--border); margin: 20px 0;"></div>
 
             <div class="username-edit-section" id="usernameEditBtn">
                 <span id="profileUsername">Grandmaster</span>
@@ -489,7 +542,7 @@
 
     <div id="flair-fullscreen">
         <div class="flair-header">
-            <h2><i class="fas fa-tag"></i> Choose Avatar Avatar (320)</h2>
+            <h2><i class="fas fa-tag"></i> Choose Identity Avatar (320)</h2>
             <div class="close-profile-fullscreen" onclick="closeFlairFullscreen()"><i class="fas fa-times"></i></div>
         </div>
         <div id="flairGridFull" class="flair-grid-full"></div>
@@ -510,22 +563,22 @@
                     <button class="config-select-btn" id="tick-sound-woodblock" onclick="setTickSoundStyle('woodblock')">Wood Percussion</button>
                     <button class="config-select-btn" id="tick-sound-mechanical" onclick="setTickSoundStyle('mechanical')">Gear Click</button>
                 </div>
-                <div class="interactive-preview-box" id="sound-preview-panel" style="font-size:0.9rem; font-weight:800; cursor:pointer;" onclick="triggerAuditorySample()">
-                    <i class="fas fa-play" style="margin-right:6px;"></i> Test Ticking Audio Output
+                <div class="interactive-preview-box" id="sound-preview-panel" style="font-size:0.85rem; font-weight:600; cursor:pointer; background:rgba(0,0,0,0.02);" onclick="triggerAuditorySample()">
+                    <i class="fas fa-play" style="margin-right:6px; color:var(--accent);"></i> Test Ticking Audio Output
                 </div>
             </div>
 
             <div class="setting-sub-box">
-                <div class="setting-sub-title"><i class="fas fa-tint"></i> Display Text Contrast Color</div>
+                <div class="setting-sub-title"><i class="fas fa-tint"></i> Typography Flash Contrast Colors</div>
                 <div class="config-select-grid" style="grid-template-columns: repeat(4, 1fr); gap: 8px;">
-                    <button class="config-select-btn" id="font-style-normal" onclick="setTypographyConfiguration('normal')" style="background:#000000; color:#fff;">Black</button>
-                    <button class="config-select-btn" id="font-style-red" onclick="setTypographyConfiguration('red')" style="background:#e63946; color:#fff;">Red</button>
-                    <button class="config-select-btn" id="font-style-orange" onclick="setTypographyConfiguration('orange')" style="background:#f4a261; color:#fff;">Orange</button>
-                    <button class="config-select-btn" id="font-style-yellow" onclick="setTypographyConfiguration('yellow')" style="background:#e9c46a; color:#000;">Yellow</button>
-                    <button class="config-select-btn" id="font-style-green" onclick="setTypographyConfiguration('green')" style="background:#2a9d8f; color:#fff;">Green</button>
-                    <button class="config-select-btn" id="font-style-blue" onclick="setTypographyConfiguration('blue')" style="background:#457b9d; color:#fff;">Blue</button>
-                    <button class="config-select-btn" id="font-style-indigo" onclick="setTypographyConfiguration('indigo')" style="background:#1d3557; color:#fff;">Indigo</button>
-                    <button class="config-select-btn" id="font-style-violet" onclick="setTypographyConfiguration('violet')" style="background:#833ab4; color:#fff;">Violet</button>
+                    <button class="config-select-btn" id="font-style-normal" onclick="setTypographyConfiguration('normal')" style="background:#2d3436; color:#fff;">Black</button>
+                    <button class="config-select-btn" id="font-style-red" onclick="setTypographyConfiguration('red')" style="background:#d63031; color:#fff;">Red</button>
+                    <button class="config-select-btn" id="font-style-orange" onclick="setTypographyConfiguration('orange')" style="background:#e67e22; color:#fff;">Orange</button>
+                    <button class="config-select-btn" id="font-style-yellow" onclick="setTypographyConfiguration('yellow')" style="background:#f1c40f; color:#000;">Yellow</button>
+                    <button class="config-select-btn" id="font-style-green" onclick="setTypographyConfiguration('green')" style="background:#2ecc71; color:#fff;">Green</button>
+                    <button class="config-select-btn" id="font-style-blue" onclick="setTypographyConfiguration('blue')" style="background:#3498db; color:#fff;">Blue</button>
+                    <button class="config-select-btn" id="font-style-indigo" onclick="setTypographyConfiguration('indigo')" style="background:#34495e; color:#fff;">Indigo</button>
+                    <button class="config-select-btn" id="font-style-violet" onclick="setTypographyConfiguration('violet')" style="background:#9b59b6; color:#fff;">Violet</button>
                 </div>
                 <div class="interactive-preview-box" id="typography-preview-panel">
                     <span id="preview-text-node">742</span>
@@ -543,58 +596,76 @@
                 <div id="nav-tab-about" class="tab-nav-link" onclick="switchSettingsPane('about')"><i class="fas fa-info-circle"></i> About</div>
             </div>
             <div id="pane-themes" class="settings-pane-section pane-active">
-                <h3>🎨 Background Layers</h3>
+                <h3>🎨 System Themes</h3>
                 <div class="themes-horizontal">
                     <button class="theme-btn" onclick="applyThemeWithLoading('light')"><i class="fas fa-sun"></i> Light</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('dark')"><i class="fas fa-moon"></i> Dark</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('nature')"><i class="fas fa-tree"></i> Nature</button>
                 </div>
             </div>
-            <div id="pane-about" class="settings-pane-section"><h3>📖 About</h3><button onclick="openAboutWithLoading()" style="background:#ffffff; color:#000000; border:2px solid #000000; width:100%; padding:14px; border-radius:40px; font-weight:800; box-shadow:0 4px 0 #000000;"><i class="fas fa-external-link-alt"></i> Open About Page</button></div>
+            <div id="pane-about" class="settings-pane-section"><h3>📖 About</h3><button class="segmented-node" onclick="openAboutWithLoading()" style="background:var(--accent); color:white; border:none; width:100%; padding:12px; border-radius:40px; font-weight:bold; cursor:pointer;"><i class="fas fa-external-link-alt"></i> Open Fullscreen About Page</button></div>
         </div>
     </div>
 
     <div id="pane-about-fullscreen">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
-            <div style="text-align: center; margin: 35px 0;">
-                <div style="display: inline-block; background: #ffffff; border-radius: 24px; padding: 35px 40px; border: 2px solid #000000; width: 100%; max-width: 680px; box-sizing: border-box; overflow: hidden; box-shadow: 0 8px 0 #000000;">
-                    <h2 style="font-size: 3rem; margin: 0; color: #000000; font-weight:900; text-align: center; letter-spacing:-1px;">AbacusArena.org</h2>
+            
+            <div class="moving-gif-card">
+                <div style="text-align: center; font-family: system-ui, sans-serif;">
+                    <div style="margin-bottom: 15px; text-align: center;">
+                        <svg width="70" height="70" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
+                            <rect x="15" y="22" width="70" height="56" rx="5" fill="none" stroke="#f1c40f" stroke-width="2.5"/>
+                            <line x1="25" y1="36" x2="75" y2="36" stroke="#f1c40f" stroke-width="2"/>
+                            <line x1="25" y1="50" x2="75" y2="50" stroke="#f1c40f" stroke-width="2"/>
+                            <line x1="25" y1="64" x2="75" y2="64" stroke="#f1c40f" stroke-width="2"/>
+                            <circle cx="40" cy="36" r="5" fill="#f1c40f"/><circle cx="60" cy="36" r="5" fill="#f1c40f"/>
+                            <circle cx="35" cy="50" r="5" fill="#f1c40f"/><circle cx="50" cy="50" r="5" fill="#f1c40f"/><circle cx="65" cy="50" r="5" fill="#f1c40f"/>
+                            <rect x="17" y="20" width="5" height="60" rx="2.5" fill="#f1c40f"/><rect x="78" y="20" width="5" height="60" rx="2.5" fill="#f1c40f"/>
+                        </svg>
+                    </div>
+                    <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;">AbacusArena.org</h2>
                     <div class="ticker-wrapper"><div class="ticker-scroll"><span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏</span></div></div>
+                    <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
                 </div>
             </div>
+            
             <style>
-                .ticker-wrapper { margin: 20px 0 10px 0; overflow: hidden; background: #f3f4f6; border: 2px solid #000000; border-radius: 40px; padding: 12px 0; width: 100%; }
+                .ticker-wrapper { margin: 20px 0 10px 0; overflow: hidden; background: rgba(0,0,0,0.3); border-radius: 40px; padding: 12px 0; width: 100%; }
                 .ticker-scroll { display: inline-block; white-space: nowrap; animation: scrollTextFull 16s linear infinite; }
-                .ticker-text { color: #000000; font-size: 0.95rem; font-weight: 700; display: inline-block; }
+                .ticker-text { color: #ffd700; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px; display: inline-block; }
                 @keyframes scrollTextFull { 0% { transform: translate3d(100%, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
             </style>
-            <p style="text-align: center; font-weight: 900; color: #000000; font-size:1.05rem; margin:0 0 30px 0;">Project Started: April 23, 2026</p>
-            <p style="text-align: center; font-weight: 800; color: #000000; font-size: 1.15rem; margin: -15px 0 30px 0;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
-            <p style="font-size:1.1rem; color: #000000;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
-            <h3 style="color: #000000; margin: 30px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
-            <p style="font-size:1.05rem; margin-bottom:5px; color: #000000;">This website is <strong>free for everyone, forever.</strong></p>
-            <p style="font-size:1.05rem; margin-top:0; color: #000000;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us! <span class="read-more-link" onclick="openManifestoWithLoading()">Read More <i class="fas fa-arrow-right"></i></span></p>
-            <h3 style="color: #000000; margin: 30px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
-            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0; color: #000000; font-weight:600;">
+            
+            <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 30px 0;">Project Started: April 23, 2026</p>
+            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -15px 0 30px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
+            <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
+            
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
+            <p style="font-size:1.05rem; margin-bottom:5px;">This website is <strong>free for everyone, forever.</strong></p>
+            <p style="font-size:1.05rem; margin-top:0;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us! <span class="read-more-link" onclick="openManifestoWithLoading()">Read More <i class="fas fa-arrow-right"></i></span></p>
+            
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
+            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0;">
                 <li style="margin-bottom: 8px;">Any attempt to refresh or close the tab while a sum is in progress results in a <strong>-25 Rating Penalty</strong> inside the server.</li>
                 <li style="margin-bottom: 8px;">Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
                 <li style="margin-bottom: 8px;">Wrong answer in Fair Play Verification Zone = -25 Rating Penalty</li>
             </ul>
-            <h3 style="color: #000000; margin: 30px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;"><i class="fas fa-crown"></i> Elite Standings</h3>
-            <p style="font-size:1.05rem; color: #000000;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
             
-            <h3 style="color: #000000; margin: 35px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;"><i class="fas fa-calculator"></i> Rating Acceleration & Deflection Model</h3>
-            <p style="font-size:1.05rem; line-height:1.6; color:#000000;">
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-crown"></i> Elite Standings</h3>
+            <p style="font-size:1.05rem;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
+            
+            <h3 style="color: #ffeb3b; margin: 35px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-calculator"></i> Rating Acceleration & Deflection Model</h3>
+            <p style="font-size:1.05rem; line-height:1.6; color:#fff;">
                 Your performance ranking operates under a specialized statistical Elo evaluation algorithm with a dynamic K-factor index of 32. Your rating metrics fluctuate based on the following behavioral vectors:
             </p>
-            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0; line-height:1.6; color:#000000; font-weight:600;">
+            <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0; line-height:1.6;">
                 <li style="margin-bottom: 6px;"><strong>Rating Multipliers (Increases):</strong> Successfully submitting correct compilation results shifts your value upwards. If you out-pace your opponent's baseline chronometer speed, an accelerated speed multiplier index scales your output up to a ceiling optimization boundary of +32 points.</li>
                 <li style="margin-bottom: 6px;"><strong>Deflection Degradation (Decreases):</strong> Registering incorrect responses or allowing the absolute countdown clock sequence to exhaust automatically drops your value parameter. Resigning inside an active matchmaking timeline applies a variable deficit modifier.</li>
                 <li style="margin-bottom: 6px;"><strong>Fair Play Infractions:</strong> Violating structure verification zones or breaking connectivity during flash streams prompts an immediate administrative collection script resulting in a flat -25 points penalty deduction.</li>
             </ul>
 
-            <h3 style="color: #000000; margin: 30px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Ranges</h3>
+            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Ranges</h3>
             <table class="rank-table">
                 <thead><tr><th>Rating Cutoff</th><th>Setup Configuration Matrix</th></tr></thead>
                 <tbody>
@@ -628,39 +699,62 @@
                     <tr><td>5200+</td><td>5 Digits | 50 Rows | 0.25s display timing parameters</td></tr>
                 </tbody>
             </table>
-            <h3 style="color: #000000; margin: 40px 0 10px 0; border-bottom: 2px solid #000000; padding-bottom: 5px;">Message From the Founder</h3>
-            <p style="font-size: 1.05rem; line-height: 1.7; text-align: justify; color: #000000; opacity: 0.95; margin-bottom: 40px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to the technical updation of AbacusArena.org, back-end servers, or database instances. We're a full free platform trying to serve you all the interactive needs that're there to improve in Abacus without ads or paywalls, so we need money for our life and as a motivation to keep expanding our platform. By the way, we also constantly provide many new updates and invest partially from community donations right back into our physical hosting infrastructure to ensure a lightning-fast calculation ecosystem for everyone worldwide.</p>
-            <div style="margin-top: 50px; text-align: center; border-top: 2px solid #000000; padding-top: 20px;"><p style="color: #000000; font-size: 0.9rem; font-weight:700;">© 2026 AbacusArena.org. Built on integrity.</p></div>
+            <h3 style="color: #ffeb3b; margin: 40px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;">Message From the Founder</h3>
+            <p style="font-size: 1.05rem; line-height: 1.7; text-align: justify; color: #ffffff; opacity: 0.95; margin-bottom: 40px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to the technical updation of AbacusArena.org, back-end servers, or database instances. We're a full free platform trying to serve you all the interactive needs that're there to improve in Abacus without ads or paywalls, so we need money for our life and as a motivation to keep expanding our platform. By the way, we also constantly provide many new updates and invest partially from community donations right back into our physical hosting infrastructure to ensure a lightning-fast calculation ecosystem for everyone worldwide.</p>
+            <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">© 2026 AbacusArena.org. Built on integrity.</p></div>
         </div>
     </div>
 
     <div id="manifesto-screen">
         <button class="back-arena-btn" onclick="closeManifesto()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="manifesto-centered">
-            <h1 style="color:#000000; font-size:2.8rem; font-weight:900; text-align: center;"><i class="fas fa-brain"></i> Our Digital Philosophy</h1>
+<!-- Upgraded Philosophy Section with 5-Second Safe Delay Loop -->
+            <div class="moving-gif-card">
+                <div style="text-align: center; font-family: system-ui, sans-serif;">
+                    <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;"><i class="fas fa-brain"></i> Our Digital Philosophy</h2>
+                    <div class="ticker-wrapper" style="padding: 12px 0; overflow: hidden; width: 100%;">
+                        <div class="ticker-scroll" style="animation: safeFiveSecondDelayScroll 11s linear infinite; display: inline-block; white-space: nowrap; width: 100%; text-align: left; padding-left: 100%;">
+                            <span class="ticker-text" style="display: inline-block;">✨ Accessibility ✨ &nbsp;|&nbsp; 🧠 Clarity 🧠 &nbsp;|&nbsp; 🎯 Focus 🎯 &nbsp;|&nbsp; 🧮 AbacusArena.org!! 🧮</span>
+                        </div>
+                    </div>
+                    <style>
+                        @keyframes safeFiveSecondDelayScroll {
+                            0% { transform: translate3d(0, 0, 0); }
+                            54.54% { transform: translate3d(-200%, 0, 0); }
+                            100% { transform: translate3d(-200%, 0, 0); }
+                        }
+                    </style>
+                    <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
+                </div>
+            </div>
+            
+
             <p>Modern internet spaces are broken. Countless educational websites subsist by cluttering screens with intrusive advertisements or locking their best features away behind aggressive paywalls. We fundamentally refuse to follow this pattern. Our project is built on the belief that premium learning tools should never be restricted by financial status.</p>
-            <h3 style="color:#000000; border-bottom:2px solid #000000; padding-bottom:4px;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h3>
+            
+            <h3 style="color:#f1c40f;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h3>
             <p>Imagine arriving at a restaurant, only to be told you must pay a premium cover charge just to open the menu and look at the list of available items. Does that feel right? Or imagine buying an educational textbook, only to find every other page blacked out with a lock icon demanding a monthly subscription. Education shouldn't be hidden in the shadows.</p>
-            <p>We believe that clarity, accessibility, and focus are the absolute prerequisites for mastering complex mental skills like rapid calculation. True learning platforms should exist to elevate their students, not exploit their attention spans.</p>
-            <h3 style="color:#000000; border-bottom:2px solid #000000; padding-bottom:4px;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h3>
+            <p>True learning platforms should exist to elevate their students, <strong>not to exploit</strong> their attention spans.</p>
+            
+            <h3 style="color:#f1c40f;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h3>
             <p>We proudly draw inspiration from open systems like <strong>Lichess.org</strong>. On our platform, every user—regardless of background, location, or financial standing—will always have total, unrestricted access to every single feature we build. No tiers, no hidden premiums, and no systemic biases.</p>
-            <h3 style="color:#000000; border-bottom:2px solid #000000; padding-bottom:4px;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h3>
+            
+            <h3 style="color:#f1c40f;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h3>
             <p>As our active student directory grows, running real-time global rankings, persistent leaderboard systems, secure user databases, and reliable computational servers will incur ongoing infrastructure costs. To handle this sustainably, we intend to implement an optional donation module in the future once the user base scales significantly.</p>
             <p>However, let us make one promise absolute: <strong>Donors will receive the exact same application experience and feature access as everyone else.</strong> Financial contributions will strictly serve to support background server upkeep, ensuring the ecosystem stays alive and robust for the community. We are here to create value, and we intend to remain exactly like this forever.</p>
-            <div style="margin-top: 50px; text-align: center; font-weight:800; color:#000000;"><p>AbacusArena.org • Built on Integrity</p></div>
+            <div style="margin-top: 50px; text-align: center;"><p>AbacusArena.org • Built on Integrity</p></div>
         </div>
     </div>
 
     <div id="world-rank-panel">
-        <div style="max-width: 500px; margin: 0 auto; width: 100%; display:flex; flex-direction:column; height:90vh;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000000; padding-bottom: 15px; margin-bottom: 20px;">
-                <h2 style="margin: 0; font-size: 1.5rem; font-weight: 900; color: #000000; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy"></i> Live Arena Standings</h2>
-                <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: #ffffff; border:2px solid #000000; width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
+        <div style="max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; height: 90vh;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 20px;">
+                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy"></i> Live Arena Standings</h2>
+                <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
             </div>
             <div class="leaderboard-container-scroll" id="leaderboardScrollList"></div>
-            <div style="background: #ffffff; border: 2px solid #000000; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 4px 0 #000000; margin-top: 15px;">
+            <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 15px;">
                 <div style="text-align: left;">
-                    <p style="margin: 0; font-size: 0.8rem; line-height: 1.4; color: #000000; font-weight: 700;"><i class="fas fa-bolt"></i> <strong>Active Pulse Matrix:</strong> Global standings update continuously every 3 seconds. Top elite bracket floor requires a minimum of 2800+ rating parameters.</p>
+                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-bolt" style="color: #e67e22;"></i> <strong>Real-time Active Pulse Matrix:</strong> Global standings update continuously every 3 seconds. Top elite bracket floor requires a minimum of 2800+ rating parameters.</p>
                 </div>
             </div>
         </div>
@@ -715,14 +809,14 @@
             "🌍","🪐","☀️","🌙","⭐","🌌","☁️","🌪️","🌊","⛰️","🌋","🏕️","🍄","🪵","🍁","🌵","🌴","🌲","☘️","🌹",
             "🍕","🍔","🍟","🍣","🌮","🍦","🍩","🍪","🍫","☕","🥤","🧉","🍺","🍷","🥃","🥝","🍓","🍉","🍎","🍏",
             "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🛹","🚲",
-            "🚗","🏍️","✈️","🚀","🚁","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
+            "🚗","🏍️","✈️","🚀","helicopt","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
             "🔑","🔒","🔓","🔨","🪓","🛡️","⚔️","📯","🔔","🏺","📿","💈","🧿","🪞","🧪","🔬","🔭","🩺","🩹",
             "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📘","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳",
-            "💍","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","裙","🎨","🎬",
+            "💍","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","外套","袜","裙","🎨","🎬",
             "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","🎯","🎳","🎮","🎰","🟥","🟧","🟨","🟩","🟦","🟪",
-            "🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬","💭","🗯️","🪔","🧲","🧱","🪵",
-            "🪢","🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🚲","🛴","🛹","🛼","🚏","⛵","🛥️","🛳️","⛴️","🚢","🛫",
-            "🛬","🪂","💺","🛰️","🛸","🪐","🌠","🌌","⛅","⛈️","🌤️","🍂","🍁"
+            "🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬","💭","🗯️","🪔","🧲","🧱","🪢",
+            "🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🛴","🛹","🛼","🚏","⛵","🛥️","🛳️","⛴️","🚢","🛫","🛬","💺",
+            "卫星","🌠","⛅","⛈️","🌤️","🍂","🍁"
         ];
 
         function buildComprehensiveAIPools() {
@@ -743,11 +837,13 @@
             musicEnabled = !musicEnabled;
             const btn = document.getElementById('musicControlBtn');
             if (musicEnabled) {
-                bgMusic.play().catch(e => console.log('Music play blocked'));
+                bgMusic.play().catch(e => console.log('Autoplay blocked'));
                 btn.innerHTML = '<i class="fas fa-music"></i>';
+                btn.style.opacity = '0.7';
             } else {
                 bgMusic.pause();
                 btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                btn.style.opacity = '0.5';
             }
         }
 
@@ -837,7 +933,7 @@
                                 <span class="leaderboard-badge-num">#${rankPointerId}</span>
                                 <span>${rowData.flair} ${rowData.name} <small>(You)</small></span>
                             </div>
-                            <div style="font-weight:900;">${rowData.rating}</div>
+                            <div style="color:#0284c7; font-weight:800;">${rowData.rating}</div>
                         </div>`;
                 } else {
                     innerHTMLContentAccumulator += `
@@ -846,7 +942,7 @@
                                 <span class="leaderboard-badge-num">#${rankPointerId}</span>
                                 <span><span class="leaderboard-bot-badge">AI</span>${rowData.flair} ${rowData.name}</span>
                             </div>
-                            <div>${rowData.rating}</div>
+                            <div style="color:#2c3e50; opacity:0.8;">${rowData.rating}</div>
                         </div>`;
                 }
             }
@@ -855,10 +951,10 @@
                 innerHTMLContentAccumulator += `
                     <div class="leaderboard-row-item user-special-row">
                         <div class="leaderboard-identity-group">
-                            <span class="leaderboard-badge-num">#${calculatedUserRank}</span>
+                            <span class="leaderboard-badge-num" style="width:55px;">#${calculatedUserRank}</span>
                             <span>${selectedFlair} ${username} <small>(You)</small></span>
                         </div>
-                        <div style="font-weight:900;">${rating}</div>
+                        <div style="color:#0284c7; font-weight:800;">${rating}</div>
                     </div>`;
             }
             displayListContainer.innerHTML = innerHTMLContentAccumulator;
@@ -886,7 +982,7 @@
             document.getElementById('oppAvatar').innerText = randomAvatar;
 
             let dot = document.getElementById('oppStatusDot');
-            dot.style.background = "#000000"; dot.className = "identity-status-dot";
+            dot.className = "identity-status-dot"; dot.style.background = "#2ecc71";
             hasActiveOpponent = true;
             calculateStakes();
         }
@@ -896,7 +992,7 @@
             document.getElementById('oppNameDisplay').innerText = "No Active Match";
             document.getElementById('oppAvatar').innerText = "❔";
             let dot = document.getElementById('oppStatusDot');
-            dot.className = "identity-status-dot"; dot.style.background = "#ffffff";
+            dot.className = "identity-status-dot"; dot.style.background = "#b2bec3";
             hasActiveOpponent = false;
         }
 
@@ -918,7 +1014,7 @@
             let display = document.getElementById('display');
             display.className = ""; display.innerText = "";
             let dot = document.getElementById('oppStatusDot');
-            dot.className = "identity-status-dot searching"; dot.style.background = "#000000";
+            dot.className = "identity-status-dot searching"; dot.style.background = "#f1c40f";
             document.getElementById('oppNameDisplay').innerText = "Searching...";
             document.getElementById('oppRatingDisplay').innerText = "----";
             document.getElementById('oppAvatar').innerText = "⏳";
@@ -936,7 +1032,7 @@
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.display = "block"; actionBtn.disabled = false;
             actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
-            actionBtn.onclick = launchConfirmedFlashing;
+            actionBtn.style.background = "var(--green)"; actionBtn.onclick = launchConfirmedFlashing;
             document.getElementById('abort-match-btn').style.display = "block";
             document.getElementById('resign-match-btn').style.display = "none";
 
@@ -952,13 +1048,14 @@
             if (matchStateStep !== "gate") return;
             clearInterval(startGateTimeoutTracker);
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.display = "none"; actionBtn.disabled = true;
+            actionBtn.style.background = "var(--accent)"; actionBtn.style.display = "none"; actionBtn.disabled = true;
             initiateGame();
         }
 
         function executeGateAbandonmentAbort() {
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
+            actionBtn.style.background = "var(--accent)"; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
+            actionBtn.onclick = startMatchmakingSequence;
             triggerManualAbort();
         }
 
@@ -976,15 +1073,16 @@
             }
 
             gameInProgress = false; matchStateStep = "idle"; localStorage.removeItem('sum-interrupted');
-            document.getElementById('light-r').style.background = "#ffffff";
-            document.getElementById('light-y').style.background = "#ffffff";
-            document.getElementById('light-g').style.background = "#ffffff";
+            document.getElementById('light-r').style.background = "#b2bec3";
+            document.getElementById('light-y').style.background = "#b2bec3";
+            document.getElementById('light-g').style.background = "#b2bec3";
             
             let display = document.getElementById('display');
             display.innerText = "READY"; display.className = "ready-text";
 
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
+            actionBtn.style.background = "var(--accent)"; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
+            actionBtn.onclick = startMatchmakingSequence;
             document.getElementById('abort-match-btn').style.display = "none";
             document.getElementById('resign-match-btn').style.display = "none";
             document.getElementById('action-btn').style.display = "block";
@@ -1011,7 +1109,10 @@
             document.getElementById('submit-btn').style.display = 'none';
             document.getElementById('abort-match-btn').style.display = "none";
             document.getElementById('resign-match-btn').style.display = "none";
-            document.getElementById('action-btn').style.display = 'block';
+            
+            let actionBtn = document.getElementById('action-btn');
+            actionBtn.style.display = 'block';
+            actionBtn.onclick = startMatchmakingSequence;
 
             triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
@@ -1023,7 +1124,13 @@
             let actionBtn = document.getElementById('action-btn'); actionBtn.disabled = true;
             countdownUIRefreshInterval = setInterval(() => {
                 let remainingTime = lockUntilTimestamp - Date.now();
-                if (remainingTime <= 0) { clearInterval(countdownUIRefreshInterval); actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`; actionBtn.disabled = false; return; }
+                if (remainingTime <= 0) { 
+                    clearInterval(countdownUIRefreshInterval); 
+                    actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`; 
+                    actionBtn.onclick = startMatchmakingSequence;
+                    actionBtn.disabled = false; 
+                    return; 
+                }
                 let secsTotal = Math.ceil(remainingTime / 1000);
                 actionBtn.innerHTML = `<i class="fas fa-clock"></i> Lock: ${Math.floor(secsTotal / 60)}:${secsTotal % 60 < 10 ? '0' : ''}${secsTotal % 60}`;
             }, 1000);
@@ -1040,10 +1147,11 @@
 
             titleNode.innerText = bannerTitle; subNode.innerText = subText; closeIcon.style.display = "none"; 
             if (deltaVal === 0) {
-                tickNode.innerText = rating; bracketNode.innerText = "(+0)"; speedNode.style.display = "none";
+                tickNode.innerText = rating; bracketNode.innerText = "(+0)"; bracketNode.className = "outcome-bracket-modifier"; speedNode.style.display = "none";
             } else {
                 tickNode.innerText = baseRating;
                 bracketNode.innerText = (deltaVal > 0 ? `(+${deltaVal})` : `(${deltaVal})`);
+                bracketNode.className = "outcome-bracket-modifier " + (deltaVal > 0 ? "plus" : "minus");
                 if (speedMsAhead !== 0) {
                     speedNode.style.display = "block";
                     speedNode.innerText = `${Math.abs(speedMsAhead / 1000).toFixed(2)}s ${speedMsAhead > 0 ? 'ahead of' : 'behind'} bot`;
@@ -1066,7 +1174,7 @@
 
         function dismissPerformanceOverlay() { document.getElementById('fide-match-outcome-overlay').style.display = "none"; clearOpponentDisplay(); }
         
-        // 3-Seconds manual deferred loading script constraint added here for Profile screen rankings click
+        // 3-Seconds manual deferred loading constraints applied on rankings tab clicks inside profile overlay module
         function openGlobalRankPanelDeferred() {
             showLoading();
             setTimeout(() => {
@@ -1110,7 +1218,7 @@
         function renderHistoryModal() {
             let container = document.getElementById('historyListModal');
             if (!historyGames.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text);">— No games yet —</div>'; return; }
-            container.innerHTML = historyGames.slice(0,5).map(g => `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status">${g.correct ? '✓' : '✗'}</span></div>`).join('');
+            container.innerHTML = historyGames.slice(0,5).map(g => `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status ${g.correct ? 'correct' : 'wrong'}">${g.correct ? '✓' : '✗'}</span></div>`).join('');
         }
         function closeHistoryFullscreen() { document.getElementById('history-fullscreen').style.display = 'none'; }
         
@@ -1122,7 +1230,7 @@
             allFlairs.forEach(f => { 
                 let div = document.createElement('div'); div.className = 'flair-item'; 
                 if(f === selectedFlair) div.classList.add('selected'); 
-                div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span>${f}</span>`;
+                div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span style="font-size:1.5rem;">${f}</span>`;
                 div.onclick = () => selectFlairWithAnimation(div, f); 
                 grid.appendChild(div); 
             }); 
@@ -1143,6 +1251,7 @@
             }, 800);
         }
         
+        // Native operations frameworks
         function editUsernameWithAnimation() {
             let editSection = document.getElementById('usernameEditBtn');
             editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>'; editSection.style.pointerEvents = 'none';
@@ -1150,7 +1259,7 @@
                 let newName = prompt("Enter your username:", username);
                 if (newName && newName.trim()) {
                     username = newName.trim(); localStorage.setItem('username', username);
-                    editSection.innerHTML = `<span id="profileUsername">${username}</span><span><i class="fas fa-check"></i></span>`;
+                    editSection.innerHTML = `<span id="profileUsername">${username}</span><span style="color:var(--green);"><i class="fas fa-check"></i></span>`;
                     setTimeout(() => { updateProfileFullscreen(); updateMainDisplay(); editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; }, 800);
                 } else { editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; }
             }, 400);
@@ -1158,11 +1267,15 @@
         
         function updateProfileFullscreen() { document.getElementById('profileRatingLarge').innerText = rating; document.getElementById('profileUsername').innerText = username; }
 
+        const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
+        let darkIndex = 0;
+        
         function applyThemeWithLoading(t) { 
             showLoading();
             setTimeout(() => {
-                appTheme = t;
-                localStorage.setItem('abacus-app-theme', appTheme);
+                if (t === 'dark') { darkIndex = (darkIndex + 1) % darkThemes.length; appTheme = darkThemes[darkIndex]; } 
+                else appTheme = t;
+                localStorage.setItem('abacus-app-theme', appTheme); document.documentElement.setAttribute('data-theme', appTheme); 
                 startThemeChangerLoop(); hideLoading(); closeControlSuite(); updateTypographyStyles();
             }, 600);
         }
@@ -1172,12 +1285,12 @@
         function startSplashImmediate() { document.getElementById('splash-screen').style.opacity = '0'; setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; document.getElementById('mainAppWrapper').style.display = 'flex'; clearOpponentDisplay(); }, 500); }
 
         const themesData = {
-            light: { type: 'gradient', cycle: [['#ffffff','#ffffff']] },
-            dark: { type: 'gradient', cycle: [['#ffffff','#ffffff']] },
-            'dark-green': { type: 'gradient', cycle: [['#ffffff','#ffffff']] },
-            'dark-red': { type: 'gradient', cycle: [['#ffffff','#ffffff']] },
-            'dark-purple': { type: 'gradient', cycle: [['#ffffff','#ffffff']] },
-            nature: { type: 'gradient', cycle: [['#ffffff','#ffffff']] }
+            light: { type: 'gradient', cycle: [['#eee3ff','#e0f2fe'],['#e0f2fe','#e6fffa']] },
+            dark: { type: 'gradient', cycle: [['#0a1628','#1a2a4a'],['#0a1f1a','#1a3a2a']] },
+            'dark-green': { type: 'gradient', cycle: [['#0a1f1a','#1a3a2a']] },
+            'dark-red': { type: 'gradient', cycle: [['#1f0a0a','#3a1a1a']] },
+            'dark-purple': { type: 'gradient', cycle: [['#1a0a2a','#2a1a3a']] },
+            nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'] }
         };
         let currentActiveLayer = 1, themeCycleIndex = 0;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1191,7 +1304,8 @@
                 let config = themesData[appTheme] || themesData.light;
                 let active = currentActiveLayer === 1 ? l1 : l2; let hidden = currentActiveLayer === 1 ? l2 : l1; 
                 hidden.classList.remove('nature-pan-effect'); 
-                hidden.style.background = `#ffffff`;
+                if (config.type === 'gradient') { hidden.style.background = `linear-gradient(135deg, ${config.cycle[themeCycleIndex % config.cycle.length]}, ${config.cycle[themeCycleIndex % config.cycle.length]})`; themeCycleIndex++; } 
+                else { hidden.style.background = `url('${config.cycle}')`; hidden.style.backgroundSize = '140% 140%'; hidden.classList.add('nature-pan-effect'); } 
                 active.classList.remove('layer-active'); hidden.classList.add('layer-active'); currentActiveLayer = currentActiveLayer === 1 ? 2 : 1; 
             }; 
             trigger(); themeIntervalId = setInterval(trigger, 10000); 
@@ -1206,28 +1320,26 @@
             let fontBtn = document.getElementById(`font-style-${typographySetting}`); if (fontBtn) fontBtn.classList.add('setting-active');
         }
 
-        // Updated Typography Configuration Matrix strictly containing black or 7 unique hex options
+        // Expanded text dynamic contrast mapping matrix strictly compilation mapping hex choices
         function updateTypographyStyles() {
             let root = document.documentElement;
-            let displayNode = document.getElementById('display');
+            let isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement.getAttribute('data-theme') !== 'nature';
             
-            let colorMapping = "#000000";
-            if (typographySetting === 'red') colorMapping = "#e63946";
-            else if (typographySetting === 'orange') colorMapping = "#f4a261";
-            else if (typographySetting === 'yellow') colorMapping = "#e9c46a";
-            else if (typographySetting === 'green') colorMapping = "#2a9d8f";
-            else if (typographySetting === 'blue') colorMapping = "#457b9d";
-            else if (typographySetting === 'indigo') colorMapping = "#1d3557";
-            else if (typographySetting === 'violet') colorMapping = "#833ab4";
+            let colorMapping = isDarkTheme ? '#f0f3f8' : '#2d3436';
+            if (typographySetting === 'red') colorMapping = "#d63031";
+            else if (typographySetting === 'orange') colorMapping = "#e67e22";
+            else if (typographySetting === 'yellow') colorMapping = "#f1c40f";
+            else if (typographySetting === 'green') colorMapping = "#2ecc71";
+            else if (typographySetting === 'blue') colorMapping = "#3498db";
+            else if (typographySetting === 'indigo') colorMapping = "#34495e";
+            else if (typographySetting === 'violet') colorMapping = "#9b59b6";
 
             root.style.setProperty('--flash-color', colorMapping);
             root.style.setProperty('--flash-font', "'Inter', sans-serif");
             root.style.setProperty('--flash-style', 'normal');
             
             let previewText = document.getElementById('preview-text-node');
-            if (previewText) {
-                previewText.style.color = colorMapping;
-            }
+            if (previewText) { previewText.style.color = colorMapping; }
         }
 
         function applyTypographyContrastStyle(targetElement, altStateToggle) {
@@ -1321,7 +1433,7 @@
 
         function getRatingBoundDifficulty(targetRating) {
             let r = targetRating;
-            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; if (r < 1800) return { digits: 1, rows: 10, time: 750 }; if (r < 1900) return { digits: 1, rows: 15, time: 700 }; if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; if (r < 2200) return { digits: 2, rows: 10, time: 950 }; if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; if (r < 2400) return { digits: 2, rows: 15, time: 750 }; if (r < 2500) return { digits: 2, rows: 15, time: 700 }; if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; if (r < 2700) return {digits: 3, rows: 7, time: 1000 }; if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; if (r < 2900) return { digits: 4, rows: 5, time: 950 }; if (r < 3000) return { digits: 4, rows: 7, time: 900 }; if (r < 3100) return { digits: 4, rows: 10, time: 850 }; if (r < 3200) return { digits: 4, rows: 15, time: 800 }; if (r < 3300) return { digits: 5, rows: 10, time: 750 }; if (r < 3400) return { digits: 5, rows: 15, time: 700 }; if (r < 3500) return { digits: 5, rows: 20, time: 650 }; if (r < 3600) return { digits: 5, rows: 25, time: 600 }; if (r < 3700) return { digits: 5, rows: 30, time: 550 }; if (r < 3800) return { digits: 5, rows: 35, time: 500 }; if (r < 3900) return { digits: 5, rows: 40, time: 450 }; if (r < 4000) return { digits: 5, rows: 45, time: 400 }; if (r < 5200) return { digits: 5, rows: 50, time: 350 }; return { digits: 5, rows: 50, time: 250 };
+            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; if (r < 1800) return { digits: 1, rows: 10, time: 750 }; if (r < 1899) return { digits: 1, rows: 15, time: 700 }; if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; if (r < 2200) return { digits: 2, rows: 10, time: 950 }; if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; if (r < 2400) return { digits: 2, rows: 15, time: 750 }; if (r < 2500) return { digits: 2, rows: 15, time: 700 }; if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; if (r < 2700) return {digits: 3, rows: 7, time: 1000 }; if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; if (r < 2900) return { digits: 4, rows: 5, time: 950 }; if (r < 3000) return { digits: 4, rows: 7, time: 900 }; if (r < 3100) return { digits: 4, rows: 10, time: 850 }; if (r < 3200) return { digits: 4, rows: 15, time: 800 }; if (r < 3300) return { digits: 5, rows: 10, time: 750 }; if (r < 3400) return { digits: 5, rows: 15, time: 700 }; if (r < 3500) return { digits: 5, rows: 20, time: 650 }; if (r < 3600) return { digits: 5, rows: 25, time: 600 }; if (r < 3700) return { digits: 5, rows: 30, time: 550 }; if (r < 3800) return { digits: 5, rows: 40, time: 450 }; if (r < 4000) return { digits: 5, rows: 45, time: 400 }; if (r < 5200) return { digits: 5, rows: 50, time: 350 }; return { digits: 5, rows: 50, time: 250 };
         }
 
         function getNormalDifficulty() { return !isRated ? { digits: manualDigits, rows: manualRows, time: manualTime } : getRatingBoundDifficulty(rating); }
@@ -1335,7 +1447,7 @@
             return null;
         }
 
-        function getFinalDifficulty() { let fairPlay = isInFairPlayZone(); if (fairPlay && isRated) { currentFairPlayActive = true; document.getElementById('fairPlayBanner').innerHTML = `🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · WRONG = -25 RATING`; document.getElementById('fairPlayBanner').style.display = 'inline-block'; return fairPlay; } currentFairPlayActive = false; document.getElementById('fairPlayBanner').style.display = 'none'; return getNormalDifficulty(); }
+        function getFinalDifficulty() { let fairPlay = isInFairPlayZone(); if (fairPlay && isRated) { currentFairPlayActive = true; document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · WRONG = -25 RATING`; document.getElementById('fairPlayBanner').style.display = 'inline-block'; return fairPlay; } currentFairPlayActive = false; document.getElementById('fairPlayBanner').style.display = 'none'; return getNormalDifficulty(); }
         function updateDifficultyDisplay() { let diff = getFinalDifficulty(); document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(2)}s`; }
         
         function toggleMode() { 
@@ -1359,13 +1471,13 @@
             document.getElementById('abort-match-btn').style.display = isRated ? "block" : "none"; document.getElementById('resign-match-btn').style.display = "none";
 
             let lr = document.getElementById('light-r'), ly = document.getElementById('light-y'), lg = document.getElementById('light-g');
-            lr.style.background = "#000000"; playSfx(550, 'sine', 0.12);
+            lr.style.background = "var(--red)"; playSfx(550, 'sine', 0.12);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
-            lr.style.background = "#ffffff"; ly.style.background = "#000000"; playSfx(550, 'sine', 0.12);
+            lr.style.background = "#b2bec3"; ly.style.background = "#f1c40f"; playSfx(550, 'sine', 0.12);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
-            ly.style.background = "#ffffff"; lg.style.background = "#000000"; playSfx(850, 'sine', 0.2);
+            ly.style.background = "#b2bec3"; lg.style.background = "var(--green)"; playSfx(850, 'sine', 0.2);
             await new Promise(r => { searchTimeoutTracker = setTimeout(r, 1000); }); if (matchStateStep === "idle") return;
-            lg.style.background = "#ffffff";
+            lg.style.background = "#b2bec3";
 
             matchStateStep = "printing";
             document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = isRated ? "block" : "none";
@@ -1398,7 +1510,7 @@
             let barFill = document.getElementById('timerBarFill');
             let timerNumber = document.getElementById('timerNumber');
             
-            if (isRated) { barContainer.style.display = 'block'; timerNumber.style.display = 'none'; barFill.style.width = '100%'; } 
+            if (isRated) { barContainer.style.display = 'block'; timerNumber.style.display = 'none'; barFill.style.width = '100%'; barFill.className = 'timer-bar-fill'; } 
             else { barContainer.style.display = 'none'; timerNumber.style.display = 'block'; timerNumber.innerText = timerSecs.toFixed(1); }
             
             document.getElementById('user-ans').disabled = false; document.getElementById('user-ans').focus();
@@ -1411,6 +1523,7 @@
                 if (!isRated) document.getElementById('timerNumber').innerText = timeLeft.toFixed(1);
                 if (isRated) {
                     let percent = (timeLeft / timerSecs) * 100; barFill.style.width = `${percent}%`; 
+                    if (percent < 30) barFill.className = 'timer-bar-fill danger'; else if (percent < 60) barFill.className = 'timer-bar-fill warning'; 
                 }
                 if (timeLeft <= 0) finalize(null, timerSecs * 1000);
             }, 100);
@@ -1431,6 +1544,7 @@
             document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = "none";
             
             let actionBtn = document.getElementById('action-btn'); actionBtn.style.display = 'block'; actionBtn.disabled = false; actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
+            actionBtn.onclick = startMatchmakingSequence;
             
             let userCorrect = (userVal === actualSum);
             let botCorrect = false, botTimedOut = false, botSubmissionTimeMs = 7000; 
@@ -1483,8 +1597,8 @@
                 addHistory(sequence.join('+') + '=' + actualSum, userCorrect);
             }
             
-            display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
-            setTimeout(() => { display.innerText = "READY"; display.className = "ready-text"; }, 2500);
+            display.innerText = userCorrect ? "✓" : "✗ " + actualSum; display.style.color = userCorrect ? "var(--green)" : "var(--red)";
+            setTimeout(() => { display.innerText = "READY"; display.className = "ready-text"; display.removeAttribute('style'); }, 2500);
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
             updateRatingUI(); updateMainDisplay(); disableControls(false); sortAndRenderLeaderboardMatrix();
         }
