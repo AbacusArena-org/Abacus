@@ -1479,14 +1479,18 @@
         function closeAboutViewPage() { document.getElementById('pane-about-fullscreen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
+        function getActiveKFactor() {
+            if (gamesPlayed <= 3) return 256;
+            if (gamesPlayed <= 5) return 128;
+            if (gamesPlayed <= 10) return 64;
+            if (gamesPlayed <= 15) return 32;
+            return 16;
+        }
+
         function calculateStakes() { 
             if (!isRated || !hasActiveOpponent) { winPoints = 0; lossPoints = 0; drawDeltaUser = 0; return; } 
             
-            let activeVolatileKFactorValue = 16;
-            if (gamesPlayed <= 3) activeVolatileKFactorValue = 256;
-            else if (gamesPlayed <= 5) activeVolatileKFactorValue = 128;
-            else if (gamesPlayed <= 10) activeVolatileKFactorValue = 64;
-            else if (gamesPlayed <= 15) activeVolatileKFactorValue = 32;
+            let activeVolatileKFactorValue = getActiveKFactor();
             
             let expectedScoreUser = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
             winPoints = Math.max(2, Math.min(activeVolatileKFactorValue, Math.round(activeVolatileKFactorValue * (1 - expectedScoreUser))));
@@ -1639,26 +1643,32 @@
             if (isRated && hasActiveOpponent) {
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
                 let isInsideDrawSpeedWindow = (userCorrect && botCorrect && Math.abs(timeGapMs) <= 1000);
+                let currentK = getActiveKFactor();
 
                 if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userVal === null && botTimedOut)) {
                     bannerTitle = "Draw";
                     subText = isInsideDrawSpeedWindow ? "Draw by Dead-Heat calculation speed window" : (userVal === null && botTimedOut ? "Draw by mutual timeout parameter expiration" : "Draw by mutual arithmetic compilation error");
                     ratingDelta = currentFairPlayActive ? -25 : drawDeltaUser;
                     rating = Math.max(1000, rating + ratingDelta);
-                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + Math.round(32 * (0.5 - (1 / (1 + Math.pow(10, (rating - opponentRating) / 400))))));
+                    
+                    let expectedScoreBot = 1 / (1 + Math.pow(10, (rating - opponentRating) / 400));
+                    let botDrawDelta = Math.round(currentK * (0.5 - expectedScoreBot));
+                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
+                    
                     addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect);
                 } 
                 else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     bannerTitle = botCorrect ? "Won by Speed" : "Victory!";
                     subText = botCorrect ? "You out-calculated the opponent's clock" : "Opponent calculation loop failure";
-                    ratingDelta = Math.max(2, Math.min(32, Math.round(winPoints * Math.max(0.7, 1.3 - (userElapsedMs / 7000))))); rating += ratingDelta;
+                    ratingDelta = Math.max(2, Math.min(currentK, Math.round(winPoints * Math.max(0.7, 1.3 - (userElapsedMs / 7000))))); 
+                    rating += ratingDelta;
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
                     addHistory(sequence.join('+') + '=' + actualSum, true);
                 } 
                 else {
                     bannerTitle = (userCorrect && botCorrect) ? "Loss by Speed" : "Defeat";
                     subText = (userCorrect && botCorrect) ? "Bot registered data faster" : (currentFairPlayActive ? "Fair Play structural compilation error" : "Opponent computational loop accurate");
-                    ratingDelta = currentFairPlayActive ? -25 : -Math.max(2, Math.min(32, Math.round(lossPoints * Math.max(0.7, 0.5 + (userElapsedMs / 7000)))));
+                    ratingDelta = currentFairPlayActive ? -25 : -Math.max(2, Math.min(currentK, Math.round(lossPoints * Math.max(0.7, 0.5 + (userElapsedMs / 7000)))));
                     rating = Math.max(1000, rating + ratingDelta);
                     document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
                     addHistory(sequence.join('+') + '=' + actualSum, false);
