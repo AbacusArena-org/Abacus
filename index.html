@@ -697,7 +697,7 @@
     <div id="flair-fullscreen">
         <div class="flair-header">
             <h2><i class="fas fa-tag"></i> Choose Identity Avatar (320)</h2>
-            <div class="close-profile-fullscreen" onclick="closeFlairFullscreen()"><i class="fas fa-times"></i></div>
+            <div class="close-profile-fullscreen" onclick="closeFlairFullscreen()" style="font-size: 1.8rem; cursor: pointer; padding: 5px; color: var(--text); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.05);"><i class="fas fa-times"></i></div>
         </div>
         <div id="flairGridFull" class="flair-grid-full"></div>
     </div>
@@ -1644,14 +1644,16 @@
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
                 let isInsideDrawSpeedWindow = (userCorrect && botCorrect && Math.abs(timeGapMs) <= 1000);
                 let currentK = getActiveKFactor();
+                let expectedScoreUser = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
+                let expectedScoreBot = 1 / (1 + Math.pow(10, (rating - opponentRating) / 400));
 
                 if (isInsideDrawSpeedWindow || (!userCorrect && !botCorrect) || (userVal === null && botTimedOut)) {
                     bannerTitle = "Draw";
                     subText = isInsideDrawSpeedWindow ? "Draw by Dead-Heat calculation speed window" : (userVal === null && botTimedOut ? "Draw by mutual timeout parameter expiration" : "Draw by mutual arithmetic compilation error");
-                    ratingDelta = currentFairPlayActive ? -25 : drawDeltaUser;
+                    
+                    ratingDelta = currentFairPlayActive ? -25 : Math.round(currentK * (0.5 - expectedScoreUser));
                     rating = Math.max(1000, rating + ratingDelta);
                     
-                    let expectedScoreBot = 1 / (1 + Math.pow(10, (rating - opponentRating) / 400));
                     let botDrawDelta = Math.round(currentK * (0.5 - expectedScoreBot));
                     document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating + botDrawDelta);
                     
@@ -1660,17 +1662,32 @@
                 else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     bannerTitle = botCorrect ? "Won by Speed" : "Victory!";
                     subText = botCorrect ? "You out-calculated the opponent's clock" : "Opponent calculation loop failure";
-                    ratingDelta = Math.max(2, Math.min(currentK, Math.round(winPoints * Math.max(0.7, 1.3 - (userElapsedMs / 7000))))); 
+                    
+                    // Calculate base Elo gain, then seamlessly apply the speed multiplier safely bounded by active K
+                    let baseGain = currentK * (1 - expectedScoreUser);
+                    let speedMultiplier = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
+                    ratingDelta = Math.max(2, Math.min(currentK, Math.round(baseGain * speedMultiplier)));
                     rating += ratingDelta;
-                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - lossPoints);
+                    
+                    let botLoss = Math.round(currentK * expectedScoreBot);
+                    document.getElementById('oppRatingDisplay').innerText = Math.max(1000, opponentRating - botLoss);
                     addHistory(sequence.join('+') + '=' + actualSum, true);
                 } 
                 else {
                     bannerTitle = (userCorrect && botCorrect) ? "Loss by Speed" : "Defeat";
                     subText = (userCorrect && botCorrect) ? "Bot registered data faster" : (currentFairPlayActive ? "Fair Play structural compilation error" : "Opponent computational loop accurate");
-                    ratingDelta = currentFairPlayActive ? -25 : -Math.max(2, Math.min(currentK, Math.round(lossPoints * Math.max(0.7, 0.5 + (userElapsedMs / 7000)))));
+                    
+                    if (currentFairPlayActive) {
+                        ratingDelta = -25;
+                    } else {
+                        let baseLoss = currentK * expectedScoreUser;
+                        let speedMultiplier = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
+                        ratingDelta = -Math.max(2, Math.min(currentK, Math.round(baseLoss * speedMultiplier)));
+                    }
                     rating = Math.max(1000, rating + ratingDelta);
-                    document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
+                    
+                    let botWin = Math.round(currentK * (1 - expectedScoreBot));
+                    document.getElementById('oppRatingDisplay').innerText = opponentRating + botWin;
                     addHistory(sequence.join('+') + '=' + actualSum, false);
                 }
                 localStorage.setItem('abacus-rating', rating);
