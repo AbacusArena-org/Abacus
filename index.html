@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Abacus Pro | Tournament Edition | Grandmaster Arena</title>
     <meta name="google-site-verification" content="sWe3iji_Ok89o8DAW7f-h5AGskrIgsQM0MGFug6MPJo" />
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght=700&family=Inter:wght=400;500;600;700;800&family=Orbitron:wght=700&family=Caveat:wght=700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -66,6 +66,18 @@
         }
 
         html, body { min-height: 100vh; margin: 0; padding: 0; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+
+        @keyframes colorFlashCycle {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .colorful-animated-bg {
+            background: linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad, #d35400, #c0392b);
+            background-size: 400% 400%;
+            animation: colorFlashCycle 12s ease infinite;
+        }
 
         .music-control {
             position: fixed;
@@ -151,50 +163,114 @@
 
         #profile-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6000;
-            background: var(--surface); backdrop-filter: blur(20px);
-            flex-direction: column; padding: 30px; overflow-y: auto;
+            flex-direction: column; padding: 25px; overflow-y: auto;
+            color: #ffffff;
+            perspective: 1200px;
         }
         .profile-fullscreen-header {
             display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 20px; border-bottom: 2px solid var(--border);
-            margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 15px;
+            transform: translateZ(20px);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
-        .profile-fullscreen-header h2 { margin: 0; font-size: 1.8rem; }
+        .profile-fullscreen-header h2 { margin: 0; font-size: 1.6rem; color: #fff; }
         .close-profile-fullscreen {
-            font-size: 2rem; cursor: pointer; padding: 10px;
+            font-size: 2rem; cursor: pointer; padding: 5px; color: #fff;
             border-radius: 50%; transition: 0.2s;
         }
-        .close-profile-fullscreen:hover { background: rgba(0,0,0,0.1); }
+        .close-profile-fullscreen:hover { background: rgba(255,255,255,0.15); }
         .profile-fullscreen-content { max-width: 500px; margin: 0 auto; width: 100%; }
+        
         .profile-avatar-large {
-            width: 100px; height: 100px; background: var(--accent); border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 3rem; color: white; margin: 0 auto 20px;
+            width: 100px; height: 100px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 3.2rem; color: white; margin: 0 auto 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 -4px 15px rgba(0,0,0,0.3);
+            transform: perspective(800px) rotateX(3deg) translateZ(15px);
+            transition: transform 0.3s ease;
+            border: 3px solid rgba(255,255,255,0.2);
         }
-        .profile-rating-large { text-align: center; margin-bottom: 25px; }
-        .profile-rating-large .label { font-size: 0.85rem; opacity: 0.7; }
-        .profile-rating-large .value { font-size: 3rem; font-weight: 800; color: var(--accent); }
+        .profile-avatar-large:hover {
+            transform: perspective(800px) rotateX(0deg) translateZ(25px) scale(1.05);
+        }
+        
+        .profile-rating-large {
+            background: rgba(0,0,0,0.3); border-radius: 20px; padding: 18px 15px; 
+            border: 1px solid rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            transform: perspective(800px) rotateX(2deg) translateZ(10px);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+            margin-bottom: 12px;
+        }
+        .profile-rating-large .label { 
+            font-size: 0.85rem; opacity: 0.9; color: #fff; 
+            letter-spacing: 0.5px; font-weight: 500; 
+        }
+        .profile-rating-large .value { 
+            font-size: 3rem; font-weight: 800; color: #f1c40f; 
+            text-shadow: 0 2px 20px rgba(241, 196, 15, 0.3);
+            font-variant-numeric: tabular-nums;
+        }
+        
         .username-edit-section {
             display: flex; align-items: center; justify-content: space-between;
-            background: rgba(0,0,0,0.05); padding: 15px; border-radius: 16px; margin-bottom: 15px;
-            cursor: pointer;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+            padding: 14px 18px; border-radius: 16px; margin-bottom: 12px;
+            cursor: pointer; color: #fff;
+            transform: perspective(800px) rotateX(1deg) translateZ(8px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .username-edit-section span { font-size: 1.2rem; font-weight: 600; }
+        .username-edit-section:hover {
+            transform: perspective(800px) rotateX(0deg) translateZ(18px);
+            box-shadow: 0 8px 35px rgba(0,0,0,0.35);
+        }
+        .username-edit-section span { font-size: 1.1rem; font-weight: 600; }
         
         .studio-trigger-btn {
             background: linear-gradient(135deg, #2563eb, #1e40af); color: white; border: none;
-            padding: 14px; border-radius: 40px; width: 100%; font-weight: 700;
-            cursor: pointer; margin-top: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 4px 15px rgba(37,99,235,0.25); transition: all 0.2s ease;
+            padding: 16px; border-radius: 40px; width: 100%; font-weight: 700;
+            cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;
+            box-shadow: 0 6px 25px rgba(37,99,235,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
+            transform: perspective(800px) rotateX(1deg) translateZ(8px);
+            transition: all 0.3s ease;
+            font-size: 1.05rem;
         }
-        .studio-trigger-btn:hover { transform: scale(1.02); box-shadow: 0 6px 20px rgba(37,99,235,0.4); }
+        .studio-trigger-btn:hover { 
+            transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02);
+            box-shadow: 0 10px 40px rgba(37,99,235,0.5);
+        }
         .history-btn {
-            background: rgba(0,0,0,0.08); border: 1px solid var(--border);
-            padding: 14px; border-radius: 40px; width: 100%; font-weight: 600;
-            cursor: pointer; margin-top: 15px; display: flex;
+            background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+            padding: 16px; border-radius: 40px; width: 100%; font-weight: 600; color: #fff;
+            cursor: pointer; margin-top: 12px; display: flex;
             align-items: center; justify-content: center; gap: 8px;
-            transition: all 0.2s ease;
+            transform: perspective(800px) rotateX(1deg) translateZ(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
         }
+        .history-btn:hover {
+            transform: perspective(800px) rotateX(0deg) translateZ(15px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+            background: rgba(255,255,255,0.2);
+        }
+
+        .profile-manual-override {
+            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+            border-left: 4px solid #f1c40f;
+            transform: perspective(800px) rotateX(1deg) translateZ(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            backdrop-filter: blur(8px);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+        .manual-doc-heading { font-weight: 800; font-size: 0.88rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .manual-doc-body { font-size: 0.85rem; line-height: 1.4; opacity: 0.9; }
 
         #history-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6500;
@@ -267,9 +343,9 @@
         .loading-text { color: white; font-size: 1.2rem; letter-spacing: 1px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        #splash-screen { position: fixed; inset: 0; background: #c0392b; color: #f1c40f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s; }
-        .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 30px; }
-        .enter-btn { margin-top: 20px; padding: 14px 50px; background: #f1c40f; color: #c0392b; border: none; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        #splash-screen { position: fixed; inset: 0; color: #f1c40f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s; }
+        .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 30px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .enter-btn { margin-top: 20px; padding: 14px 50px; background: #f1c40f; color: #1e3a8a; border: none; border-radius: 50px; cursor: pointer; font-weight: 800; font-size: 1.2rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
 
         .page-wrapper { display: flex; flex-direction: column; align-items: center; padding: 4px 0 20px 0; width: 100%; position: relative; z-index: 10; }
         .game-container { width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; }
@@ -277,10 +353,20 @@
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
         .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
         
-        .header-stats { display: flex; justify-content: center; padding: 15px 25px; border-bottom: 1px solid var(--border); align-items: center; text-align: center; }
-        .header-center-pill { display: flex; flex-direction: column; align-items: center; }
+        .header-stats { display: flex; justify-content: center; padding: 15px 25px; border-bottom: 1px solid var(--border); align-items: center; text-align: center; position: relative; }
+        .header-center-pill { display: flex; flex-direction: column; align-items: center; transition: all 0.3s ease; }
         .rating-val { font-weight: 800; color: var(--accent); font-variant-numeric: tabular-nums; }
         #rating-ui { font-size: 2.2rem; }
+
+        .premium-update-pill {
+            position: absolute; inset: 0; background: #00b894; color: #ffffff;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; font-weight: 800; letter-spacing: 0.5px;
+            opacity: 0; pointer-events: none; transform: translateY(-10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10;
+        }
+        .premium-update-pill.trigger-flash { opacity: 1; transform: translateY(0); }
 
         .timer-bar-container { margin: 10px 15px; background: rgba(0,0,0,0.1); border-radius: 10px; height: 8px; overflow: hidden; display: none; }
         .timer-bar-fill { width: 100%; height: 100%; background: var(--green); border-radius: 10px; transition: width 0.05s linear; }
@@ -288,24 +374,49 @@
         .timer-bar-fill.danger { background: var(--red); }
         .timer-number { font-size: 1.5rem; font-weight: bold; color: var(--red); text-align: center; margin: 5px 0; display: none; }
 
-        .controls-row { display: flex; justify-content: center; gap: 8px; padding: 12px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); }
+        .controls-row { display: flex; justify-content: center; gap: 6px; padding: 12px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
         .controls-disabled { pointer-events: none; opacity: 0.5; }
-        .manual-select { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; border-radius: 12px; font-size: 0.85rem; flex: 1; outline: none; font-weight: 500; cursor: pointer; }
-        .toggle-btn { cursor: pointer; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--accent); font-size: 0.85rem; font-weight: 700; color: var(--accent); min-width: 95px; text-align: center; background: transparent; }
+        .manual-select { background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; border-radius: 12px; font-size: 0.82rem; flex: 1; min-width: 65px; outline: none; font-weight: 500; cursor: pointer; }
+        .toggle-btn { cursor: pointer; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--accent); font-size: 0.85rem; font-weight: 700; color: var(--accent); min-width: 90px; text-align: center; background: transparent; }
         .toggle-btn.active { background: var(--accent); color: #fff; }
+
+        /* FIXED: Manual inputs - properly editable */
+        .integrated-manual-inputs-grid { 
+            width: 100%; display: none; grid-template-columns: repeat(3, 1fr); gap: 6px; 
+            padding: 6px 12px 10px 12px; background: rgba(249,249,251,0.05); 
+            border-bottom: 1px solid var(--border); 
+        }
+        .manual-box-node { display: flex; flex-direction: column; gap: 3px; }
+        .manual-input-label { 
+            font-size: 0.68rem; font-weight: 800; opacity: 0.75; color: var(--text); 
+            text-transform: uppercase; letter-spacing: 0.3px; 
+        }
+        .manual-input-numeric { 
+            width: 100%; background: var(--surface); color: var(--text); 
+            border: 1px solid var(--border); padding: 8px; border-radius: 10px; 
+            font-size: 0.9rem; outline: none; font-weight: 600; text-align: center;
+            -moz-appearance: textfield;
+        }
+        .manual-input-numeric::-webkit-inner-spin-button,
+        .manual-input-numeric::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .range-error-hint { grid-column: span 3; color: var(--red); font-size: 0.68rem; font-weight: 700; text-align: center; display: none; margin-top: 2px; }
 
         main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 0; }
         #display { font-size: 7rem; font-weight: 800; min-height: 120px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--flash-color); font-family: var(--flash-font); font-style: var(--flash-style); }
         .ready-text { font-size: 2.2rem !important; color: #b2bec3 !important; font-family: 'Inter', sans-serif !important; font-style: normal !important; }
 
-        .input-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; border-top: 1px solid var(--border); }
-        input { width: 180px; padding: 12px; border: 2px solid var(--border); border-radius: 16px; font-size: 1.8rem; text-align: center; outline: none; background: var(--surface); color: var(--text); font-weight: 600; }
+        .input-area { padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; border-top: 1px solid var(--border); width: 100%; }
+        input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .main-ans-field { width: 180px; padding: 12px; border: 2px solid var(--border); border-radius: 16px; font-size: 1.8rem; text-align: center; outline: none; background: var(--surface); color: var(--text); font-weight: 600; }
         button { width: 230px; padding: 14px; border: none; border-radius: 40px; cursor: pointer; font-weight: 700; font-size: 1rem; transition: all 0.2s ease; }
         #submit-btn { background: var(--green); color: #fff; display: none; }
         #action-btn { background: var(--accent); color: #fff; }
 
         .match-actions-container { display: flex; width: 100%; justify-content: center; gap: 10px; margin-top: -4px; }
-        .action-control-btn { width: 110px; padding: 8px 12px; font-size: 0.8rem; border-radius: 20px; display: none; }
+        .action-control-btn { width: 110px; padding: 8px 12px; font-size: 0.8rem; border-radius: 20px; display: none; border: none; font-weight: 700; cursor: pointer; }
         #abort-match-btn { background: #7f8c8d; color: white; }
         #resign-match-btn { background: #e74c3c; color: white; }
 
@@ -325,10 +436,36 @@
         .sidebar-active #central-settings-modal { transform: translateX(0); }
         .sidebar-active .sidebar-overlay-backdrop { display: block; }
 
-        #pane-about-fullscreen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #c0392b !important; color: #ffffff !important; }
-        .about-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.75; }
-        #manifesto-screen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; background: #2980b9 !important; color: #ffffff !important; }
-        .manifesto-centered { max-width: 800px; margin: 80px auto 0 auto; line-height: 1.7; }
+        #pane-about-fullscreen { display: none; position: fixed; inset: 0; z-index: 4000; padding: 40px; overflow-y: auto; text-align: left; color: #ffffff !important; }
+        .about-centered { max-width: 800px; margin: 60px auto 0 auto; line-height: 1.75; }
+        
+        .philosophy-section {
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin: 30px 0;
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .philosophy-section h3 {
+            color: #ffeb3b;
+            font-size: 1.6rem;
+            margin-top: 0;
+        }
+        .philosophy-section p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+        }
+        .philosophy-section ul {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f0f0f0;
+            padding-left: 25px;
+        }
+        .philosophy-section ul li {
+            margin-bottom: 10px;
+        }
 
         .close-panel-btn { position: absolute; top: 25px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 5; color: #f1c40f; background: rgba(0,0,0,0.2); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         .back-arena-btn { position: absolute; top: 25px; left: 25px; background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); padding: 10px 20px; border-radius: 40px; cursor: pointer; display: flex; align-items: center; gap: 8px; z-index: 5; }
@@ -351,21 +488,6 @@
         .difficulty-info { background: rgba(0,0,0,0.05); border-radius: 40px; padding: 8px 16px; margin: 6px 15px; font-size: 0.75rem; text-align: center; font-weight: 500; }
         .fair-play-banner { background: linear-gradient(135deg, #1e3a8a, #2563eb); color: white; padding: 8px 16px; border-radius: 40px; font-size: 0.7rem; font-weight: 600; text-align: center; margin: 10px auto; width: fit-content; display: none; }
 
-        /* Standing Matrix Framework Overlays */
-        #world-rank-panel { display: none; position: fixed; inset: 0; z-index: 8500; background: var(--surface); backdrop-filter: blur(20px); flex-direction: column; padding: 30px; overflow-y: auto; }
-        .leaderboard-container-scroll { background: rgba(255, 255, 255, 0.95); border-radius: 16px; border: 2px solid #2c3e50; overflow-y: auto; flex-grow: 1; margin-bottom: 12px; }
-        .leaderboard-row-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid rgba(0,0,0,0.08); font-size: 0.95rem; font-weight: 600; color: #2c3e50; }
-        .leaderboard-row-item.user-special-row { background: #e0f2fe !important; border: 2px dashed #0284c7; position: sticky; bottom: 0; top: 0; z-index: 50; }
-        .leaderboard-identity-group { display: flex; align-items: center; gap: 8px; }
-        .leaderboard-badge-num { width: 55px; font-weight: 800; color: #7f8c8d; }
-        .leaderboard-bot-badge { background: #cd3c32; color: white; font-size: 0.65rem; font-weight: 800; padding: 1px 5px; border-radius: 3px; margin-right: 4px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; vertical-align: middle; }
-
-        /* Dynamic Moving GIF-like Element Frame Animations */
-        @keyframes colorFlashCycle {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
         .moving-gif-card {
             background: linear-gradient(-45deg, #c0392b, #d35400, #9b59b6, #2980b9);
             background-size: 300% 300%;
@@ -377,11 +499,21 @@
             transition: transform 0.3s;
         }
         .moving-gif-card:hover { transform: scale(1.01); }
-
-        /* Custom Specific Blue Variant for Philosophy */
         .moving-gif-card.philosophy-blue {
             background: linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad);
             background-size: 300% 300%;
+        }
+
+        .manual-doc-box { background: rgba(0,0,0,0.04); border-radius: 12px; padding: 12px 16px; margin-bottom: 12px; border-left: 4px solid var(--accent-light); color: var(--text); }
+        [data-theme^="dark"] .manual-doc-box { color: #f0f3f8; background: rgba(255,255,255,0.04); }
+        .manual-doc-box.profile-manual-override { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-left: 4px solid #f1c40f; color: #ffffff; }
+
+        .ticker-wrapper { margin: 20px 0 10px 0; overflow: hidden; background: rgba(0,0,0,0.3); border-radius: 40px; padding: 12px; width: 100%; position: relative; }
+        .ticker-scroll { display: flex; white-space: nowrap; width: max-content; animation: scrollTextMarquee 15s linear infinite; }
+        .ticker-text { color: #ffd700; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.5px; padding-right: 50px; }
+        @keyframes scrollTextMarquee {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
     </style>
 </head>
@@ -390,15 +522,12 @@
     <div class="bg-layer layer-active" id="bg-layer-1"></div>
     <div class="bg-layer" id="bg-layer-2"></div>
     
-
-
-
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner-large"></div>
         <div class="loading-text"><i class="fas fa-hourglass-half"></i> Loading Arena Matrix<span>...</span></div>
     </div>
 
-    <div id="splash-screen">
+    <div id="splash-screen" class="colorful-animated-bg">
         <div class="splash-logo">AbacusArena.org</div>
         <button class="enter-btn" id="splashEnterBtn"><i class="fas fa-arrow-right"></i> ENTER WEBSITE</button>
     </div>
@@ -446,7 +575,8 @@
 
             <div class="signal-row"><div id="light-r" class="light-bulb"></div><div id="light-y" class="light-bulb"></div><div id="light-g" class="light-bulb"></div></div>
 
-            <div class="header-stats">
+            <div class="header-stats" id="headerStatsContainer">
+                <div class="premium-update-pill" id="premiumNotificationBadge">UPDATED SUCCESSFULLY</div>
                 <div class="header-center-pill">
                     <div style="font-size: 0.7rem; letter-spacing: 0.5px; opacity: 0.8; font-weight: 600;">YOUR ARENA RATING</div>
                     <div class="rating-val" id="rating-ui">1500</div>
@@ -461,15 +591,36 @@
 
             <div class="controls-row" id="controlsRow">
                 <div id="mode-toggle" class="toggle-btn active" onclick="toggleMode()"><i class="fas fa-trophy"></i> RATED</div>
-                <select id="sel-digits" class="manual-select" disabled>
+                
+                <select id="sel-digits" class="manual-select" disabled onchange="syncDropdownToGranularInputs()">
                     <option value="1">1 Digit</option><option value="2">2 Digits</option><option value="3">3 Digits</option><option value="4">4 Digits</option><option value="5">5 Digits</option>
                 </select>
-                <select id="sel-rows" class="manual-select" disabled>
+                <select id="sel-rows" class="manual-select" disabled onchange="syncDropdownToGranularInputs()">
                     <option value="2">2 Rows</option><option value="3">3 Rows</option><option value="5">5 Rows</option><option value="10">10 Rows</option><option value="15">15 Rows</option><option value="20">20 Rows</option><option value="25">25 Rows</option><option value="30">30 Rows</option><option value="40">40 Rows</option><option value="50">50 Rows</option>
                 </select>
-                <select id="sel-time" class="manual-select" disabled>
-                    <option value="5000">5.0s</option><option value="3000">3.0s</option><option value="2000">2.0s</option><option value="1000">1.0s</option><option value="800">0.8s</option><option value="700">0.7s</option><option value="500">0.5s</option><option value="300">0.3s</option>
+                <select id="sel-time" class="manual-select" disabled onchange="syncDropdownToGranularInputs()">
+                    <option value="5000">5.0s</option><option value="3000">3.0s</option><option value="2000">2.0s</option><option value="1000">1.0s</option><option value="800">0.8s</option><option value="700">0.7s</option><option value="500">0.5s</option><option value="300">0.3s</option><option value="250">0.25s</option>
                 </select>
+            </div>
+
+            <!-- FIXED: Manual inputs - now works properly -->
+            <div class="integrated-manual-inputs-grid" id="manualControlsSecondaryRow">
+                <div class="manual-box-node">
+                    <span class="manual-input-label">Digits</span>
+                    <input type="number" id="manual-input-digits" class="manual-input-numeric" min="1" max="5" value="1" step="1" 
+                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                </div>
+                <div class="manual-box-node">
+                    <span class="manual-input-label">Rows</span>
+                    <input type="number" id="manual-input-rows" class="manual-input-numeric" min="2" max="100" value="2" step="1" 
+                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                </div>
+                <div class="manual-box-node">
+                    <span class="manual-input-label">Timer Speed (s)</span>
+                    <input type="number" id="manual-input-time" class="manual-input-numeric" min="0.25" max="5.0" step="0.001" value="1.000" 
+                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                </div>
+                <div class="range-error-hint" id="rangeErrorHint">Value forced within optimal boundary range limitations!</div>
             </div>
 
             <div class="main-display-area" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
@@ -477,7 +628,7 @@
             </div>
 
             <div class="input-area">
-                <input type="number" id="user-ans" placeholder="?" disabled autocomplete="off">
+                <input type="number" id="user-ans" class="main-ans-field" placeholder="?" disabled autocomplete="off">
                 <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
                 <button id="action-btn" onclick="startMatchmakingSequence()"><i class="fas fa-play"></i> NEW SESSION</button>
                 
@@ -503,7 +654,7 @@
 
     </div>
 
-    <div id="profile-fullscreen">
+    <div id="profile-fullscreen" class="colorful-animated-bg">
         <div class="profile-fullscreen-header">
             <h2><i class="fas fa-user-circle"></i> Player Profile</h2>
             <div class="close-profile-fullscreen" onclick="closeProfileFullscreen()"><i class="fas fa-times"></i></div>
@@ -511,14 +662,17 @@
         <div class="profile-fullscreen-content">
             <div class="profile-avatar-large" id="profileAvatarDisplayFrame" style="cursor:pointer;" onclick="openFlairFullscreen()">🏆</div>
             
-            <div class="profile-rating-large" style="background: rgba(0,0,0,0.03); border-radius: 20px; padding: 15px 10px;">
-                <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #2d3436;">Current Rating</div>
+            <div class="profile-rating-large">
+                <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #fff;">Current Rating</div>
                 <div class="value" id="profileRatingLarge" style="font-variant-numeric: tabular-nums;">1500</div>
-                <div id="profileRankSubtitle" style="font-size: 0.9rem; font-weight: 700; color: #00b894; margin-top: 5px;">Loading Cutoff...</div>
             </div>
 
-            <button class="studio-trigger-btn" onclick="openGlobalRankPanelDeferred()" style="background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 15px rgba(245,158,11,0.35);"><i class="fas fa-trophy"></i> View Leaderboard</button>
-            <div style="height: 1px; background: var(--border); margin: 20px 0;"></div>
+            <div class="manual-doc-box profile-manual-override">
+                <div class="manual-doc-heading"><i class="fas fa-graduation-cap"></i> Calculation Onboarding Manual</div>
+                <div class="manual-doc-body">You have to continuously add all those numbers appearing on the screen layout. Click the <strong>NEW SESSION</strong> button on the dashboard grid structure to initiate your calculation practice sequence journey.</div>
+            </div>
+
+            <div style="height: 1px; background: rgba(255,255,255,0.2); margin: 15px 0;"></div>
 
             <div class="username-edit-section" id="usernameEditBtn">
                 <span id="profileUsername">Grandmaster</span>
@@ -607,7 +761,7 @@
         </div>
     </div>
 
-    <div id="pane-about-fullscreen">
+    <div id="pane-about-fullscreen" class="colorful-animated-bg">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
             
@@ -625,25 +779,52 @@
                         </svg>
                     </div>
                     <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;">AbacusArena.org</h2>
-                    <div class="ticker-wrapper"><div class="ticker-scroll"><span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏</span></div></div>
+                    <div class="ticker-wrapper">
+                        <div class="ticker-scroll">
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏 &nbsp;|&nbsp;</span>
+                        </div>
+                    </div>
                     <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
                 </div>
             </div>
+
+            <h3 style="color: #ffeb3b; margin: 25px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-book-open"></i> How to Use the Platform</h3>
+            <div class="manual-doc-box" style="border-left-color: #ffeb3b; background: rgba(0,0,0,0.2);">
+                <div class="manual-doc-body" style="color: #fff; font-size: 1rem;">
+                    You have to continuously add all those numbers appearing on the display terminal layout. Click the <strong>NEW SESSION</strong> button on your center dashboard matrix to initialize your custom or rated arithmetic stream immediately.
+                </div>
+            </div>
             
-            <style>
-                .ticker-wrapper { margin: 20px 0 10px 0; overflow: hidden; background: rgba(0,0,0,0.3); border-radius: 40px; padding: 12px 0; width: 100%; }
-                .ticker-scroll { display: inline-block; white-space: nowrap; animation: scrollTextFull 16s linear infinite; }
-                .ticker-text { color: #ffd700; font-size: 0.9rem; font-weight: 500; letter-spacing: 0.5px; display: inline-block; }
-                @keyframes scrollTextFull { 0% { transform: translate3d(100%, 0, 0); } 100% { transform: translate3d(-100%, 0, 0); } }
-            </style>
-            
-            <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 30px 0;">Project Started: April 23, 2026</p>
-            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -15px 0 30px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
+            <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 25px 0;">Project Started: April 23, 2026</p>
+            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 25px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
             
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
             <p style="font-size:1.05rem; margin-bottom:5px;">This website is <strong>free for everyone, forever.</strong></p>
-            <p style="font-size:1.05rem; margin-top:0;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us! <span class="read-more-link" onclick="openManifestoWithLoading()">Read More <i class="fas fa-arrow-right"></i></span></p>
+            <p style="font-size:1.05rem; margin-top:0;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us!</p>
+            
+            <!-- DIGITAL PHILOSOPHY SECTION -->
+            <div class="philosophy-section">
+                <h3><i class="fas fa-brain"></i> Our Digital Philosophy</h3>
+                
+                <p><strong>Modern internet spaces are broken.</strong> Countless educational websites subsist by cluttering screens with intrusive advertisements or locking their best features away behind aggressive paywalls. We fundamentally refuse to follow this pattern. Our project is built on the belief that premium learning tools should never be restricted by financial status.</p>
+                
+                <h4 style="color: #f1c40f; margin-top: 25px;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h4>
+                <p>Imagine arriving at a restaurant, only to be told you must pay a premium cover charge just to open the menu and look at the list of available items. Does that feel right? Or imagine buying an educational textbook, only to find every other page blacked out with a lock icon demanding a monthly subscription. Education shouldn't be hidden in the shadows.</p>
+                <p>True learning platforms should exist to elevate their students, <strong>not to exploit</strong> their attention spans.</p>
+                
+                <h4 style="color: #f1c40f; margin-top: 25px;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h4>
+                <p>We proudly draw inspiration from open systems like <strong>Lichess.org</strong>. On our platform, every user—regardless of background, location, or financial standing—will always have total, unrestricted access to every single feature we build. No tiers, no hidden premiums, and no systemic biases.</p>
+                
+                <h4 style="color: #f1c40f; margin-top: 25px;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h4>
+                <p>As our active student directory grows, running real-time global rankings, persistent leaderboard systems, secure user databases, and reliable computational servers will incur ongoing infrastructure costs. To handle this sustainably, we intend to implement an optional donation module in the future once the user base scales significantly.</p>
+                <p>However, let us make one promise absolute: <strong>Donors will receive the exact same application experience and feature access as everyone else.</strong> Financial contributions will strictly serve to support background server upkeep, ensuring the ecosystem stays alive and robust for the community. We are here to create value, and we intend to remain exactly like this forever.</p>
+                
+                <div style="margin-top: 30px; text-align: center; border-top: 1px solid rgba(255,255,255,0.15); padding-top: 20px;">
+                    <p style="color: #ffd700; font-weight: 600;">AbacusArena.org • Built on Integrity</p>
+                </div>
+            </div>
             
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
             <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0;">
@@ -655,14 +836,14 @@
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-crown"></i> Elite Standings</h3>
             <p style="font-size:1.05rem;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
             
-            <h3 style="color: #ffeb3b; margin: 35px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-calculator"></i> Rating Acceleration & Deflection Model</h3>
+            <h3 style="color: #ffeb3b; margin: 35px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-calculator"></i> Rating Acceleration & Dynamic Volatile K-Factor</h3>
             <p style="font-size:1.05rem; line-height:1.6; color:#fff;">
-                Your performance ranking operates under a specialized statistical Elo evaluation algorithm with a dynamic K-factor index of 32. Your rating metrics fluctuate based on the following behavioral vectors:
+                Your performance ranking operates under a specialized statistical Elo evaluation algorithm with a highly adaptive dynamic placement K-factor index to accelerate beginners safely and insulate established configurations:
             </p>
             <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0; line-height:1.6;">
-                <li style="margin-bottom: 6px;"><strong>Rating Multipliers (Increases):</strong> Successfully submitting correct compilation results shifts your value upwards. If you out-pace your opponent's baseline chronometer speed, an accelerated speed multiplier index scales your output up to a ceiling optimization boundary of +32 points.</li>
+                <li style="margin-bottom: 6px;"><strong>Dynamic K-Progressions:</strong> K=256 for your first 3 games; K=128 for the next 2 games; K=64 for the next 5 games; K=32 for the next 5 games; settling permanently to K=16 from game 16 onwards.</li>
+                <li style="margin-bottom: 6px;"><strong>Rating Multipliers (Increases):</strong> Successfully submitting correct compilation results shifts your value upwards. If you out-pace your opponent's baseline chronometer speed, an accelerated speed multiplier index scales your output up to your active game index optimization boundary.</li>
                 <li style="margin-bottom: 6px;"><strong>Deflection Degradation (Decreases):</strong> Registering incorrect responses or allowing the absolute countdown clock sequence to exhaust automatically drops your value parameter. Resigning inside an active matchmaking timeline applies a variable deficit modifier.</li>
-                <li style="margin-bottom: 6px;"><strong>Fair Play Infractions:</strong> Violating structure verification zones or breaking connectivity during flash streams prompts an immediate administrative collection script resulting in a flat -25 points penalty deduction.</li>
             </ul>
 
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Ranges</h3>
@@ -702,61 +883,6 @@
             <h3 style="color: #ffeb3b; margin: 40px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;">Message From the Founder</h3>
             <p style="font-size: 1.05rem; line-height: 1.7; text-align: justify; color: #ffffff; opacity: 0.95; margin-bottom: 40px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to the technical updation of AbacusArena.org, back-end servers, or database instances. We're a full free platform trying to serve you all the interactive needs that're there to improve in Abacus without ads or paywalls, so we need money for our life and as a motivation to keep expanding our platform. By the way, we also constantly provide many new updates and invest partially from community donations right back into our physical hosting infrastructure to ensure a lightning-fast calculation ecosystem for everyone worldwide.</p>
             <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">© 2026 AbacusArena.org. Built on integrity.</p></div>
-        </div>
-    </div>
-
-    <div id="manifesto-screen">
-        <button class="back-arena-btn" onclick="closeManifesto()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
-        <div class="manifesto-centered">
-<!-- Upgraded Philosophy Section with 5-Second Safe Delay Loop -->
-            <div class="moving-gif-card">
-                <div style="text-align: center; font-family: system-ui, sans-serif;">
-                    <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;"><i class="fas fa-brain"></i> Our Digital Philosophy</h2>
-                    <div class="ticker-wrapper" style="padding: 12px 0; overflow: hidden; width: 100%;">
-                        <div class="ticker-scroll" style="animation: safeFiveSecondDelayScroll 11s linear infinite; display: inline-block; white-space: nowrap; width: 100%; text-align: left; padding-left: 100%;">
-                            <span class="ticker-text" style="display: inline-block;">✨ Accessibility ✨ &nbsp;|&nbsp; 🧠 Clarity 🧠 &nbsp;|&nbsp; 🎯 Focus 🎯 &nbsp;|&nbsp; 🧮 AbacusArena.org!! 🧮</span>
-                        </div>
-                    </div>
-                    <style>
-                        @keyframes safeFiveSecondDelayScroll {
-                            0% { transform: translate3d(0, 0, 0); }
-                            54.54% { transform: translate3d(-200%, 0, 0); }
-                            100% { transform: translate3d(-200%, 0, 0); }
-                        }
-                    </style>
-                    <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
-                </div>
-            </div>
-            
-
-            <p>Modern internet spaces are broken. Countless educational websites subsist by cluttering screens with intrusive advertisements or locking their best features away behind aggressive paywalls. We fundamentally refuse to follow this pattern. Our project is built on the belief that premium learning tools should never be restricted by financial status.</p>
-            
-            <h3 style="color:#f1c40f;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h3>
-            <p>Imagine arriving at a restaurant, only to be told you must pay a premium cover charge just to open the menu and look at the list of available items. Does that feel right? Or imagine buying an educational textbook, only to find every other page blacked out with a lock icon demanding a monthly subscription. Education shouldn't be hidden in the shadows.</p>
-            <p>True learning platforms should exist to elevate their students, <strong>not to exploit</strong> their attention spans.</p>
-            
-            <h3 style="color:#f1c40f;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h3>
-            <p>We proudly draw inspiration from open systems like <strong>Lichess.org</strong>. On our platform, every user—regardless of background, location, or financial standing—will always have total, unrestricted access to every single feature we build. No tiers, no hidden premiums, and no systemic biases.</p>
-            
-            <h3 style="color:#f1c40f;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h3>
-            <p>As our active student directory grows, running real-time global rankings, persistent leaderboard systems, secure user databases, and reliable computational servers will incur ongoing infrastructure costs. To handle this sustainably, we intend to implement an optional donation module in the future once the user base scales significantly.</p>
-            <p>However, let us make one promise absolute: <strong>Donors will receive the exact same application experience and feature access as everyone else.</strong> Financial contributions will strictly serve to support background server upkeep, ensuring the ecosystem stays alive and robust for the community. We are here to create value, and we intend to remain exactly like this forever.</p>
-            <div style="margin-top: 50px; text-align: center;"><p>AbacusArena.org • Built on Integrity</p></div>
-        </div>
-    </div>
-
-    <div id="world-rank-panel">
-        <div style="max-width: 500px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; height: 90vh;">
-            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(0,0,0,0.1); padding-bottom: 15px; margin-bottom: 20px;">
-                <h2 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: #2c3e50; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy"></i> Live Arena Standings</h2>
-                <div onclick="closeGlobalRankPanel()" style="font-size: 1.5rem; cursor: pointer; background: rgba(0,0,0,0.08); width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center;"><i class="fas fa-times"></i></div>
-            </div>
-            <div class="leaderboard-container-scroll" id="leaderboardScrollList"></div>
-            <div style="background: #ffffff; border: 2px solid #2c3e50; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); margin-top: 15px;">
-                <div style="text-align: left;">
-                    <p style="margin: 0; font-size: 0.75rem; line-height: 1.4; color: #34495e; font-weight: 500;"><i class="fas fa-bolt" style="color: #e67e22;"></i> <strong>Real-time Active Pulse Matrix:</strong> Global standings update continuously every 3 seconds. Top elite bracket floor requires a minimum of 2800+ rating parameters.</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -804,19 +930,19 @@
             "🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟","🐱","🦊","🦁","🦅","🦉",
             "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞",
             "🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
-            "🦘","🦬","🦙","🐐","🦌","🐕","🐩","🐈","🐇","🦫","🦔","🐿️","🦡","🦥","Otter","🧗","🏇","⛷️","🏂",
+            "🦘","🦬","🦙","🐐","🦌","🐕","🐩","🐈","🐇","🦫","🦔","🐿️","🦡","🦥","🧗","🏇","⛷️","🏂",
             "🏌️","🏄","🚣","🏊","🏋️","🚴","🪂","👨‍💻","👩‍💻","🧙","🧝","🧛","🧟","🧞","🧜","🧚","💂","🤵","🥷","🧑‍🚀",
             "🌍","🪐","☀️","🌙","⭐","🌌","☁️","🌪️","🌊","⛰️","🌋","🏕️","🍄","🪵","🍁","🌵","🌴","🌲","☘️","🌹",
             "🍕","🍔","🍟","🍣","🌮","🍦","🍩","🍪","🍫","☕","🥤","🧉","🍺","🍷","🥃","🥝","🍓","🍉","🍎","🍏",
             "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🛹","🚲",
-            "🚗","🏍️","✈️","🚀","helicopt","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
+            "🚗","🏍️","✈️","🚀","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
             "🔑","🔒","🔓","🔨","🪓","🛡️","⚔️","📯","🔔","🏺","📿","💈","🧿","🪞","🧪","🔬","🔭","🩺","🩹",
             "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📘","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳",
-            "💍","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","外套","袜","裙","🎨","🎬",
-            "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","🎯","🎳","🎮","🎰","🟥","🟧","🟨","🟩","🟦","🟪",
+            "💍","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","🎨","🎬",
+            "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","🎯","👑","🎰","🟥","🟧","🟨","🟩","🟦","🟪",
             "🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬","💭","🗯️","🪔","🧲","🧱","🪢",
             "🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🛴","🛹","🛼","🚏","⛵","🛥️","🛳️","⛴️","🚢","🛫","🛬","💺",
-            "卫星","🌠","⛅","⛈️","🌤️","🍂","🍁"
+            "🌠","⛅","⛈️","🌤️","🍂","🍁"
         ];
 
         function buildComprehensiveAIPools() {
@@ -829,140 +955,10 @@
             aiNames.sort(() => Math.random() - 0.5);
         }
 
-        let generatedBotLeaderboardArray = [];
-        let globalRankPulseTimerId = null;
-        let rankFluctuationOffset = 0;
-
-        function toggleMusic() {
-            musicEnabled = !musicEnabled;
-            const btn = document.getElementById('musicControlBtn');
-            if (musicEnabled) {
-                bgMusic.play().catch(e => console.log('Autoplay blocked'));
-                btn.innerHTML = '<i class="fas fa-music"></i>';
-                btn.style.opacity = '0.7';
-            } else {
-                bgMusic.pause();
-                btn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                btn.style.opacity = '0.5';
-            }
-        }
-
-        function enableAudio() {
-            if (musicEnabled) { bgMusic.play().catch(e => {}); }
-            document.removeEventListener('click', enableAudio);
-            document.removeEventListener('touchstart', enableAudio);
-        }
-        document.addEventListener('click', enableAudio);
-        document.addEventListener('touchstart', enableAudio);
-
         const allFlairs = aiAvatars.slice(0, 320);
-        let currentGlobalRankString = "--";
-
-        function initLeaderboardDataMatrix() {
-            generatedBotLeaderboardArray = [];
-            for (let i = 0; i < 100; i++) {
-                let baseBotRating = Math.round(4450 - (i * 16.5) + (Math.random() * 12));
-                baseBotRating = Math.max(2800, baseBotRating); 
-                let seedName = aiNames[i % aiNames.length] + "_" + (Math.floor(Math.random() * 899) + 100);
-                let seedFlair = allFlairs[Math.floor(Math.random() * allFlairs.length)];
-                
-                generatedBotLeaderboardArray.push({
-                    isBot: true,
-                    name: seedName,
-                    flair: seedFlair,
-                    rating: baseBotRating
-                });
-            }
-            sortAndRenderLeaderboardMatrix();
-        }
-
-        function processLeaderboardPulseTick() {
-            if (!generatedBotLeaderboardArray.length) return;
-            let botsToUpdateCount = Math.floor(Math.random() * 11) + 15;
-            for (let k = 0; k < botsToUpdateCount; k++) {
-                let targetIdx = Math.floor(Math.random() * generatedBotLeaderboardArray.length);
-                let deltaShift = (Math.random() > 0.48 ? 1 : -1) * (Math.floor(Math.random() * 8) + 2);
-                generatedBotLeaderboardArray[targetIdx].rating += deltaShift;
-                if (generatedBotLeaderboardArray[targetIdx].rating < 2800) {
-                    generatedBotLeaderboardArray[targetIdx].rating = 2800;
-                }
-            }
-            rankFluctuationOffset = (Math.random() > 0.5 ? 1 : -1) * (Math.floor(Math.random() * 401) + 100);
-            sortAndRenderLeaderboardMatrix();
-        }
-
-        function sortAndRenderLeaderboardMatrix() {
-            generatedBotLeaderboardArray = generatedBotLeaderboardArray.filter(item => !item.isUser);
-            generatedBotLeaderboardArray.sort((a, b) => b.rating - a.rating);
-
-            let calculatedUserRank = "--";
-            let displayListContainer = document.getElementById('leaderboardScrollList');
-            if (!displayListContainer) return;
-
-            if (rating >= generatedBotLeaderboardArray.rating) {
-                let userObjPosition = { isUser: true, name: username, flair: selectedFlair, rating: rating };
-                generatedBotLeaderboardArray.push(userObjPosition);
-                generatedBotLeaderboardArray.sort((a, b) => b.rating - a.rating);
-                let foundRankIdx = generatedBotLeaderboardArray.findIndex(el => el.isUser);
-                calculatedUserRank = foundRankIdx + 1;
-            } else {
-                let baseCalculatedRank = 100000;
-                if (rating >= 2000) {
-                    let ratingRangeScale = (2800 - rating) / 800; 
-                    baseCalculatedRank = Math.round(101 + (ratingRangeScale * 29899));
-                } else if (rating >= 1000) {
-                    let ratingRangeScale = (2000 - rating) / 1000;
-                    baseCalculatedRank = Math.round(30000 + (ratingRangeScale * 70000));
-                }
-                calculatedUserRank = Math.max(101, baseCalculatedRank + rankFluctuationOffset);
-            }
-
-            currentGlobalRankString = calculatedUserRank;
-            let innerHTMLContentAccumulator = "";
-            let maximumRenderBoundLength = Math.min(100, generatedBotLeaderboardArray.length);
-            let userWasRenderedInTop100Grid = false;
-
-            for (let m = 0; m < maximumRenderBoundLength; m++) {
-                let rowData = generatedBotLeaderboardArray[m];
-                let rankPointerId = m + 1;
-                if (rowData.isUser) {
-                    userWasRenderedInTop100Grid = true;
-                    innerHTMLContentAccumulator += `
-                        <div class="leaderboard-row-item user-special-row">
-                            <div class="leaderboard-identity-group">
-                                <span class="leaderboard-badge-num">#${rankPointerId}</span>
-                                <span>${rowData.flair} ${rowData.name} <small>(You)</small></span>
-                            </div>
-                            <div style="color:#0284c7; font-weight:800;">${rowData.rating}</div>
-                        </div>`;
-                } else {
-                    innerHTMLContentAccumulator += `
-                        <div class="leaderboard-row-item">
-                            <div class="leaderboard-identity-group">
-                                <span class="leaderboard-badge-num">#${rankPointerId}</span>
-                                <span><span class="leaderboard-bot-badge">AI</span>${rowData.flair} ${rowData.name}</span>
-                            </div>
-                            <div style="color:#2c3e50; opacity:0.8;">${rowData.rating}</div>
-                        </div>`;
-                }
-            }
-
-            if (!userWasRenderedInTop100Grid) {
-                innerHTMLContentAccumulator += `
-                    <div class="leaderboard-row-item user-special-row">
-                        <div class="leaderboard-identity-group">
-                            <span class="leaderboard-badge-num" style="width:55px;">#${calculatedUserRank}</span>
-                            <span>${selectedFlair} ${username} <small>(You)</small></span>
-                        </div>
-                        <div style="color:#0284c7; font-weight:800;">${rating}</div>
-                    </div>`;
-            }
-            displayListContainer.innerHTML = innerHTMLContentAccumulator;
-        }
 
         function refreshEngineRankMetrics() {
-            let profileSubtitle = document.getElementById('profileRankSubtitle');
-            if (profileSubtitle) profileSubtitle.innerText = "Est. World Cutoff: " + rating;
+            // Removed
         }
 
         function generateOpponentProfile() {
@@ -1001,7 +997,7 @@
             let currentNow = Date.now();
             if (currentNow < lockUntilTimestamp) {
                 let diffSecs = Math.ceil((lockUntilTimestamp - currentNow) / 1000);
-                alert(`Abuse engine cooldown active! Please wait: ${Math.floor(diffSecs / 60)}:${diffSecs % 60 < 10 ? '0':''}${diffSecs % 60}`);
+                alert(`⏳ Activity cooldown active! Please wait: ${Math.floor(diffSecs / 60)}:${diffSecs % 60 < 10 ? '0':''}${diffSecs % 60}`);
                 return;
             }
             if (!isRated) { initiateGame(); return; }
@@ -1086,7 +1082,7 @@
             document.getElementById('abort-match-btn').style.display = "none";
             document.getElementById('resign-match-btn').style.display = "none";
             document.getElementById('action-btn').style.display = "block";
-            if (Date.now() >= lockUntilTimestamp) actionBtn.disabled = false;
+            actionBtn.disabled = false;
 
             clearOpponentDisplay(); disableControls(false); updateRatingUI();
         }
@@ -1097,6 +1093,7 @@
             consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
             
             let oldUserRating = rating;
+            calculateStakes();
             rating = Math.max(1000, rating - lossPoints); localStorage.setItem('abacus-rating', rating);
             localStorage.removeItem('sum-interrupted');
             document.getElementById('oppRatingDisplay').innerText = opponentRating + winPoints;
@@ -1112,11 +1109,12 @@
             
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.display = 'block';
+            actionBtn.disabled = false;
             actionBtn.onclick = startMatchmakingSequence;
 
             triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
-            updateRatingUI(); updateMainDisplay(); disableControls(false); sortAndRenderLeaderboardMatrix();
+            updateRatingUI(); updateMainDisplay(); disableControls(false);
         }
 
         function startCooldownTickerLoop() {
@@ -1132,7 +1130,7 @@
                     return; 
                 }
                 let secsTotal = Math.ceil(remainingTime / 1000);
-                actionBtn.innerHTML = `<i class="fas fa-clock"></i> Lock: ${Math.floor(secsTotal / 60)}:${secsTotal % 60 < 10 ? '0' : ''}${secsTotal % 60}`;
+                actionBtn.innerHTML = `<i class="fas fa-clock"></i> Cooldown: ${Math.floor(secsTotal / 60)}:${secsTotal % 60 < 10 ? '0' : ''}${secsTotal % 60}`;
             }, 1000);
         }
 
@@ -1174,17 +1172,6 @@
 
         function dismissPerformanceOverlay() { document.getElementById('fide-match-outcome-overlay').style.display = "none"; clearOpponentDisplay(); }
         
-        // 3-Seconds manual deferred loading constraints applied on rankings tab clicks inside profile overlay module
-        function openGlobalRankPanelDeferred() {
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                sortAndRenderLeaderboardMatrix();
-                document.getElementById('world-rank-panel').style.display = 'flex';
-            }, 3000);
-        }
-        function closeGlobalRankPanel() { document.getElementById('world-rank-panel').style.display = 'none'; }
-        
         function showLoading() { document.getElementById('loadingOverlay').style.display = 'flex'; }
         function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
@@ -1199,6 +1186,79 @@
         function openProfileFullscreen() { updateProfileFullscreen(); document.getElementById('profile-fullscreen').style.display = 'flex'; }
         function closeProfileFullscreen() { document.getElementById('profile-fullscreen').style.display = 'none'; }
         
+        function syncDropdownToGranularInputs() {
+            document.getElementById('manual-input-digits').value = document.getElementById('sel-digits').value;
+            document.getElementById('manual-input-rows').value = document.getElementById('sel-rows').value;
+            document.getElementById('manual-input-time').value = (parseFloat(document.getElementById('sel-time').value) / 1000).toFixed(3);
+            validateGranularParameters(false);
+        }
+
+        // FIXED: validateGranularParameters - now only validates on blur/change, not on every keystroke
+        function validateGranularParameters(triggerVisualFlash = true) {
+            let digitsInp = document.getElementById('manual-input-digits');
+            let rowsInp = document.getElementById('manual-input-rows');
+            let timeInp = document.getElementById('manual-input-time');
+            let alertMessage = document.getElementById('rangeErrorHint');
+
+            let dVal = parseInt(digitsInp.value);
+            let rVal = parseInt(rowsInp.value);
+            let tVal = parseFloat(timeInp.value);
+
+            let ruleTriggered = false;
+
+            // Only validate and clamp if values are out of range
+            if (!isNaN(dVal)) {
+                if (dVal < 1) { dVal = 1; ruleTriggered = true; }
+                if (dVal > 5) { dVal = 5; ruleTriggered = true; }
+                digitsInp.value = dVal;
+            }
+
+            if (!isNaN(rVal)) {
+                if (rVal < 2) { rVal = 2; ruleTriggered = true; }
+                if (rVal > 100) { rVal = 100; ruleTriggered = true; }
+                rowsInp.value = rVal;
+            }
+
+            if (!isNaN(tVal)) {
+                if (tVal < 0.25) { tVal = 0.25; ruleTriggered = true; }
+                if (tVal > 5.0) { tVal = 5.0; ruleTriggered = true; }
+                timeInp.value = tVal.toFixed(3);
+            }
+
+            if (ruleTriggered) {
+                alertMessage.style.display = "block";
+                setTimeout(() => { alertMessage.style.display = "none"; }, 2500);
+            }
+
+            // Update stored values (only if valid)
+            if (!isNaN(dVal) && dVal >= 1 && dVal <= 5) manualDigits = dVal;
+            if (!isNaN(rVal) && rVal >= 2 && rVal <= 100) manualRows = rVal;
+            if (!isNaN(tVal) && tVal >= 0.25 && tVal <= 5.0) manualTime = Math.round(tVal * 1000);
+
+            // Sync dropdowns
+            if (document.getElementById('sel-digits').querySelector(`option[value="${manualDigits}"]`)) {
+                document.getElementById('sel-digits').value = manualDigits;
+            }
+            if (document.getElementById('sel-rows').querySelector(`option[value="${manualRows}"]`)) {
+                document.getElementById('sel-rows').value = manualRows;
+            }
+            let matchingTimeStr = (manualTime).toString();
+            if (document.getElementById('sel-time').querySelector(`option[value="${matchingTimeStr}"]`)) {
+                document.getElementById('sel-time').value = matchingTimeStr;
+            }
+
+            updateDifficultyDisplay();
+
+            if (triggerVisualFlash && !isRated) {
+                let badge = document.getElementById('premiumNotificationBadge');
+                badge.innerText = `UPDATED: ${manualDigits}D | ${manualRows}R | ${(manualTime / 1000).toFixed(3)}s`;
+                badge.classList.add('trigger-flash');
+                setTimeout(() => {
+                    badge.classList.remove('trigger-flash');
+                }, 1000);
+            }
+        }
+
         function openAestheticsStudio() {
             updateCustomControlsUI();
             updateTypographyStyles();
@@ -1251,7 +1311,6 @@
             }, 800);
         }
         
-        // Native operations frameworks
         function editUsernameWithAnimation() {
             let editSection = document.getElementById('usernameEditBtn');
             editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>'; editSection.style.pointerEvents = 'none';
@@ -1281,8 +1340,15 @@
         }
         
         function openAboutWithLoading() { showLoading(); setTimeout(() => { closeControlSuite(); document.getElementById('pane-about-fullscreen').style.display = 'block'; hideLoading(); }, 600); }
-        function openManifestoWithLoading() { showLoading(); setTimeout(() => { document.getElementById('manifesto-screen').style.display = 'block'; hideLoading(); }, 600); }
-        function startSplashImmediate() { document.getElementById('splash-screen').style.opacity = '0'; setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; document.getElementById('mainAppWrapper').style.display = 'flex'; clearOpponentDisplay(); }, 500); }
+        
+        function startSplashImmediate() { 
+            document.getElementById('splash-screen').style.opacity = '0'; 
+            setTimeout(() => { 
+                document.getElementById('splash-screen').style.display = 'none'; 
+                document.getElementById('mainAppWrapper').style.display = 'flex'; 
+                clearOpponentDisplay(); 
+            }, 500); 
+        }
 
         const themesData = {
             light: { type: 'gradient', cycle: [['#eee3ff','#e0f2fe'],['#e0f2fe','#e6fffa']] },
@@ -1290,7 +1356,7 @@
             'dark-green': { type: 'gradient', cycle: [['#0a1f1a','#1a3a2a']] },
             'dark-red': { type: 'gradient', cycle: [['#1f0a0a','#3a1a1a']] },
             'dark-purple': { type: 'gradient', cycle: [['#1a0a2a','#2a1a3a']] },
-            nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'] }
+            nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&w=1400&q=80'] }
         };
         let currentActiveLayer = 1, themeCycleIndex = 0;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1320,7 +1386,6 @@
             let fontBtn = document.getElementById(`font-style-${typographySetting}`); if (fontBtn) fontBtn.classList.add('setting-active');
         }
 
-        // Expanded text dynamic contrast mapping matrix strictly compilation mapping hex choices
         function updateTypographyStyles() {
             let root = document.documentElement;
             let isDarkTheme = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement.getAttribute('data-theme') !== 'nature';
@@ -1400,18 +1465,10 @@
             if (Date.now() < lockUntilTimestamp) startCooldownTickerLoop();
             updateRatingUI(); updateMainDisplay();
             document.documentElement.setAttribute('data-theme', appTheme); startThemeChangerLoop(); updateDifficultyDisplay(); 
-             
-            document.getElementById('sel-digits').addEventListener('change', function() { manualDigits = parseInt(this.value); });
-            document.getElementById('sel-rows').addEventListener('change', function() { manualRows = parseInt(this.value); });
-            document.getElementById('sel-time').addEventListener('change', function() { manualTime = parseInt(this.value); });
             
             document.getElementById('splashEnterBtn').onclick = startSplashImmediate;
             document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
             document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
-
-            initLeaderboardDataMatrix();
-            globalRankPulseTimerId = setInterval(processLeaderboardPulseTick, 3000);
-            setInterval(refreshEngineRankMetrics, 3000);
 
             updateCustomControlsUI(); updateTypographyStyles();
         }        
@@ -1420,15 +1477,21 @@
         function closeControlSuite() { document.getElementById('gear-trigger').classList.remove('rotate-active'); document.body.classList.remove('sidebar-active'); }
         function switchSettingsPane(p) { document.querySelectorAll('.tab-nav-link').forEach(t => t.classList.remove('tab-active')); document.querySelectorAll('.settings-pane-section').forEach(sec => sec.classList.remove('pane-active')); document.getElementById(`nav-tab-${p}`).classList.add('tab-active'); document.getElementById(`pane-${p}`).classList.add('pane-active'); }
         function closeAboutViewPage() { document.getElementById('pane-about-fullscreen').style.display = 'none'; }
-        function closeManifesto() { document.getElementById('manifesto-screen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
         function calculateStakes() { 
             if (!isRated || !hasActiveOpponent) { winPoints = 0; lossPoints = 0; drawDeltaUser = 0; return; } 
+            
+            let activeVolatileKFactorValue = 16;
+            if (gamesPlayed <= 3) activeVolatileKFactorValue = 256;
+            else if (gamesPlayed <= 5) activeVolatileKFactorValue = 128;
+            else if (gamesPlayed <= 10) activeVolatileKFactorValue = 64;
+            else if (gamesPlayed <= 15) activeVolatileKFactorValue = 32;
+            
             let expectedScoreUser = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
-            winPoints = Math.max(2, Math.min(32, Math.round(32 * (1 - expectedScoreUser))));
-            lossPoints = Math.max(2, Math.min(32, Math.round(32 * expectedScoreUser)));
-            drawDeltaUser = Math.round(32 * (0.5 - expectedScoreUser));
+            winPoints = Math.max(2, Math.min(activeVolatileKFactorValue, Math.round(activeVolatileKFactorValue * (1 - expectedScoreUser))));
+            lossPoints = Math.max(2, Math.min(activeVolatileKFactorValue, Math.round(activeVolatileKFactorValue * expectedScoreUser)));
+            drawDeltaUser = Math.round(activeVolatileKFactorValue * (0.5 - expectedScoreUser));
         }
 
         function getRatingBoundDifficulty(targetRating) {
@@ -1448,20 +1511,30 @@
         }
 
         function getFinalDifficulty() { let fairPlay = isInFairPlayZone(); if (fairPlay && isRated) { currentFairPlayActive = true; document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY VERIFICATION · ${fairPlay.digits} Digit · ${fairPlay.rows} Rows · ${fairPlay.time/1000}s · WRONG = -25 RATING`; document.getElementById('fairPlayBanner').style.display = 'inline-block'; return fairPlay; } currentFairPlayActive = false; document.getElementById('fairPlayBanner').style.display = 'none'; return getNormalDifficulty(); }
-        function updateDifficultyDisplay() { let diff = getFinalDifficulty(); document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(2)}s`; }
+        function updateDifficultyDisplay() { let diff = getFinalDifficulty(); document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(3)}s`; }
         
         function toggleMode() { 
             if(gameInProgress) return; isRated = !isRated; 
             let btn = document.getElementById('mode-toggle'); btn.innerHTML = isRated ? '<i class="fas fa-trophy"></i> RATED' : '<i class="fas fa-sliders-h"></i> MANUAL'; btn.classList.toggle('active'); 
             document.querySelectorAll('.manual-select').forEach(s => s.disabled = isRated);
+            
             let oppCard = document.getElementById('opponentIdentityCard');
-            if (isRated) { oppCard.classList.remove('card-hidden'); clearOpponentDisplay(); } else oppCard.classList.add('card-hidden');
-            if (!isRated) { manualDigits = parseInt(document.getElementById('sel-digits').value); manualRows = parseInt(document.getElementById('sel-rows').value); manualTime = parseInt(document.getElementById('sel-time').value); }
+            let secondaryManualRow = document.getElementById('manualControlsSecondaryRow');
+            
+            if (isRated) { 
+                oppCard.classList.remove('card-hidden'); 
+                secondaryManualRow.style.display = "none";
+                clearOpponentDisplay(); 
+            } else { 
+                oppCard.classList.add('card-hidden'); 
+                secondaryManualRow.style.display = "grid";
+                validateGranularParameters(false);
+            }
             updateRatingUI(); 
         }
         
         function updateRatingUI() { document.getElementById('rating-ui').innerText = rating; calculateStakes(); updateDifficultyDisplay(); }
-        function disableControls(disabled) { let controlsRow = document.getElementById('controlsRow'); let gearBtn = document.getElementById('gear-trigger'); if(disabled) { controlsRow.classList.add('controls-disabled'); gearBtn.style.pointerEvents = 'none'; gearBtn.style.opacity = '0.5'; } else { controlsRow.classList.remove('controls-disabled'); gearBtn.style.pointerEvents = 'auto'; gearBtn.style.opacity = '1'; } }
+        function disableControls(disabled) { let controlsRow = document.getElementById('controlsRow'); let secondaryRow = document.getElementById('manualControlsSecondaryRow'); let gearBtn = document.getElementById('gear-trigger'); if(disabled) { controlsRow.classList.add('controls-disabled'); secondaryRow.classList.add('controls-disabled'); gearBtn.style.pointerEvents = 'none'; gearBtn.style.opacity = '0.5'; } else { controlsRow.classList.remove('controls-disabled'); secondaryRow.classList.remove('controls-disabled'); gearBtn.style.pointerEvents = 'auto'; gearBtn.style.opacity = '1'; } }
 
         async function initiateGame() {
             matchStateStep = "countdown"; gameInProgress = true; if (isRated) localStorage.setItem('sum-interrupted', 'true');
@@ -1600,7 +1673,7 @@
             display.innerText = userCorrect ? "✓" : "✗ " + actualSum; display.style.color = userCorrect ? "var(--green)" : "var(--red)";
             setTimeout(() => { display.innerText = "READY"; display.className = "ready-text"; display.removeAttribute('style'); }, 2500);
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
-            updateRatingUI(); updateMainDisplay(); disableControls(false); sortAndRenderLeaderboardMatrix();
+            updateRatingUI(); updateMainDisplay(); disableControls(false);
         }
         
         document.getElementById('user-ans').disabled = true;
