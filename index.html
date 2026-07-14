@@ -1,9 +1,9 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Abacus Pro | Tournament Edition | Grandmaster Arena</title>
+    <title>Abacus Pro | Grandmaster Arena</title>
     <meta name="google-site-verification" content="sWe3iji_Ok89o8DAW7f-h5AGskrIgsQM0MGFug6MPJo" />
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700&family=Caveat:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -96,16 +96,21 @@
         body { display: flex; flex-direction: column; align-items: center; position: relative; overflow-x: hidden; }
 
         .top-navbar {
-            width: 100%; max-width: 500px; padding: 12px 24px 4px 24px; 
-            display: flex; justify-content: space-between; align-items: center; z-index: 500;
+            width: 100%; padding: 12px 24px; 
+            display: flex; justify-content: flex-end; align-items: center; z-index: 500;
+            gap: 12px;
         }
-        .profile-btn, .settings-gear-btn, .notification-bell-btn {
+        .profile-btn, .settings-gear-btn, .notification-bell-btn, .check-level-btn {
             background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 10px; 
             border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.3rem; color: var(--text); position: relative;
         }
-        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .check-level-btn {
+            border-radius: 20px; width: auto; height: 44px; font-size: 0.9rem; font-weight: 700;
+            padding: 0 16px; gap: 6px;
+        }
+        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover, .check-level-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
         
         .notification-indicator-dot {
             position: absolute; top: 2px; right: 2px; width: 10px; height: 10px;
@@ -119,10 +124,24 @@
         }
         .settings-gear-btn.rotate-active i { animation: gearInfiniteSpin 2.5s linear infinite; }
 
+        /* FULL SPLIT CORE WORKSPACE LAYOUT */
+        .page-wrapper {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            width: 100%; max-width: 1400px;
+            min-height: calc(100vh - 80px);
+            padding: 0 24px 24px 24px; gap: 24px;
+            position: relative; z-index: 10;
+        }
+
+        .sidebar-profile-column {
+            display: flex; flex-direction: column; gap: 16px;
+        }
+
         .player-identity-card {
-            width: 90%; max-width: 500px;
+            width: 100%;
             display: flex; justify-content: space-between; align-items: center;
-            padding: 12px 18px; margin: 6px 0;
+            padding: 14px 18px;
             background: var(--surface);
             border-radius: 16px; border: 1px solid var(--border);
             color: var(--text); backdrop-filter: blur(5px); box-shadow: var(--card-shadow);
@@ -135,7 +154,6 @@
             font-size: 1.2rem; font-weight: bold;
         }
         .opponent-avatar-frame { background: #57606f; }
-        .identity-meta-info { display: flex; flex-direction: column; }
         .identity-title-badge {
             background: #cd3c32; color: white; font-size: 0.65rem; font-weight: 800;
             padding: 1px 4px; border-radius: 3px; margin-right: 4px; display: inline-block;
@@ -147,26 +165,28 @@
         .identity-status-dot { width: 8px; height: 8px; background: #2ecc71; border-radius: 50%; display: inline-block; }
         .identity-status-dot.searching { background: #f1c40f; animation: pulse 1s ease-in-out infinite; }
 
-        #profile-fullscreen, #tournament-hub-fullscreen, #pane-about-fullscreen {
+        .game-container { 
+            width: 100%; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; 
+        }
+
+        #profile-fullscreen, #pane-about-fullscreen, #level-check-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6000;
             flex-direction: column; padding: 25px; overflow-y: auto;
-            color: #ffffff;
-            perspective: 1200px;
+            color: #ffffff; perspective: 1200px;
         }
         .profile-fullscreen-header, .hub-fullscreen-header {
             display: flex; justify-content: space-between; align-items: center;
             padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 15px;
-            transform: translateZ(20px);
+            margin-bottom: 15px; transform: translateZ(20px);
             text-shadow: 0 2px 20px rgba(0,0,0,0.3);
         }
-        .profile-fullscreen-header h2, .hub-fullscreen-header h2 { margin: 0; font-size: 1.6rem; color: #fff; }
+        .profile-fullscreen-header h2 { margin: 0; font-size: 1.6rem; color: #fff; }
         .close-profile-fullscreen {
             font-size: 2rem; cursor: pointer; padding: 5px; color: #fff;
             border-radius: 50%; transition: 0.2s;
         }
         .close-profile-fullscreen:hover { background: rgba(255,255,255,0.15); }
-        .profile-fullscreen-content, .hub-fullscreen-content { max-width: 500px; margin: 0 auto; width: 100%; }
+        .profile-fullscreen-content { max-width: 500px; margin: 0 auto; width: 100%; }
         
         .profile-avatar-large {
             width: 100px; height: 100px; background: linear-gradient(135deg, var(--accent), var(--accent-light));
@@ -174,135 +194,86 @@
             font-size: 3.2rem; color: white; margin: 0 auto 15px;
             box-shadow: 0 8px 32px rgba(0,0,0,0.4), inset 0 -4px 15px rgba(0,0,0,0.3);
             transform: perspective(800px) rotateX(3deg) translateZ(15px);
-            transition: transform 0.3s ease;
-            border: 3px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease; border: 3px solid rgba(255,255,255,0.2);
         }
-        .profile-avatar-large:hover {
-            transform: perspective(800px) rotateX(0deg) translateZ(25px) scale(1.05);
-        }
+        .profile-avatar-large:hover { transform: perspective(800px) rotateX(0deg) translateZ(25px) scale(1.05); }
         
         .profile-rating-large {
             background: rgba(0,0,0,0.3); border-radius: 20px; padding: 18px 15px; 
-            border: 1px solid rgba(255,255,255,0.15);
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.15); backdrop-filter: blur(10px);
             transform: perspective(800px) rotateX(2deg) translateZ(10px);
             box-shadow: 0 8px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
             margin-bottom: 12px; text-align: center;
         }
-        .profile-rating-large .label { 
-            font-size: 0.85rem; opacity: 0.9; color: #fff; 
-            letter-spacing: 0.5px; font-weight: 500; 
-        }
+        .profile-rating-large .label { font-size: 0.85rem; opacity: 0.9; color: #fff; letter-spacing: 0.5px; font-weight: 500; }
         .profile-rating-large .value { 
             font-size: 3rem; font-weight: 800; color: #f1c40f; 
-            text-shadow: 0 2px 20px rgba(241, 196, 15, 0.3);
-            font-variant-numeric: tabular-nums;
-        }
-        
-        .trophies-profile-row {
-            display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 10px 0;
-        }
-        .mini-trophy-badge {
-            background: rgba(241, 196, 15, 0.2); border: 1px solid rgba(241, 196, 15, 0.4);
-            border-radius: 8px; padding: 4px 8px; font-size: 0.75rem; color: #fff;
-            display: flex; align-items: center; gap: 4px;
+            text-shadow: 0 2px 20px rgba(241, 196, 15, 0.3); font-variant-numeric: tabular-nums;
         }
 
         .username-edit-section {
             display: flex; align-items: center; justify-content: space-between;
             background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
             padding: 14px 18px; border-radius: 16px; margin-bottom: 12px;
-            cursor: pointer; color: #fff;
-            transform: perspective(800px) rotateX(1deg) translateZ(8px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-            backdrop-filter: blur(8px);
+            cursor: pointer; color: #fff; transform: perspective(800px) rotateX(1deg) translateZ(8px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2); backdrop-filter: blur(8px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .username-edit-section:hover {
-            transform: perspective(800px) rotateX(0deg) translateZ(18px);
-            box-shadow: 0 8px 35px rgba(0,0,0,0.35);
-        }
+        .username-edit-section:hover { transform: perspective(800px) rotateX(0deg) translateZ(18px); box-shadow: 0 8px 35px rgba(0,0,0,0.35); }
         .username-edit-section span { font-size: 1.1rem; font-weight: 600; }
         
-        .studio-trigger-btn, .menu-navigation-hub-btn {
+        .studio-trigger-btn {
             background: linear-gradient(135deg, #2563eb, #1e40af); color: white; border: none;
             padding: 16px; border-radius: 40px; width: 100%; font-weight: 700;
             cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;
             box-shadow: 0 6px 25px rgba(37,99,235,0.35), inset 0 1px 0 rgba(255,255,255,0.2);
-            transform: perspective(800px) rotateX(1deg) translateZ(8px);
-            transition: all 0.3s ease;
-            font-size: 1.05rem;
+            transform: perspective(800px) rotateX(1deg) translateZ(8px); transition: all 0.3s ease; font-size: 1.05rem;
         }
-        .studio-trigger-btn:hover, .menu-navigation-hub-btn:hover { 
-            transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02);
-            box-shadow: 0 10px 40px rgba(37,99,235,0.5);
-        }
-        .menu-navigation-hub-btn { background: linear-gradient(135deg, #8e44ad, #6c5ce7); box-shadow: 0 6px 25px rgba(142,68,173,0.35); }
-        .menu-navigation-hub-btn:hover { box-shadow: 0 10px 40px rgba(142,68,173,0.5); }
+        .studio-trigger-btn:hover { transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02); box-shadow: 0 10px 40px rgba(37,99,235,0.5); }
 
         .history-btn {
             background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
             padding: 16px; border-radius: 40px; width: 100%; font-weight: 600; color: #fff;
-            cursor: pointer; margin-top: 12px; display: flex;
-            align-items: center; justify-content: center; gap: 8px;
-            transform: perspective(800px) rotateX(1deg) translateZ(5px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(8px);
+            cursor: pointer; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px;
+            transform: perspective(800px) rotateX(1deg) translateZ(5px); box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            transition: all 0.3s ease; backdrop-filter: blur(8px);
         }
-        .history-btn:hover {
-            transform: perspective(800px) rotateX(0deg) translateZ(15px);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
-            background: rgba(255,255,255,0.2);
-        }
+        .history-btn:hover { transform: perspective(800px) rotateX(0deg) translateZ(15px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); background: rgba(255,255,255,0.2); }
 
         .profile-manual-override {
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
-            border-left: 4px solid #f1c40f;
-            transform: perspective(800px) rotateX(1deg) translateZ(5px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            color: #ffffff;
+            border-left: 4px solid #f1c40f; transform: perspective(800px) rotateX(1deg) translateZ(5px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15); backdrop-filter: blur(8px); border-radius: 16px; padding: 16px; margin-bottom: 12px; color: #ffffff;
         }
         .manual-doc-heading { font-weight: 800; font-size: 0.88rem; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
         .manual-doc-body { font-size: 0.85rem; line-height: 1.4; opacity: 0.9; }
 
-        #history-fullscreen, #notification-center-fullscreen, #viewer-fullscreen {
+        #history-fullscreen, #notification-center-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6500;
             background: rgba(0,0,0,0.7); backdrop-filter: blur(12px);
             flex-direction: column; padding: 30px; align-items: center; justify-content: center;
         }
-        .history-modal-card, .notification-modal-card, .viewer-modal-card {
-            background: var(--surface); border-radius: 28px; width: 100%; max-width: 500px; max-height: 80vh; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-            color: var(--text);
+        .history-modal-card, .notification-modal-card {
+            background: var(--surface); border-radius: 28px; width: 100%; max-width: 500px; max-height: 80vh; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); color: var(--text);
         }
-        .history-modal-header, .notification-modal-header, .viewer-modal-header {
+        .history-modal-header, .notification-modal-header {
             display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; border-bottom: 2px solid var(--border); background: var(--surface);
         }
-        .history-modal-header h2, .notification-modal-header h2, .viewer-modal-header h2 { margin: 0; font-size: 1.5rem; }
-        .history-list-container, .notification-list-container, .viewer-list-container { padding: 20px; max-height: 60vh; overflow-y: auto; }
+        .history-modal-header h2, .notification-modal-header h2 { margin: 0; font-size: 1.5rem; }
+        .history-list-container, .notification-list-container { padding: 20px; max-height: 60vh; overflow-y: auto; }
         
-        .notification-element-node {
-            padding: 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px;
-        }
+        .notification-element-node { padding: 14px; border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 4px; }
         .notification-author-row { font-size: 0.75rem; font-weight: 800; opacity: 0.7; display: flex; justify-content: space-between; }
         .notification-message-body { font-size: 0.9rem; font-weight: 500; line-height: 1.4; }
         .notification-footer-meta { font-size: 0.7rem; font-style: italic; opacity: 0.6; }
 
-        .history-item-modal {
-            display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem;
-        }
+        .history-item-modal { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
         .history-question-text { font-family: monospace; font-weight: 500; }
         .history-status { font-weight: 700; font-size: 1.1rem; }
         .history-status.correct { color: var(--green); }
         .history-status.wrong { color: var(--red); }
         
-        .close-history-btn {
-            font-size: 1.8rem; cursor: pointer; padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
-        }
+        .close-history-btn { font-size: 1.8rem; cursor: pointer; padding: 8px; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
         .close-history-btn:hover { background: rgba(0,0,0,0.1); }
 
         #flair-fullscreen {
@@ -325,9 +296,7 @@
         #aesthetics-studio-screen {
             display: none; position: fixed; inset: 0; z-index: 7500; background: var(--surface); backdrop-filter: blur(25px); flex-direction: column; padding: 25px; overflow-y: auto; color: var(--text);
         }
-        .studio-header-row {
-            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px;
-        }
+        .studio-header-row { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         .studio-header-row h2 { margin: 0; font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; }
         .studio-card-container { max-width: 500px; margin: 0 auto; width: 100%; }
         
@@ -360,12 +329,7 @@
         .mode-entry-button {
             width: 100%; padding: 14px; background: rgba(255,255,255,0.15); border: 2px solid #f1c40f; border-radius: 50px; color: #fff; font-weight: 800; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease;
         }
-        .mode-entry-button:hover {
-            background: #f1c40f; color: #1e3a8a; transform: translateY(-2px);
-        }
-
-        .page-wrapper { display: flex; flex-direction: column; align-items: center; padding: 4px 0 20px 0; width: 100%; position: relative; z-index: 10; }
-        .game-container { width: 90%; max-width: 500px; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; }
+        .mode-entry-button:hover { background: #f1c40f; color: #1e3a8a; transform: translateY(-2px); }
 
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
         .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
@@ -380,8 +344,7 @@
             display: flex; align-items: center; justify-content: center;
             font-size: 1rem; font-weight: 800; letter-spacing: 0.5px;
             opacity: 0; pointer-events: none; transform: translateY(-10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 10;
         }
         .premium-update-pill.trigger-flash { opacity: 1; transform: translateY(0); }
 
@@ -398,7 +361,7 @@
         .toggle-btn.active { background: var(--accent); color: #fff; }
         
         .mode-selection-bar {
-            width: 90%; max-width: 500px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 4px 0;
+            width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;
         }
         .hub-nav-btn {
             padding: 12px; border-radius: 14px; font-weight: 700; font-size: 0.82rem; border: 1px solid var(--border);
@@ -409,25 +372,17 @@
 
         .integrated-manual-inputs-grid { 
             width: 100%; display: none; grid-template-columns: repeat(3, 1fr); gap: 6px; 
-            padding: 6px 12px 10px 12px; background: rgba(249,249,251,0.05); 
-            border-bottom: 1px solid var(--border); 
+            padding: 6px 12px 10px 12px; background: rgba(249,249,251,0.05); border-bottom: 1px solid var(--border); 
         }
         .manual-box-node { display: flex; flex-direction: column; gap: 3px; }
         .manual-input-label { 
-            font-size: 0.68rem; font-weight: 800; opacity: 0.75; color: var(--text); 
-            text-transform: uppercase; letter-spacing: 0.3px; 
+            font-size: 0.68rem; font-weight: 800; opacity: 0.75; color: var(--text); text-transform: uppercase; letter-spacing: 0.3px; 
         }
         .manual-input-numeric { 
-            width: 100%; background: var(--surface); color: var(--text); 
-            border: 1px solid var(--border); padding: 8px; border-radius: 10px; 
-            font-size: 0.9rem; outline: none; font-weight: 600; text-align: center;
-            -moz-appearance: textfield;
+            width: 100%; background: var(--surface); color: var(--text); border: 1px solid var(--border); padding: 8px; border-radius: 10px; 
+            font-size: 0.9rem; outline: none; font-weight: 600; text-align: center; -moz-appearance: textfield;
         }
-        .manual-input-numeric::-webkit-inner-spin-button,
-        .manual-input-numeric::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        .manual-input-numeric::-webkit-inner-spin-button, .manual-input-numeric::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         .range-error-hint { grid-column: span 3; color: var(--red); font-size: 0.68rem; font-weight: 700; text-align: center; display: none; margin-top: 2px; }
 
         main { flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px 0; }
@@ -510,48 +465,26 @@
             100% { transform: translate3d(-50%, 0, 0); }
         }
 
-        /* TOURNAMENT COMPONENT STYLES */
-        .tournament-selection-grid {
-            display: grid; grid-template-columns: 1fr; gap: 12px; margin: 15px 0;
+        /* LEVEL CHECK OVERLAY MODAL STYLES */
+        .level-card-inner {
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px; padding: 30px; max-width: 600px; width: 100%; margin: 40px auto;
+            backdrop-filter: blur(15px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); text-align: center;
         }
-        .tournament-card-node {
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 16px; padding: 16px; cursor: pointer; transition: 0.2s ease;
+        .level-input-field {
+            width: 100%; max-width: 240px; padding: 12px; border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 14px; font-size: 1.6rem; text-align: center; outline: none;
+            background: rgba(0,0,0,0.3); color: #fff; font-weight: 700; margin: 15px 0;
         }
-        .tournament-card-node:hover { background: rgba(255,255,255,0.18); transform: translateY(-2px); }
-        .tournament-card-title { font-size: 1.1rem; font-weight: 700; color: #ffd700; display: flex; justify-content: space-between; }
-        .tournament-card-meta { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
-        
-        .active-tournament-layout {
-            display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 15px;
+        .level-response-box {
+            margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 16px;
+            font-size: 1.1rem; line-height: 1.6; text-align: left; border-left: 5px solid #f1c40f;
+            min-height: 80px; display: none; color: #fff;
         }
-        .tournament-leaderboard-box {
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 16px; padding: 16px;
+
+        @media(max-width: 900px) {
+            .page-wrapper { grid-template-columns: 1fr; padding: 12px; }
         }
-        .tournament-leaderboard-title { font-size: 1rem; font-weight: 700; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 6px; color: #f1c40f; }
-        
-        .leaderboard-row-item {
-            display: flex; justify-content: space-between; padding: 6px 4px; font-size: 0.85rem; border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .leaderboard-row-item.user-row { background: rgba(37, 99, 235, 0.3); font-weight: 700; border-radius: 4px; }
-        
-        .viewer-box-display {
-            background: rgba(0,0,0,0.4); border: 2px dashed rgba(255,255,255,0.2);
-            border-radius: 16px; padding: 15px; text-align: center; margin-top: 10px; cursor: pointer;
-        }
-        .viewer-header-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.7; color: #00b894; }
-        .viewer-pulse-text { font-size: 1.8rem; font-weight: 800; margin: 8px 0; font-family: monospace; letter-spacing: 1px; color: #fff; }
-        
-        .action-button-group-row {
-            display: flex; gap: 8px; margin-top: 12px;
-        }
-        .hub-action-btn-element {
-            flex: 1; padding: 12px; border-radius: 30px; border: none; font-weight: 700; font-size: 0.88rem; cursor: pointer; text-align: center;
-        }
-        .hub-action-btn-element.pause-btn { background: #e67e22; color: #fff; }
-        .hub-action-btn-element.resume-btn { background: #2ecc71; color: #fff; }
-        .hub-action-btn-element.leave-btn { background: #95a5a6; color: #fff; }
     </style>
 </head>
 <body onload="initApp()">
@@ -569,42 +502,56 @@
         <div class="modes-entry-grid">
             <button class="mode-entry-button" onclick="launchDirectAppWorkspace('rated')"><i class="fas fa-trophy"></i> RATED MODE</button>
             <button class="mode-entry-button" onclick="launchDirectAppWorkspace('manual')"><i class="fas fa-sliders-h"></i> MANUAL PRACTICE MODE</button>
-            <button class="mode-entry-button" onclick="launchDirectAppWorkspace('tournaments')"><i class="fas fa-medal"></i> TOURNAMENTS (ARENA/SWISS)</button>
         </div>
     </div>
 
+    <!-- CORE INTERFACE TOP NAVBAR CONTAINER -->
+    <div class="top-navbar" id="appNavbar" style="display: none;">
+        <button class="check-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
+        <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
+        <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
+        <button id="gear-trigger" class="settings-gear-btn" onclick="openControlSuite()"><i class="fas fa-cog"></i></button>
+    </div>
+
+    <!-- PAGE CORE WORKSPACE GRID STRUCTURE Wrapper -->
     <div class="page-wrapper" id="mainAppWrapper" style="display: none;">
         
-        <div class="top-navbar">
-            <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
-            <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
-            <button id="gear-trigger" class="settings-gear-btn" onclick="openControlSuite()">
-                <i class="fas fa-cog"></i>
-            </button>
-        </div>
+        <!-- SIDEBAR PLAYER INTERFACE PACK -->
+        <div class="sidebar-profile-column">
+            <div class="mode-selection-bar" id="appModeSelectionBar">
+                <div class="hub-nav-btn active-hub" id="hub-mode-rated" onclick="switchMainOperationalContext('rated')"><i class="fas fa-bolt"></i> Rated Mode</div>
+                <div class="hub-nav-btn" id="hub-mode-manual" onclick="switchMainOperationalContext('manual')"><i class="fas fa-sliders-h"></i> Manual Mode</div>
+            </div>
 
-        <div class="mode-selection-bar" id="appModeSelectionBar">
-            <div class="hub-nav-btn active-hub" id="hub-mode-rated" onclick="switchMainOperationalContext('rated')"><i class="fas fa-bolt"></i> Rated Mode</div>
-            <div class="hub-nav-btn" id="hub-mode-manual" onclick="switchMainOperationalContext('manual')"><i class="fas fa-sliders-h"></i> Manual Mode</div>
-            <div class="hub-nav-btn" id="hub-mode-tournaments" onclick="switchMainOperationalContext('hub')"><i class="fas fa-trophy"></i> Tournaments</div>
-        </div>
-
-        <div class="player-identity-card" id="opponentIdentityCard">
-            <div class="identity-profile-block">
-                <div class="identity-avatar-frame opponent-avatar-frame" id="oppAvatar">❔</div>
-                <div class="identity-meta-info">
-                    <div>
-                        <span class="identity-title-badge" id="oppTitleDisplay">AI</span>
-                        <span class="identity-username" id="oppNameDisplay">No Active Match</span>
+            <!-- OPPONENT CARD LAYER -->
+            <div class="player-identity-card" id="opponentIdentityCard">
+                <div class="identity-profile-block">
+                    <div class="identity-avatar-frame opponent-avatar-frame" id="oppAvatar">❔</div>
+                    <div class="identity-meta-info">
+                        <div>
+                            <span class="identity-title-badge" id="oppTitleDisplay">AI</span>
+                            <span class="identity-username" id="oppNameDisplay">No Active Match</span>
+                        </div>
+                        <div class="identity-rating-tag">Rating: <span id="oppRatingDisplay" class="rating-val" style="font-size:0.85rem;">----</span></div>
                     </div>
-                    <div class="identity-rating-tag">Rating: <span id="oppRatingDisplay" class="rating-val" style="font-size:0.85rem;">----</span></div>
                 </div>
+                <div><span class="identity-status-dot" style="background:#b2bec3;" id="oppStatusDot"></span></div>
             </div>
-            <div>
-                <span class="identity-status-dot" style="background:#b2bec3;" id="oppStatusDot"></span>
+
+            <!-- MAIN ACCOUNT USER CARD LAYER -->
+            <div class="player-identity-card" id="userPrimaryProfileCard">
+                <div class="identity-profile-block">
+                    <div class="identity-avatar-frame" id="mainFlair">🏆</div>
+                    <div class="identity-meta-info">
+                        <div><span class="identity-title-badge" id="mainTitleBadge" style="display:none;">AAM</span><span class="identity-username" id="mainUsername">Grandmaster</span></div>
+                        <div class="identity-rating-tag">Rating: <span id="userBottomRatingDisplay" class="rating-val" style="font-size:0.85rem;">1500</span></div>
+                    </div>
+                </div>
+                <div><span class="identity-status-dot"></span></div>
             </div>
         </div>
 
+        <!-- MAIN ARENA GAME BOARD SCREEN LAYER -->
         <div class="game-container">
             <div id="fide-match-outcome-overlay">
                 <div id="overlayCloseIconBtn" onclick="dismissPerformanceOverlay()"><i class="fas fa-times"></i></div>
@@ -647,25 +594,22 @@
                     <option value="2">2 Rows</option><option value="3">3 Rows</option><option value="5">5 Rows</option><option value="10">10 Rows</option><option value="15">15 Rows</option><option value="20">20 Rows</option><option value="25">25 Rows</option><option value="30">30 Rows</option><option value="40">40 Rows</option><option value="50">50 Rows</option>
                 </select>
                 <select id="sel-time" class="manual-select" disabled onchange="syncDropdownToGranularInputs()">
-                    <option value="5000">5.0s</option><option value="3000">3.0s</option><option value="2000">2.0s</option><option value="1000">1.0s</option><option value="800">0.8s</option><option value="700">0.7s</option><option value="500">0.5s</option><option value="300">0.3s</option><option value="250">0.25s</option>
+                    <option value="1000">1.0s</option><option value="800">0.8s</option><option value="700">0.7s</option><option value="500">0.5s</option><option value="300">0.3s</option><option value="250">0.25s</option>
                 </select>
             </div>
 
             <div class="integrated-manual-inputs-grid" id="manualControlsSecondaryRow">
                 <div class="manual-box-node">
                     <span class="manual-input-label">Digits</span>
-                    <input type="number" id="manual-input-digits" class="manual-input-numeric" min="1" max="5" value="1" step="1" 
-                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                    <input type="number" id="manual-input-digits" class="manual-input-numeric" min="1" max="5" value="1" step="1" onchange="validateGranularParameters(true)">
                 </div>
                 <div class="manual-box-node">
                     <span class="manual-input-label">Rows</span>
-                    <input type="number" id="manual-input-rows" class="manual-input-numeric" min="2" max="100" value="2" step="1" 
-                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                    <input type="number" id="manual-input-rows" class="manual-input-numeric" min="2" max="100" value="2" step="1" onchange="validateGranularParameters(true)">
                 </div>
                 <div class="manual-box-node">
                     <span class="manual-input-label">Timer Speed (s)</span>
-                    <input type="number" id="manual-input-time" class="manual-input-numeric" min="0.25" max="5.0" step="0.001" value="1.000" 
-                           onfocus="this.select()" onchange="validateGranularParameters(true)">
+                    <input type="number" id="manual-input-time" class="manual-input-numeric" min="0.25" max="5.0" step="0.001" value="1.000" onchange="validateGranularParameters(true)">
                 </div>
                 <div class="range-error-hint" id="rangeErrorHint">Value forced within optimal boundary range limitations!</div>
             </div>
@@ -686,61 +630,22 @@
             </div>
         </div>
 
-        <div class="player-identity-card" style="margin-top: 10px;">
-            <div class="identity-profile-block">
-                <div class="identity-avatar-frame" id="mainFlair">🏆</div>
-                <div class="identity-meta-info">
-                    <div><span class="identity-title-badge" id="mainTitleBadge" style="display:none;">AAM</span><span class="identity-username" id="mainUsername">Grandmaster</span></div>
-                    <div class="identity-rating-tag">Rating: <span id="userBottomRatingDisplay" class="rating-val" style="font-size:0.85rem;">1500</span></div>
-                </div>
-            </div>
-            <div>
-                <span class="identity-status-dot"></span>
-            </div>
-        </div>
-
     </div>
 
-    <!-- TOURNAMENT HUB FULLSCREEN -->
-    <div id="tournament-hub-fullscreen" class="colorful-animated-bg">
-        <div class="hub-fullscreen-header">
-            <h2><i class="fas fa-trophy"></i> Grandmaster Tournament Arenas</h2>
-            <div class="close-profile-fullscreen" onclick="closeTournamentHub()"><i class="fas fa-times"></i></div>
-        </div>
-        <div class="hub-fullscreen-content">
-            <div id="tournament-selection-view">
-                <p style="font-size:0.95rem; opacity:0.9;">Select an active simulation lobby. Arenas offer non-stop back-to-back pairings while Swiss brackets run scheduled rounds without time increments.</p>
-                <div class="tournament-selection-grid" id="tournamentLobbiesContainer"></div>
-            </div>
-
-            <div id="tournament-active-view" style="display:none;">
-                <div class="profile-rating-large" style="padding: 12px; margin-bottom:8px;">
-                    <div style="font-size: 1.2rem; font-weight: 800; color: #ffd700;" id="activeTournamentTitle">Lobby Name</div>
-                    <div style="font-size: 0.8rem; opacity:0.9;" id="activeTournamentClock">Time remaining: --:--</div>
-                </div>
-                
-                <div class="active-tournament-layout">
-                    <div class="tournament-leaderboard-box">
-                        <div class="tournament-leaderboard-title"><i class="fas fa-list-ol"></i> Live Standings (<span id="activeLobbyPlayerCount">0</span> Bots)</div>
-                        <div id="activeLeaderboardRows"></div>
-                    </div>
-                    
-                    <div class="viewer-box-display" onclick="openTopMatchViewer()">
-                        <div class="viewer-header-title"><i class="fas fa-eye"></i> Watch Top Engine Match</div>
-                        <div class="viewer-pulse-text" id="topMatchViewerPreview">Bot A vs Bot B</div>
-                        <div style="font-size:0.75rem; color:#f1c40f;">Click to look closer at active arithmetic compilation streams</div>
-                    </div>
-                </div>
-
-                <div class="action-button-group-row">
-                    <button class="hub-action-btn-element pause-btn" id="lobbyPauseBtn" onclick="toggleLobbyPauseState()">Pause</button>
-                    <button class="hub-action-btn-element leave-btn" onclick="exitActiveTournamentLobby()">Exit Hub</button>
-                </div>
+    <!-- LEVEL CHECK ENGINE FULLSCREEN OVERLAY -->
+    <div id="level-check-fullscreen" class="colorful-animated-bg">
+        <button class="back-arena-btn" onclick="closeLevelCheckFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div class="about-centered">
+            <div class="level-card-inner">
+                <h2 style="font-family:'Orbitron', sans-serif; font-size:1.8rem; color:#ffd700; margin-top:0;"><i class="fas fa-chart-line"></i> Dynamic Tier Analyzer</h2>
+                <p style="opacity:0.9; font-size:0.95rem; margin-bottom:10px;">Make your exact rating numbers here xxxx</p>
+                <input type="text" id="levelCheckInput" class="level-input-field" placeholder="e.g. 2350" autocomplete="off" oninput="processLevelCheckInputEval()">
+                <div id="levelCheckResult" class="level-response-box"></div>
             </div>
         </div>
     </div>
 
-    <!-- NOTIFICATION MODAL CENTER -->
+    <!-- SYSTEM NOTIFICATION MODAL CENTER -->
     <div id="notification-center-fullscreen">
         <div class="notification-modal-card">
             <div class="notification-modal-header">
@@ -751,22 +656,7 @@
         </div>
     </div>
 
-    <!-- TOP MATCH VIEWER MODAL -->
-    <div id="viewer-fullscreen">
-        <div class="viewer-modal-card">
-            <div class="viewer-modal-header">
-                <h2><i class="fas fa-tv"></i> Live Stream Broadcast</h2>
-                <div class="close-history-btn" onclick="closeTopMatchViewer()"><i class="fas fa-times"></i></div>
-            </div>
-            <div class="viewer-list-container" style="text-align:center; padding: 30px 20px;">
-                <div style="font-size:0.85rem; text-transform:uppercase; letter-spacing:1px; opacity:0.7;" id="viewerMatchHeaderLabel">Grandmaster Matrix Board</div>
-                <div style="font-size: 1.4rem; font-weight: 800; margin:12px 0;" id="viewerOpponentsLabel">Bot A vs Bot B</div>
-                <div style="font-size: 5rem; font-weight: 800; min-height: 110px; color: var(--accent); font-family:monospace;" id="viewerDisplayTerminal">--</div>
-                <p style="font-size: 0.8rem; opacity:0.7; font-style:italic;">You are watching an automated algorithmic calibration stream execution in real time.</p>
-            </div>
-        </div>
-    </div>
-
+    <!-- PLAYER COMPETITOR FULLSCREEN PROFILE MODAL -->
     <div id="profile-fullscreen" class="colorful-animated-bg">
         <div class="profile-fullscreen-header">
             <h2><i class="fas fa-user-circle"></i> Player Profile</h2>
@@ -778,7 +668,6 @@
             <div class="profile-rating-large">
                 <div class="label" style="letter-spacing: 0.5px; font-weight: 500; color: #fff;">Current Rating</div>
                 <div class="value" id="profileRatingLarge" style="font-variant-numeric: tabular-nums;">1500</div>
-                <div class="trophies-profile-row" id="profileTrophiesShowcase"></div>
             </div>
 
             <div class="manual-doc-box profile-manual-override">
@@ -798,6 +687,7 @@
         </div>
     </div>
 
+    <!-- HISTORIC EVALUATION FULLSCREEN MODAL -->
     <div id="history-fullscreen">
         <div class="history-modal-card">
             <div class="history-modal-header">
@@ -808,6 +698,7 @@
         </div>
     </div>
 
+    <!-- TOTAL UNRESTRICTED ORIGINAL GRID AVATARS CONTAINER -->
     <div id="flair-fullscreen">
         <div class="flair-header">
             <h2><i class="fas fa-tag"></i> Choose Identity Avatar</h2>
@@ -816,6 +707,7 @@
         <div id="flairGridFull" class="flair-grid-full"></div>
     </div>
 
+    <!-- VISUAL STYLE MANAGEMENT CANVAS SCREEN -->
     <div id="aesthetics-studio-screen">
         <div class="studio-card-container">
             <div class="studio-header-row">
@@ -875,7 +767,7 @@
         </div>
     </div>
 
-    <!-- FULL RESTORED ABOUT PAGE -->
+    <!-- UNALTERED UNTOUCHED FULL ABOUT PAGE DOCUMENTATION -->
     <div id="pane-about-fullscreen" class="colorful-animated-bg">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
@@ -936,18 +828,6 @@
                 </div>
             </div>
 
-            <!-- TOURNAMENT ARCHITECTURE SECTION -->
-            <div class="philosophy-section" style="border-left: 4px solid #8e44ad;">
-                <h3><i class="fas fa-trophy"></i> Tournament Arena & Swiss Systems</h3>
-                <p>To deliver a competitive experience inspired by grandmaster structures, our multi-lobby architecture offers fully calculated dynamic engine match simulations:</p>
-                <ul>
-                    <li><strong>Arena Formats:</strong> High-velocity matches featuring <strong>10-second pairing countdown timers</strong>. Includes Bullet (1+0), Blitz (3+0), and Rapid (10+0) time metrics. Features instantaneous pairing cycles upon completion, where users can freely pause and resume status.</li>
-                    <li><strong>Swiss Brackets:</strong> A strict <strong>11-Round Championship</strong> framework. Built with 10-second post-game evaluation breaks and 1-minute global round synchronization delays. Time controls feature positional time increments: Bullet (2+1), Blitz (3+2), and Rapid (5+5). Freely allows pausing and context re-entry.</li>
-                    <li><strong>AAM Title Multipliers:</strong> Crossing a rating score of <strong>2300</strong> grants the permanent title designation of <strong>Abacus Arena Master (AAM)</strong>, accompanied by an explicit red prefix title identifier badge and entry access to exclusive Elite Titled Tuesday Arenas simulated with 70-100 expert bot configurations.</li>
-                    <li><strong>Lobby Architecture & Trophy Showcase:</strong> AI pairings use inverse dynamic matching algorithms, where the opponent's rating determines the exact digit/row layout difficulty matrix. Finishing among the top three competitors appends permanent, dated trophy assets directly to your player profile dashboard structure.</li>
-                </ul>
-            </div>
-            
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
             <ul style="font-size:1.05rem; padding-left:25px; margin:10px 0;">
                 <li style="margin-bottom: 8px;">Any attempt to refresh or close the tab while a sum is in progress results in a dynamic account security flag evaluation.</li>
@@ -1040,27 +920,16 @@
         let soundStyleSetting = localStorage.getItem('abacus-sound-style') || 'sine';
         let typographySetting = localStorage.getItem('abacus-typography-style') || 'normal';
         let previewCycleIntervalId = null;
-
-        // Tournament State Management
-        let currentActiveLobby = null; 
-        let isLobbyPaused = false; 
-        let lobbyTimerIntervalRef = null;
-        let lobbyTickerSecondsLeft = 0;
-        let activeLobbyBotsList = [];
-        let lobbyTopMatchIntervalRef = null;
-        let topMatchActiveDisplayTick = 0;
-        let currentTopMatchSimState = { botA: "", botB: "", val: 0, printing: true };
         
-        // System Notification Architecture
         let systemNotificationsList = JSON.parse(localStorage.getItem('abacus-system-notifications')) || [];
         let wasAAMTitleNotificationTriggered = localStorage.getItem('abacus-aam-popup-fired') === 'true';
-        let earnedProfileTrophiesArray = JSON.parse(localStorage.getItem('abacus-earned-trophies')) || [];
 
         const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
         const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
         
         let aiNames = [];
         let aiAvatars = ["🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟"];
+        
         const allFlairs = ["🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟","🐱","🦊","🦁","🦅","🦉",
             "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞",
             "🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
@@ -1071,20 +940,11 @@
             "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🛹","🚲",
             "🚗","🏍️","✈️","🚀","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
             "🔑","🔒","🔓","🔨","🪓","🛡️","⚔️","📯","🔔","🏺","📿","💈","🧿","🪞","🧪","🔬","🔭","🩺","🩹",
-            "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📘","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳",
-            "💍","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","🎨","🎬",
+            "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","🎨","🎬",
             "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","🎯","👑","🎰","🟥","🟧","🟨","🟩","🟦","🟪",
             "🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬","💭","🗯️","🪔","🧲","🧱","🪢",
             "🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🛴","🛹","🛼","🚏","⛵","🛥️","🛳️","⛴️","🚢","🛫","🛬","💺",
             "🌠","⛅","⛈️","🌤️","🍂","🍁"];
-
-        const tournamentLobbiesTemplates = [
-            { id: "bullet_arena", name: "Bullet Arena Sim", format: "arena", timeControl: "1+0", duration: 60, minRating: 1000, poolSize: 320, increment: 0, titleRequired: false },
-            { id: "blitz_arena", name: "Blitz Arena Sim", format: "arena", timeControl: "3+0", duration: 180, minRating: 1000, poolSize: 410, increment: 0, titleRequired: false },
-            { id: "rapid_arena", name: "Rapid Arena Sim", format: "arena", timeControl: "10+0", duration: 600, minRating: 1000, poolSize: 350, increment: 0, titleRequired: false },
-            { id: "aam_tuesday_arena", name: "AAM Tuesday Titled Arena", format: "arena", timeControl: "1+0", duration: 60, minRating: 2300, poolSize: 85, increment: 0, titleRequired: true },
-            { id: "bullet_swiss", name: "Bullet Swiss Championship", format: "swiss", timeControl: "2+1", duration: 11, minRating: 1000, poolSize: 150, increment: 1, titleRequired: false }
-        ];
 
         function buildComprehensiveAIPools() {
             aiNames = [];
@@ -1100,7 +960,8 @@
             document.getElementById('splash-screen').style.opacity = '0';
             setTimeout(() => {
                 document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('mainAppWrapper').style.display = 'flex';
+                document.getElementById('appNavbar').style.display = 'flex';
+                document.getElementById('mainAppWrapper').style.display = 'grid';
                 clearOpponentDisplay();
                 switchMainOperationalContext(workspaceContextKey);
             }, 400);
@@ -1112,21 +973,14 @@
                 return;
             }
             
-            if (contextKey === 'hub' || contextKey === 'tournaments') {
-                appOperationalContext = "hub";
-                openTournamentHub();
-                syncTabSelectionHighlight('hub');
-                configureLayoutForContext('hub');
-            } else if (contextKey === 'manual') {
+            if (contextKey === 'manual') {
                 appOperationalContext = "manual";
                 isRated = false;
-                closeTournamentHub();
                 syncTabSelectionHighlight('manual');
                 configureLayoutForContext('manual');
             } else {
                 appOperationalContext = "rated";
                 isRated = true;
-                closeTournamentHub();
                 syncTabSelectionHighlight('rated');
                 configureLayoutForContext('rated');
             }
@@ -1136,7 +990,6 @@
         function syncTabSelectionHighlight(activeId) {
             document.getElementById('hub-mode-rated').classList.toggle('active-hub', activeId === 'rated');
             document.getElementById('hub-mode-manual').classList.toggle('active-hub', activeId === 'manual');
-            document.getElementById('hub-mode-tournaments').classList.toggle('active-hub', activeId === 'hub');
         }
 
         function configureLayoutForContext(mode) {
@@ -1144,11 +997,7 @@
             let secondaryManualRow = document.getElementById('manualControlsSecondaryRow');
             let ratingUILabel = document.getElementById('rating-ui-label');
             
-            if (mode === 'hub') {
-                oppCard.classList.remove('card-hidden');
-                secondaryManualRow.style.display = "none";
-                document.querySelectorAll('.manual-select').forEach(s => s.disabled = true);
-            } else if (mode === 'manual') {
+            if (mode === 'manual') {
                 oppCard.classList.add('card-hidden');
                 secondaryManualRow.style.display = "grid";
                 document.querySelectorAll('.manual-select').forEach(s => s.disabled = false);
@@ -1162,18 +1011,6 @@
                 ratingUILabel.innerText = "YOUR ARENA RATING";
                 document.getElementById('rating-ui').innerText = rating;
                 clearOpponentDisplay();
-            }
-        }
-
-        function openTournamentHub() {
-            renderTournamentLobbyListHTML();
-            document.getElementById('tournament-hub-fullscreen').style.display = 'flex';
-        }
-
-        function closeTournamentHub() {
-            document.getElementById('tournament-hub-fullscreen').style.display = 'none';
-            if (appOperationalContext === 'hub' && !currentActiveLobby) {
-                switchMainOperationalContext('rated');
             }
         }
 
@@ -1220,7 +1057,7 @@
             setTimeout(() => {
                 hideLoading();
                 openNotificationCenter();
-            }, 1200);
+            }, 600);
         }
 
         function openNotificationCenter() {
@@ -1242,280 +1079,8 @@
             document.getElementById('notification-center-fullscreen').style.display = "flex";
         }
 
-        function closeNotificationCenter() {
-            document.getElementById('notification-center-fullscreen').style.display = "none";
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-        }
-
-        function renderTournamentLobbyListHTML() {
-            let container = document.getElementById('tournamentLobbiesContainer');
-            container.innerHTML = tournamentLobbiesTemplates.map(t => {
-                let titleLockStatus = t.titleRequired ? ` <span style="color:#e74c3c; font-size:0.75rem;"><i class="fas fa-lock"></i> Titled Only</span>` : '';
-                let typeBadge = t.format === 'arena' ? `<span style="background:#2563eb; padding:2px 6px; border-radius:4px; font-size:0.7rem;">Arena</span>` : `<span style="background:#8e44ad; padding:2px 6px; border-radius:4px; font-size:0.7rem;">Swiss</span>`;
-                return `
-                    <div class="tournament-card-node" onclick="joinTournamentLobbyLink('${t.id}')">
-                        <div class="tournament-card-title">
-                            <span><i class="fas fa-trophy"></i> ${t.name}${titleLockStatus}</span>
-                            ${typeBadge}
-                        </div>
-                        <div class="tournament-card-meta">
-                            Format: ${t.format.toUpperCase()} | Time: ${t.timeControl} | Target Pool: ${t.poolSize} Active AI Competitors
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function joinTournamentLobbyLink(lobbyId) {
-            let config = tournamentLobbiesTemplates.find(t => t.id === lobbyId);
-            if (config.titleRequired && rating < 2300) {
-                alert(`🔒 Access Denied! Entry requirement requires an active Abacus Arena Master [AAM] title qualification (Rating ≥ 2300). Current Rating: ${rating}`);
-                return;
-            }
-            
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                setupActiveTournamentLobbyContext(config);
-            }, 800);
-        }
-
-        function setupActiveTournamentLobbyContext(config) {
-            currentActiveLobby = {
-                config: config,
-                userScore: 0,
-                userGamesPlayed: 0,
-                currentRound: 1,
-                isPaused: false
-            };
-            
-            isLobbyPaused = false;
-            document.getElementById('lobbyPauseBtn').innerText = "Pause Session";
-            document.getElementById('lobbyPauseBtn').className = "hub-action-btn-element pause-btn";
-
-            activeLobbyBotsList = [];
-            let nameSeedIndex = Math.floor(Math.random() * 50);
-            for (let i = 0; i < config.poolSize; i++) {
-                let botRatingOffset = config.id === 'aam_tuesday_arena' ? (2300 + Math.floor(Math.random() * 1200)) : (1000 + Math.floor(Math.random() * 1800));
-                let nameStr = aiNames[(nameSeedIndex + i) % aiNames.length];
-                activeLobbyBotsList.push({
-                    name: nameStr + "_Bot",
-                    rating: botRatingOffset,
-                    score: 0,
-                    avatar: aiAvatars[i % aiAvatars.length],
-                    title: botRatingOffset >= 2300 ? "AAM" : "AI"
-                });
-            }
-
-            document.getElementById('rating-ui-label').innerText = config.name.toUpperCase();
-            document.getElementById('activeTournamentTitle').innerText = config.name;
-            
-            if (config.format === 'arena') {
-                lobbyTickerSecondsLeft = config.duration;
-            } else {
-                lobbyTickerSecondsLeft = 45; 
-            }
-
-            document.getElementById('tournament-selection-view').style.display = "none";
-            document.getElementById('tournament-active-view').style.display = "block";
-            
-            startLobbyChronometerLoop();
-            startTopMatchSimulatedBroadcaster();
-            refreshLobbyLeaderboardHTML();
-            closeTournamentHub();
-        }
-
-        function startLobbyChronometerLoop() {
-            if (lobbyTimerIntervalRef) clearInterval(lobbyTimerIntervalRef);
-            lobbyTimerIntervalRef = setInterval(() => {
-                if (isLobbyPaused) return;
-                
-                lobbyTickerSecondsLeft--;
-                let clockNode = document.getElementById('activeTournamentClock');
-                
-                if (currentActiveLobby.config.format === 'arena') {
-                    let mins = Math.floor(lobbyTickerSecondsLeft / 60);
-                    let secs = lobbyTickerSecondsLeft % 60;
-                    clockNode.innerText = `Time Remaining: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
-                    
-                    if (lobbyTickerSecondsLeft % 6 === 0) {
-                        simulateAmbientLobbyProgress();
-                    }
-                    
-                    if (lobbyTickerSecondsLeft <= 0) {
-                        finalizeTournamentContextLifecycle(true);
-                    }
-                } else {
-                    clockNode.innerText = `Round ${currentActiveLobby.currentRound} / 11 | Phase Tick: ${lobbyTickerSecondsLeft}s`;
-                    if (lobbyTickerSecondsLeft % 4 === 0) {
-                        simulateAmbientLobbyProgress();
-                    }
-                    if (lobbyTickerSecondsLeft <= 0) {
-                        if (currentActiveLobby.currentRound < 11) {
-                            currentActiveLobby.currentRound++;
-                            lobbyTickerSecondsLeft = 45;
-                            alert(`🔔 Swiss Round Transition Notice! Round ${currentActiveLobby.currentRound} pairing matrix has launched.`);
-                        } else {
-                            finalizeTournamentContextLifecycle(true);
-                        }
-                    }
-                }
-            }, 1000);
-        }
-
-        function simulateAmbientLobbyProgress() {
-            activeLobbyBotsList.forEach(b => {
-                if (Math.random() < 0.35) {
-                    b.score += currentActiveLobby.config.format === 'arena' ? (Math.random() > 0.5 ? 2 : 4) : (Math.random() > 0.4 ? 1 : 0.5);
-                }
-            });
-            activeLobbyBotsList.sort((a, b) => b.score - a.score);
-            refreshLobbyLeaderboardHTML();
-            document.getElementById('activeLobbyPlayerCount').innerText = activeLobbyBotsList.length;
-        }
-
-        function refreshLobbyLeaderboardHTML() {
-            let container = document.getElementById('activeLeaderboardRows');
-            document.getElementById('rating-ui').innerText = currentActiveLobby.userScore.toFixed(1) + " Pts";
-            
-            let list = activeLobbyBotsList.map(b => ({ name: b.name, rating: b.rating, score: b.score, title: b.title, avatar: b.avatar, isUser: false }));
-            list.push({ name: username, rating: rating, score: currentActiveLobby.userScore, title: rating >= 2300 ? "AAM" : "YOU", avatar: selectedFlair, isUser: true });
-            list.sort((a, b) => b.score - a.score);
-            
-            let userRankIndex = list.findIndex(x => x.isUser) + 1;
-            let displaySlice = list.slice(0, 5);
-            if (userRankIndex > 5) {
-                displaySlice.push(list[userRankIndex - 1]);
-            }
-            
-            container.innerHTML = displaySlice.map((x, idx) => {
-                let positionalDisplay = list.findIndex(item => item.name === x.name) + 1;
-                let boldClass = x.isUser ? "user-row" : "";
-                let prefixBadge = `<span class="identity-title-badge ${x.title === 'AAM' ? 'aam-badge' : ''}">${x.title}</span>`;
-                return `
-                    <div class="leaderboard-row-item ${boldClass}">
-                        <span>#${positionalDisplay} ${x.avatar} ${prefixBadge} ${escapeHtml(x.name)}</span>
-                        <span style="font-variant-numeric:tabular-nums; font-weight:700;">${x.score.toFixed(1)} pts</span>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleLobbyPauseState() {
-            if (!currentActiveLobby) return;
-            isLobbyPaused = !isLobbyPaused;
-            let btn = document.getElementById('lobbyPauseBtn');
-            if (isLobbyPaused) {
-                btn.innerText = "Resume Session";
-                btn.className = "hub-action-btn-element resume-btn";
-            } else {
-                btn.innerText = "Pause Session";
-                btn.className = "hub-action-btn-element pause-btn";
-            }
-        }
-
-        function exitActiveTournamentLobby() {
-            if (gameInProgress) {
-                alert("⚠️ Finish your current operational calculation stream iteration matrix before exiting!");
-                return;
-            }
-            if (confirm("Are you sure you want to pause/exit this tournament window?")) {
-                finalizeTournamentContextLifecycle(false);
-            }
-        }
-
-        function finalizeTournamentContextLifecycle(isCompletedExpiration) {
-            if (lobbyTimerIntervalRef) clearInterval(lobbyTimerIntervalRef);
-            if (lobbyTopMatchIntervalRef) clearInterval(lobbyTopMatchIntervalRef);
-            
-            if (isCompletedExpiration && currentActiveLobby) {
-                let finalPool = activeLobbyBotsList.map(b => ({ name: b.name, score: b.score }));
-                finalPool.push({ name: username, score: currentActiveLobby.userScore });
-                finalPool.sort((a, b) => b.score - a.score);
-                let finalUserPlace = finalPool.findIndex(x => x.name === username) + 1;
-                
-                alert(`🏁 Tournament Ended!\n Lobbies finalized. You finished in Position #${finalUserPlace} with ${currentActiveLobby.userScore} points.`);
-                
-                if (finalUserPlace <= 3) {
-                    let trophyAsset = {
-                        lobbyName: currentActiveLobby.config.name,
-                        place: finalUserPlace,
-                        date: new Date().toLocaleDateString()
-                    };
-                    earnedProfileTrophiesArray.push(trophyAsset);
-                    localStorage.setItem('abacus-earned-trophies', JSON.stringify(earnedProfileTrophiesArray));
-                    renderTrophyShowcaseIconsHTML();
-                }
-            }
-
-            currentActiveLobby = null;
-            document.getElementById('tournament-active-view').style.display = "none";
-            document.getElementById('tournament-selection-view').style.display = "block";
-            switchMainOperationalContext('rated');
-        }
-
-        function startTopMatchSimulatedBroadcaster() {
-            if (lobbyTopMatchIntervalRef) clearInterval(lobbyTopMatchIntervalRef);
-            
-            let pickBroadcastPairings = () => {
-                if (activeLobbyBotsList.length < 2) return;
-                currentTopMatchSimState.botA = activeLobbyBotsList[0].name;
-                currentTopMatchSimState.botB = activeLobbyBotsList[1].name;
-                currentTopMatchSimState.printing = true;
-                topMatchActiveDisplayTick = 0;
-            };
-            
-            pickBroadcastPairings();
-            lobbyTopMatchIntervalRef = setInterval(() => {
-                if (isLobbyPaused) return;
-                topMatchActiveDisplayTick++;
-                
-                let previewBox = document.getElementById('topMatchViewerPreview');
-                let modalTerminal = document.getElementById('viewerDisplayTerminal');
-                
-                document.getElementById('viewerOpponentsLabel').innerText = `${currentTopMatchSimState.botA} vs ${currentTopMatchSimState.botB}`;
-                
-                if (topMatchActiveDisplayTick <= 6) {
-                    let randVal = Math.floor(Math.random() * 899) + 100;
-                    previewBox.innerText = `[STREAMING] ${randVal}`;
-                    modalTerminal.innerText = randVal;
-                } else if (topMatchActiveDisplayTick <= 8) {
-                    previewBox.innerText = `[EVALUATING] ?`;
-                    modalTerminal.innerText = "?";
-                } else {
-                    let statusOutcomeMark = Math.random() > 0.2 ? "✓ SUCCESS" : "✗ TIMEOUT";
-                    previewBox.innerText = `${currentTopMatchSimState.botA} vs ${currentTopMatchSimState.botB} (${statusOutcomeMark})`;
-                    modalTerminal.innerText = Math.random() > 0.5 ? "✓" : "✗";
-                    if (topMatchActiveDisplayTick >= 10) {
-                        pickBroadcastPairings();
-                    }
-                }
-            }, 800);
-        }
-
-        function openTopMatchViewer() {
-            document.getElementById('viewer-fullscreen').style.display = "flex";
-        }
-        function closeTopMatchViewer() {
-            document.getElementById('viewer-fullscreen').style.display = "none";
-        }
-
-        function renderTrophyShowcaseIconsHTML() {
-            let tray = document.getElementById('profileTrophiesShowcase');
-            if (!tray) return;
-            if (earnedProfileTrophiesArray.length === 0) {
-                tray.innerHTML = "";
-            } else {
-                tray.innerHTML = earnedProfileTrophiesArray.map(t => `
-                    <span class="mini-trophy-badge" title="${escapeHtml(t.lobbyName)} - Place: ${t.place} on ${t.date}">
-                        🥇 #${t.place} (${t.date})
-                    </span>
-                `).join('');
-            }
-        }
+        function closeNotificationCenter() { document.getElementById('notification-center-fullscreen').style.display = "none"; }
+        function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
         function generateOpponentProfile() {
             let roll = Math.random() * 100;
@@ -1525,12 +1090,7 @@
             else offset = Math.floor(Math.random() * 301);
 
             let sign = Math.random() > 0.5 ? 1 : -1;
-            
-            if (appOperationalContext === 'hub' && currentActiveLobby) {
-                opponentRating = currentActiveLobby.config.id === 'aam_tuesday_arena' ? (2300 + Math.floor(Math.random() * 900)) : (1200 + Math.floor(Math.random() * 1500));
-            } else {
-                opponentRating = Math.max(1000, rating + (offset * sign));
-            }
+            opponentRating = Math.max(1000, rating + (offset * sign));
 
             document.getElementById('oppRatingDisplay').innerText = opponentRating;
             document.getElementById('oppTitleDisplay').innerText = opponentRating >= 2300 ? "AAM" : "AI";
@@ -1558,10 +1118,6 @@
 
         function startMatchmakingSequence() {
             if (gameInProgress) return;
-            if (isLobbyPaused) {
-                alert("⚠️ Expand or resume your paused active tournament workspace lifecycle before starting dynamic pairing sequences!");
-                return;
-            }
             let currentNow = Date.now();
             if (currentNow < lockUntilTimestamp) {
                 let diffSecs = Math.ceil((lockUntilTimestamp - currentNow) / 1000);
@@ -1583,7 +1139,7 @@
             document.getElementById('oppRatingDisplay').innerText = "----";
             document.getElementById('oppAvatar').innerText = "⏳";
 
-            let searchDuration = currentActiveLobby ? 600 : (Math.floor(Math.random() * 2001) + 3000);
+            let searchDuration = Math.floor(Math.random() * 2001) + 3000;
             searchTimeoutTracker = setTimeout(() => {
                 generateOpponentProfile();
                 enterReadyGateState();
@@ -1591,7 +1147,7 @@
         }
 
         function enterReadyGateState() {
-            matchStateStep = "gate"; gateSecondsLeft = currentActiveLobby ? 10 : 25;
+            matchStateStep = "gate"; gateSecondsLeft = 25;
             let display = document.getElementById('display'); display.innerText = "";
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.display = "block"; actionBtn.disabled = false;
@@ -1629,13 +1185,11 @@
             if (startGateTimeoutTracker) clearInterval(startGateTimeoutTracker);
             if (timerInterval) clearInterval(timerInterval);
             
-            if (!currentActiveLobby) {
-                consecutiveAbortsCount++; localStorage.setItem('consecutive-aborts-count', consecutiveAbortsCount);
-                if (consecutiveAbortsCount >= 3) {
-                    lockUntilTimestamp = Date.now() + (10 * 60 * 1000); localStorage.setItem('lock-until-timestamp', lockUntilTimestamp);
-                    consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
-                    startCooldownTickerLoop();
-                }
+            consecutiveAbortsCount++; localStorage.setItem('consecutive-aborts-count', consecutiveAbortsCount);
+            if (consecutiveAbortsCount >= 3) {
+                lockUntilTimestamp = Date.now() + (10 * 60 * 1000); localStorage.setItem('lock-until-timestamp', lockUntilTimestamp);
+                consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
+                startCooldownTickerLoop();
             }
 
             gameInProgress = false; matchStateStep = "idle"; localStorage.removeItem('abacus-sum-interrupted');
@@ -1665,12 +1219,8 @@
             let oldUserRating = rating;
             calculateStakes();
             
-            if (currentActiveLobby) {
-                currentActiveLobby.userScore = Math.max(0, currentActiveLobby.userScore - 1);
-            } else {
-                if(appOperationalContext === 'rated') {
-                    rating = Math.max(1000, rating - lossPoints); localStorage.setItem('abacus-rating', rating);
-                }
+            if(appOperationalContext === 'rated') {
+                rating = Math.max(1000, rating - lossPoints); localStorage.setItem('abacus-rating', rating);
             }
             
             localStorage.removeItem('abacus-sum-interrupted');
@@ -1686,19 +1236,12 @@
             document.getElementById('resign-match-btn').style.display = "none";
             
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.display = 'block';
-            actionBtn.disabled = false;
+            actionBtn.style.display = 'block'; actionBtn.disabled = false;
             actionBtn.onclick = startMatchmakingSequence;
 
-            if (!currentActiveLobby) {
-                triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
-            } else {
-                triggerTournamentIntervalIntermissionGap();
-            }
+            triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0);
             
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
-            
-            if (currentActiveLobby) refreshLobbyLeaderboardHTML();
             updateRatingUI(); updateMainDisplay(); disableControls(false);
             checkTitledMilestoneThresholdStatus();
         }
@@ -1711,8 +1254,7 @@
                 if (remainingTime <= 0) { 
                     clearInterval(countdownUIRefreshInterval); 
                     actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`; 
-                    actionBtn.onclick = startMatchmakingSequence;
-                    actionBtn.disabled = false; 
+                    actionBtn.onclick = startMatchmakingSequence; actionBtn.disabled = false; 
                     return; 
                 }
                 let secsTotal = Math.ceil(remainingTime / 1000);
@@ -1721,8 +1263,6 @@
         }
 
         function triggerPerformanceOverlay(bannerTitle, subText, baseRating, deltaVal, speedMsAhead = 0) {
-            if (currentActiveLobby) return; 
-            
             let overlay = document.getElementById('fide-match-outcome-overlay');
             let titleNode = document.getElementById('overlayBannerTitle');
             let subNode = document.getElementById('overlayOutcomeSub');
@@ -1780,6 +1320,113 @@
         function openProfileFullscreen() { updateProfileFullscreen(); document.getElementById('profile-fullscreen').style.display = 'flex'; }
         function closeProfileFullscreen() { document.getElementById('profile-fullscreen').style.display = 'none'; }
         
+        function openLevelCheckFullscreen() {
+            document.getElementById('levelCheckInput').value = "";
+            document.getElementById('levelCheckResult').style.display = "none";
+            document.getElementById('levelCheckResult').innerHTML = "";
+            document.getElementById('level-check-fullscreen').style.display = 'flex';
+        }
+        function closeLevelCheckFullscreen() { document.getElementById('level-check-fullscreen').style.display = 'none'; }
+
+        /* DETAILED 50-POINT STEP RESPONSES MATRIX FOR LEVEL ANALYSIS */
+        function processLevelCheckInputEval() {
+            let val = document.getElementById('levelCheckInput').value.trim();
+            let res = document.getElementById('levelCheckResult');
+            
+            if (val === "") { res.style.display = "none"; return; }
+            res.style.display = "block";
+
+            let num = parseInt(val);
+            if (isNaN(num) || !/^\d+$/.test(val)) {
+                res.innerHTML = "⚠️ This is not a valid score configuration! Please specify numeric integers within structural bounds.";
+                return;
+            }
+
+            if (num < 1200) {
+                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Great job starting out! This rating shows you are laying down the fundamentals. Keep pushing to break past the baseline boundaries.`;
+            } else if (num < 1250) {
+                res.innerHTML = `⚡ **Rating Level: 1200+**<br>Wow! You're now able to do **1 digit, 2 rows at a time of 1 sec** every numbers, that's good! You are stepping out of the absolute beginner tier.`;
+            } else if (num < 1300) {
+                res.innerHTML = `⚡ **Rating Level: 1250+**<br>Awesome pacing! You're successfully processing structural calculation frames. You're emerging as a solid rookie track player.`;
+            } else if (num < 1350) {
+                res.innerHTML = `🚀 **Rating Level: 1300+**<br>This rating is so awesome! You have stable visual recognition filters for basic integer streams.`;
+            } else if (num < 1400) {
+                res.innerHTML = `🚀 **Rating Level: 1350+**<br>Excellent stability! You are narrowing the tracking gap and demonstrating clean computational velocity accuracy.`;
+            } else if (num < 1450) {
+                res.innerHTML = `🔥 **Rating Level: 1400+**<br>Incredible focus! You are steadily approaching advanced category thresholds. Keep tracking those matrix metrics!`;
+            } else if (num < 1500) {
+                res.innerHTML = `🔥 **Rating Level: 1450+**<br>Outstanding progress! You have completely optimized the basic setup and are ready for massive tracking matrix jumps.`;
+            } else if (num < 1550) {
+                res.innerHTML = `✨ **Rating Level: 1500+**<br>Wow! You're now able to do **1 digit, 5 rows at a time of 1 sec** every numbers, that's good! You are officially an active Intermediate calculation competitor.`;
+            } else if (num < 1600) {
+                res.innerHTML = `✨ **Rating Level: 1550+**<br>Great consistency! You are managing a deeper depth of memory frames with excellent numeric compilation accuracy.`;
+            } else if (num < 1650) {
+                res.innerHTML = `🌟 **Rating Level: 1600+**<br>Wow! You're now able to do **1 digit, 10 rows at a time of 1 sec** every numbers, that's good! You're a highly proficient visualizer.`;
+            } else if (num < 1700) {
+                res.innerHTML = `🌟 **Rating Level: 1650+**<br>Brilliant speed controls! Your cognitive recovery timeline across 10-row segments is sharp.`;
+            } else if (num < 1750) {
+                res.innerHTML = `🏆 **Rating Level: 1700+**<br>Wow! You're now able to do **1 digit, 10 rows at a time of 0.75 sec** every numbers, that's good! You've officially entered Expert status.`;
+            } else if (num < 1800) {
+                res.innerHTML = `🏆 **Rating Level: 1750+**<br>Superb metrics! You are processing items faster than baseline human clock cycles. Truly impressive tracking!`;
+            } else if (num < 1850) {
+                res.innerHTML = `💎 **Rating Level: 1800+**<br>Wow! You're now able to do **1 digit, 15 rows at a time of 0.7 sec** every numbers, that's good! You are navigating the advanced execution zones seamlessly.`;
+            } else if (num < 1900) {
+                res.innerHTML = `💎 **Rating Level: 1850+**<br>Stunning execution parameters! You are maintaining total operational composure inside deep flash calibration matrices.`;
+            } else if (num < 1950) {
+                res.innerHTML = `⚡ **Rating Level: 1900+**<br>Wow! You're now able to do **2 digits, 5 rows at a time of 1 sec** every numbers, that's good! You've broken past the multi-digit sorting layer barrier.`;
+            } else if (num < 2000) {
+                res.innerHTML = `⚡ **Rating Level: 1950+**<br>Spectacular expansion skills! Multi-digit stacking requires high concentration, and you are handling it expertly.`;
+            } else if (num < 2050) {
+                res.innerHTML = `👑 **Rating Level: 2000+**<br>Wow! You're now able to do **2 digits, 10 rows at a time of 1.2 sec** every numbers, that's good! You are officially a Candidate Master track competitor.`;
+            } else if (num < 2100) {
+                res.innerHTML = `👑 **Rating Level: 2050+**<br>Incredible spatial awareness! Stacking 10 consecutive double-digit variables requires elite working memory block usage.`;
+            } else if (num < 2150) {
+                res.innerHTML = `🌟 **Rating Level: 2100+**<br>Wow! You're now able to do **2 digits, 10 rows at a time of 0.95 sec** every numbers, that's good! Sub-second double-digit arithmetic tracking is world-class.`;
+            } else if (num < 2200) {
+                res.innerHTML = `🌟 **Rating Level: 2150+**<br>This rating is so awesome! You are generating math calculations with near-instantaneous accuracy.`;
+            } else if (num < 2250) {
+                res.innerHTML = `🔥 **Rating Level: 2200+**<br>Wow! You're now able to do **2 digits, 15 rows at a time of 1.0 sec** every numbers, that's good! Master levels are opening up to you.`;
+            } else if (num < 2300) {
+                res.innerHTML = `🔥 **Rating Level: 2250+**<br>Phenomenal processing capacity! You stand right at the doorstep of permanent platform titled recognition tags.`;
+            } else if (num < 2350) {
+                res.innerHTML = `✨ **Rating Level: 2300+**<br>Wow! You're now able to do **2 digits, 15 rows at a time of 0.75 sec** every numbers, that's good! You are officially an **Abacus Arena Master (AAM)** titled player!`;
+            } else if (num < 2400) {
+                res.innerHTML = `✨ **Rating Level: 2350+**<br>Sensational visual processing! Your multi-digit chronometer speed calculations are elite.`;
+            } else if (num < 2450) {
+                res.innerHTML = `🎯 **Rating Level: 2400+**<br>Wow! You're now able to do **2 digits, 15 rows at a time of 0.70 sec** every numbers, that's good! You are outpacing elite computer frameworks.`;
+            } else if (num < 2500) {
+                res.innerHTML = `🎯 **Rating Level: 2450+**<br>Breathtaking speed limits! You are executing cognitive arithmetic calculations perfectly.`;
+            } else if (num < 2550) {
+                res.innerHTML = `👑 **Rating Level: 2500+**<br>Wow! You're now able to do **3 digits, 5 rows at a time of 1.0s** every numbers, that's good! You have crossed into the legendary 3-Digit execution realm!`;
+            } else if (num < 2600) {
+                res.innerHTML = `👑 **Rating Level: 2550+**<br>This rating is so awesome! Triple-digit mental manipulation sets you apart as a certified calculator prodigy.`;
+            } else if (num < 2650) {
+                res.innerHTML = `🚀 **Rating Level: 2600+**<br>Wow! You're now able to do **3 digits, 7 rows at a time of 1.0s** every numbers, that's good! You are tracking deep visual space fields easily.`;
+            } else if (num < 2700) {
+                res.innerHTML = `🚀 **Rating Level: 2650+**<br>Stellar metrics capacity! The speed and structural complexity of your arithmetic choices are legendary.`;
+            } else if (num < 2750) {
+                res.innerHTML = `💎 **Rating Level: 2700+**<br>Wow! You're now able to do **3 digits, 10 rows at a time of 1.0s** every numbers, that's good! You're a relentless grandmaster track visualizer.`;
+            } else if (num < 2800) {
+                res.innerHTML = `💎 **Rating Level: 2750+**<br>Magnificent! You have mastered 3-digit tracking limits and stand ready to break absolute limits.`;
+            } else if (num < 2850) {
+                res.innerHTML = `🌟 **Rating Level: 2800+**<br>Wow! You're now able to do **4 digits, 5 rows at a time of 0.95s** every numbers, that's good! You are officially an **Elite Player** status legend!`;
+            } else if (num < 2950) {
+                res.innerHTML = `🌟 **Rating Level: 2900+**<br>Wow! You're now able to do **4 digits, 7 rows at a time of 0.90s** every numbers, that's good! An absolutely terrifying display of mental power.`;
+            } else if (num < 3050) {
+                res.innerHTML = `🏆 **Rating Level: 3000+**<br>Wow! You're now able to do **4 digits, 10 rows at a time of 0.85s** every numbers, that's good! Absolute cognitive ascendancy reached.`;
+            } else if (num < 3200) {
+                res.innerHTML = `🏆 **Rating Level: 3100+**<br>Wow! You're now able to do **4 digits, 15 rows at a time of 0.80s** every numbers, that's good! Complete tracking mastery over immense arithmetic sets.`;
+            } else if (num < 3500) {
+                res.innerHTML = `👑 **Rating Level: 3200+**<br>Wow! You're now able to do **5 digits, 10 rows at a time of 0.75s** every numbers, that's good! You are fully **Tournament Ready** for professional worldwide arithmetic challenges!`;
+            } else if (num < 4000) {
+                res.innerHTML = `🔥 **Rating Level: 3500+**<br>Wow! You're now able to do **5 digits, 25 rows at a time of 0.60s** every numbers, that's good! You operate at speeds that match high-performance microchips.`;
+            } else if (num < 5200) {
+                res.innerHTML = `⚡ **Rating Level: 4000+**<br>Wow! You're now able to do **5 digits, 50 rows at a time of 0.35s** every numbers, that's good! You have transformed into a biological math engine entity.`;
+            } else {
+                res.innerHTML = `🚀 **Rating Level: 5200+ Ultimate Ascendant Deity Threshold**<br>Wow! You're now able to do **5 digits, 50 rows at a time of 0.25s** every numbers, that's good! Absolute maximum system capability achieved. Incredible!`;
+            }
+        }
+
         function syncDropdownToGranularInputs() {
             document.getElementById('manual-input-digits').value = document.getElementById('sel-digits').value;
             document.getElementById('manual-input-rows').value = document.getElementById('sel-rows').value;
@@ -1796,7 +1443,6 @@
             let dVal = parseInt(digitsInp.value);
             let rVal = parseInt(rowsInp.value);
             let tVal = parseFloat(timeInp.value);
-
             let ruleTriggered = false;
 
             if (!isNaN(dVal)) {
@@ -1804,13 +1450,11 @@
                 if (dVal > 5) { dVal = 5; ruleTriggered = true; }
                 digitsInp.value = dVal;
             }
-
             if (!isNaN(rVal)) {
                 if (rVal < 2) { rVal = 2; ruleTriggered = true; }
                 if (rVal > 100) { rVal = 100; ruleTriggered = true; }
                 rowsInp.value = rVal;
             }
-
             if (!isNaN(tVal)) {
                 if (tVal < 0.25) { tVal = 0.25; ruleTriggered = true; }
                 if (tVal > 5.0) { tVal = 5.0; ruleTriggered = true; }
@@ -1928,7 +1572,6 @@
         function updateProfileFullscreen() { 
             document.getElementById('profileRatingLarge').innerText = rating; 
             document.getElementById('profileUsername').innerText = username; 
-            renderTrophyShowcaseIconsHTML();
         }
 
         const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
@@ -2075,13 +1718,13 @@
         function closeAboutViewPage() { document.getElementById('pane-about-fullscreen').style.display = 'none'; }
         function playSfx(f, t, d, v=0.2) { if (audioCtx.state === 'suspended') audioCtx.resume(); let osc = audioCtx.createOscillator(), gain = audioCtx.createGain(); osc.type = t; osc.frequency.value = f; osc.connect(gain); gain.connect(audioCtx.destination); gain.gain.setValueAtTime(v, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d); osc.start(); osc.stop(audioCtx.currentTime + d); }
         
-function getActiveKFactor() {
-    if (gamesPlayed < 3) return 512;  // First 3 games (0, 1, 2)
-    if (gamesPlayed < 5) return 256;  // Next 2 games (3, 4)
-    if (gamesPlayed < 10) return 128; // Next 5 games (5, 6, 7, 8, 9)
-    if (gamesPlayed < 15) return 64;  // Next 5 games (10, 11, 12, 13, 14)
-    return 32;                        // Others / Game 16 onwards (15+)
-}
+        function getActiveKFactor() {
+            if (gamesPlayed < 3) return 256;  // First 3 games matching document
+            if (gamesPlayed < 5) return 128;  // Next 2 games
+            if (gamesPlayed < 10) return 64;   // Next 5 games
+            if (gamesPlayed < 15) return 32;   // Next 5 games
+            return 16;                        // Game 16 onwards permanent
+        }
 
         function calculateStakes() { 
             if (appOperationalContext !== 'rated' || !hasActiveOpponent) { winPoints = 0; lossPoints = 0; drawDeltaUser = 0; return; } 
@@ -2094,40 +1737,85 @@ function getActiveKFactor() {
             drawDeltaUser = Math.round(activeVolatileKFactorValue * (0.5 - expectedScoreUser));
         }
 
+        /* EXACT SPECIFIED ORIGINAL DIFFICULTY MATRIX */
         function getRatingBoundDifficulty(targetRating) {
             let r = targetRating;
-            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; if (r < 1800) return { digits: 1, rows: 10, time: 750 }; if (r < 1899) return { digits: 1, rows: 15, time: 700 }; if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; if (r < 2200) return { digits: 2, rows: 10, time: 950 }; if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; if (r < 2400) return { digits: 2, rows: 15, time: 750 }; if (r < 2500) return { digits: 2, rows: 15, time: 700 }; if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; if (r < 2700) return {digits: 3, rows: 7, time: 1000 }; if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; if (r < 2900) return { digits: 4, rows: 5, time: 950 }; if (r < 3000) return { digits: 4, rows: 7, time: 900 }; if (r < 3100) return { digits: 4, rows: 10, time: 850 }; if (r < 3200) return { digits: 4, rows: 15, time: 800 }; if (r < 3300) return { digits: 5, rows: 10, time: 750 }; if (r < 3400) return { digits: 5, rows: 15, time: 700 }; if (r < 3500) return { digits: 5, rows: 20, time: 650 }; if (r < 3600) return { digits: 5, rows: 25, time: 600 }; if (r < 3700) return { digits: 5, rows: 30, time: 550 }; if (r < 3800) return { digits: 5, rows: 40, time: 450 }; if (r < 4000) return { digits: 5, rows: 45, time: 400 }; if (r < 5200) return { digits: 5, rows: 50, time: 350 }; return { digits: 5, rows: 50, time: 250 };
+            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; 
+            if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; 
+            if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; 
+            if (r < 1800) return { digits: 1, rows: 10, time: 750 }; 
+            if (r < 1899) return { digits: 1, rows: 15, time: 700 }; 
+            if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; 
+            if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; 
+            if (r < 2200) return { digits: 2, rows: 10, time: 950 }; 
+            if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; 
+            if (r < 2400) return { digits: 2, rows: 15, time: 750 }; 
+            if (r < 2499) return { digits: 2, rows: 15, time: 700 }; 
+            if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; 
+            if (r < 2700) return { digits: 3, rows: 7, time: 1000 }; 
+            if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; 
+            if (r < 2900) return { digits: 4, rows: 5, time: 950 }; 
+            if (r < 3000) return { digits: 4, rows: 7, time: 900 }; 
+            if (r < 3100) return { digits: 4, rows: 10, time: 850 }; 
+            if (r < 3200) return { digits: 4, rows: 15, time: 800 }; 
+            if (r < 3300) return { digits: 5, rows: 10, time: 750 }; 
+            if (r < 3400) return { digits: 5, rows: 15, time: 700 }; 
+            if (r < 3500) return { digits: 5, rows: 20, time: 650 }; 
+            if (r < 3600) return { digits: 5, rows: 25, time: 600 }; 
+            if (r < 3700) return { digits: 5, rows: 30, time: 550 }; 
+            if (r < 3800) return { digits: 5, rows: 40, time: 450 }; 
+            if (r < 4000) return { digits: 5, rows: 45, time: 400 }; 
+            if (r < 5199) return { digits: 5, rows: 50, time: 350 }; 
+            return { digits: 5, rows: 50, time: 250 };
         }
 
         function getNormalDifficulty() { 
-            if (currentActiveLobby) {
-                return getRatingBoundDifficulty(opponentRating);
-            }
             return (appOperationalContext === 'manual') ? { digits: manualDigits, rows: manualRows, time: manualTime } : getRatingBoundDifficulty(rating); 
         }
         
         let currentFairPlayActive = false;
 
         function isInFairPlayZone() {
-            if (currentActiveLobby || appOperationalContext === 'manual') return null; 
+            if (appOperationalContext === 'manual') return null; 
             let r = rating;
-            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2000 && r <= 2015) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2100 && r <= 2115) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 450, fairPlay: true, timerSecs: 3 }; if (r >= 2300 && r <= 2315) return { digits: 1, rows: 25, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2400 && r <= 2415) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2500 && r <= 2515) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2600 && r <= 2615) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2700 && r <= 2715) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2800 && r <= 2815) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 2900 && r <= 2915) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 3000 && r <= 3015) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
+            if (r >= 1800 && r <= 1815) return { digits: 1, rows: 5, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 1900 && r <= 1915) return { digits: 1, rows: 5, time: 450, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2000 && r <= 2015) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2100 && r <= 2115) return { digits: 1, rows: 7, time: 450, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2200 && r <= 2215) return { digits: 1, rows: 10, time: 450, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2300 && r <= 2315) return { digits: 1, rows: 25, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2400 && r <= 2415) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2500 && r <= 2515) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2600 && r <= 2615) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2700 && r <= 2715) return { digits: 1, rows: 30, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2800 && r <= 2815) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 2900 && r <= 2915) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3000 && r <= 3015) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 };
             let remainder = r % 100;
-            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
+            if (r >= 3100 && remainder <= 15) return { digits: 1, rows: 50, time: 700, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3200 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3300 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3400 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3500 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3600 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3700 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3800 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 3900 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 }; 
+            if (r >= 4000 && remainder <= 15) return { digits: 1, rows: 50, time: 500, fairPlay: true, timerSecs: 3 };
             return null;
         }
 
         function triggerFairPlayAnomalousWarning() {
-            let warnMsg = "⚠️ Account Warning Flagged: Make sure you're doing fair play zone correctly. Inconsistent execution velocities or mismatched parameters inside this verification layer could log your account profile data as a potential cheater.";
+            rating = Math.max(1000, rating - 25); localStorage.setItem('abacus-rating', rating);
+            let warnMsg = "⚠️ Account Warning Flagged: Make sure you're doing fair play zone correctly. -25 Point Penalty Applied to ensure profile data calibration baseline standard logs.";
             injectSystemNotificationMessage("AbacusArena (Aswin Krishnamoorthy) AI generated", warnMsg);
-            alert("🚨 SECURITY NOTICE\n\nYou are recognized as a cheater if patterns diverge significantly. Make sure you're doing fair play zone correctly; making fair play parameters wrong many times will penalize account standing logs.");
+            alert("🚨 SECURITY ZONE DEFICIT PENALTY\n\nWrong answer inside Fair Play Zone detected! A mandatory -25 rating structural deduction modifier has been applied to insulate baseline leaderboard integrity.");
         }
 
         function getFinalDifficulty() { let fairPlay = isInFairPlayZone(); if (fairPlay && appOperationalContext === 'rated') { currentFairPlayActive = true; document.getElementById('fairPlayBanner').innerHTML = `<i class="fas fa-shield-alt"></i> 🔒 FAIR PLAY ZONE ACTIVE`; document.getElementById('fairPlayBanner').style.display = 'inline-block'; return fairPlay; } currentFairPlayActive = false; document.getElementById('fairPlayBanner').style.display = 'none'; return getNormalDifficulty(); }
         function updateDifficultyDisplay() { let diff = getFinalDifficulty(); document.getElementById('difficultyDisplay').innerHTML = `<i class="fas fa-bolt"></i> ${diff.digits} Digit | ${diff.rows} Rows | ${(diff.time/1000).toFixed(3)}s`; }
         
         function updateRatingUI() { 
-            if (currentActiveLobby) return;
             if (appOperationalContext === 'manual') {
                 document.getElementById('rating-ui').innerText = "UNRATED";
             } else {
@@ -2143,7 +1831,7 @@ function getActiveKFactor() {
             disableControls(true);
             let display = document.getElementById('display'); display.className = "";
             document.getElementById('action-btn').disabled = true; document.getElementById('user-ans').value = ''; display.innerText = "";
-            document.getElementById('abort-match-btn').style.display = (appOperationalContext === 'rated' || currentActiveLobby) ? "block" : "none"; document.getElementById('resign-match-btn').style.display = "none";
+            document.getElementById('abort-match-btn').style.display = (appOperationalContext === 'rated') ? "block" : "none"; document.getElementById('resign-match-btn').style.display = "none";
 
             let lr = document.getElementById('light-r'), ly = document.getElementById('light-y'), lg = document.getElementById('light-g');
             lr.style.background = "var(--red)"; playSfx(550, 'sine', 0.12);
@@ -2155,7 +1843,7 @@ function getActiveKFactor() {
             lg.style.background = "#b2bec3";
 
             matchStateStep = "printing";
-            document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = (appOperationalContext === 'rated' || currentActiveLobby) ? "block" : "none";
+            document.getElementById('abort-match-btn').style.display = "none"; document.getElementById('resign-match-btn').style.display = (appOperationalContext === 'rated') ? "block" : "none";
 
             let diff = getFinalDifficulty(); sequence = [];
             updateTypographyStyles();
@@ -2182,16 +1870,12 @@ function getActiveKFactor() {
             matchStateStep = "answering"; inputTriggerStartTime = Date.now(); 
             let timerSecs = (appOperationalContext === 'rated') ? 7 : 10; 
             if (currentFairPlayActive) timerSecs = 3;
-            
-            if (currentActiveLobby) {
-                timerSecs = currentActiveLobby.config.format === 'swiss' ? (6 + currentActiveLobby.config.increment) : 5;
-            }
 
             let barContainer = document.getElementById('timerBarContainer');
             let barFill = document.getElementById('timerBarFill');
             let timerNumber = document.getElementById('timerNumber');
             
-            if (appOperationalContext === 'rated' || currentActiveLobby) { barContainer.style.display = 'block'; timerNumber.style.display = 'none'; barFill.style.width = '100%'; barFill.className = 'timer-bar-fill'; } 
+            if (appOperationalContext === 'rated') { barContainer.style.display = 'block'; timerNumber.style.display = 'none'; barFill.style.width = '100%'; barFill.className = 'timer-bar-fill'; } 
             else { barContainer.style.display = 'none'; timerNumber.style.display = 'block'; timerNumber.innerText = timerSecs.toFixed(1); }
             
             document.getElementById('user-ans').disabled = false; document.getElementById('user-ans').focus();
@@ -2200,11 +1884,9 @@ function getActiveKFactor() {
             
             if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
-                if (isLobbyPaused) return; 
-                
                 timeLeft -= 0.1;
                 if (appOperationalContext === 'manual') document.getElementById('timerNumber').innerText = timeLeft.toFixed(1);
-                if (appOperationalContext === 'rated' || currentActiveLobby) {
+                if (appOperationalContext === 'rated') {
                     let percent = (timeLeft / timerSecs) * 100; barFill.style.width = `${percent}%`; 
                     if (percent < 30) barFill.className = 'timer-bar-fill danger'; else if (percent < 60) barFill.className = 'timer-bar-fill warning'; 
                 }
@@ -2214,26 +1896,6 @@ function getActiveKFactor() {
         
         function validateInput() { finalize(parseInt(document.getElementById('user-ans').value), Date.now() - inputTriggerStartTime); document.getElementById('user-ans').value = ''; }
         
-        function triggerTournamentIntervalIntermissionGap() {
-            let display = document.getElementById('display');
-            let intermissionSecs = 10;
-            display.innerText = `NEXT INDIVIDUAL PAIRING IN ${intermissionSecs}s`;
-            display.style.fontSize = "1.5rem";
-            display.style.color = "var(--accent)";
-            
-            let intermissionCounterRef = setInterval(() => {
-                intermissionSecs--;
-                if (intermissionSecs <= 0) {
-                    clearInterval(intermissionCounterRef);
-                    if (currentActiveLobby && !isLobbyPaused) {
-                        openTournamentHub();
-                    }
-                } else {
-                    display.innerText = `NEXT INDIVIDUAL PAIRING IN ${intermissionSecs}s`;
-                }
-            }, 1000);
-        }
-
         function finalize(userVal, userElapsedMs) {
             clearInterval(timerInterval); localStorage.removeItem('abacus-sum-interrupted'); gameInProgress = false; matchStateStep = "idle";
             consecutiveAbortsCount = 0; localStorage.setItem('consecutive-aborts-count', 0);
@@ -2250,6 +1912,15 @@ function getActiveKFactor() {
             actionBtn.onclick = startMatchmakingSequence;
             
             let userCorrect = (userVal === actualSum);
+
+            if (currentFairPlayActive && !userCorrect) {
+                triggerFairPlayAnomalousWarning();
+                display.innerText = "✗ Audit Deficit"; display.style.color = "var(--red)";
+                gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
+                updateRatingUI(); updateMainDisplay(); disableControls(false);
+                return;
+            }
+
             let botCorrect = false, botTimedOut = false, botSubmissionTimeMs = 7000; 
 
             if (appOperationalContext === 'rated' && hasActiveOpponent) {
@@ -2264,25 +1935,9 @@ function getActiveKFactor() {
                 }
             }
 
-            if (currentFairPlayActive && !userCorrect) {
-                triggerFairPlayAnomalousWarning();
-            }
-
             let bannerTitle = "", subText = "", ratingDelta = 0, speedMsAhead = 0, oldUserRating = rating;
 
-            if (currentActiveLobby) {
-                if (userCorrect) {
-                    currentActiveLobby.userScore += currentActiveLobby.config.format === 'arena' ? 2 : 1;
-                }
-                display.innerText = userCorrect ? `✓ (+${currentActiveLobby.config.format === 'arena' ? 2 : 1} Pts)` : `✗ Ans: ${actualSum}`;
-                display.style.color = userCorrect ? "var(--green)" : "var(--red)";
-                addHistory(sequence.join('+') + '=' + actualSum, userCorrect);
-                
-                setTimeout(() => {
-                    triggerTournamentIntervalIntermissionGap();
-                }, 2000);
-            } 
-            else if (appOperationalContext === 'rated' && hasActiveOpponent) {
+            if (appOperationalContext === 'rated' && hasActiveOpponent) {
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
                 let isInsideDrawSpeedWindow = (userCorrect && botCorrect && Math.abs(timeGapMs) <= 1000);
                 let currentK = getActiveKFactor();
@@ -2332,7 +1987,6 @@ function getActiveKFactor() {
             }
             
             gamesPlayed++; localStorage.setItem('abacus-games', gamesPlayed);
-            if (currentActiveLobby) refreshLobbyLeaderboardHTML();
             updateRatingUI(); updateMainDisplay(); disableControls(false);
             checkTitledMilestoneThresholdStatus();
         }
