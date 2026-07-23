@@ -240,6 +240,57 @@
         }
         .history-btn:hover { transform: perspective(800px) rotateX(0deg) translateZ(15px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); background: rgba(255,255,255,0.2); }
 
+        /* Lichess Profile & Footer Buttons */
+        .lichess-btn {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: #f3f4f6;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 14px 18px;
+            border-radius: 40px;
+            width: 100%;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            transform: perspective(800px) rotateX(1deg) translateZ(8px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .lichess-btn:hover {
+            transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(135deg, #374151, #1f2937);
+            color: #f1c40f;
+            border-color: #f1c40f;
+        }
+
+        .lichess-inline-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffd700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        .lichess-inline-link:hover {
+            background: #f1c40f;
+            color: #111827;
+            transform: translateY(-2px);
+        }
+
         .profile-manual-override {
             background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
             border-left: 4px solid #f1c40f; transform: perspective(800px) rotateX(1deg) translateZ(5px);
@@ -684,6 +735,11 @@
             
             <button class="studio-trigger-btn" onclick="openAestheticsStudio()"><i class="fas fa-palette"></i> Aesthetics Studio</button>
             <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Last 5 Games</button>
+
+            <!-- LICHESS FOUNDER LINK BUTTON ON PROFILE -->
+            <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-btn">
+                <i class="fas fa-chess-knight"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
+            </a>
         </div>
     </div>
 
@@ -786,10 +842,12 @@
                         </svg>
                     </div>
                     <h2 style="font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; color: #f1c40f; text-shadow: 0 2px 5px rgba(0,0,0,0.3); text-align: center;">AbacusArena.org</h2>
+                    
+                    <!-- MARQUEE TICKER WITH LICHESS LINK -->
                     <div class="ticker-wrapper">
                         <div class="ticker-scroll">
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏 &nbsp;|&nbsp;</span>
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp; 🙏 Thanks for joining us!! 🙏 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on Lichess: AswinNK-Elite ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on Lichess: AswinNK-Elite ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
                         </div>
                     </div>
                     <div style="width: 100px; height: 2px; background: #f1c40f; margin: 15px auto 0 auto; border-radius: 2px; opacity: 0.6;"></div>
@@ -804,7 +862,15 @@
             </div>
             
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 25px 0;">Project Started: April 23, 2026</p>
-            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 25px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
+            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 10px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
+            
+            <!-- INLINE LICHESS LINK IN ABOUT FOUNDER SECTION -->
+            <div style="text-align: center; margin-bottom: 25px;">
+                <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-inline-link">
+                    <i class="fas fa-chess"></i> Follow AswinNK-Elite on Lichess.org
+                </a>
+            </div>
+
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
             
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
@@ -883,7 +949,15 @@
                 </tbody>
             </table>
             <h3 style="color: #ffeb3b; margin: 40px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;">Message From the Founder</h3>
-            <p style="font-size: 1.05rem; line-height: 1.7; text-align: justify; color: #ffffff; opacity: 0.95; margin-bottom: 40px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to the technical updation of AbacusArena.org, back-end servers, or database instances. We're a full free platform trying to serve you all the interactive needs that're there to improve in Abacus without ads or paywalls, so we need money for our life and as a motivation to keep expanding our platform. By the way, we also constantly provide many new updates and invest partially from community donations right back into our physical hosting infrastructure to ensure a lightning-fast calculation ecosystem for everyone worldwide.</p>
+            <p style="font-size: 1.05rem; line-height: 1.7; text-align: justify; color: #ffffff; opacity: 0.95; margin-bottom: 20px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to the technical updation of AbacusArena.org, back-end servers, or database instances. We're a full free platform trying to serve you all the interactive needs that're there to improve in Abacus without ads or paywalls, so we need money for our life and as a motivation to keep expanding our platform. By the way, we also constantly provide many new updates and invest partially from community donations right back into our physical hosting infrastructure to ensure a lightning-fast calculation ecosystem for everyone worldwide.</p>
+            
+            <!-- BOTTOM LICHESS FOUNDER BUTTON -->
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-btn" style="max-width: 450px; margin: 0 auto;">
+                    <i class="fas fa-crown"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
+                </a>
+            </div>
+
             <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">AbacusArena.org Platform Asset • Built on integrity.</p></div>
         </div>
     </div>
@@ -932,15 +1006,15 @@
         
         const allFlairs = ["🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟","🐱","🦊","🦁","🦅","🦉",
             "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞",
-            "🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦓","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
+            "🦀","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
             "🦘","🦬","🦙","🐐","🦌","🐕","🐩","🐈","🐇","🦫","🦔","🐿️","🦡","🦥","🧗","🏇","⛷️","🏂",
             "🏌️","🏄","🚣","🏊","🏋️","🚴","🪂","👨‍💻","👩‍💻","🧙","🧝","🧛","🧟","🧞","🧜","🧚","💂","🤵","🥷","🧑‍🚀",
             "🌍","🪐","☀️","🌙","⭐","🌌","☁️","🌪️","🌊","⛰️","🌋","🏕️","🍄","🪵","🍁","🌵","🌴","🌲","☘️","🌹",
             "🍕","🍔","🍟","🍣","🌮","🍦","🍩","🍪","🍫","☕","🥤","🧉","🍺","🍷","🥃","🥝","🍓","🍉","🍎","🍏",
-            "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🛹","🚲",
+            "🥇","🥈","🥉","🏆","🎖️","⚽","🏀","🏈","⚾","🎾","🏐","🏉","🎱","🏓","🏸","🥅","🏹","🎣","🚲",
             "🚗","🏍️","✈️","🚀","🚂","⚓","🏰","🗿","🗼","🗺️","🧭","⌛","⌚","⏰","🔋","🔌","💻","⚙️","🛠️",
             "🔑","🔒","🔓","🔨","🪓","🛡️","⚔️","📯","🔔","🏺","📿","💈","🧿","🪞","🧪","🔬","🔭","🩺","🩹",
-            "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧣","🧤","🎨","🎬",
+            "📁","📅","📊","📉","📈","📜","📝","📒","📕","📗","📙","📚","✉️","📦","📥","📤","🏷️","💵","💳","🕶️","🧳","🎒","👕","👖","👟","👠","🎩","🎓","👒","🧤","🎨","🎬",
             "🎤","🎧","🎼","🎹","🥁","🎸","🎺","🎻","🎲","🧩","🎯","👑","🎰","🟥","🟧","🟨","🟩","🟦","🟪",
             "🖤","🤍","🤎","❤️","💖","💝","💔","💕","💘","❣️","💟","🔊","📢","💬","💭","🗯️","🪔","🧲","🧱","🪢",
             "🪡","🧵","🪚","🪛","🔧","🧰","🛢️","⛽","🛴","🛹","🛼","🚏","⛵","🛥️","🛳️","⛴️","🚢","🛫","🛬","💺",
