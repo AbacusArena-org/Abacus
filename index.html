@@ -100,17 +100,23 @@
             display: flex; justify-content: flex-end; align-items: center; z-index: 500;
             gap: 12px;
         }
-        .profile-btn, .settings-gear-btn, .notification-bell-btn, .check-level-btn {
+        .profile-btn, .settings-gear-btn, .notification-bell-btn, .check-level-btn, .ai-assistant-btn {
             background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 10px; 
             border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.3rem; color: var(--text); position: relative;
         }
-        .check-level-btn {
+        .check-level-btn, .ai-assistant-btn {
             border-radius: 20px; width: auto; height: 44px; font-size: 0.9rem; font-weight: 700;
             padding: 0 16px; gap: 6px;
         }
-        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover, .check-level-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .ai-assistant-btn {
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
+        }
+        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover, .check-level-btn:hover, .ai-assistant-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
+        .ai-assistant-btn:hover { background: linear-gradient(135deg, #9b59b6, #2980b9); }
         
         .notification-indicator-dot {
             position: absolute; top: 2px; right: 2px; width: 10px; height: 10px;
@@ -169,7 +175,7 @@
             width: 100%; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; 
         }
 
-        #profile-fullscreen, #pane-about-fullscreen, #level-check-fullscreen {
+        #profile-fullscreen, #pane-about-fullscreen, #level-check-fullscreen, #ai-assistant-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6000;
             flex-direction: column; padding: 25px; overflow-y: auto;
             color: #ffffff; perspective: 1200px;
@@ -533,8 +539,92 @@
             min-height: 80px; display: none; color: #fff;
         }
 
+        /* WHATSAPP-STYLE AI CHAT INTERFACE STYLES */
+        .chat-app-wrapper {
+            max-width: 750px; width: 100%; margin: 50px auto 0 auto;
+            height: calc(100vh - 120px); display: flex; flex-direction: column;
+            background: rgba(18, 25, 45, 0.85); border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;
+        }
+        .chat-app-header {
+            padding: 16px 20px; background: rgba(0, 0, 0, 0.25);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .chat-header-identity { display: flex; align-items: center; gap: 12px; }
+        .chat-header-avatar {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .chat-header-info h3 { margin: 0; font-size: 1.1rem; color: #fff; font-weight: 700; }
+        .chat-header-info span { font-size: 0.75rem; color: #2ecc71; font-weight: 600; }
+        
+        .chat-history-viewport {
+            flex-grow: 1; padding: 20px; overflow-y: auto;
+            display: flex; flex-direction: column; gap: 16px;
+            scroll-behavior: smooth;
+        }
+        
+        .chat-message-row { display: flex; width: 100%; gap: 10px; align-items: flex-end; }
+        .chat-message-row.user-row { justify-content: flex-end; }
+        .chat-message-row.ai-row { justify-content: flex-start; }
+
+        .chat-msg-avatar {
+            width: 32px; height: 32px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem; flex-shrink: 0;
+        }
+        .ai-row .chat-msg-avatar { background: #8e44ad; color: white; }
+        .user-row .chat-msg-avatar { background: var(--accent); color: white; }
+
+        .chat-msg-bubble {
+            max-width: 75%; padding: 12px 16px; border-radius: 18px;
+            font-size: 0.95rem; line-height: 1.5; color: #ffffff; position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15); word-break: break-word;
+        }
+        .chat-message-row.user-row .chat-msg-bubble {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-bottom-right-radius: 4px;
+        }
+        .chat-message-row.ai-row .chat-msg-bubble {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(8px);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-msg-timestamp {
+            font-size: 0.65rem; opacity: 0.65; margin-top: 4px;
+            text-align: right; font-variant-numeric: tabular-nums;
+        }
+
+        .chat-input-bar {
+            padding: 14px 18px; background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .chat-input-field {
+            flex-grow: 1; padding: 12px 18px; border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.25); outline: none;
+            background: rgba(0, 0, 0, 0.25); color: #fff; font-size: 0.95rem;
+            font-family: inherit; transition: border-color 0.2s;
+        }
+        .chat-input-field:focus { border-color: #3498db; }
+        .chat-send-btn {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, #00b894, #00bec4); border: none;
+            color: #fff; font-size: 1.1rem; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.2s; flex-shrink: 0;
+        }
+        .chat-send-btn:hover { transform: scale(1.08); }
+
         @media(max-width: 900px) {
             .page-wrapper { grid-template-columns: 1fr; padding: 12px; }
+            .chat-app-wrapper { margin-top: 60px; height: calc(100vh - 80px); }
         }
     </style>
 </head>
@@ -558,6 +648,7 @@
 
     <!-- CORE INTERFACE TOP NAVBAR CONTAINER -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
+        <button class="ai-assistant-btn" onclick="openAIAssistantFullscreen()"><i class="fas fa-robot"></i> Abacus AI</button>
         <button class="check-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
@@ -683,6 +774,29 @@
 
     </div>
 
+    <!-- ABACUS AI ASSISTANT FULLSCREEN CHAT INTERFACE -->
+    <div id="ai-assistant-fullscreen" class="colorful-animated-bg">
+        <button class="back-arena-btn" onclick="closeAIAssistantFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div class="chat-app-wrapper">
+            <div class="chat-app-header">
+                <div class="chat-header-identity">
+                    <div class="chat-header-avatar"><i class="fas fa-robot"></i></div>
+                    <div class="chat-header-info">
+                        <h3>Abacus Arena AI Assistant</h3>
+                        <span>● Online | Mental Math Tutor</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-history-viewport" id="aiChatViewport">
+                <!-- Chat message rows generated dynamically -->
+            </div>
+            <div class="chat-input-bar">
+                <input type="text" id="aiChatInputField" class="chat-input-field" placeholder="Ask anything about Abacus or speed calculation..." autocomplete="off" onkeypress="handleAIChatKeyPress(event)">
+                <button class="chat-send-btn" onclick="dispatchUserChatMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <!-- LEVEL CHECK ENGINE FULLSCREEN OVERLAY -->
     <div id="level-check-fullscreen" class="colorful-animated-bg">
         <button class="back-arena-btn" onclick="closeLevelCheckFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
@@ -737,7 +851,7 @@
             <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Last 5 Games</button>
 
             <!-- LICHESS FOUNDER LINK BUTTON ON PROFILE -->
-            <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-btn">
+            <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-btn">
                 <i class="fas fa-chess-knight"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
             </a>
         </div>
@@ -866,7 +980,7 @@
             
             <!-- INLINE LICHESS LINK IN ABOUT FOUNDER SECTION -->
             <div style="text-align: center; margin-bottom: 25px;">
-                <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-inline-link">
+                <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-inline-link">
                     <i class="fas fa-chess"></i> Follow AswinNK-Elite on Lichess.org
                 </a>
             </div>
@@ -953,7 +1067,7 @@
             
             <!-- BOTTOM LICHESS FOUNDER BUTTON -->
             <div style="margin-top: 30px; text-align: center;">
-                <a href="https://lichess.org/AswinNK-Elite" target="_blank" class="lichess-btn" style="max-width: 450px; margin: 0 auto;">
+                <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-btn" style="max-width: 450px; margin: 0 auto;">
                     <i class="fas fa-crown"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
                 </a>
             </div>
@@ -997,6 +1111,15 @@
         
         let systemNotificationsList = JSON.parse(localStorage.getItem('abacus-system-notifications')) || [];
         let wasAAMTitleNotificationTriggered = localStorage.getItem('abacus-aam-popup-fired') === 'true';
+
+        // AI ASSISTANT CHAT DATA PERSISTENCE
+        let aiChatHistory = JSON.parse(localStorage.getItem('abacus-ai-chat-history')) || [
+            {
+                sender: 'ai',
+                text: 'Hello! I am your Abacus Arena AI Assistant. Ask me anything about abacus mental math techniques, soroban visualization, speed calculation tips, website updates, or platform rules!',
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            }
+        ];
 
         const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
         const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
@@ -1401,6 +1524,210 @@
             document.getElementById('level-check-fullscreen').style.display = 'flex';
         }
         function closeLevelCheckFullscreen() { document.getElementById('level-check-fullscreen').style.display = 'none'; }
+
+        /* ABACUS AI ASSISTANT CHAT ENGINE IMPLEMENTATION */
+        function openAIAssistantFullscreen() {
+            renderAIChatViewport();
+            document.getElementById('ai-assistant-fullscreen').style.display = 'flex';
+            let viewport = document.getElementById('aiChatViewport');
+            viewport.scrollTop = viewport.scrollHeight;
+        }
+
+        function closeAIAssistantFullscreen() {
+            document.getElementById('ai-assistant-fullscreen').style.display = 'none';
+        }
+
+        function renderAIChatViewport() {
+            let viewport = document.getElementById('aiChatViewport');
+            viewport.innerHTML = aiChatHistory.map(msg => {
+                let isUser = msg.sender === 'user';
+                return `
+                    <div class="chat-message-row ${isUser ? 'user-row' : 'ai-row'}">
+                        ${!isUser ? `<div class="chat-msg-avatar"><i class="fas fa-robot"></i></div>` : ''}
+                        <div class="chat-msg-bubble">
+                            ${msg.text}
+                            <div class="chat-msg-timestamp">${msg.time}</div>
+                        </div>
+                        ${isUser ? `<div class="chat-msg-avatar">${selectedFlair}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function handleAIChatKeyPress(e) {
+            if (e.key === 'Enter') {
+                dispatchUserChatMessage();
+            }
+        }
+
+        function dispatchUserChatMessage() {
+            let field = document.getElementById('aiChatInputField');
+            let query = field.value.trim();
+            if (!query) return;
+
+            let userTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            // Append User Question
+            aiChatHistory.push({
+                sender: 'user',
+                text: escapeHtml(query),
+                time: userTimeStr
+            });
+            field.value = '';
+            renderAIChatViewport();
+            
+            let viewport = document.getElementById('aiChatViewport');
+            viewport.scrollTop = viewport.scrollHeight;
+
+            // Generate AI Response with full Knowledge Engine
+            setTimeout(() => {
+                let responseText = generateAbacusAIResponse(query);
+                aiChatHistory.push({
+                    sender: 'ai',
+                    text: responseText,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                localStorage.setItem('abacus-ai-chat-history', JSON.stringify(aiChatHistory));
+                renderAIChatViewport();
+                viewport.scrollTop = viewport.scrollHeight;
+            }, 500);
+        }
+
+function generateAbacusAIResponse(userPrompt) {
+    let promptLower = userPrompt.toLowerCase().trim();
+
+    // -------------------------------------------------------------
+    // COMMON CONVERSATIONAL RESPONSES (GREETINGS, THANKS, SHORT INPUTS)
+    // -------------------------------------------------------------
+    if (promptLower === "what" || promptLower === "what?" || promptLower === "huh" || promptLower === "pardon") {
+        return "I am your Abacus Arena AI Assistant! You can ask me questions about mental arithmetic, Soroban visualization techniques, rating cutoffs, website features, or founder details.";
+    }
+
+    if (promptLower.includes("thanks to abacusarena") || promptLower.includes("thank you abacusarena")) {
+        return "You're very welcome! We're glad to provide a completely free and ad-free speed calculation platform for learners worldwide. Keep practicing and aiming higher! 🧮✨";
+    }
+
+    if (promptLower.includes("thanks") || promptLower.includes("thank you") || promptLower.includes("thx") || promptLower.includes("ty")) {
+        return "You're welcome! Feel free to ask whenever you need help with Abacus techniques, platform rules, or rating progression.";
+    }
+
+    if (promptLower === "hi" || promptLower === "hello" || promptLower === "hey" || promptLower.startsWith("hello") || promptLower.startsWith("hi ")) {
+        return "Hello there! Welcome to AbacusArena. How can I assist you with your mental math training today?";
+    }
+
+    if (promptLower.includes("bye") || promptLower.includes("goodbye") || promptLower.includes("see you")) {
+        return "Goodbye and happy training! Best of luck on your journey to becoming an Abacus Arena Master! 🏆";
+    }
+
+    // -------------------------------------------------------------
+    // 1. FOUNDER & DEVELOPER INFO
+    // -------------------------------------------------------------
+    if (promptLower.includes("founder") || promptLower.includes("who created") || promptLower.includes("who built") || promptLower.includes("who made") || promptLower.includes("aswin")) {
+        return "AbacusArena.org was created and developed by founder <strong>Aswin Krishnamoorthy</strong> to provide students worldwide with a clean, competitive, and ad-free environment for rapid mental arithmetic practice.";
+    }
+
+    // -------------------------------------------------------------
+    // 2. WEBSITE UPDATE FREQUENCY
+    // -------------------------------------------------------------
+    if (promptLower.includes("update every day") || promptLower.includes("daily update") || promptLower.includes("how often") || promptLower.includes("update schedule")) {
+        return "No, the platform is not updated on a daily basis. New updates and feature improvements are published weekly, or on a monthly schedule whenever development time permits.";
+    }
+
+    // -------------------------------------------------------------
+    // 3. CHESS & LICHESS PROFILE
+    // -------------------------------------------------------------
+    if (promptLower.includes("chess") || promptLower.includes("lichess") || promptLower.includes("play chess")) {
+        return "Yes! The founder is an advanced chess enthusiast and active player on Lichess. You can follow and view his official profile here: <a href='https://lichess.org/@/AswinNK-Elite' target='_blank' style='color:#ffd700; font-weight:bold; text-decoration:underline;'>Visit AswinNK-Elite on Lichess.org</a>.";
+    }
+
+    // -------------------------------------------------------------
+    // 4. WHAT IS AN ABACUS
+    // -------------------------------------------------------------
+    if (promptLower.includes("what is abacus") || promptLower.includes("what is soroban") || promptLower.includes("explain abacus") || promptLower.includes("how abacus works")) {
+        return "An abacus (specifically the Japanese <em>Soroban</em>) is a traditional calculating frame using sliding beads on rods. Practitioners form a visual image of the abacus in their minds, moving virtual beads at high speeds to solve complex arithmetic problems without any physical tool.";
+    }
+
+    // -------------------------------------------------------------
+    // 5. PROJECT LAUNCH DATE
+    // -------------------------------------------------------------
+    if (promptLower.includes("when started") || promptLower.includes("when created") || promptLower.includes("launch date") || promptLower.includes("project start")) {
+        return "Development of AbacusArena.org officially commenced on <strong>April 23, 2026</strong>.";
+    }
+
+    // -------------------------------------------------------------
+    // 6. CONTRIBUTING TO THE PLATFORM
+    // -------------------------------------------------------------
+    if (promptLower.includes("contribute") || promptLower.includes("help develop") || promptLower.includes("join team") || promptLower.includes("donation")) {
+        return "At present, platform development is strictly managed by the founder. As AbacusArena grows significantly in the future, community contributions may be considered, though this is not guaranteed.";
+    }
+
+    // -------------------------------------------------------------
+    // 7. CHEAT DETECTION & FAIR PLAY SYSTEM
+    // -------------------------------------------------------------
+    if (promptLower.includes("cheat") || promptLower.includes("detection") || promptLower.includes("hack") || promptLower.includes("fair play") || promptLower.includes("bot")) {
+        return "Unlike platforms such as Lichess.org or Chess.com, which feature automated real-time cheat engines, AbacusArena currently uses a dedicated <strong>Fair Play Verification Zone</strong>. During these high-speed flash rounds, external calculators or voice recognition software cannot keep up. Incorrect responses or dishonest attempts in these zones trigger automated rating penalty deductions to maintain integrity.";
+    }
+
+    // -------------------------------------------------------------
+    // 8. RATING QUERIES & "AM I GOOD?" EVALUATION
+    // -------------------------------------------------------------
+    if (promptLower.includes("my rating") || promptLower.includes("am i good") || promptLower.includes("is my rating") || promptLower.includes("good player") || promptLower.includes("level check") || promptLower.includes("cutoff")) {
+        return "To analyze your performance, benchmark requirements, and setup configurations according to your rating cutoff, please click the <strong>Check Level</strong> button located directly on the top right navigation bar (right next to this AI button)!";
+    }
+
+    // -------------------------------------------------------------
+    // 9. ELO / RATING SYSTEM
+    // -------------------------------------------------------------
+    if (promptLower.includes("elo") || promptLower.includes("k-factor") || promptLower.includes("points work") || promptLower.includes("gain rating")) {
+        return "Your rating updates using an adaptive Elo system. Beginners enjoy accelerated progression with a high K-factor (K=256 for the first 3 games), which gradually settles down to K=16 by game 16. Outpacing your opponent's response time also earns speed bonus multipliers!";
+    }
+
+    // -------------------------------------------------------------
+    // 10. AAM TITLE
+    // -------------------------------------------------------------
+    if (promptLower.includes("aam") || promptLower.includes("master title") || promptLower.includes("title badge")) {
+        return "<strong>AAM</strong> stands for <em>Abacus Arena Master</em>. It is an official platform title granted automatically once a player crosses a rating threshold cutoff of 2300+.";
+    }
+
+    // -------------------------------------------------------------
+    // 11. FREE PLATFORM POLICY
+    // -------------------------------------------------------------
+    if (promptLower.includes("free") || promptLower.includes("ads") || promptLower.includes("paywall") || promptLower.includes("cost") || promptLower.includes("price")) {
+        return "AbacusArena.org is <strong>100% free forever</strong> with zero intrusive advertisements or paywalls. All training tools and modes are fully accessible to every user without restrictions.";
+    }
+
+    // -------------------------------------------------------------
+    // 12. MANUAL PRACTICE MODE
+    // -------------------------------------------------------------
+    if (promptLower.includes("manual mode") || promptLower.includes("practice mode") || promptLower.includes("custom settings")) {
+        return "In Manual Mode, you can customize digit counts (1–5 digits), row lengths (up to 100 rows), and display speeds (0.25s–5.0s) for practice without affecting your official Elo rating.";
+    }
+
+    // -------------------------------------------------------------
+    // 13. HEAVEN AND EARTH BEADS
+    // -------------------------------------------------------------
+    if (promptLower.includes("bead") || promptLower.includes("heaven") || promptLower.includes("earth") || promptLower.includes("upper") || promptLower.includes("lower")) {
+        return "On a standard Soroban abacus rod: the single upper bead is the <strong>Heaven bead</strong> (valued at 5), and the four lower beads are <strong>Earth beads</strong> (valued at 1 each). Moving beads toward the central beam registers their numerical value.";
+    }
+
+    // -------------------------------------------------------------
+    // 14. SPEED & FLASH TIPS
+    // -------------------------------------------------------------
+    if (promptLower.includes("flash") || promptLower.includes("faster") || promptLower.includes("speed tip") || promptLower.includes("improve speed")) {
+        return "To increase your calculation velocity: 1) Visualize bead movement rather than pronouncing numbers mentally. 2) Train rhythmically in Manual Mode starting with fewer rows. 3) Avoid sub-vocalization (speaking numbers in your head).";
+    }
+
+    // -------------------------------------------------------------
+    // 15. DISCONNECT PENALTY
+    // -------------------------------------------------------------
+    if (promptLower.includes("disconnect") || promptLower.includes("refresh") || promptLower.includes("penalty") || promptLower.includes("leave game")) {
+        return "Leaving or refreshing the tab while a rated calculation sequence is actively displaying will apply an automatic -25 rating penalty to safeguard competition integrity.";
+    }
+
+    // DEFAULT FALLBACK
+    return "I am specialized strictly in Abacus mental math techniques, platform mechanics, website rules, and founder information. Feel free to ask about Soroban methods, rating cutoffs, speed training tips, or how AbacusArena works!";
+}
+
 
         /* DETAILED 50-POINT STEP RESPONSES MATRIX FOR LEVEL ANALYSIS */
         function processLevelCheckInputEval() {
@@ -1838,7 +2165,7 @@
             if (r < 3600) return { digits: 5, rows: 25, time: 600 }; 
             if (r < 3700) return { digits: 5, rows: 30, time: 550 }; 
             if (r < 3800) return { digits: 5, rows: 40, time: 450 }; 
-            if (r < 4000) return { digits: 5, rows: 45, time: 400 }; 
+            if (r < 3900) return { digits: 5, rows: 45, time: 400 }; 
             if (r < 5199) return { digits: 5, rows: 50, time: 350 }; 
             return { digits: 5, rows: 50, time: 250 };
         }
