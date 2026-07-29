@@ -1161,8 +1161,7 @@
         let aiAvatars = ["🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟"];
         
         const allFlairs = ["🤖","🧠","⚡","🔮","🧮","🦾","📡","🛸","☄️","👾","👑","🎯","🔥","💎","🌟","🐱","🦊","🦁","🦅","🦉",
-            "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞",
-            "crab","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
+            "🐼","🐯","🐻","🐨","🐺","🐸","🐵","🐔","🐧","🦆","🐗","🐴","🦄","🐝","🪲","🦋","🐙","🦑","🦐","🦞","🐡","🐠","🐟","🐬","🐳","🐋","🦈","🐊","🐅","🐆","🦍","🦧","🦣","🦏","🦛","🐪","🐫","🦒",
             "🦘","🦬","🦙","🐐","🦌","🐕","🐩","🐈","🐇","🦫","🦔","🐿️","🦡","🦥","🧗","🏇","⛷️","🏂",
             "🏌️","🏄","🚣","🏊","🏋️","🚴","🪂","👨‍💻","👩‍💻","🧙","🧝","🧛","🧟","🧞","🧜","🧚","💂","🤵","🥷","🧑‍🚀",
             "🌍","🪐","☀️","🌙","⭐","🌌","☁️","🌪️","🌊","⛰️","🌋","🏕️","🍄","🪵","🍁","🌵","🌴","🌲","☘️","🌹",
@@ -2002,35 +2001,34 @@ function generateAbacusAIResponse(userPrompt) {
             }, 800);
         }
         
-        function editUsernameWithAnimation() {
-            let editSection = document.getElementById('usernameEditBtn');
-            editSection.innerHTML = '<span>Updating...</span><div class="edit-loading"></div>'; editSection.style.pointerEvents = 'none';
-            setTimeout(() => {
-                let newName = prompt("Enter your username:", username);
-                if (newName && newName.trim()) {
-                    username = newName.trim(); localStorage.setItem('username', username);
-                    editSection.innerHTML = `<span id="profileUsername">${username}</span><span style="color:var(--green);"><i class="fas fa-check"></i></span>`;
-                    setTimeout(() => { 
-                        updateProfileFullscreen(); updateMainDisplay(); 
-                        editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; 
-                        
-                        if (wasAAMTitleNotificationTriggered) {
-                            systemNotificationsList = systemNotificationsList.map(n => {
-                                if (n.sender.includes("AbacusArena")) {
-                                    n.body = `Hi, ${username}! You have reached a rating advance 2300 and claimed AAM [Abacus Arena Master]`;
-                                }
-                                return n;
-                            });
-                            localStorage.setItem('abacus-system-notifications', JSON.stringify(systemNotificationsList));
-                        }
-                    }, 800);
-                } else { editSection.innerHTML = `<span id="profileUsername">${username}</span><i class="fas fa-pencil-alt edit-icon"></i>`; editSection.style.pointerEvents = 'auto'; }
-            }, 400);
-        }
+       
         
         function updateProfileFullscreen() { 
             document.getElementById('profileRatingLarge').innerText = rating; 
             document.getElementById('profileUsername').innerText = username; 
+        }
+function toggleInlineNameEdit() {
+            let wrapper = document.getElementById('inlineNameInputWrapper');
+            let input = document.getElementById('inlineNameInput');
+            if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+                wrapper.style.display = 'block';
+                input.value = username;
+                input.focus();
+            } else {
+                wrapper.style.display = 'none';
+            }
+        }
+
+        function saveInlineUsername() {
+            let input = document.getElementById('inlineNameInput');
+            let newName = input.value.trim();
+            if (newName) {
+                username = newName;
+                localStorage.setItem('username', username);
+                updateProfileFullscreen();
+                updateMainDisplay();
+                document.getElementById('inlineNameInputWrapper').style.display = 'none';
+            }
         }
 
         const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
@@ -2165,7 +2163,7 @@ function generateAbacusAIResponse(userPrompt) {
             updateRatingUI(); updateMainDisplay();
             document.documentElement.setAttribute('data-theme', appTheme); startThemeChangerLoop(); updateDifficultyDisplay(); 
             
-            document.getElementById('usernameEditBtn').onclick = editUsernameWithAnimation;
+
             document.getElementById('historyBtnWithAnimation').onclick = openHistoryWithAnimation;
 
             updateCustomControlsUI(); updateTypographyStyles();
