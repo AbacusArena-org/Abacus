@@ -703,6 +703,148 @@
             0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
             40% { transform: scale(1.1); opacity: 1; }
         }
+/* READ MORE LINK & UNSTOPPABLE STORY OVERLAY */
+        .founder-read-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffd700;
+            background: rgba(255, 215, 0, 0.15);
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .founder-read-more-btn:hover {
+            background: #ffd700;
+            color: #0f172a;
+            transform: translateY(-2px);
+        }
+
+        .founder-modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+            backdrop-filter: blur(25px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .founder-story-screen {
+            display: none;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+        .founder-story-screen.active-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .founder-story-screen.show-screen {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .word-anim-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            line-height: 1.4;
+        }
+        .anim-word {
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .anim-word.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .anim-word.hero-welcome {
+            font-size: 3.8rem !important;
+            font-weight: 900 !important;
+            color: #f1c40f !important;
+            text-shadow: 0 0 25px rgba(241, 196, 15, 0.5);
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .founder-card-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 40px 30px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            width: 100%;
+        }
+        .badge-icon {
+            font-size: 3.5rem;
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+        .badge-icon.gold-star {
+            color: #f1c40f;
+        }
+        .glow-heading {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 20px rgba(96, 165, 250, 0.4);
+        }
+        .sub-quote {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #cbd5e1;
+            margin: 0;
+        }
+
+        .story-title {
+            font-size: 1.6rem;
+            color: #f1c40f;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        .story-body-text p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            color: #f1f5f9;
+            margin: 0;
+            text-align: justify;
+        }
+
+        .thank-you-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #f1c40f;
+            margin: 0 0 10px 0;
+        }
+        .thank-you-subtitle {
+            font-size: 1.1rem;
+            color: #e2e8f0;
+            margin: 0;
+        }
     </style>
 </head>
 <body onload="initApp()">
@@ -1128,7 +1270,10 @@
             </div>
             
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 25px 0;">Project Started: April 23, 2026</p>
-            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 10px 0; letter-spacing: 0.5px;">Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong></p>
+            <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 10px 0; letter-spacing: 0.5px;">
+    Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong>
+    <a href="javascript:void(0)" onclick="launchFounderStorySequence()" class="founder-read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
+</p>
             <p style="text-align: center; font-weight: 500; color: #ffffff; font-size: 1rem; margin-top: 5px;">Co-Dev | Content and product strategy lead: <strong>Sreejeeth Vigneswaran</strong></p>
             
             <div style="text-align: center; margin-bottom: 25px;">
@@ -1222,7 +1367,65 @@
             <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">AbacusArena.org Platform Asset • Built on integrity.</p></div>
         </div>
     </div>
+<!-- FOUNDER STORY MULTI-SCREEN OVERLAY (NO CLOSE BUTTON) -->
+    <div id="founder-story-modal" class="founder-modal-overlay">
 
+        <!-- SCREEN 1: WORD-BY-WORD WELCOME ANIMATION -->
+        <div id="founder-screen-1" class="founder-story-screen active-screen">
+            <div id="word-by-word-container" class="word-anim-box"></div>
+        </div>
+
+        <!-- SCREEN 2: LICHESS INSPIRATION -->
+        <div id="founder-screen-2" class="founder-story-screen">
+            <div class="founder-card-content">
+                <div class="badge-icon"><i class="fas fa-chess-knight"></i></div>
+                <h1 class="glow-heading">Inspired by Lichess.org</h1>
+                <p class="sub-quote">"Open-source, non-profit, free for everyone, forever—without ads or paywalls."</p>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: ABOUT ASWIN (FOUNDER) -->
+        <div id="founder-screen-3" class="founder-story-screen">
+            <div class="founder-card-content">
+                <div class="badge-icon"><i class="fas fa-code"></i></div>
+                <h2 class="story-title"><i class="fas fa-user-astronaut"></i> Founder & Lead Developer</h2>
+                <div class="story-body-text">
+                    <p>Development officially started on <strong>April 23, 2026</strong> by <strong>Aswin Krishnamoorthy</strong>. Driven by a passion for mental math and elegant engineering, the goal was to create a clean, competitive, and accessible speed calculation arena for students worldwide.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: ABOUT SREEJEETH (CO-DEV / MEDIA LEAD) -->
+        <div id="founder-screen-4" class="founder-story-screen">
+            <div class="founder-card-content">
+                <div class="badge-icon"><i class="fab fa-youtube"></i></div>
+                <h2 class="story-title"><i class="fas fa-hands-helping"></i> Product Strategy & Outreach Lead</h2>
+                <div class="story-body-text">
+                    <p>On <strong>July 29, 2026</strong>, <strong>Sreejeeth Vigneswaran</strong> joined as Co-Developer to expand the platform's vision. He single-handedly creates, maintains, and manages all YouTube content and promotional media to build a vibrant learning community.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: NON-PROFIT PHILOSOPHY -->
+        <div id="founder-screen-5" class="founder-story-screen">
+            <div class="founder-card-content">
+                <div class="badge-icon"><i class="fas fa-heart"></i></div>
+                <h2 class="story-title">Unrestricted Learning for All</h2>
+                <div class="story-body-text">
+                    <p>We operate as a non-profit initiative because we firmly believe high-quality education should never be hidden behind paywalls or ruined by annoying ads. Every single feature we build will remain 100% free forever.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 6: THANK YOU -->
+        <div id="founder-screen-6" class="founder-story-screen">
+            <div class="founder-card-content">
+                <div class="badge-icon gold-star"><i class="fas fa-star"></i></div>
+                <h1 class="thank-you-title">Thank you for visiting our website!</h1>
+                <p class="thank-you-subtitle">Keep practicing, accelerating, and mastering your mental limits.</p>
+            </div>
+        </div>
+    </div>
     <script>
         let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
@@ -2950,6 +3153,119 @@
         
         document.getElementById('user-ans').disabled = true;
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
+let founderSequenceTimeouts = [];
+
+        function launchFounderStorySequence() {
+            if (gameInProgress) return;
+            
+            founderSequenceTimeouts.forEach(t => clearTimeout(t));
+            founderSequenceTimeouts = [];
+
+            const overlay = document.getElementById('founder-story-modal');
+            overlay.style.display = 'flex';
+
+            document.querySelectorAll('.founder-story-screen').forEach(s => {
+                s.classList.remove('active-screen', 'show-screen');
+            });
+
+            // SCREEN 1: Word-by-Word Intro Animation (3.0s total)
+            const screen1 = document.getElementById('founder-screen-1');
+            screen1.classList.add('active-screen');
+            setTimeout(() => screen1.classList.add('show-screen'), 50);
+
+            const textToAnimate = "Welcome to Read More About the Founder of AbacusArena.org (Aswin Krishnamoorthy)";
+            const words = textToAnimate.split(" ");
+            const container = document.getElementById('word-by-word-container');
+            container.innerHTML = "";
+
+            words.forEach((word) => {
+                const span = document.createElement('span');
+                span.className = 'anim-word';
+                if (word.toLowerCase() === 'welcome') {
+                    span.classList.add('hero-welcome');
+                }
+                span.innerText = word;
+                container.appendChild(span);
+            });
+
+            const wordElements = container.querySelectorAll('.anim-word');
+            const delayPerWord = 3000 / wordElements.length;
+
+            wordElements.forEach((el, idx) => {
+                let t = setTimeout(() => {
+                    el.classList.add('visible');
+                }, idx * delayPerWord);
+                founderSequenceTimeouts.push(t);
+            });
+
+            // SCREEN 2: Inspired by Lichess.org (At 3.5s - Displays for 5.5s)
+            let t2 = setTimeout(() => {
+                transitionFounderScreens('founder-screen-1', 'founder-screen-2');
+            }, 3500);
+            founderSequenceTimeouts.push(t2);
+
+            // SCREEN 3: About Founder Aswin (At 9.0s - Displays for 7.0s)
+            let t3 = setTimeout(() => {
+                transitionFounderScreens('founder-screen-2', 'founder-screen-3');
+            }, 9000);
+            founderSequenceTimeouts.push(t3);
+
+            // SCREEN 4: About Friend Sreejeeth (At 16.0s - Displays for 7.0s)
+            let t4 = setTimeout(() => {
+                transitionFounderScreens('founder-screen-3', 'founder-screen-4');
+            }, 16000);
+            founderSequenceTimeouts.push(t4);
+
+            // SCREEN 5: Non-profit Philosophy (At 23.0s - Displays for 6.0s)
+            let t5 = setTimeout(() => {
+                transitionFounderScreens('founder-screen-4', 'founder-screen-5');
+            }, 23000);
+            founderSequenceTimeouts.push(t5);
+
+            // SCREEN 6: Thank You Message (At 29.0s - Displays for 5.0s)
+            let t6 = setTimeout(() => {
+                transitionFounderScreens('founder-screen-5', 'founder-screen-6');
+            }, 29000);
+            founderSequenceTimeouts.push(t6);
+
+            // AUTO-CLOSE OVERLAY SMOOTHLY (At 34.0s - closes automatically!)
+            let t7 = setTimeout(() => {
+                const screen6 = document.getElementById('founder-screen-6');
+                if (screen6) screen6.classList.remove('show-screen');
+                setTimeout(() => {
+                    closeFounderStorySequence();
+                }, 800);
+            }, 34000);
+            founderSequenceTimeouts.push(t7);
+        }
+
+        function transitionFounderScreens(fromId, toId) {
+            const fromScreen = document.getElementById(fromId);
+            const toScreen = document.getElementById(toId);
+
+            if (fromScreen) {
+                fromScreen.classList.remove('show-screen');
+                setTimeout(() => {
+                    fromScreen.classList.remove('active-screen');
+                    if (toScreen) {
+                        toScreen.classList.add('active-screen');
+                        setTimeout(() => toScreen.classList.add('show-screen'), 50);
+                    }
+                }, 800);
+            }
+        }
+
+        function closeFounderStorySequence() {
+            founderSequenceTimeouts.forEach(t => clearTimeout(t));
+            founderSequenceTimeouts = [];
+
+            const overlay = document.getElementById('founder-story-modal');
+            if (overlay) overlay.style.display = 'none';
+
+            document.querySelectorAll('.founder-story-screen').forEach(s => {
+                s.classList.remove('active-screen', 'show-screen');
+            });
+        }
     </script>
 </body>
 </html>
