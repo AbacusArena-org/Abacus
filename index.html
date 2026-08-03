@@ -706,17 +706,17 @@
         .founder-read-more-btn {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            margin-left: 8px;
-            font-size: 0.85rem;
+            gap: 8px;
+            font-size: 0.9rem;
             font-weight: 700;
             color: #ffd700;
             background: rgba(255, 215, 0, 0.15);
-            padding: 3px 10px;
+            padding: 8px 18px;
             border-radius: 20px;
             border: 1px solid rgba(255, 215, 0, 0.4);
             text-decoration: none;
             transition: all 0.3s ease;
+            cursor: pointer;
         }
         .founder-read-more-btn:hover {
             background: #ffd700;
@@ -843,6 +843,31 @@
             font-size: 1.1rem;
             color: #e2e8f0;
             margin: 0;
+        }
+/* YOUTUBE DIRECT TUTORIAL BUTTON */
+        .yt-tutorial-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            background: #ff0000;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .yt-tutorial-btn:hover {
+            background: #cc0000;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
+            color: #ffffff;
         }
     </style>
 </head>
@@ -1267,20 +1292,30 @@
                     You have to continuously add all those numbers appearing on the display terminal layout. Click the <strong>NEW SESSION</strong> button on your center dashboard matrix to initialize your custom or rated arithmetic stream immediately.
                 </div>
             </div>
+<!-- YOUTUBE VIDEO BUTTON CONTAINER -->
+<div style="text-align: center; margin: 20px 0 25px 0;">
+    <div style="color: #ffffff; font-size: 0.95rem; font-weight: 600; margin-bottom: 10px;">
+        Visit this video for more info: <strong>Introduction to AbacusArena.org!</strong>
+    </div>
+    <a href="https://www.youtube.com/watch?v=vHyQdB9HeP0" target="_blank" class="yt-tutorial-btn">
+        <i class="fab fa-youtube" style="font-size: 1.2rem;"></i> Watch Video Tutorial <i class="fas fa-external-link-alt" style="font-size: 0.8rem;"></i>
+    </a>
+</div>
             
             <p style="text-align: center; font-weight: bold; color: #ffcdd2; font-size:1rem; margin:25px 0 25px 0;">Project Started: April 23, 2026</p>
             <p style="text-align: center; font-weight: 600; color: #ffffff; font-size: 1.1rem; margin: -10px 0 10px 0; letter-spacing: 0.5px;">
-    Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong>
-    <a href="javascript:void(0)" onclick="launchFounderStorySequence()" class="founder-read-more-btn">Read More <i class="fas fa-arrow-right"></i></a>
-</p>
+                Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong>
+            </p>
             <p style="text-align: center; font-weight: 500; color: #ffffff; font-size: 1rem; margin-top: 5px;">Co-Dev | Content and product strategy lead: <strong>Sreejeeth Vigneswaran</strong></p>
             
-            <div style="text-align: center; margin-bottom: 25px;">
+            <div style="text-align: center; margin-bottom: 25px; display: flex; flex-direction: column; align-items: center; gap: 10px;">
                 <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-inline-link">
                     <i class="fas fa-chess"></i> Follow AswinNK-Elite on Lichess.org
                 </a>
+                <a href="javascript:void(0)" onclick="launchFounderStorySequence()" class="founder-read-more-btn">
+                    <i class="fas fa-book-open"></i> Read More About the Creators <i class="fas fa-arrow-right"></i>
+                </a>
             </div>
-
             <p style="font-size:1.1rem;">Welcome to <strong>AbacusArena.org</strong>. Our goal is to provide a clean, professional environment for students to sharpen their skills through adaptive challenges.</p>
             
             <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-ad"></i> Our Stance on Ads & Profit</h3>
@@ -3172,7 +3207,7 @@ let founderSequenceTimeouts = [];
             screen1.classList.add('active-screen');
             setTimeout(() => screen1.classList.add('show-screen'), 50);
 
-            const textToAnimate = "Welcome to Read More About the Founder of AbacusArena.org (Aswin Krishnamoorthy)";
+            const textToAnimate = "Welcome to Read More About the Creators of AbacusArena.org";
             const words = textToAnimate.split(" ");
             const container = document.getElementById('word-by-word-container');
             container.innerHTML = "";
