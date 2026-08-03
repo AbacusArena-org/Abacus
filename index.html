@@ -869,6 +869,26 @@
             box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
             color: #ffffff;
         }
+/* GENTLE UP AND DOWN FLOATING ANIMATION */
+        @keyframes floatUpDown {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); } /* Gently floats up by 8px */
+            100% { transform: translateY(0px); }
+        }
+
+        /* RECTANGULAR SPLASH SCREEN LOGO */
+        .splash-logo-rect {
+            width: 140px;                 /* Clean rectangular width */
+            height: auto;                 /* Maintains crisp rectangular aspect ratio */
+            border-radius: 12px;          /* Smooth rounded rectangle corners */
+            border: 2px solid #f1c40f;    /* Gold border matching the splash theme */
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(241, 196, 15, 0.4);
+            background: rgba(15, 23, 42, 0.5);
+            padding: 8px;
+            backdrop-filter: blur(8px);
+            margin-bottom: 15px;
+            animation: floatUpDown 4s ease-in-out infinite; /* Slow, gentle 4-second floating loop */
+        }
     </style>
 </head>
 <body onload="initApp()">
@@ -882,6 +902,11 @@
     </div>
 
     <div id="splash-screen" class="colorful-animated-bg">
+        <!-- FLOATING RECTANGULAR LOGO BADGE -->
+        <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" 
+             alt="Abacus Arena Logo" 
+             class="splash-logo-rect">
+
         <div class="splash-logo">AbacusArena.org</div>
         <div class="modes-entry-grid">
             <button class="mode-entry-button" onclick="launchDirectAppWorkspace('rated')"><i class="fas fa-trophy"></i> RATED MODE</button>
