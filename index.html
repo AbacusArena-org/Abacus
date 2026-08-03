@@ -431,16 +431,91 @@
         .loading-text { color: white; font-size: 1.2rem; letter-spacing: 1px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        #splash-screen { position: fixed; inset: 0; color: #f1c40f; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; transition: opacity 0.5s; }
-        .splash-logo { font-family: 'Dancing Script', cursive; font-size: 3.5rem; text-align: center; color: #f1c40f; margin-bottom: 20px; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-        
+        /* 1. GREEN CYBER GRADIENT FOR THE OPENING SCREEN */
+        @keyframes splashGreenGlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #splash-screen {
+            position: fixed; 
+            inset: 0; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            z-index: 10000; 
+            transition: opacity 0.5s ease-out;
+            background: linear-gradient(-45deg, #059669, #047857, #065f46, #0f766e, #111827);
+            background-size: 300% 300%;
+            animation: splashGreenGlow 10s ease infinite;
+        }
+
+        /* 2. GENTLE FLOATING ANIMATION FOR LOGO */
+        @keyframes floatUpDown {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .splash-logo-rect {
+            width: 140px;
+            height: auto;
+            border-radius: 16px;
+            border: 2px solid #34d399;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.4);
+            background: rgba(6, 78, 70, 0.4);
+            padding: 8px;
+            backdrop-filter: blur(10px);
+            margin-bottom: 18px;
+            animation: floatUpDown 4s ease-in-out infinite;
+        }
+
+        /* 3. MINT GREEN TEXT & BUTTON STYLES */
+        .splash-logo { 
+            font-family: 'Dancing Script', cursive; 
+            font-size: 3.8rem; 
+            text-align: center; 
+            color: #6ee7b7; 
+            margin-bottom: 20px; 
+            text-shadow: 0 4px 20px rgba(52, 211, 153, 0.5), 0 0 10px rgba(0, 0, 0, 0.6); 
+        }
+
         .modes-entry-grid {
-            display: flex; flex-direction: column; gap: 12px; width: 85%; max-width: 320px; margin-top: 10px;
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+            width: 85%; 
+            max-width: 320px; 
+            margin-top: 10px;
         }
+
         .mode-entry-button {
-            width: 100%; padding: 14px; background: rgba(255,255,255,0.15); border: 2px solid #f1c40f; border-radius: 50px; color: #fff; font-weight: 800; font-size: 1.05rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease;
+            width: 100%; 
+            padding: 14px 24px; 
+            background: rgba(255, 255, 255, 0.1); 
+            border: 2px solid #34d399; 
+            border-radius: 50px; 
+            color: #ffffff; 
+            font-weight: 800; 
+            font-size: 1.05rem; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
-        .mode-entry-button:hover { background: #f1c40f; color: #1e3a8a; transform: translateY(-2px); }
+
+        .mode-entry-button:hover { 
+            background: #34d399; 
+            color: #064e3b; 
+            transform: translateY(-3px) scale(1.02); 
+            box-shadow: 0 8px 25px rgba(52, 211, 153, 0.5);
+        }
 
         .signal-row { display: flex; justify-content: center; gap: 12px; padding: 10px; background: rgba(45,52,54,0.05); border-bottom: 1px solid var(--border); }
         .light-bulb { width: 12px; height: 12px; border-radius: 50%; background: #b2bec3; transition: background 0.2s; }
@@ -901,13 +976,15 @@
         <div class="loading-text"><i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span></div>
     </div>
 
-    <div id="splash-screen" class="colorful-animated-bg">
+    <!-- OPENING GREEN SPLASH SCREEN -->
+    <div id="splash-screen">
         <!-- FLOATING RECTANGULAR LOGO BADGE -->
         <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" 
              alt="Abacus Arena Logo" 
              class="splash-logo-rect">
 
         <div class="splash-logo">AbacusArena.org</div>
+
         <div class="modes-entry-grid">
             <button class="mode-entry-button" onclick="launchDirectAppWorkspace('rated')"><i class="fas fa-trophy"></i> RATED MODE</button>
             <button class="mode-entry-button" onclick="launchDirectAppWorkspace('manual')"><i class="fas fa-sliders-h"></i> MANUAL PRACTICE MODE</button>
