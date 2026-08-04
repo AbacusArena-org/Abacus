@@ -3291,11 +3291,86 @@
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
 let founderSequenceTimeouts = [];
 
+        // =========================================================================
+        // 🎵 SMOOTH BACKGROUND MUSIC ENGINE (Copyright-Free Arpeggio Synth)
+        // =========================================================================
+        let storyAudioGainNode = null;
+        let storyMelodyInterval = null;
+
+        function startCreatorStoryAudio() {
+            if (isVoiceMuted) return; 
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            stopCreatorStoryAudio(0);
+
+            storyAudioGainNode = audioCtx.createGain();
+            storyAudioGainNode.connect(audioCtx.destination);
+
+            // Smooth 2-second Fade-In
+            storyAudioGainNode.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+            storyAudioGainNode.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 2);
+
+            // Pentatonic scale notes (C4, E4, G4, A4, C5, D5, E5)
+            const scale = [261.63, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
+            let noteIndex = 0;
+
+            // Plays a soft pluck every 400ms (gentle music box pattern)
+            storyMelodyInterval = setInterval(() => {
+                if (!storyAudioGainNode) return;
+
+                const osc = audioCtx.createOscillator();
+                const noteGain = audioCtx.createGain();
+
+                const freq = scale[noteIndex % scale.length];
+                noteIndex = (noteIndex + Math.floor(Math.random() * 3) + 1);
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                noteGain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                noteGain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.2);
+
+                osc.connect(noteGain);
+                noteGain.connect(storyAudioGainNode);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 1.2);
+            }, 400);
+        }
+
+        function stopCreatorStoryAudio(fadeDuration = 1.5) {
+            if (storyMelodyInterval) {
+                clearInterval(storyMelodyInterval);
+                storyMelodyInterval = null;
+            }
+
+            if (storyAudioGainNode) {
+                const now = audioCtx.currentTime;
+                storyAudioGainNode.gain.cancelScheduledValues(now);
+                storyAudioGainNode.gain.setValueAtTime(storyAudioGainNode.gain.value, now);
+
+                if (fadeDuration > 0) {
+                    storyAudioGainNode.gain.linearRampToValueAtTime(0.0001, now + fadeDuration);
+                    setTimeout(() => {
+                        storyAudioGainNode = null;
+                    }, fadeDuration * 1000);
+                } else {
+                    storyAudioGainNode = null;
+                }
+            }
+        }
+
+        // =========================================================================
+        // 🚀 FOUNDER STORY SEQUENCE LAUNCHER & CLOSER
+        // =========================================================================
         function launchFounderStorySequence() {
             if (gameInProgress) return;
             
             founderSequenceTimeouts.forEach(t => clearTimeout(t));
             founderSequenceTimeouts = [];
+
+            // 🎵 Starts gentle music with 2s fade-in
+            startCreatorStoryAudio();
 
             const overlay = document.getElementById('founder-story-modal');
             overlay.style.display = 'flex';
@@ -3394,6 +3469,9 @@ let founderSequenceTimeouts = [];
         function closeFounderStorySequence() {
             founderSequenceTimeouts.forEach(t => clearTimeout(t));
             founderSequenceTimeouts = [];
+
+            // 🔇 Fades out audio smoothly over 1.5s
+            stopCreatorStoryAudio(1.5);
 
             const overlay = document.getElementById('founder-story-modal');
             if (overlay) overlay.style.display = 'none';
