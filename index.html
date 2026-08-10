@@ -79,19 +79,6 @@
             animation: colorFlashCycle 12s ease infinite;
         }
 
-        /* UNIQUE CYBERNETIC RADIAL BACKGROUND FOR AI MODE */
-        @keyframes aiCyberGlow {
-            0% { background-position: 0% 0%; }
-            50% { background-position: 100% 100%; }
-            100% { background-position: 0% 0%; }
-        }
-
-        #ai-assistant-fullscreen {
-            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 50%, #020617 100%), linear-gradient(135deg, #312e81, #581c87, #0f766e);
-            background-size: 200% 200%;
-            animation: aiCyberGlow 10s ease infinite;
-        }
-
         .bg-layer {
             position: fixed; inset: 0; z-index: -1; 
             background-size: 140% 140%; background-position: center;
@@ -105,7 +92,6 @@
             100% { background-position: 0% 50%; background-size: 140% 140%; }
         }
         .nature-pan-effect { animation: slowMotionPan 60s linear infinite; }
-/* SMOOTH BACKGROUND PANNING ANIMATIONS */
         @keyframes spacePanEffect {
             0% { background-position: 0% 0%; background-size: 140% 140%; }
             50% { background-position: 100% 100%; background-size: 115% 115%; }
@@ -126,23 +112,17 @@
             display: flex; justify-content: flex-end; align-items: center; z-index: 500;
             gap: 12px;
         }
-        .profile-btn, .settings-gear-btn, .notification-bell-btn, .check-level-btn, .ai-assistant-btn {
+        .profile-btn, .settings-gear-btn, .notification-bell-btn, .check-level-btn {
             background: rgba(0,0,0,0.05); border: none; cursor: pointer; padding: 10px; 
             border-radius: 50%; transition: all 0.2s ease; width: 44px; height: 44px;
             display: flex; align-items: center; justify-content: center;
             font-size: 1.3rem; color: var(--text); position: relative;
         }
-        .check-level-btn, .ai-assistant-btn {
+        .check-level-btn {
             border-radius: 20px; width: auto; height: 44px; font-size: 0.9rem; font-weight: 700;
             padding: 0 16px; gap: 6px;
         }
-        .ai-assistant-btn {
-            background: linear-gradient(135deg, #8e44ad, #3498db);
-            color: #ffffff;
-            box-shadow: 0 4px 15px rgba(142, 68, 173, 0.3);
-        }
-        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover, .check-level-btn:hover, .ai-assistant-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
-        .ai-assistant-btn:hover { background: linear-gradient(135deg, #9b59b6, #2980b9); }
+        .profile-btn:hover, .settings-gear-btn:hover, .notification-bell-btn:hover, .check-level-btn:hover { background: rgba(0,0,0,0.1); transform: scale(1.05); }
         
         .notification-indicator-dot {
             position: absolute; top: 2px; right: 2px; width: 10px; height: 10px;
@@ -200,7 +180,7 @@
             width: 100%; min-height: 64vh; background: var(--surface); border-radius: 24px; box-shadow: var(--card-shadow); display: flex; flex-direction: column; color: var(--text); border: 1px solid var(--border); backdrop-filter: blur(10px); overflow: hidden; position: relative; 
         }
 
-        #profile-fullscreen, #pane-about-fullscreen, #level-check-fullscreen, #ai-assistant-fullscreen {
+        #profile-fullscreen, #pane-about-fullscreen, #level-check-fullscreen {
             display: none; position: fixed; inset: 0; z-index: 6000;
             flex-direction: column; padding: 25px; overflow-y: auto;
             color: #ffffff; perspective: 1200px;
@@ -444,7 +424,7 @@
         .loading-text { color: white; font-size: 1.2rem; letter-spacing: 1px; font-weight: 500; display: flex; align-items: center; gap: 8px; }
         @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-        /* 1. GREEN CYBER GRADIENT FOR THE OPENING SCREEN */
+        /* GREEN CYBER GRADIENT FOR THE OPENING SCREEN */
         @keyframes splashGreenGlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -465,7 +445,6 @@
             animation: splashGreenGlow 10s ease infinite;
         }
 
-        /* 2. GENTLE FLOATING ANIMATION FOR LOGO */
         @keyframes floatUpDown {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
@@ -485,7 +464,6 @@
             animation: floatUpDown 4s ease-in-out infinite;
         }
 
-        /* 3. MINT GREEN TEXT & BUTTON STYLES */
         .splash-logo { 
             font-family: 'Dancing Script', cursive; 
             font-size: 3.8rem; 
@@ -680,91 +658,84 @@
             min-height: 80px; display: none; color: #fff;
         }
 
-        .chat-app-wrapper {
-            max-width: 750px; width: 100%; margin: 50px auto 0 auto;
-            height: calc(100vh - 120px); display: flex; flex-direction: column;
-            background: rgba(18, 25, 45, 0.85); border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(20px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.4); overflow: hidden;
-        }
-        .chat-app-header {
-            padding: 16px 20px; background: rgba(0, 0, 0, 0.25);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .chat-header-identity { display: flex; align-items: center; gap: 12px; }
-        .chat-header-avatar {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: linear-gradient(135deg, #8e44ad, #3498db);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.4rem; color: #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        .chat-header-info h3 { margin: 0; font-size: 1.1rem; color: #fff; font-weight: 700; }
-        .chat-header-info span { font-size: 0.75rem; color: #2ecc71; font-weight: 600; }
-        
-        .chat-history-viewport {
-            flex-grow: 1; padding: 20px; overflow-y: auto;
-            display: flex; flex-direction: column; gap: 16px;
-            scroll-behavior: smooth;
-        }
-        
-        .chat-message-row { display: flex; width: 100%; gap: 10px; align-items: flex-end; }
-        .chat-message-row.user-row { justify-content: flex-end; }
-        .chat-message-row.ai-row { justify-content: flex-start; }
-
-        .chat-msg-avatar {
-            width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; flex-shrink: 0;
-        }
-        .ai-row .chat-msg-avatar { background: #8e44ad; color: white; }
-        .user-row .chat-msg-avatar { background: var(--accent); color: white; }
-
-        .chat-msg-bubble {
-            max-width: 75%; padding: 12px 16px; border-radius: 18px;
-            font-size: 0.95rem; line-height: 1.5; color: #ffffff; position: relative;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); word-break: break-word;
-        }
-        .chat-message-row.user-row .chat-msg-bubble {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border-bottom-right-radius: 4px;
-        }
-        .chat-message-row.ai-row .chat-msg-bubble {
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(8px);
-            border-bottom-left-radius: 4px;
+        /* FAQ STYLES - LICHESS STYLE */
+        .faq-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 10px;
         }
 
-        .chat-msg-timestamp {
-            font-size: 0.65rem; opacity: 0.65; margin-top: 4px;
-            text-align: right; font-variant-numeric: tabular-nums;
+        .faq-section-title {
+            font-size: 24px;
+            font-weight: 800;
+            margin: 30px 0 16px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border);
+            color: var(--text);
         }
 
-        .chat-input-bar {
-            padding: 14px 18px; background: rgba(0, 0, 0, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-            display: flex; align-items: center; gap: 10px;
+        .faq-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
         }
-        .chat-input-field {
-            flex-grow: 1; padding: 12px 18px; border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.25); outline: none;
-            background: rgba(0, 0, 0, 0.25); color: #fff; font-size: 0.95rem;
-            font-family: inherit; transition: border-color 0.2s;
+
+        .faq-question {
+            padding: 18px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            transition: .2s;
+            color: var(--text);
         }
-        .chat-input-field:focus { border-color: #3498db; }
-        .chat-send-btn {
-            width: 44px; height: 44px; border-radius: 50%;
-            background: linear-gradient(135deg, #00b894, #00bec4); border: none;
-            color: #fff; font-size: 1.1rem; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            transition: transform 0.2s; flex-shrink: 0;
+
+        .faq-question:hover {
+            background: var(--surface-2);
         }
-        .chat-send-btn:hover { transform: scale(1.08); }
+
+        .faq-question .arrow {
+            transition: transform .3s;
+            color: var(--muted);
+        }
+
+        .faq-question .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 24px 20px 24px;
+            display: none;
+            line-height: 1.7;
+            color: var(--text);
+            border-top: 1px solid var(--border);
+            background: var(--surface-2);
+        }
+
+        .faq-answer.open {
+            display: block;
+        }
+
+        .faq-answer ul {
+            padding-left: 25px;
+            margin: 10px 0;
+        }
+
+        .faq-answer ul li {
+            margin-bottom: 6px;
+        }
+
+        .faq-answer strong {
+            color: var(--primary);
+        }
 
         @media(max-width: 900px) {
             .page-wrapper { grid-template-columns: 1fr; padding: 12px; }
-            .chat-app-wrapper { margin-top: 60px; height: calc(100vh - 80px); }
         }
 
         .typing-dots {
@@ -790,7 +761,7 @@
             0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
             40% { transform: scale(1.1); opacity: 1; }
         }
-/* READ MORE LINK & UNSTOPPABLE STORY OVERLAY */
+
         .founder-read-more-btn {
             display: inline-flex;
             align-items: center;
@@ -806,6 +777,7 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
+
         .founder-read-more-btn:hover {
             background: #ffd700;
             color: #0f172a;
@@ -932,7 +904,7 @@
             color: #e2e8f0;
             margin: 0;
         }
-/* YOUTUBE DIRECT TUTORIAL BUTTON */
+
         .yt-tutorial-btn {
             display: inline-flex;
             align-items: center;
@@ -957,25 +929,18 @@
             box-shadow: 0 8px 25px rgba(255, 0, 0, 0.6);
             color: #ffffff;
         }
-/* GENTLE UP AND DOWN FLOATING ANIMATION */
-        @keyframes floatUpDown {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); } /* Gently floats up by 8px */
-            100% { transform: translateY(0px); }
-        }
 
-        /* RECTANGULAR SPLASH SCREEN LOGO */
         .splash-logo-rect {
-            width: 140px;                 /* Clean rectangular width */
-            height: auto;                 /* Maintains crisp rectangular aspect ratio */
-            border-radius: 12px;          /* Smooth rounded rectangle corners */
-            border: 2px solid #f1c40f;    /* Gold border matching the splash theme */
+            width: 140px;
+            height: auto;
+            border-radius: 12px;
+            border: 2px solid #f1c40f;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(241, 196, 15, 0.4);
             background: rgba(15, 23, 42, 0.5);
             padding: 8px;
             backdrop-filter: blur(8px);
             margin-bottom: 15px;
-            animation: floatUpDown 4s ease-in-out infinite; /* Slow, gentle 4-second floating loop */
+            animation: floatUpDown 4s ease-in-out infinite;
         }
     </style>
 </head>
@@ -991,7 +956,6 @@
 
     <!-- OPENING GREEN SPLASH SCREEN -->
     <div id="splash-screen">
-        <!-- FLOATING RECTANGULAR LOGO BADGE -->
         <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" 
              alt="Abacus Arena Logo" 
              class="splash-logo-rect">
@@ -1004,13 +968,15 @@
         </div>
     </div>
 
-    <!-- CORE INTERFACE TOP NAVBAR CONTAINER -->
+      <!-- CORE INTERFACE TOP NAVBAR CONTAINER -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
-        <button class="ai-assistant-btn" id="nav-ai-btn" onclick="openAIAssistantFullscreen()"><i class="fas fa-robot"></i> Abacus AI</button>
         <button class="check-level-btn" id="nav-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
         <button id="gear-trigger" class="settings-gear-btn" onclick="openControlSuite()"><i class="fas fa-cog"></i></button>
+        <button class="check-level-btn" id="nav-faq-btn" onclick="openFAQFullscreen()" style="background: linear-gradient(135deg, #f1c40f, #f39c12); color: #fff; border: none; border-radius: 20px; padding: 8px 16px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;">
+            <i class="fas fa-question-circle"></i> FAQ
+        </button>
     </div>
 
     <!-- PAGE CORE WORKSPACE GRID STRUCTURE Wrapper -->
@@ -1117,7 +1083,7 @@
             <div class="main-display-area" style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <main><div id="display" class="ready-text">READY</div></main>
                 
-                <!-- MAIN COMPUTER ANALYSIS DISPLAY CARD (BELOW NEW SESSION) -->
+                <!-- MAIN COMPUTER ANALYSIS DISPLAY CARD -->
                 <div id="mainCompAnalysisCard">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                         <h4 style="margin:0; font-size: 0.95rem; color: #60a5fa;"><i class="fas fa-calculator"></i> Computer Deep Analysis</h4>
@@ -1134,7 +1100,6 @@
                 <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
                 <button id="action-btn" onclick="startMatchmakingSequence()"><i class="fas fa-play"></i> NEW SESSION</button>
                 
-                <!-- REQUEST COMPUTER ANALYSIS BUTTON DIRECTLY BELOW NEW SESSION -->
                 <button id="mainReqAnalysisBtn" class="req-analysis-main-btn" onclick="triggerMainBoardComputerAnalysis()">
                     <i class="fas fa-microchip"></i> Request Computer Analysis
                 </button>
@@ -1143,28 +1108,6 @@
                     <button id="abort-match-btn" class="action-control-btn" onclick="triggerManualAbort()"><i class="fas fa-ban"></i> Abort</button>
                     <button id="resign-match-btn" class="action-control-btn" onclick="triggerManualResign()"><i class="fas fa-flag"></i> Resign</button>
                 </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- ABACUS AI ASSISTANT FULLSCREEN CHAT INTERFACE (UNIQUE CYBERNETIC RADIAL BACKGROUND) -->
-    <div id="ai-assistant-fullscreen">
-        <button class="back-arena-btn" onclick="closeAIAssistantFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
-        <div class="chat-app-wrapper">
-            <div class="chat-app-header">
-                <div class="chat-header-identity">
-                    <div class="chat-header-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="chat-header-info">
-                        <h3>Abacus Arena AI Assistant</h3>
-                        <span>● Online | Mental Math Tutor</span>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-history-viewport" id="aiChatViewport"></div>
-            <div class="chat-input-bar">
-                <input type="text" id="aiChatInputField" class="chat-input-field" placeholder="Ask anything about Abacus or speed calculation..." autocomplete="off" onkeypress="handleAIChatKeyPress(event)">
-                <button class="chat-send-btn" onclick="dispatchUserChatMessage()"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
@@ -1521,7 +1464,183 @@
             <div style="margin-top: 50px; text-align: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 20px;"><p style="color: #ffcdd2; font-size: 0.9rem;">AbacusArena.org Platform Asset • Built on integrity.</p></div>
         </div>
     </div>
-<!-- FOUNDER STORY MULTI-SCREEN OVERLAY (NO CLOSE BUTTON) -->
+
+    <!-- FAQ PAGE - LICHESS STYLE (REPLACES AI CHATBOT) -->
+    <div id="faq-fullscreen" class="colorful-animated-bg" style="display:none; position:fixed; inset:0; z-index:6000; flex-direction:column; padding:25px; overflow-y:auto; color:#ffffff; perspective:1200px;">
+        <button class="back-arena-btn" onclick="closeFAQFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div class="faq-container" style="max-width:900px; margin:0 auto; width:100%; padding-top:20px;">
+            <h2 style="font-size:2rem; font-weight:800; color:#fff; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.2); padding-bottom:15px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+
+            <!-- SECTION: General -->
+            <div class="faq-section-title" style="color:#ffd700;">General</div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>What is AbacusArena?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    AbacusArena is a free, ad-free platform for practicing mental arithmetic using Soroban (abacus) principles. It offers Rated and Manual practice modes with adaptive difficulty. Our goal is to provide a clean, competitive, and distraction-free environment for learners to sharpen their calculation skills.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Is AbacusArena really free?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by the open-source philosophy of platforms like Lichess.org.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Who created AbacusArena?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <p><strong>AbacusArena</strong> was created by:</p>
+                    <ul>
+                        <li><strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> – Founder & Lead Developer. Responsible for the core architecture, codebase, and overall platform direction.</li>
+                        <li><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> – Co-Developer & Media Lead. Manages all YouTube content, promotional media, and community outreach.</li>
+                    </ul>
+                    <p>Development started on <strong style="color:#ffd700;">April 23, 2026</strong>.</p>
+                    <p><strong>Note:</strong> We are only responsible for the official YouTube channel and content we produce. Other third-party sites are not affiliated with us.</p>
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Where can I follow the founders?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="color:#60a5fa; font-weight:600;">Lichess.org</a>. For updates, tutorials, and community content, subscribe to our official YouTube channel (managed by Sreejeeth Vigneswaran).
+                </div>
+            </div>
+
+            <!-- SECTION: Tournaments -->
+            <div class="faq-section-title" style="color:#ffd700;">Tournaments & Competitions</div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Does AbacusArena host tournaments?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <p>We are actively working on hosting <strong style="color:#ffd700;">offline tournaments</strong> for players who have reached a rating of <strong style="color:#ffd700;">3000+</strong>. These events are not guaranteed, but we are aiming to organize them as soon as possible (targeting around 2030).</p>
+                    <p><strong>Key details:</strong></p>
+                    <ul>
+                        <li><strong>Format:</strong> Offline competitions (not online).</li>
+                        <li><strong>Eligibility:</strong> Players with a rating of 3000+ will be eligible to participate.</li>
+                        <li><strong>Recognition:</strong> Participants will have the opportunity to earn medals and recognition.</li>
+                        <li><strong>Status:</strong> This is a long-term goal, and we will provide updates as we get closer to making it a reality. This is not a promise, but our current intention.</li>
+                    </ul>
+             
+                </div>
+            </div>
+
+            <!-- SECTION: Gameplay -->
+            <div class="faq-section-title" style="color:#ffd700;">Gameplay</div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>How does the Rated Mode work?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    Rated Mode uses an adaptive Elo system. You start at 1200 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is dynamic: K=256 for first 3 games, K=128 for next 2, K=64 for next 5, K=32 for next 5, and K=16 from game 16 onwards.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>What is Manual Practice Mode?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    Manual Practice Mode lets you customize your training with full control over:
+                    <ul>
+                        <li><strong>Digits:</strong> 1 to 5 digits per number</li>
+                        <li><strong>Rows:</strong> 2 to 100 rows per session</li>
+                        <li><strong>Speed:</strong> 0.25s to 5.0s display timing</li>
+                    </ul>
+                    This is perfect for targeted practice on specific skills.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>What is the Fair Play Policy?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <ul>
+                        <li>Any attempt to refresh or close the tab while a sum is in progress results in an automatic -25 rating deduction.</li>
+                        <li>Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
+                        <li>Wrong answers in the Fair Play Verification Zone update security calibrations to maintain leaderboard integrity.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- SECTION: Ratings -->
+            <div class="faq-section-title" style="color:#ffd700;">Ratings & Progression</div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>What do the rating tiers mean?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <ul>
+                        <li><strong>1200 - 1499:</strong> Novice Tier</li>
+                        <li><strong>1500 - 1799:</strong> Intermediate Tier</li>
+                        <li><strong>1800 - 2299:</strong> Expert Competitor</li>
+                        <li><strong>2300 - 2799:</strong> Abacus Arena Master (AAM)</li>
+                        <li><strong>2800 - 3199:</strong> Elite Player</li>
+                        <li><strong>3200+:</strong> Grandmaster / Tournament Ready</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>How is the rating calculated?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    Your rating updates using an adaptive Elo system. Beginners enjoy accelerated progression with a high K-factor (K=256 for the first 3 games), which gradually settles down to K=16 by game 16. Outpacing your opponent's response time also earns speed bonus multipliers! The difficulty matrix adjusts every 10 rating points for precise progression.
+                </div>
+            </div>
+
+            <!-- SECTION: About the Founders -->
+            <div class="faq-section-title" style="color:#ffd700;">About the Founders</div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Who is Aswin Krishnamoorthy?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena. He is responsible for the core architecture, codebase, and overall platform direction. He started this project on April 23, 2026, with a vision to create a free, ad-free, and accessible speed calculation arena for students worldwide.
+                </div>
+            </div>
+
+            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+                    <span>Who is Sreejeeth Vigneswaran?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+                    <strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FOUNDER STORY MULTI-SCREEN OVERLAY -->
     <div id="founder-story-modal" class="founder-modal-overlay">
 
         <!-- SCREEN 1: WORD-BY-WORD WELCOME ANIMATION -->
@@ -1580,6 +1699,7 @@
             </div>
         </div>
     </div>
+
     <script>
         let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
@@ -1623,14 +1743,6 @@
         let wasAAMTitleNotificationTriggered = localStorage.getItem('abacus-aam-popup-fired') === 'true';
 
         let lastCompletedGameDetails = null;
-
-        let aiChatHistory = JSON.parse(localStorage.getItem('abacus-ai-chat-history')) || [
-            {
-                sender: 'ai',
-                text: 'Hello! I am your Abacus Arena AI Assistant. Ask me anything about abacus mental math techniques, soroban visualization, speed calculation tips, website updates, or platform rules!',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            }
-        ];
 
         const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
         const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
@@ -1686,7 +1798,6 @@
             if (isVoiceMuted && ('speechSynthesis' in window)) {
                 window.speechSynthesis.cancel();
             } else if (!isVoiceMuted && lastSpokenTextBuffer) {
-                // RESTARTS SPEAKING FROM THE BEGINNING OF THAT SEQUENCE
                 speakVoiceAnalysisText(lastSpokenTextBuffer);
             }
             updateVoiceMuteUI();
@@ -2098,690 +2209,15 @@
         }
         function closeLevelCheckFullscreen() { document.getElementById('level-check-fullscreen').style.display = 'none'; }
 
-        function openAIAssistantFullscreen() {
+        function openFAQFullscreen() {
             if (gameInProgress) return;
-            renderAIChatViewport();
-            document.getElementById('ai-assistant-fullscreen').style.display = 'flex';
-            let viewport = document.getElementById('aiChatViewport');
-            viewport.scrollTop = viewport.scrollHeight;
+            document.getElementById('faq-fullscreen').style.display = 'flex';
         }
 
-        function closeAIAssistantFullscreen() {
-            document.getElementById('ai-assistant-fullscreen').style.display = 'none';
+        function closeFAQFullscreen() {
+            document.getElementById('faq-fullscreen').style.display = 'none';
         }
 
-        function renderAIChatViewport() {
-            let viewport = document.getElementById('aiChatViewport');
-            viewport.innerHTML = aiChatHistory.map(msg => {
-                let isUser = msg.sender === 'user';
-                return `
-                    <div class="chat-message-row ${isUser ? 'user-row' : 'ai-row'}">
-                        ${!isUser ? `<div class="chat-msg-avatar"><i class="fas fa-robot"></i></div>` : ''}
-                        <div class="chat-msg-bubble">
-                            ${msg.text}
-                            <div class="chat-msg-timestamp">${msg.time}</div>
-                        </div>
-                        ${isUser ? `<div class="chat-msg-avatar">${selectedFlair}</div>` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function handleAIChatKeyPress(e) {
-            if (e.key === 'Enter') {
-                dispatchUserChatMessage();
-            }
-        }
-
-        function dispatchUserChatMessage() {
-            let field = document.getElementById('aiChatInputField');
-            let query = field.value.trim();
-            if (!query) return;
-
-            let userTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-            aiChatHistory.push({
-                sender: 'user',
-                text: escapeHtml(query),
-                time: userTimeStr
-            });
-            field.value = '';
-            renderAIChatViewport();
-
-            let viewport = document.getElementById('aiChatViewport');
-            viewport.scrollTop = viewport.scrollHeight;
-
-            let typingBubbleId = 'ai-typing-indicator';
-            let typingRowMarkup = `
-                <div class="chat-message-row ai-row" id="${typingBubbleId}">
-                    <div class="chat-msg-avatar"><i class="fas fa-robot"></i></div>
-                    <div class="chat-msg-bubble">
-                        <div class="typing-dots">
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                            <div class="typing-dot"></div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            viewport.insertAdjacentHTML('beforeend', typingRowMarkup);
-            viewport.scrollTop = viewport.scrollHeight;
-
-            let typingDelay = Math.floor(Math.random() * 800) + 1000;
-
-            setTimeout(() => {
-                let typingNode = document.getElementById(typingBubbleId);
-                if (typingNode) typingNode.remove();
-
-                let responseText = generateAbacusAIResponse(query);
-                aiChatHistory.push({
-                    sender: 'ai',
-                    text: responseText,
-                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                });
-
-                localStorage.setItem('abacus-ai-chat-history', JSON.stringify(aiChatHistory));
-                renderAIChatViewport();
-                viewport.scrollTop = viewport.scrollHeight;
-            }, typingDelay);
-        }
-
-        function generateAbacusAIResponse(userPrompt) {
-            let promptLower = userPrompt.toLowerCase().trim();
-
-            if (promptLower === "what" || promptLower === "what?" || promptLower === "huh" || promptLower === "pardon") {
-                return "I am your Abacus Arena AI Assistant! You can ask me questions about mental arithmetic, Soroban visualization techniques, rating cutoffs, website features, or founder details.";
-            }
-
-            if (promptLower.includes("thanks to abacusarena") || promptLower.includes("thank you abacusarena")) {
-                return "You're very welcome! We're glad to provide a completely free and ad-free speed calculation platform for learners worldwide. Keep practicing and aiming higher! 🧮✨";
-            }
-
-            if (promptLower.includes("thanks") || promptLower.includes("thank you") || promptLower.includes("thx") || promptLower.includes("ty")) {
-                return "You're welcome! Feel free to ask whenever you need help with Abacus techniques, platform rules, or rating progression.";
-            }
-
-            if (promptLower === "hi" || promptLower === "hello" || promptLower === "hey" || promptLower.startsWith("hello") || promptLower.startsWith("hi ")) {
-                return "Hello there! Welcome to AbacusArena. How can I assist you with your mental math training today?";
-            }
-
-            if (promptLower.includes("bye") || promptLower.includes("goodbye") || promptLower.includes("see you")) {
-                return "Goodbye and happy training! Best of luck on your journey to becoming an Abacus Arena Master! 🏆";
-            }
-
-            if (promptLower.includes("founder") || promptLower.includes("who created") || promptLower.includes("who built") || promptLower.includes("who made") || promptLower.includes("aswin")) {
-                return "AbacusArena.org was created and developed by founder <strong>Aswin Krishnamoorthy</strong> to provide students worldwide with a clean, competitive, and ad-free environment for rapid mental arithmetic practice.";
-            }
-
-            if (promptLower.includes("update every day") || promptLower.includes("daily update") || promptLower.includes("how often") || promptLower.includes("update schedule")) {
-                return "No, the platform is not updated on a daily basis. New updates and feature improvements are published weekly, or on a monthly schedule whenever development time permits.";
-            }
-
-            if (promptLower.includes("chess") || promptLower.includes("lichess") || promptLower.includes("play chess")) {
-                return "Yes! The founder is an active chess player. Follow his official profile: <a href='https://lichess.org/@/AswinNK-Elite' target='_blank' style='color:#ffd700; font-weight:bold; text-decoration:underline;'>AswinNK-Elite on Lichess.org</a>.";
-            }
-
-            if (promptLower.includes("what is abacus") || promptLower.includes("what is soroban") || promptLower.includes("explain abacus") || promptLower.includes("how abacus works")) {
-                return "An abacus (specifically the Japanese <em>Soroban</em>) is a traditional calculating frame using sliding beads on rods. Practitioners form a visual image of the abacus in their minds, moving virtual beads at high speeds to solve complex arithmetic problems without any physical tool.";
-            }
-
-            if (promptLower.includes("when started") || promptLower.includes("when created") || promptLower.includes("launch date") || promptLower.includes("project start")) {
-                return "Development of AbacusArena.org officially commenced on <strong>April 23, 2026</strong>.";
-            }
-
-            if (promptLower.includes("cheat") || promptLower.includes("detection") || promptLower.includes("hack") || promptLower.includes("fair play") || promptLower.includes("bot")) {
-                return "AbacusArena features a dedicated <strong>Fair Play Verification Zone</strong>. Unscheduled tab exits, refreshes, or incorrect answers inside these zones result in automatic -25 rating penalty deductions.";
-            }
-
-            if (promptLower.includes("my rating") || promptLower.includes("am i good") || promptLower.includes("is my rating") || promptLower.includes("good player") || promptLower.includes("level check") || promptLower.includes("cutoff")) {
-                return "To analyze your performance, benchmark requirements, and setup configurations according to your rating cutoff, please click the <strong>Check Level</strong> button located on the top navigation bar!";
-            }
-
-            if (promptLower.includes("elo") || promptLower.includes("k-factor") || promptLower.includes("points work") || promptLower.includes("gain rating")) {
-                return "Your rating updates using an adaptive Elo system. Beginners enjoy accelerated progression with a high K-factor (K=256 for the first 3 games), which gradually settles down to K=16 by game 16. Outpacing your opponent's response time also earns speed bonus multipliers!";
-            }
-
-            if (promptLower.includes("aam") || promptLower.includes("master title") || promptLower.includes("title badge")) {
-                return "<strong>AAM</strong> stands for <em>Abacus Arena Master</em>. It is an official platform title granted automatically once a player crosses a rating threshold cutoff of 2300+.";
-            }
-
-            if (promptLower.includes("free") || promptLower.includes("ads") || promptLower.includes("paywall") || promptLower.includes("cost") || promptLower.includes("price")) {
-                return "AbacusArena.org is <strong>100% free forever</strong> with zero intrusive advertisements or paywalls. All training tools and modes are fully accessible to every user without restrictions.";
-            }
-
-            return "I am specialized strictly in Abacus mental math techniques, platform mechanics, website rules, and founder information. Feel free to ask about Soroban methods, rating cutoffs, speed training tips, or how AbacusArena works!";
-        }
-
-        const part1WinOptions = [
-            "Great!", "Super!", "Excellent!", "Outstanding!", "Brilliant!", 
-            "Fantastic!", "Phenomenal!", "Impressive!", "Superb!", "Marvelous!", 
-            "Stellar!", "Terrific!", "Splendid!", "Top-tier!", "Extraordinary!"
-        ];
-
-        const part2WinOptions = [
-            "you calculated with total precision,", "your visual bead execution was spot on,", 
-            "you handled the arithmetic sequence flawlessly,", "your working memory speed was unmatched,", 
-            "you mastered the timing parameters with ease,", "your accuracy under pressure was remarkable,", 
-            "you maintained total focus throughout,", "your speed and rhythm were perfectly balanced,", 
-            "your digit tracking was completely accurate,", "you outpaced the challenge comfortably,", 
-            "your mental calculation flow was seamless,", "you demonstrated superior spatial bead awareness,", 
-            "you processed every row with razor precision,", "your mental soroban speed was phenomenal,", 
-            "you executed the addition matrix effortlessly,"
-        ];
-
-        const part3WinOptions = [
-            "continue pushing forward to reach higher ranks!", "keep building your winning streak!", 
-            "you are well on your way to claiming new master cutoffs!", "keep training to solidify your grandmaster status!", 
-            "your rating potential is skyrocketing!", "keep this momentum going in your next session!", 
-            "aim even higher in the next difficulty bracket!", "your consistent practice is paying off massively!", 
-            "keep crushing these calculations!", "maintain this elite level of concentration!"
-        ];
-
-        const part1LossOptions = [
-            "Notice,", "Attention,", "Analysis shows", "Review required:", "Keep your head up,", 
-            "Stay resilient,", "Learning moment:", "Stay sharp,", "Focus point:", "Take note,", 
-            "Correction ahead,", "Don't get discouraged,", "Diagnostic insight:", "Refuse to give up,", "Adjust strategy:"
-        ];
-
-        function generateDynamicTutorCommentary(isWin, isRefreshPenalty, isTimeoutLoss) {
-            if (isWin) {
-                let p1 = part1WinOptions[Math.floor(Math.random() * part1WinOptions.length)];
-                let p2 = part2WinOptions[Math.floor(Math.random() * part2WinOptions.length)];
-                let p3 = part3WinOptions[Math.floor(Math.random() * part3WinOptions.length)];
-                return `${p1} ${p2} ${p3}`;
-            }
-
-            let p1 = part1LossOptions[Math.floor(Math.random() * part1LossOptions.length)];
-
-            if (isRefreshPenalty) {
-                return `${p1} leaving or refreshing mid-game causes a direct -25 rating penalty and violates Fair Play rules. Since your current rating is ${rating}, avoiding tab refreshes will easily allow you to increase your rating!`;
-            }
-
-            if (isTimeoutLoss) {
-                return `${p1} you ran out of time before submitting. Since your current rating is ${rating}, you can easily increase your rating by training in Manual Mode at faster speeds to eliminate subvocalization.`;
-            }
-
-            return `${p1} a minor bead carry or single-digit slip occurred. Since your current rating is ${rating}, you can easily increase your rating up to the next cutoff by practicing 5–10 row sets in Manual Mode!`;
-        }
-
-        // TRIGGER COMPUTER ANALYSIS MAIN BOARD CARD DIRECTLY BELOW NEW SESSION
-        function triggerMainBoardComputerAnalysis() {
-            if (!lastCompletedGameDetails) return;
-            
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                let g = lastCompletedGameDetails;
-                let actualSum = g.seq ? g.seq.reduce((a, b) => a + b, 0) : 0;
-                let userValText = g.userVal !== null && g.userVal !== undefined ? g.userVal : "Timeout / Exit";
-                let isWin = g.correct;
-                let isRefresh = g.isInterrupted || g.isRefreshPenalty;
-                let isTimeoutLoss = !isWin && !isRefresh && (g.userTimeMs >= 7000 || g.isTimeout);
-
-                let diffVal = (typeof g.userVal === 'number') ? Math.abs(g.userVal - actualSum) : actualSum;
-                let spokenDiagnostic = generateDynamicTutorCommentary(isWin, isRefresh, isTimeoutLoss);
-
-                let detailMarkup = `
-                    <div style="font-size: 0.95rem; font-weight: 800; color: ${isWin ? '#34d399' : '#f87171'}; margin-bottom: 8px;">
-                        ${isWin ? '✓ Accurate Sequence Compilation' : (isRefresh ? '⚠️ Tab Exit / Refresh Penalty (-25 Elo)' : '✗ Numeric Discrepancy Analysis')}
-                    </div>
-                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; text-align: center;">
-                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
-                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Right Answer</div>
-                            <div style="font-size: 1.1rem; font-weight: 800; color: #34d399;">${actualSum}</div>
-                        </div>
-                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
-                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Our Answer</div>
-                            <div style="font-size: 1.1rem; font-weight: 800; color: ${isWin ? '#34d399' : '#f87171'};">${userValText}</div>
-                        </div>
-                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
-                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Difference</div>
-                            <div style="font-size: 1.1rem; font-weight: 800; color: #f59e0b;">${diffVal}</div>
-                        </div>
-                    </div>
-                    <div style="font-size: 0.85rem; line-height: 1.4; color: #e5e7eb; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
-                        <strong>Diagnostic:</strong> ${spokenDiagnostic}
-                    </div>
-                `;
-
-                let compCard = document.getElementById('mainCompAnalysisCard');
-                let compContent = document.getElementById('mainCompAnalysisContent');
-                compContent.innerHTML = detailMarkup;
-                compCard.style.display = 'block';
-
-                updateVoiceMuteUI();
-                speakVoiceAnalysisText(spokenDiagnostic);
-            }, 800);
-        }
-
-        // REPLAY & AI TUTOR ENGINE
-        function runAITutorAnalysisSequence() {
-            if (historyGames.length < 10) {
-                let remaining = 10 - historyGames.length;
-                alert(`🔒 AI Tutor Locked!\n\nYou have completed ${historyGames.length}/10 rated games. Play ${remaining} more rated match${remaining > 1 ? 'es' : ''} to unlock full AI diagnostic breakdown.`);
-                return;
-            }
-
-            let overlay = document.getElementById('loadingOverlay');
-            let textNode = overlay.querySelector('.loading-text');
-            overlay.style.display = 'flex';
-
-            let phrases = [
-                "🤖 AI tutor is analyzing...",
-                "🔍 Checking for your calculation errors...",
-                "📊 Thinking where you are losing your rating most...",
-                "🧮 Simulating bead movement and time decay..."
-            ];
-
-            let phraseIndex = 0;
-            textNode.innerHTML = `<i class="fas fa-brain"></i> ${phrases[phraseIndex]}`;
-
-            let phraseInterval = setInterval(() => {
-                phraseIndex = (phraseIndex + 1) % phrases.length;
-                textNode.innerHTML = `<i class="fas fa-brain"></i> ${phrases[phraseIndex]}`;
-            }, 1200);
-
-            setTimeout(() => {
-                clearInterval(phraseInterval);
-                hideLoading();
-                textNode.innerHTML = `<i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span>`;
-                selectedReplayGameIndex = 0;
-                selectedReplayStepIndex = 0;
-                renderAITutorReportModal();
-            }, 4500);
-        }
-
-        function renderAITutorReportModal() {
-            let recentTen = historyGames.slice(0, 10);
-            let totalWins = 0, totalLosses = 0, timeLosses = 0, arithmeticErrors = 0, refreshPenalties = 0;
-
-            let gameLogsHTML = "";
-
-            recentTen.forEach((g, idx) => {
-                let isWin = g.correct;
-                let isRefresh = g.isInterrupted || g.isRefreshPenalty;
-                if (isWin) totalWins++;
-                else totalLosses++;
-
-                if (isRefresh) refreshPenalties++;
-
-                let isTimeoutLoss = !isWin && !isRefresh && (g.userTimeMs >= 7000 || g.isTimeout);
-                if (!isWin && !isRefresh) {
-                    if (isTimeoutLoss) timeLosses++;
-                    else arithmeticErrors++;
-                }
-
-                let outcomeBadge = isWin 
-                    ? `<span style="color:#10b981; font-weight:800;">✓ PASSED</span>`
-                    : `<span style="color:#ef4444; font-weight:800;">✗ FAILED</span>`;
-
-                let diagnosticTag = isWin 
-                    ? `<span style="font-size:0.8rem; color:#10b981;">Flawless Sequence Execution</span>`
-                    : (isRefresh 
-                        ? `<span style="font-size:0.8rem; color:#f87171;"><i class="fas fa-exclamation-circle"></i> Tab Refresh / Penalty (-25 Elo)</span>`
-                        : (isTimeoutLoss 
-                            ? `<span style="font-size:0.8rem; color:#f59e0b;"><i class="fas fa-clock"></i> Lost on Chronometer Time</span>`
-                            : `<span style="font-size:0.8rem; color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Digit / Bead Memory Slip</span>`));
-
-                let isSelected = (idx === selectedReplayGameIndex);
-
-                gameLogsHTML += `
-                    <div onclick="selectReplayGame(${idx})" style="background: ${isSelected ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? '#3b82f6' : 'rgba(255,255,255,0.1)'}; padding: 12px 14px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;">
-                        <div>
-                            <div style="font-weight: 700; font-size: 0.9rem; color:#f3f4f6;">Rated Game #${10 - idx}: <span style="font-family: monospace; color:#38bdf8;">${escapeHtml(g.q)}</span></div>
-                            <div>${diagnosticTag}</div>
-                        </div>
-                        <div>${outcomeBadge}</div>
-                    </div>
-                `;
-            });
-
-            let winRatePercent = Math.round((totalWins / 10) * 100);
-            let mainDiagnosis = "";
-            let overallSpokenText = "";
-
-            if (totalWins >= 8) {
-                mainDiagnosis = `<strong>Outstanding Consistency!</strong> Your current rating is <strong>${rating}</strong>. Your speed and visualization are sharp. Focus on pushing higher rated ranks to keep advancing!`;
-                overallSpokenText = `Outstanding consistency! Your current rating is ${rating}. Your speed and mental soroban visualization are sharp. Keep pushing higher rated ranks!`;
-            } else if (refreshPenalties >= 2) {
-                mainDiagnosis = `<strong>Rating Leak Detected: Tab Refresh Penalties!</strong> You have ${refreshPenalties} games penalized for refreshing or closing the tab during active calculation streams. This violates Fair Play guidelines and cost you Elo points. Since your current rating is <strong>${rating}</strong>, avoiding tab exits will easily allow you to increase your rating!`;
-                overallSpokenText = `Rating leak detected! You have lost points from tab refreshes. Leaving mid-game violates Fair Play rules. Since your current rating is ${rating}, avoiding tab exits will easily boost your rating!`;
-            } else if (timeLosses > arithmeticErrors) {
-                mainDiagnosis = `<strong>Rating Leak Detected: Time Pressure!</strong> You are calculating accurately, but running out of time before submitting. Since your current rating is <strong>${rating}</strong>, you can easily increase your rating by training in Manual Mode at faster display speeds to eliminate subvocalization!`;
-                overallSpokenText = `Rating leak detected on time pressure! You are calculating accurately but running out of time. Since your current rating is ${rating}, you can easily increase your rating by practicing rhythm in Manual Mode!`;
-            } else {
-                mainDiagnosis = `<strong>Rating Leak Detected: Bead Memory Slips!</strong> You have enough time, but you are miscounting beads or forgetting intermediate totals. Since your current rating is <strong>${rating}</strong>, practicing 5–10 row sets in Manual Mode will easily boost your rating up to the next cutoff!`;
-                overallSpokenText = `Rating leak detected on bead memory slips! You have enough time but are miscounting beads. Since your current rating is ${rating}, practicing in Manual Mode will easily raise your rating to the next cutoff!`;
-            }
-
-            let summaryHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
-                    <div style="font-size: 1.05rem; font-weight: 800; color: #f1c40f;">
-                        <i class="fas fa-chart-pie"></i> Performance Accuracy: ${winRatePercent}% | Your Rating: ${rating}
-                    </div>
-                    <div style="font-size: 0.8rem; color: #9ca3af;">10 Rated Matches Evaluated</div>
-                </div>
-
-                <div class="eval-bar-wrapper">
-                    <div class="eval-bar-fill" style="width: ${winRatePercent}%; background: #10b981;"></div>
-                    <div class="eval-bar-fill" style="width: ${100 - winRatePercent}%; background: #ef4444;"></div>
-                </div>
-
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; text-align: center;">
-                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
-                        <div style="font-size: 0.68rem; color: #9ca3af;">VICTORIES</div>
-                        <div style="font-size: 1.2rem; font-weight: 800; color: #10b981;">${totalWins}</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
-                        <div style="font-size: 0.68rem; color: #9ca3af;">TIME LOSSES</div>
-                        <div style="font-size: 1.2rem; font-weight: 800; color: #f59e0b;">${timeLosses}</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
-                        <div style="font-size: 0.68rem; color: #9ca3af;">BEAD SLIPS</div>
-                        <div style="font-size: 1.2rem; font-weight: 800; color: #ef4444;">${arithmeticErrors}</div>
-                    </div>
-                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
-                        <div style="font-size: 0.68rem; color: #9ca3af;">REFRESH PENALTIES</div>
-                        <div style="font-size: 1.2rem; font-weight: 800; color: #f87171;">${refreshPenalties}</div>
-                    </div>
-                </div>
-
-                <div style="font-size: 0.9rem; line-height: 1.5; color: #d1d5db; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border-left: 4px solid #3b82f6;">
-                    ${mainDiagnosis}
-                </div>
-            `;
-
-            document.getElementById('aiTutorSummaryCard').innerHTML = summaryHTML;
-            document.getElementById('aiTutorGameLogsContainer').innerHTML = gameLogsHTML;
-            
-            updateVoiceMuteUI();
-            renderSandboxReplayStep();
-            document.getElementById('ai-tutor-modal-fullscreen').style.display = 'flex';
-            
-            speakVoiceAnalysisText(overallSpokenText);
-        }
-
-        function selectReplayGame(idx) {
-            selectedReplayGameIndex = idx;
-            selectedReplayStepIndex = 0;
-            renderAITutorReportModal();
-        }
-
-        function navigateReplayStep(direction) {
-            let game = historyGames[selectedReplayGameIndex];
-            if (!game || !game.seq) return;
-            selectedReplayStepIndex = Math.max(0, Math.min(game.seq.length, selectedReplayStepIndex + direction));
-            renderSandboxReplayStep();
-        }
-
-        function renderSandboxReplayStep() {
-            let container = document.getElementById('sandboxReplayView');
-            let game = historyGames[selectedReplayGameIndex];
-
-            if (!game || !game.seq) {
-                container.innerHTML = `<div style="color:#9ca3af;">No step sequence recorded for this match.</div>`;
-                return;
-            }
-
-            let seq = game.seq;
-            let currentStep = selectedReplayStepIndex;
-            let isFinalStep = (currentStep === seq.length);
-
-            let runningSum = seq.slice(0, currentStep).reduce((a, b) => a + b, 0);
-
-            let HTML = `
-                <div style="font-size:0.8rem; color:#9ca3af; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">
-                    Step ${currentStep} of ${seq.length}
-                </div>
-            `;
-
-            if (!isFinalStep) {
-                HTML += `
-                    <div style="font-size: 3.5rem; font-weight: 900; color: #38bdf8; margin: 10px 0;">
-                        +${seq[currentStep]}
-                    </div>
-                    <div style="font-size: 0.9rem; color: #9ca3af;">Expected Running Subtotal: <strong style="color:#fff;">${runningSum}</strong></div>
-                `;
-            } else {
-                let userAnsText = game.userVal !== undefined && game.userVal !== null ? game.userVal : "Timeout / Tab Exit";
-                let actualSum = seq.reduce((a, b) => a + b, 0);
-                let isCorrect = game.correct;
-
-                HTML += `
-                    <div style="font-size: 1.1rem; color: #f3f4f6; margin-bottom: 10px; font-weight:700;">Final Sequence Compilation</div>
-                    <div style="font-size: 2.2rem; font-weight: 800; color: ${isCorrect ? '#10b981' : '#ef4444'};">
-                        Your Input: ${userAnsText}
-                    </div>
-                    <div style="font-size: 0.95rem; color: #9ca3af; margin-top: 5px;">
-                        Actual Correct Sum: <strong style="color:#10b981;">${actualSum}</strong>
-                    </div>
-                `;
-            }
-
-            container.innerHTML = HTML;
-        }
-
-        function closeAITutorModal() {
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-            document.getElementById('ai-tutor-modal-fullscreen').style.display = 'none';
-        }
-
-        function processLevelCheckInputEval() {
-            let val = document.getElementById('levelCheckInput').value.trim();
-            let res = document.getElementById('levelCheckResult');
-            
-            if (val === "") { res.style.display = "none"; return; }
-            res.style.display = "block";
-
-            let num = parseInt(val);
-            if (isNaN(num) || !/^\d+$/.test(val)) {
-                res.innerHTML = "⚠️ This is not a valid score configuration! Please specify numeric integers within structural bounds.";
-                return;
-            }
-
-            if (num < 1200) {
-                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Great job starting out! This rating shows you are laying down the fundamentals. Keep pushing to break past the baseline boundaries.`;
-            } else if (num < 1250) {
-                res.innerHTML = `⚡ **Rating Level: 1200+ Cutoff**<br>Wow! You're now able to do **1 digit, 2 rows at 1.0s display timing**, that's good! You are stepping out of the absolute beginner tier.`;
-            } else if (num < 1300) {
-                res.innerHTML = `⚡ **Rating Level: 1250+ Cutoff**<br>Awesome pacing! You're successfully processing structural calculation frames. You're emerging as a solid rookie track player.`;
-            } else if (num < 1350) {
-                res.innerHTML = `🚀 **Rating Level: 1300+ Cutoff**<br>This rating is so awesome! You have stable visual recognition filters for basic integer streams.`;
-            } else if (num < 1400) {
-                res.innerHTML = `🚀 **Rating Level: 1350+ Cutoff**<br>Excellent stability! You are narrowing the tracking gap and demonstrating clean computational velocity accuracy.`;
-            } else if (num < 1450) {
-                res.innerHTML = `🔥 **Rating Level: 1400+ Cutoff**<br>Incredible focus! You are steadily approaching advanced category thresholds. Keep tracking those matrix metrics!`;
-            } else if (num < 1500) {
-                res.innerHTML = `🔥 **Rating Level: 1450+ Cutoff**<br>Outstanding progress! You have completely optimized the basic setup and are ready for massive tracking matrix jumps.`;
-            } else if (num < 1550) {
-                res.innerHTML = `✨ **Rating Level: 1500+ Cutoff**<br>Wow! You're now able to do **1 digit, 5 rows at 1.0s display timing**, that's good! You are officially an active Intermediate calculation competitor.`;
-            } else if (num < 1600) {
-                res.innerHTML = `✨ **Rating Level: 1550+ Cutoff**<br>Great consistency! You are managing a deeper depth of memory frames with excellent numeric compilation accuracy.`;
-            } else if (num < 1650) {
-                res.innerHTML = `🌟 **Rating Level: 1600+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 1.0s display timing**, that's good! You're a highly proficient visualizer.`;
-            } else if (num < 1700) {
-                res.innerHTML = `🌟 **Rating Level: 1650+ Cutoff**<br>Brilliant speed controls! Your cognitive recovery timeline across 10-row segments is sharp.`;
-            } else if (num < 1750) {
-                res.innerHTML = `🏆 **Rating Level: 1700+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 0.75s display timing**, that's good! You've officially entered Expert status.`;
-            } else if (num < 1800) {
-                res.innerHTML = `🏆 **Rating Level: 1750+ Cutoff**<br>Superb metrics! You are processing items faster than baseline human clock cycles. Truly impressive tracking!`;
-            } else if (num < 1850) {
-                res.innerHTML = `💎 **Rating Level: 1800+ Cutoff**<br>Wow! You're now able to do **1 digit, 15 rows at 0.70s display timing**, that's good! You are navigating the advanced execution zones seamlessly.`;
-            } else if (num < 1900) {
-                res.innerHTML = `💎 **Rating Level: 1850+ Cutoff**<br>Stunning execution parameters! You are maintaining total operational composure inside deep flash calibration matrices.`;
-            } else if (num < 1950) {
-                res.innerHTML = `⚡ **Rating Level: 1900+ Cutoff**<br>Wow! You're now able to do **2 digits, 5 rows at 1.0s display timing**, that's good! You've broken past the multi-digit sorting layer barrier.`;
-            } else if (num < 2000) {
-                res.innerHTML = `⚡ **Rating Level: 1950+ Cutoff**<br>Spectacular expansion skills! Multi-digit stacking requires high concentration, and you are handling it expertly.`;
-            } else if (num < 2050) {
-                res.innerHTML = `👑 **Rating Level: 2000+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 1.2s display timing**, that's good! You are officially a Candidate Master track competitor.`;
-            } else if (num < 2100) {
-                res.innerHTML = `👑 **Rating Level: 2050+ Cutoff**<br>Incredible spatial awareness! Stacking 10 consecutive double-digit variables requires elite working memory block usage.`;
-            } else if (num < 2150) {
-                res.innerHTML = `🌟 **Rating Level: 2100+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 0.95s display timing**, that's good! Sub-second double-digit arithmetic tracking is world-class.`;
-            } else if (num < 2200) {
-                res.innerHTML = `🌟 **Rating Level: 2150+ Cutoff**<br>This rating is so awesome! You are generating math calculations with near-instantaneous accuracy.`;
-            } else if (num < 2250) {
-                res.innerHTML = `🔥 **Rating Level: 2200+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 1.0s display timing**, that's good! Master levels are opening up to you.`;
-            } else if (num < 2300) {
-                res.innerHTML = `🔥 **Rating Level: 2250+ Cutoff**<br>Phenomenal processing capacity! You stand right at the doorstep of permanent platform titled recognition tags.`;
-            } else if (num < 2350) {
-                res.innerHTML = `✨ **Rating Level: 2300+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.75s display timing**, that's good! You are officially an **Abacus Arena Master (AAM)** titled player!`;
-            } else if (num < 2400) {
-                res.innerHTML = `✨ **Rating Level: 2350+ Cutoff**<br>Sensational visual processing! Your multi-digit chronometer speed calculations are elite.`;
-            } else if (num < 2450) {
-                res.innerHTML = `🎯 **Rating Level: 2400+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.70s display timing**, that's good! You are outpacing elite computer frameworks.`;
-            } else if (num < 2500) {
-                res.innerHTML = `🎯 **Rating Level: 2450+ Cutoff**<br>Breathtaking speed limits! You are executing cognitive arithmetic calculations perfectly.`;
-            } else if (num < 2550) {
-                res.innerHTML = `👑 **Rating Level: 2500+ Cutoff**<br>Wow! You're now able to do **3 digits, 5 rows at 1.0s display timing**, that's good! You have crossed into the legendary 3-Digit execution realm!`;
-            } else if (num < 2600) {
-                res.innerHTML = `👑 **Rating Level: 2550+ Cutoff**<br>This rating is so awesome! Triple-digit mental manipulation sets you apart as a certified calculator prodigy.`;
-            } else if (num < 2650) {
-                res.innerHTML = `🚀 **Rating Level: 2600+ Cutoff**<br>Wow! You're now able to do **3 digits, 7 rows at 1.0s display timing**, that's good! You are tracking deep visual space fields easily.`;
-            } else if (num < 2700) {
-                res.innerHTML = `🚀 **Rating Level: 2650+ Cutoff**<br>Stellar metrics capacity! The speed and structural complexity of your arithmetic choices are legendary.`;
-            } else if (num < 2750) {
-                res.innerHTML = `💎 **Rating Level: 2700+ Cutoff**<br>Wow! You're now able to do **3 digits, 10 rows at 1.0s display timing**, that's good! You're a relentless grandmaster track visualizer.`;
-            } else if (num < 2800) {
-                res.innerHTML = `💎 **Rating Level: 2750+ Cutoff**<br>Magnificent! You have mastered 3-digit tracking limits and stand ready to break absolute limits.`;
-            } else if (num < 2850) {
-                res.innerHTML = `🌟 **Rating Level: 2800+ Cutoff**<br>Wow! You're now able to do **4 digits, 5 rows at 0.95s display timing**, that's good! You are officially an **Elite Player** status legend!`;
-            } else if (num < 2950) {
-                res.innerHTML = `🌟 **Rating Level: 2900+ Cutoff**<br>Wow! You're now able to do **4 digits, 7 rows at 0.90s display timing**, that's good! An absolutely terrifying display of mental power.`;
-            } else if (num < 3050) {
-                res.innerHTML = `🏆 **Rating Level: 3000+ Cutoff**<br>Wow! You're now able to do **4 digits, 10 rows at 0.85s display timing**, that's good! Absolute cognitive ascendancy reached.`;
-            } else if (num < 3200) {
-                res.innerHTML = `🏆 **Rating Level: 3100+ Cutoff**<br>Wow! You're now able to do **4 digits, 15 rows at 0.80s display timing**, that's good! Complete tracking mastery over immense arithmetic sets.`;
-            } else if (num < 3500) {
-                res.innerHTML = `👑 **Rating Level: 3200+ Cutoff**<br>Wow! You are fully **Tournament Ready** for professional worldwide arithmetic challenges!`;
-            } else if (num < 4000) {
-                res.innerHTML = `🔥 **Rating Level: 3500+ Cutoff**<br>Wow! You operate at speeds that match high-performance microchips.`;
-            } else if (num < 5200) {
-                res.innerHTML = `⚡ **Rating Level: 4000+ Cutoff**<br>Wow! You have transformed into a biological math engine entity.`;
-            } else {
-                res.innerHTML = `🚀 **Rating Level: 5200+ Ultimate Ascendant Deity Threshold**<br>Wow! Absolute maximum system capability achieved. Incredible!`;
-            }
-        }
-
-        function syncDropdownToGranularInputs() {
-            document.getElementById('manual-input-digits').value = document.getElementById('sel-digits').value;
-            document.getElementById('manual-input-rows').value = document.getElementById('sel-rows').value;
-            document.getElementById('manual-input-time').value = (parseFloat(document.getElementById('sel-time').value) / 1000).toFixed(3);
-            validateGranularParameters(false);
-        }
-
-        function validateGranularParameters(triggerVisualFlash = true) {
-            let digitsInp = document.getElementById('manual-input-digits');
-            let rowsInp = document.getElementById('manual-input-rows');
-            let timeInp = document.getElementById('manual-input-time');
-            let alertMessage = document.getElementById('rangeErrorHint');
-
-            let dVal = parseInt(digitsInp.value);
-            let rVal = parseInt(rowsInp.value);
-            let tVal = parseFloat(timeInp.value);
-            let ruleTriggered = false;
-
-            if (!isNaN(dVal)) {
-                if (dVal < 1) { dVal = 1; ruleTriggered = true; }
-                if (dVal > 5) { dVal = 5; ruleTriggered = true; }
-                digitsInp.value = dVal;
-            }
-            if (!isNaN(rVal)) {
-                if (rVal < 2) { rVal = 2; ruleTriggered = true; }
-                if (rVal > 100) { rVal = 100; ruleTriggered = true; }
-                rowsInp.value = rVal;
-            }
-            if (!isNaN(tVal)) {
-                if (tVal < 0.25) { tVal = 0.25; ruleTriggered = true; }
-                if (tVal > 5.0) { tVal = 5.0; ruleTriggered = true; }
-                timeInp.value = tVal.toFixed(3);
-            }
-
-            if (ruleTriggered) {
-                alertMessage.style.display = "block";
-                setTimeout(() => { alertMessage.style.display = "none"; }, 2500);
-            }
-
-            if (!isNaN(dVal) && dVal >= 1 && dVal <= 5) manualDigits = dVal;
-            if (!isNaN(rVal) && rVal >= 2 && rVal <= 100) manualRows = rVal;
-            if (!isNaN(tVal) && tVal >= 0.25 && tVal <= 5.0) manualTime = Math.round(tVal * 1000);
-
-            if (document.getElementById('sel-digits').querySelector(`option[value="${manualDigits}"]`)) {
-                document.getElementById('sel-digits').value = manualDigits;
-            }
-            if (document.getElementById('sel-rows').querySelector(`option[value="${manualRows}"]`)) {
-                document.getElementById('sel-rows').value = manualRows;
-            }
-            let matchingTimeStr = (manualTime).toString();
-            if (document.getElementById('sel-time').querySelector(`option[value="${matchingTimeStr}"]`)) {
-                document.getElementById('sel-time').value = matchingTimeStr;
-            }
-
-            updateDifficultyDisplay();
-
-            if (triggerVisualFlash && appOperationalContext === 'manual') {
-                let badge = document.getElementById('premiumNotificationBadge');
-                badge.innerText = `UPDATED: ${manualDigits}D | ${manualRows}R | ${(manualTime / 1000).toFixed(3)}s`;
-                badge.classList.add('trigger-flash');
-                setTimeout(() => { badge.classList.remove('trigger-flash'); }, 1000);
-            }
-        }
-
-        function openAestheticsStudio() {
-            if (gameInProgress) return;
-            updateCustomControlsUI();
-            updateTypographyStyles();
-            startInteractivePreviewCycledLoop();
-            document.getElementById('aesthetics-studio-screen').style.display = 'flex';
-        }
-        function closeAestheticsStudio() {
-            if (previewCycleIntervalId) clearInterval(previewCycleIntervalId);
-            document.getElementById('aesthetics-studio-screen').style.display = 'none';
-        }
-
-        function openHistoryWithAnimation() {
-            if (gameInProgress) return;
-            showLoading();
-            setTimeout(() => { renderHistoryModal(); hideLoading(); document.getElementById('history-fullscreen').style.display = 'flex'; }, 2000);
-        }
-        
-        function renderHistoryModal() {
-            let container = document.getElementById('historyListModal');
-            if (!historyGames.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text);">— No games yet —</div>'; return; }
-            container.innerHTML = historyGames.slice(0,5).map(g => `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status ${g.correct ? 'correct' : 'wrong'}">${g.correct ? '✓' : '0'}</span></div>`).join('');
-        }
-        function closeHistoryFullscreen() { document.getElementById('history-fullscreen').style.display = 'none'; }
-        
-        function openFlairFullscreen() { generateFlairGridFull(); document.getElementById('flair-fullscreen').style.display = 'flex'; }
-        function closeFlairFullscreen() { document.getElementById('flair-fullscreen').style.display = 'none'; }
-        
-        function generateFlairGridFull() { 
-            let grid = document.getElementById('flairGridFull'); grid.innerHTML = ''; 
-            allFlairs.forEach(f => { 
-                let div = document.createElement('div'); div.className = 'flair-item'; 
-                if(f === selectedFlair) div.classList.add('selected'); 
-                div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span style="font-size:1.5rem;">${f}</span>`;
-                div.onclick = () => selectFlairWithAnimation(div, f); 
-                grid.appendChild(div); 
-            }); 
-        }
-        
-        function selectFlairWithAnimation(element, flair) {
-            if (element.classList.contains('loading')) return;
-            element.classList.add('loading'); element.querySelector('.loading-spinner').style.display = 'block';
-            setTimeout(() => {
-                element.querySelector('.loading-spinner').style.display = 'none';
-                selectedFlair = flair; localStorage.setItem('selected-flair', selectedFlair);
-                updateProfileFullscreen(); updateMainDisplay();
-                element.querySelector('.check-mark').style.display = 'block';
-                setTimeout(() => {
-                    element.querySelector('.check-mark').style.display = 'none'; element.classList.remove('loading');
-                    closeFlairFullscreen(); generateFlairGridFull();
-                }, 800);
-            }, 800);
-        }
-        
         function updateProfileFullscreen() { 
             document.getElementById('profileRatingLarge').innerText = rating; 
             document.getElementById('profileUsername').innerText = username; 
@@ -2886,7 +2322,6 @@
         let currentActiveLayer = 1, themeCycleIndex = 0;
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-        // RATED HISTORY ONLY LOGGING
         function addHistory(questionStr, isCorrect, seqArray = [], userVal = null, isTimeout = false, isInterrupted = false, isRefreshPenalty = false) { 
             let entry = { 
                 q: questionStr, 
@@ -3271,7 +2706,6 @@
             actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             actionBtn.onclick = startMatchmakingSequence;
             
-            // SHOW REQUEST COMPUTER ANALYSIS BUTTON BELOW NEW SESSION
             document.getElementById('mainReqAnalysisBtn').style.display = 'flex';
 
             let userCorrect = (userVal === actualSum);
@@ -3376,7 +2810,551 @@
         
         document.getElementById('user-ans').disabled = true;
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
-let founderSequenceTimeouts = [];
+
+        // =========================================================
+        // FAQ TOGGLE
+        // =========================================================
+        function toggleFaq(headerElement) {
+            const answer = headerElement.nextElementSibling;
+            const arrow = headerElement.querySelector('.arrow');
+            if (answer.classList.contains('open')) {
+                answer.classList.remove('open');
+                arrow.classList.remove('open');
+            } else {
+                answer.classList.add('open');
+                arrow.classList.add('open');
+            }
+        }
+
+        // =========================================================
+        // OPEN HISTORY
+        // =========================================================
+        function openHistoryWithAnimation() {
+            if (gameInProgress) return;
+            showLoading();
+            setTimeout(() => { renderHistoryModal(); hideLoading(); document.getElementById('history-fullscreen').style.display = 'flex'; }, 2000);
+        }
+        
+        function renderHistoryModal() {
+            let container = document.getElementById('historyListModal');
+            if (!historyGames.length) { container.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text);">— No games yet —</div>'; return; }
+            container.innerHTML = historyGames.slice(0,5).map(g => `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status ${g.correct ? 'correct' : 'wrong'}">${g.correct ? '✓' : '0'}</span></div>`).join('');
+        }
+        function closeHistoryFullscreen() { document.getElementById('history-fullscreen').style.display = 'none'; }
+        
+        function openFlairFullscreen() { generateFlairGridFull(); document.getElementById('flair-fullscreen').style.display = 'flex'; }
+        function closeFlairFullscreen() { document.getElementById('flair-fullscreen').style.display = 'none'; }
+        
+        function generateFlairGridFull() { 
+            let grid = document.getElementById('flairGridFull'); grid.innerHTML = ''; 
+            allFlairs.forEach(f => { 
+                let div = document.createElement('div'); div.className = 'flair-item'; 
+                if(f === selectedFlair) div.classList.add('selected'); 
+                div.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div><div class="check-mark"><i class="fas fa-check-circle"></i></div><span style="font-size:1.5rem;">${f}</span>`;
+                div.onclick = () => selectFlairWithAnimation(div, f); 
+                grid.appendChild(div); 
+            }); 
+        }
+        
+        function selectFlairWithAnimation(element, flair) {
+            if (element.classList.contains('loading')) return;
+            element.classList.add('loading'); element.querySelector('.loading-spinner').style.display = 'block';
+            setTimeout(() => {
+                element.querySelector('.loading-spinner').style.display = 'none';
+                selectedFlair = flair; localStorage.setItem('selected-flair', selectedFlair);
+                updateProfileFullscreen(); updateMainDisplay();
+                element.querySelector('.check-mark').style.display = 'block';
+                setTimeout(() => {
+                    element.querySelector('.check-mark').style.display = 'none'; element.classList.remove('loading');
+                    closeFlairFullscreen(); generateFlairGridFull();
+                }, 800);
+            }, 800);
+        }
+        
+        function openAestheticsStudio() {
+            if (gameInProgress) return;
+            updateCustomControlsUI();
+            updateTypographyStyles();
+            startInteractivePreviewCycledLoop();
+            document.getElementById('aesthetics-studio-screen').style.display = 'flex';
+        }
+        function closeAestheticsStudio() {
+            if (previewCycleIntervalId) clearInterval(previewCycleIntervalId);
+            document.getElementById('aesthetics-studio-screen').style.display = 'none';
+        }
+
+        function syncDropdownToGranularInputs() {
+            document.getElementById('manual-input-digits').value = document.getElementById('sel-digits').value;
+            document.getElementById('manual-input-rows').value = document.getElementById('sel-rows').value;
+            document.getElementById('manual-input-time').value = (parseFloat(document.getElementById('sel-time').value) / 1000).toFixed(3);
+            validateGranularParameters(false);
+        }
+
+        function validateGranularParameters(triggerVisualFlash = true) {
+            let digitsInp = document.getElementById('manual-input-digits');
+            let rowsInp = document.getElementById('manual-input-rows');
+            let timeInp = document.getElementById('manual-input-time');
+            let alertMessage = document.getElementById('rangeErrorHint');
+
+            let dVal = parseInt(digitsInp.value);
+            let rVal = parseInt(rowsInp.value);
+            let tVal = parseFloat(timeInp.value);
+            let ruleTriggered = false;
+
+            if (!isNaN(dVal)) {
+                if (dVal < 1) { dVal = 1; ruleTriggered = true; }
+                if (dVal > 5) { dVal = 5; ruleTriggered = true; }
+                digitsInp.value = dVal;
+            }
+            if (!isNaN(rVal)) {
+                if (rVal < 2) { rVal = 2; ruleTriggered = true; }
+                if (rVal > 100) { rVal = 100; ruleTriggered = true; }
+                rowsInp.value = rVal;
+            }
+            if (!isNaN(tVal)) {
+                if (tVal < 0.25) { tVal = 0.25; ruleTriggered = true; }
+                if (tVal > 5.0) { tVal = 5.0; ruleTriggered = true; }
+                timeInp.value = tVal.toFixed(3);
+            }
+
+            if (ruleTriggered) {
+                alertMessage.style.display = "block";
+                setTimeout(() => { alertMessage.style.display = "none"; }, 2500);
+            }
+
+            if (!isNaN(dVal) && dVal >= 1 && dVal <= 5) manualDigits = dVal;
+            if (!isNaN(rVal) && rVal >= 2 && rVal <= 100) manualRows = rVal;
+            if (!isNaN(tVal) && tVal >= 0.25 && tVal <= 5.0) manualTime = Math.round(tVal * 1000);
+
+            if (document.getElementById('sel-digits').querySelector(`option[value="${manualDigits}"]`)) {
+                document.getElementById('sel-digits').value = manualDigits;
+            }
+            if (document.getElementById('sel-rows').querySelector(`option[value="${manualRows}"]`)) {
+                document.getElementById('sel-rows').value = manualRows;
+            }
+            let matchingTimeStr = (manualTime).toString();
+            if (document.getElementById('sel-time').querySelector(`option[value="${matchingTimeStr}"]`)) {
+                document.getElementById('sel-time').value = matchingTimeStr;
+            }
+
+            updateDifficultyDisplay();
+
+            if (triggerVisualFlash && appOperationalContext === 'manual') {
+                let badge = document.getElementById('premiumNotificationBadge');
+                badge.innerText = `UPDATED: ${manualDigits}D | ${manualRows}R | ${(manualTime / 1000).toFixed(3)}s`;
+                badge.classList.add('trigger-flash');
+                setTimeout(() => { badge.classList.remove('trigger-flash'); }, 1000);
+            }
+        }
+
+        function processLevelCheckInputEval() {
+            let val = document.getElementById('levelCheckInput').value.trim();
+            let res = document.getElementById('levelCheckResult');
+            
+            if (val === "") { res.style.display = "none"; return; }
+            res.style.display = "block";
+
+            let num = parseInt(val);
+            if (isNaN(num) || !/^\d+$/.test(val)) {
+                res.innerHTML = "⚠️ This is not a valid score configuration! Please specify numeric integers within structural bounds.";
+                return;
+            }
+
+            if (num < 1200) {
+                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Great job starting out! This rating shows you are laying down the fundamentals. Keep pushing to break past the baseline boundaries.`;
+            } else if (num < 1250) {
+                res.innerHTML = `⚡ **Rating Level: 1200+ Cutoff**<br>Wow! You're now able to do **1 digit, 2 rows at 1.0s display timing**, that's good! You are stepping out of the absolute beginner tier.`;
+            } else if (num < 1300) {
+                res.innerHTML = `⚡ **Rating Level: 1250+ Cutoff**<br>Awesome pacing! You're successfully processing structural calculation frames. You're emerging as a solid rookie track player.`;
+            } else if (num < 1350) {
+                res.innerHTML = `🚀 **Rating Level: 1300+ Cutoff**<br>This rating is so awesome! You have stable visual recognition filters for basic integer streams.`;
+            } else if (num < 1400) {
+                res.innerHTML = `🚀 **Rating Level: 1350+ Cutoff**<br>Excellent stability! You are narrowing the tracking gap and demonstrating clean computational velocity accuracy.`;
+            } else if (num < 1450) {
+                res.innerHTML = `🔥 **Rating Level: 1400+ Cutoff**<br>Incredible focus! You are steadily approaching advanced category thresholds. Keep tracking those matrix metrics!`;
+            } else if (num < 1500) {
+                res.innerHTML = `🔥 **Rating Level: 1450+ Cutoff**<br>Outstanding progress! You have completely optimized the basic setup and are ready for massive tracking matrix jumps.`;
+            } else if (num < 1550) {
+                res.innerHTML = `✨ **Rating Level: 1500+ Cutoff**<br>Wow! You're now able to do **1 digit, 5 rows at 1.0s display timing**, that's good! You are officially an active Intermediate calculation competitor.`;
+            } else if (num < 1600) {
+                res.innerHTML = `✨ **Rating Level: 1550+ Cutoff**<br>Great consistency! You are managing a deeper depth of memory frames with excellent numeric compilation accuracy.`;
+            } else if (num < 1650) {
+                res.innerHTML = `🌟 **Rating Level: 1600+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 1.0s display timing**, that's good! You're a highly proficient visualizer.`;
+            } else if (num < 1700) {
+                res.innerHTML = `🌟 **Rating Level: 1650+ Cutoff**<br>Brilliant speed controls! Your cognitive recovery timeline across 10-row segments is sharp.`;
+            } else if (num < 1750) {
+                res.innerHTML = `🏆 **Rating Level: 1700+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 0.75s display timing**, that's good! You've officially entered Expert status.`;
+            } else if (num < 1800) {
+                res.innerHTML = `🏆 **Rating Level: 1750+ Cutoff**<br>Superb metrics! You are processing items faster than baseline human clock cycles. Truly impressive tracking!`;
+            } else if (num < 1850) {
+                res.innerHTML = `💎 **Rating Level: 1800+ Cutoff**<br>Wow! You're now able to do **1 digit, 15 rows at 0.70s display timing**, that's good! You are navigating the advanced execution zones seamlessly.`;
+            } else if (num < 1900) {
+                res.innerHTML = `💎 **Rating Level: 1850+ Cutoff**<br>Stunning execution parameters! You are maintaining total operational composure inside deep flash calibration matrices.`;
+            } else if (num < 1950) {
+                res.innerHTML = `⚡ **Rating Level: 1900+ Cutoff**<br>Wow! You're now able to do **2 digits, 5 rows at 1.0s display timing**, that's good! You've broken past the multi-digit sorting layer barrier.`;
+            } else if (num < 2000) {
+                res.innerHTML = `⚡ **Rating Level: 1950+ Cutoff**<br>Spectacular expansion skills! Multi-digit stacking requires high concentration, and you are handling it expertly.`;
+            } else if (num < 2050) {
+                res.innerHTML = `👑 **Rating Level: 2000+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 1.2s display timing**, that's good! You are officially a Candidate Master track competitor.`;
+            } else if (num < 2100) {
+                res.innerHTML = `👑 **Rating Level: 2050+ Cutoff**<br>Incredible spatial awareness! Stacking 10 consecutive double-digit variables requires elite working memory block usage.`;
+            } else if (num < 2150) {
+                res.innerHTML = `🌟 **Rating Level: 2100+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 0.95s display timing**, that's good! Sub-second double-digit arithmetic tracking is world-class.`;
+            } else if (num < 2200) {
+                res.innerHTML = `🌟 **Rating Level: 2150+ Cutoff**<br>This rating is so awesome! You are generating math calculations with near-instantaneous accuracy.`;
+            } else if (num < 2250) {
+                res.innerHTML = `🔥 **Rating Level: 2200+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 1.0s display timing**, that's good! Master levels are opening up to you.`;
+            } else if (num < 2300) {
+                res.innerHTML = `🔥 **Rating Level: 2250+ Cutoff**<br>Phenomenal processing capacity! You stand right at the doorstep of permanent platform titled recognition tags.`;
+            } else if (num < 2350) {
+                res.innerHTML = `✨ **Rating Level: 2300+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.75s display timing**, that's good! You are officially an **Abacus Arena Master (AAM)** titled player!`;
+            } else if (num < 2400) {
+                res.innerHTML = `✨ **Rating Level: 2350+ Cutoff**<br>Sensational visual processing! Your multi-digit chronometer speed calculations are elite.`;
+            } else if (num < 2450) {
+                res.innerHTML = `🎯 **Rating Level: 2400+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.70s display timing**, that's good! You are outpacing elite computer frameworks.`;
+            } else if (num < 2500) {
+                res.innerHTML = `🎯 **Rating Level: 2450+ Cutoff**<br>Breathtaking speed limits! You are executing cognitive arithmetic calculations perfectly.`;
+            } else if (num < 2550) {
+                res.innerHTML = `👑 **Rating Level: 2500+ Cutoff**<br>Wow! You're now able to do **3 digits, 5 rows at 1.0s display timing**, that's good! You have crossed into the legendary 3-Digit execution realm!`;
+            } else if (num < 2600) {
+                res.innerHTML = `👑 **Rating Level: 2550+ Cutoff**<br>This rating is so awesome! Triple-digit mental manipulation sets you apart as a certified calculator prodigy.`;
+            } else if (num < 2650) {
+                res.innerHTML = `🚀 **Rating Level: 2600+ Cutoff**<br>Wow! You're now able to do **3 digits, 7 rows at 1.0s display timing**, that's good! You are tracking deep visual space fields easily.`;
+            } else if (num < 2700) {
+                res.innerHTML = `🚀 **Rating Level: 2650+ Cutoff**<br>Stellar metrics capacity! The speed and structural complexity of your arithmetic choices are legendary.`;
+            } else if (num < 2750) {
+                res.innerHTML = `💎 **Rating Level: 2700+ Cutoff**<br>Wow! You're now able to do **3 digits, 10 rows at 1.0s display timing**, that's good! You're a relentless grandmaster track visualizer.`;
+            } else if (num < 2800) {
+                res.innerHTML = `💎 **Rating Level: 2750+ Cutoff**<br>Magnificent! You have mastered 3-digit tracking limits and stand ready to break absolute limits.`;
+            } else if (num < 2850) {
+                res.innerHTML = `🌟 **Rating Level: 2800+ Cutoff**<br>Wow! You're now able to do **4 digits, 5 rows at 0.95s display timing**, that's good! You are officially an **Elite Player** status legend!`;
+            } else if (num < 2950) {
+                res.innerHTML = `🌟 **Rating Level: 2900+ Cutoff**<br>Wow! You're now able to do **4 digits, 7 rows at 0.90s display timing**, that's good! An absolutely terrifying display of mental power.`;
+            } else if (num < 3050) {
+                res.innerHTML = `🏆 **Rating Level: 3000+ Cutoff**<br>Wow! You're now able to do **4 digits, 10 rows at 0.85s display timing**, that's good! Absolute cognitive ascendancy reached.`;
+            } else if (num < 3200) {
+                res.innerHTML = `🏆 **Rating Level: 3100+ Cutoff**<br>Wow! You're now able to do **4 digits, 15 rows at 0.80s display timing**, that's good! Complete tracking mastery over immense arithmetic sets.`;
+            } else if (num < 3500) {
+                res.innerHTML = `👑 **Rating Level: 3200+ Cutoff**<br>Wow! You are fully **Tournament Ready** for professional worldwide arithmetic challenges!`;
+            } else if (num < 4000) {
+                res.innerHTML = `🔥 **Rating Level: 3500+ Cutoff**<br>Wow! You operate at speeds that match high-performance microchips.`;
+            } else if (num < 5200) {
+                res.innerHTML = `⚡ **Rating Level: 4000+ Cutoff**<br>Wow! You have transformed into a biological math engine entity.`;
+            } else {
+                res.innerHTML = `🚀 **Rating Level: 5200+ Ultimate Ascendant Deity Threshold**<br>Wow! Absolute maximum system capability achieved. Incredible!`;
+            }
+        }
+
+        // TRIGGER COMPUTER ANALYSIS MAIN BOARD CARD
+        function triggerMainBoardComputerAnalysis() {
+            if (!lastCompletedGameDetails) return;
+            
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                let g = lastCompletedGameDetails;
+                let actualSum = g.seq ? g.seq.reduce((a, b) => a + b, 0) : 0;
+                let userValText = g.userVal !== null && g.userVal !== undefined ? g.userVal : "Timeout / Exit";
+                let isWin = g.correct;
+                let isRefresh = g.isInterrupted || g.isRefreshPenalty;
+                let isTimeoutLoss = !isWin && !isRefresh && (g.userTimeMs >= 7000 || g.isTimeout);
+
+                let diffVal = (typeof g.userVal === 'number') ? Math.abs(g.userVal - actualSum) : actualSum;
+                let spokenDiagnostic = generateDynamicTutorCommentary(isWin, isRefresh, isTimeoutLoss);
+
+                let detailMarkup = `
+                    <div style="font-size: 0.95rem; font-weight: 800; color: ${isWin ? '#34d399' : '#f87171'}; margin-bottom: 8px;">
+                        ${isWin ? '✓ Accurate Sequence Compilation' : (isRefresh ? '⚠️ Tab Exit / Refresh Penalty (-25 Elo)' : '✗ Numeric Discrepancy Analysis')}
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; text-align: center;">
+                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Right Answer</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #34d399;">${actualSum}</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Our Answer</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: ${isWin ? '#34d399' : '#f87171'};">${userValText}</div>
+                        </div>
+                        <div style="background: rgba(0,0,0,0.4); padding: 8px; border-radius: 8px;">
+                            <div style="font-size: 0.65rem; color: #9ca3af; text-transform:uppercase;">Difference</div>
+                            <div style="font-size: 1.1rem; font-weight: 800; color: #f59e0b;">${diffVal}</div>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.85rem; line-height: 1.4; color: #e5e7eb; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">
+                        <strong>Diagnostic:</strong> ${spokenDiagnostic}
+                    </div>
+                `;
+
+                let compCard = document.getElementById('mainCompAnalysisCard');
+                let compContent = document.getElementById('mainCompAnalysisContent');
+                compContent.innerHTML = detailMarkup;
+                compCard.style.display = 'block';
+
+                updateVoiceMuteUI();
+                speakVoiceAnalysisText(spokenDiagnostic);
+            }, 800);
+        }
+
+        function generateDynamicTutorCommentary(isWin, isRefreshPenalty, isTimeoutLoss) {
+            const part1WinOptions = [
+                "Great!", "Super!", "Excellent!", "Outstanding!", "Brilliant!", 
+                "Fantastic!", "Phenomenal!", "Impressive!", "Superb!", "Marvelous!", 
+                "Stellar!", "Terrific!", "Splendid!", "Top-tier!", "Extraordinary!"
+            ];
+            const part2WinOptions = [
+                "you calculated with total precision,", "your visual bead execution was spot on,", 
+                "you handled the arithmetic sequence flawlessly,", "your working memory speed was unmatched,", 
+                "you mastered the timing parameters with ease,", "your accuracy under pressure was remarkable,", 
+                "you maintained total focus throughout,", "your speed and rhythm were perfectly balanced,", 
+                "your digit tracking was completely accurate,", "you outpaced the challenge comfortably,", 
+                "your mental calculation flow was seamless,", "you demonstrated superior spatial bead awareness,", 
+                "you processed every row with razor precision,", "your mental soroban speed was phenomenal,", 
+                "you executed the addition matrix effortlessly,"
+            ];
+            const part3WinOptions = [
+                "continue pushing forward to reach higher ranks!", "keep building your winning streak!", 
+                "you are well on your way to claiming new master cutoffs!", "keep training to solidify your grandmaster status!", 
+                "your rating potential is skyrocketing!", "keep this momentum going in your next session!", 
+                "aim even higher in the next difficulty bracket!", "your consistent practice is paying off massively!", 
+                "keep crushing these calculations!", "maintain this elite level of concentration!"
+            ];
+            const part1LossOptions = [
+                "Notice,", "Attention,", "Analysis shows", "Review required:", "Keep your head up,", 
+                "Stay resilient,", "Learning moment:", "Stay sharp,", "Focus point:", "Take note,", 
+                "Correction ahead,", "Don't get discouraged,", "Diagnostic insight:", "Refuse to give up,", "Adjust strategy:"
+            ];
+
+            if (isWin) {
+                let p1 = part1WinOptions[Math.floor(Math.random() * part1WinOptions.length)];
+                let p2 = part2WinOptions[Math.floor(Math.random() * part2WinOptions.length)];
+                let p3 = part3WinOptions[Math.floor(Math.random() * part3WinOptions.length)];
+                return `${p1} ${p2} ${p3}`;
+            }
+
+            let p1 = part1LossOptions[Math.floor(Math.random() * part1LossOptions.length)];
+
+            if (isRefreshPenalty) {
+                return `${p1} leaving or refreshing mid-game causes a direct -25 rating penalty and violates Fair Play rules. Since your current rating is ${rating}, avoiding tab refreshes will easily allow you to increase your rating!`;
+            }
+
+            if (isTimeoutLoss) {
+                return `${p1} you ran out of time before submitting. Since your current rating is ${rating}, you can easily increase your rating by training in Manual Mode at faster speeds to eliminate subvocalization.`;
+            }
+
+            return `${p1} a minor bead carry or single-digit slip occurred. Since your current rating is ${rating}, you can easily increase your rating up to the next cutoff by practicing 5–10 row sets in Manual Mode!`;
+        }
+
+        // REPLAY & AI TUTOR ENGINE
+        function runAITutorAnalysisSequence() {
+            if (historyGames.length < 10) {
+                let remaining = 10 - historyGames.length;
+                alert(`🔒 AI Tutor Locked!\n\nYou have completed ${historyGames.length}/10 rated games. Play ${remaining} more rated match${remaining > 1 ? 'es' : ''} to unlock full AI diagnostic breakdown.`);
+                return;
+            }
+
+            let overlay = document.getElementById('loadingOverlay');
+            let textNode = overlay.querySelector('.loading-text');
+            overlay.style.display = 'flex';
+
+            let phrases = [
+                "🤖 AI tutor is analyzing...",
+                "🔍 Checking for your calculation errors...",
+                "📊 Thinking where you are losing your rating most...",
+                "🧮 Simulating bead movement and time decay..."
+            ];
+
+            let phraseIndex = 0;
+            textNode.innerHTML = `<i class="fas fa-brain"></i> ${phrases[phraseIndex]}`;
+
+            let phraseInterval = setInterval(() => {
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                textNode.innerHTML = `<i class="fas fa-brain"></i> ${phrases[phraseIndex]}`;
+            }, 1200);
+
+            setTimeout(() => {
+                clearInterval(phraseInterval);
+                hideLoading();
+                textNode.innerHTML = `<i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span>`;
+                selectedReplayGameIndex = 0;
+                selectedReplayStepIndex = 0;
+                renderAITutorReportModal();
+            }, 4500);
+        }
+
+        function renderAITutorReportModal() {
+            let recentTen = historyGames.slice(0, 10);
+            let totalWins = 0, totalLosses = 0, timeLosses = 0, arithmeticErrors = 0, refreshPenalties = 0;
+
+            let gameLogsHTML = "";
+
+            recentTen.forEach((g, idx) => {
+                let isWin = g.correct;
+                let isRefresh = g.isInterrupted || g.isRefreshPenalty;
+                if (isWin) totalWins++;
+                else totalLosses++;
+
+                if (isRefresh) refreshPenalties++;
+
+                let isTimeoutLoss = !isWin && !isRefresh && (g.userTimeMs >= 7000 || g.isTimeout);
+                if (!isWin && !isRefresh) {
+                    if (isTimeoutLoss) timeLosses++;
+                    else arithmeticErrors++;
+                }
+
+                let outcomeBadge = isWin 
+                    ? `<span style="color:#10b981; font-weight:800;">✓ PASSED</span>`
+                    : `<span style="color:#ef4444; font-weight:800;">✗ FAILED</span>`;
+
+                let diagnosticTag = isWin 
+                    ? `<span style="font-size:0.8rem; color:#10b981;">Flawless Sequence Execution</span>`
+                    : (isRefresh 
+                        ? `<span style="font-size:0.8rem; color:#f87171;"><i class="fas fa-exclamation-circle"></i> Tab Refresh / Penalty (-25 Elo)</span>`
+                        : (isTimeoutLoss 
+                            ? `<span style="font-size:0.8rem; color:#f59e0b;"><i class="fas fa-clock"></i> Lost on Chronometer Time</span>`
+                            : `<span style="font-size:0.8rem; color:#ef4444;"><i class="fas fa-exclamation-triangle"></i> Digit / Bead Memory Slip</span>`));
+
+                let isSelected = (idx === selectedReplayGameIndex);
+
+                gameLogsHTML += `
+                    <div onclick="selectReplayGame(${idx})" style="background: ${isSelected ? 'rgba(37,99,235,0.25)' : 'rgba(255,255,255,0.03)'}; border: 1px solid ${isSelected ? '#3b82f6' : 'rgba(255,255,255,0.1)'}; padding: 12px 14px; border-radius: 12px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s;">
+                        <div>
+                            <div style="font-weight: 700; font-size: 0.9rem; color:#f3f4f6;">Rated Game #${10 - idx}: <span style="font-family: monospace; color:#38bdf8;">${escapeHtml(g.q)}</span></div>
+                            <div>${diagnosticTag}</div>
+                        </div>
+                        <div>${outcomeBadge}</div>
+                    </div>
+                `;
+            });
+
+            let winRatePercent = Math.round((totalWins / 10) * 100);
+            let mainDiagnosis = "";
+            let overallSpokenText = "";
+
+            if (totalWins >= 8) {
+                mainDiagnosis = `<strong>Outstanding Consistency!</strong> Your current rating is <strong>${rating}</strong>. Your speed and visualization are sharp. Focus on pushing higher rated ranks to keep advancing!`;
+                overallSpokenText = `Outstanding consistency! Your current rating is ${rating}. Your speed and mental soroban visualization are sharp. Keep pushing higher rated ranks!`;
+            } else if (refreshPenalties >= 2) {
+                mainDiagnosis = `<strong>Rating Leak Detected: Tab Refresh Penalties!</strong> You have ${refreshPenalties} games penalized for refreshing or closing the tab during active calculation streams. This violates Fair Play guidelines and cost you Elo points. Since your current rating is <strong>${rating}</strong>, avoiding tab exits will easily allow you to increase your rating!`;
+                overallSpokenText = `Rating leak detected! You have lost points from tab refreshes. Leaving mid-game violates Fair Play rules. Since your current rating is ${rating}, avoiding tab exits will easily boost your rating!`;
+            } else if (timeLosses > arithmeticErrors) {
+                mainDiagnosis = `<strong>Rating Leak Detected: Time Pressure!</strong> You are calculating accurately, but running out of time before submitting. Since your current rating is <strong>${rating}</strong>, you can easily increase your rating by training in Manual Mode at faster display speeds to eliminate subvocalization!`;
+                overallSpokenText = `Rating leak detected on time pressure! You are calculating accurately but running out of time. Since your current rating is ${rating}, you can easily increase your rating by practicing rhythm in Manual Mode!`;
+            } else {
+                mainDiagnosis = `<strong>Rating Leak Detected: Bead Memory Slips!</strong> You have enough time, but you are miscounting beads or forgetting intermediate totals. Since your current rating is <strong>${rating}</strong>, practicing 5–10 row sets in Manual Mode will easily boost your rating up to the next cutoff!`;
+                overallSpokenText = `Rating leak detected on bead memory slips! You have enough time but are miscounting beads. Since your current rating is ${rating}, practicing in Manual Mode will easily raise your rating to the next cutoff!`;
+            }
+
+            let summaryHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+                    <div style="font-size: 1.05rem; font-weight: 800; color: #f1c40f;">
+                        <i class="fas fa-chart-pie"></i> Performance Accuracy: ${winRatePercent}% | Your Rating: ${rating}
+                    </div>
+                    <div style="font-size: 0.8rem; color: #9ca3af;">10 Rated Matches Evaluated</div>
+                </div>
+
+                <div class="eval-bar-wrapper">
+                    <div class="eval-bar-fill" style="width: ${winRatePercent}%; background: #10b981;"></div>
+                    <div class="eval-bar-fill" style="width: ${100 - winRatePercent}%; background: #ef4444;"></div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0; text-align: center;">
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
+                        <div style="font-size: 0.68rem; color: #9ca3af;">VICTORIES</div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: #10b981;">${totalWins}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
+                        <div style="font-size: 0.68rem; color: #9ca3af;">TIME LOSSES</div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: #f59e0b;">${timeLosses}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
+                        <div style="font-size: 0.68rem; color: #9ca3af;">BEAD SLIPS</div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: #ef4444;">${arithmeticErrors}</div>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px;">
+                        <div style="font-size: 0.68rem; color: #9ca3af;">REFRESH PENALTIES</div>
+                        <div style="font-size: 1.2rem; font-weight: 800; color: #f87171;">${refreshPenalties}</div>
+                    </div>
+                </div>
+
+                <div style="font-size: 0.9rem; line-height: 1.5; color: #d1d5db; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border-left: 4px solid #3b82f6;">
+                    ${mainDiagnosis}
+                </div>
+            `;
+
+            document.getElementById('aiTutorSummaryCard').innerHTML = summaryHTML;
+            document.getElementById('aiTutorGameLogsContainer').innerHTML = gameLogsHTML;
+            
+            updateVoiceMuteUI();
+            renderSandboxReplayStep();
+            document.getElementById('ai-tutor-modal-fullscreen').style.display = 'flex';
+            
+            speakVoiceAnalysisText(overallSpokenText);
+        }
+
+        function selectReplayGame(idx) {
+            selectedReplayGameIndex = idx;
+            selectedReplayStepIndex = 0;
+            renderAITutorReportModal();
+        }
+
+        function navigateReplayStep(direction) {
+            let game = historyGames[selectedReplayGameIndex];
+            if (!game || !game.seq) return;
+            selectedReplayStepIndex = Math.max(0, Math.min(game.seq.length, selectedReplayStepIndex + direction));
+            renderSandboxReplayStep();
+        }
+
+        function renderSandboxReplayStep() {
+            let container = document.getElementById('sandboxReplayView');
+            let game = historyGames[selectedReplayGameIndex];
+
+            if (!game || !game.seq) {
+                container.innerHTML = `<div style="color:#9ca3af;">No step sequence recorded for this match.</div>`;
+                return;
+            }
+
+            let seq = game.seq;
+            let currentStep = selectedReplayStepIndex;
+            let isFinalStep = (currentStep === seq.length);
+
+            let runningSum = seq.slice(0, currentStep).reduce((a, b) => a + b, 0);
+
+            let HTML = `
+                <div style="font-size:0.8rem; color:#9ca3af; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">
+                    Step ${currentStep} of ${seq.length}
+                </div>
+            `;
+
+            if (!isFinalStep) {
+                HTML += `
+                    <div style="font-size: 3.5rem; font-weight: 900; color: #38bdf8; margin: 10px 0;">
+                        +${seq[currentStep]}
+                    </div>
+                    <div style="font-size: 0.9rem; color: #9ca3af;">Expected Running Subtotal: <strong style="color:#fff;">${runningSum}</strong></div>
+                `;
+            } else {
+                let userAnsText = game.userVal !== undefined && game.userVal !== null ? game.userVal : "Timeout / Tab Exit";
+                let actualSum = seq.reduce((a, b) => a + b, 0);
+                let isCorrect = game.correct;
+
+                HTML += `
+                    <div style="font-size: 1.1rem; color: #f3f4f6; margin-bottom: 10px; font-weight:700;">Final Sequence Compilation</div>
+                    <div style="font-size: 2.2rem; font-weight: 800; color: ${isCorrect ? '#10b981' : '#ef4444'};">
+                        Your Input: ${userAnsText}
+                    </div>
+                    <div style="font-size: 0.95rem; color: #9ca3af; margin-top: 5px;">
+                        Actual Correct Sum: <strong style="color:#10b981;">${actualSum}</strong>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = HTML;
+        }
+
+        function closeAITutorModal() {
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            document.getElementById('ai-tutor-modal-fullscreen').style.display = 'none';
+        }
 
         // =========================================================================
         // 🎵 SMOOTH BACKGROUND MUSIC ENGINE (Copyright-Free Arpeggio Synth)
@@ -3393,15 +3371,12 @@ let founderSequenceTimeouts = [];
             storyAudioGainNode = audioCtx.createGain();
             storyAudioGainNode.connect(audioCtx.destination);
 
-            // Smooth 2-second Fade-In
             storyAudioGainNode.gain.setValueAtTime(0.0001, audioCtx.currentTime);
             storyAudioGainNode.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 2);
 
-            // Pentatonic scale notes (C4, E4, G4, A4, C5, D5, E5)
             const scale = [261.63, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
             let noteIndex = 0;
 
-            // Plays a soft pluck every 400ms (gentle music box pattern)
             storyMelodyInterval = setInterval(() => {
                 if (!storyAudioGainNode) return;
 
@@ -3447,16 +3422,14 @@ let founderSequenceTimeouts = [];
             }
         }
 
-        // =========================================================================
-        // 🚀 FOUNDER STORY SEQUENCE LAUNCHER & CLOSER
-        // =========================================================================
+        let founderSequenceTimeouts = [];
+
         function launchFounderStorySequence() {
             if (gameInProgress) return;
             
             founderSequenceTimeouts.forEach(t => clearTimeout(t));
             founderSequenceTimeouts = [];
 
-            // 🎵 Starts gentle music with 2s fade-in
             startCreatorStoryAudio();
 
             const overlay = document.getElementById('founder-story-modal');
@@ -3466,7 +3439,6 @@ let founderSequenceTimeouts = [];
                 s.classList.remove('active-screen', 'show-screen');
             });
 
-            // SCREEN 1: Word-by-Word Intro Animation (3.0s total)
             const screen1 = document.getElementById('founder-screen-1');
             screen1.classList.add('active-screen');
             setTimeout(() => screen1.classList.add('show-screen'), 50);
@@ -3496,37 +3468,31 @@ let founderSequenceTimeouts = [];
                 founderSequenceTimeouts.push(t);
             });
 
-            // SCREEN 2: Inspired by Lichess.org (At 3.5s - Displays for 5.5s)
             let t2 = setTimeout(() => {
                 transitionFounderScreens('founder-screen-1', 'founder-screen-2');
             }, 3500);
             founderSequenceTimeouts.push(t2);
 
-            // SCREEN 3: About Founder Aswin (At 9.0s - Displays for 7.0s)
             let t3 = setTimeout(() => {
                 transitionFounderScreens('founder-screen-2', 'founder-screen-3');
             }, 9000);
             founderSequenceTimeouts.push(t3);
 
-            // SCREEN 4: About Friend Sreejeeth (At 16.0s - Displays for 7.0s)
             let t4 = setTimeout(() => {
                 transitionFounderScreens('founder-screen-3', 'founder-screen-4');
             }, 16000);
             founderSequenceTimeouts.push(t4);
 
-            // SCREEN 5: Non-profit Philosophy (At 23.0s - Displays for 6.0s)
             let t5 = setTimeout(() => {
                 transitionFounderScreens('founder-screen-4', 'founder-screen-5');
             }, 23000);
             founderSequenceTimeouts.push(t5);
 
-            // SCREEN 6: Thank You Message (At 29.0s - Displays for 5.0s)
             let t6 = setTimeout(() => {
                 transitionFounderScreens('founder-screen-5', 'founder-screen-6');
             }, 29000);
             founderSequenceTimeouts.push(t6);
 
-            // AUTO-CLOSE OVERLAY SMOOTHLY (At 34.0s - closes automatically!)
             let t7 = setTimeout(() => {
                 const screen6 = document.getElementById('founder-screen-6');
                 if (screen6) screen6.classList.remove('show-screen');
@@ -3557,7 +3523,6 @@ let founderSequenceTimeouts = [];
             founderSequenceTimeouts.forEach(t => clearTimeout(t));
             founderSequenceTimeouts = [];
 
-            // 🔇 Fades out audio smoothly over 1.5s
             stopCreatorStoryAudio(1.5);
 
             const overlay = document.getElementById('founder-story-modal');
@@ -3567,6 +3532,210 @@ let founderSequenceTimeouts = [];
                 s.classList.remove('active-screen', 'show-screen');
             });
         }
+        // =========================================================
+// FAQ FUNCTIONS
+// =========================================================
+
+function openFAQFullscreen() {
+    if (gameInProgress) return;
+    document.getElementById('faq-fullscreen').style.display = 'flex';
+}
+
+function closeFAQFullscreen() {
+    document.getElementById('faq-fullscreen').style.display = 'none';
+}
+
+function toggleFaq(headerElement) {
+    const answer = headerElement.nextElementSibling;
+    const arrow = headerElement.querySelector('span:last-child');
+    if (answer.style.display === 'block') {
+        answer.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+    } else {
+        answer.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+    }
+}
     </script>
+    <!-- FAQ PAGE - LICHESS STYLE -->
+<div id="faq-fullscreen" style="display:none; position:fixed; inset:0; z-index:6000; flex-direction:column; padding:25px; overflow-y:auto; background:linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad, #d35400, #c0392b); background-size:400% 400%; animation:colorFlashCycle 12s ease infinite; color:#ffffff;">
+    <button onclick="closeFAQFullscreen()" style="position:absolute; top:25px; left:25px; background:rgba(255,255,255,0.15); color:#fff; border:1px solid rgba(255,255,255,0.3); padding:10px 20px; border-radius:40px; cursor:pointer; display:flex; align-items:center; gap:8px; z-index:5; font-weight:600;">
+        <i class="fas fa-arrow-left"></i> Back to Arena
+    </button>
+    <div style="max-width:900px; margin:0 auto; width:100%; padding-top:60px;">
+        <h2 style="font-size:2rem; font-weight:800; margin-bottom:20px; border-bottom:2px solid rgba(255,255,255,0.2); padding-bottom:15px;">
+            <i class="fas fa-question-circle"></i> Frequently Asked Questions
+        </h2>
+
+        <!-- SECTION: General -->
+        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">General</div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>What is AbacusArena?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                AbacusArena is a free, ad-free platform for practicing mental arithmetic using Soroban (abacus) principles. It offers Rated and Manual practice modes with adaptive difficulty. Our goal is to provide a clean, competitive, and distraction-free environment for learners to sharpen their calculation skills.
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Is AbacusArena really free?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by the open-source philosophy of platforms like Lichess.org.
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Who created AbacusArena?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <p><strong>AbacusArena</strong> was created by:</p>
+                <ul style="padding-left:25px; margin:10px 0;">
+                    <li><strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> – Founder & Lead Developer. Responsible for the core architecture, codebase, and overall platform direction.</li>
+                    <li><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> – Co-Developer & Media Lead. Manages all YouTube content, promotional media, and community outreach.</li>
+                </ul>
+                <p>Development started on <strong style="color:#ffd700;">April 23, 2026</strong>.</p>
+                <p><strong>Note:</strong> We are only responsible for the official YouTube channel and content we produce. Other third-party sites are not affiliated with us.</p>
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Where can I follow the founders?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="color:#60a5fa; font-weight:600;">Lichess.org</a>. For updates, tutorials, and community content, subscribe to our official YouTube channel (managed by Sreejeeth Vigneswaran).
+            </div>
+        </div>
+
+        <!-- SECTION: Tournaments -->
+        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">Tournaments & Competitions</div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Does AbacusArena host tournaments?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <p>We are actively working on hosting <strong style="color:#ffd700;">offline tournaments</strong> for players who have reached a rating of <strong style="color:#ffd700;">3000+</strong>. These events are not guaranteed, but we are aiming to organize them as soon as possible (targeting around 2030).</p>
+                <p><strong>Key details:</strong></p>
+                <ul style="padding-left:25px; margin:10px 0;">
+                    <li><strong>Format:</strong> Offline competitions (not online).</li>
+                    <li><strong>Eligibility:</strong> Players with a rating of 3000+ will be eligible to participate.</li>
+                    <li><strong>Recognition:</strong> Participants will have the opportunity to earn medals and recognition.</li>
+                    <li><strong>Status:</strong> This is a long-term goal, and we will provide updates as we get closer to making it a reality. This is not a promise, but our current intention.</li>
+                </ul>
+                <p><strong>Note:</strong> All tournaments are planned as offline events. No online competitions are currently scheduled.</p>
+            </div>
+        </div>
+
+        <!-- SECTION: Gameplay -->
+        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">Gameplay</div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>How does the Rated Mode work?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is dynamic: K=256 for first 3 games, K=128 for next 2, K=64 for next 5, K=32 for next 5, and K=16 from game 16 onwards.
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>What is Manual Practice Mode?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                Manual Practice Mode lets you customize your training with full control over:
+                <ul style="padding-left:25px; margin:10px 0;">
+                    <li><strong>Digits:</strong> 1 to 5 digits per number</li>
+                    <li><strong>Rows:</strong> 2 to 100 rows per session</li>
+                    <li><strong>Speed:</strong> 0.25s to 5.0s display timing</li>
+                </ul>
+                This is perfect for targeted practice on specific skills.
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>What is the Fair Play Policy?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <ul style="padding-left:25px; margin:10px 0;">
+                    <li>Any attempt to refresh or close the tab while a sum is in progress results in an automatic -25 rating deduction.</li>
+                    <li>Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
+                    <li>Wrong answers in the Fair Play Verification Zone update security calibrations to maintain leaderboard integrity.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SECTION: Ratings -->
+        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">Ratings & Progression</div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>What do the rating tiers mean?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <ul style="padding-left:25px; margin:10px 0;">
+                    <li><strong>1200 - 1499:</strong> Novice Tier</li>
+                    <li><strong>1500 - 1799:</strong> Intermediate Tier</li>
+                    <li><strong>1800 - 2299:</strong> Expert Competitor</li>
+                    <li><strong>2300 - 2799:</strong> Abacus Arena Master (AAM)</li>
+                    <li><strong>2800 - 3199:</strong> Elite Player</li>
+                    <li><strong>3200+:</strong> Grandmaster / Tournament Ready</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>How is the rating calculated?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                Your rating updates using an adaptive Elo system. Beginners enjoy accelerated progression with a high K-factor (K=256 for the first 3 games), which gradually settles down to K=16 by game 16. Outpacing your opponent's response time also earns speed bonus multipliers! The difficulty matrix adjusts every 10 rating points for precise progression.
+            </div>
+        </div>
+
+        <!-- SECTION: About the Founders -->
+        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">About the Founders</div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Who is Aswin Krishnamoorthy?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena. He is responsible for the core architecture, codebase, and overall platform direction. He started this project on April 23, 2026, with a vision to create a free, ad-free, and accessible speed calculation arena for students worldwide.
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
+            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
+                <span>Who is Sreejeeth Vigneswaran?</span>
+                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
+                <strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
 </body>
 </html>
