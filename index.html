@@ -942,6 +942,12 @@
             margin-bottom: 15px;
             animation: floatUpDown 4s ease-in-out infinite;
         }
+        .sub-tier-row { display: none; background: rgba(0, 0, 0, 0.3); }
+        .sub-tier-row.open-row { display: table-row; }
+        .accordion-toggle-btn { cursor: pointer; transition: background 0.2s ease; }
+        .accordion-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
+        .tier-expand-icon { font-size: 0.8rem; margin-left: 8px; transition: transform 0.2s ease; }
+        .tier-expand-icon.rotated { transform: rotate(180deg); }
     </style>
 </head>
 <body onload="initApp()">
@@ -1419,38 +1425,164 @@
                 <li style="margin-bottom: 6px;"><strong>Deflection Degradation (Decreases):</strong> Registering incorrect responses or allowing the absolute countdown clock sequence to exhaust automatically drops your value parameter. Resigning inside an active matchmaking timeline applies a variable deficit modifier.</li>
             </ul>
 
-            <h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Cutoffs Table</h3>
+<h3 style="color: #ffeb3b; margin: 30px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;"><i class="fas fa-chart-line"></i> Difficulty Cutoffs Table (Click Range to Expand)</h3>
             <table class="rank-table">
                 <thead><tr><th>Rating Cutoff</th><th>Setup Configuration Matrix</th></tr></thead>
                 <tbody>
-                    <tr><td>1200 - 1499</td><td>1 Digit | 2 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1500 - 1599</td><td>1 Digit | 5 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1600 - 1699</td><td>1 Digit | 10 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>1700 - 1799</td><td>1 Digit | 10 Rows | 0.75s display timing parameters</td></tr>
-                    <tr><td>1800 - 1899</td><td>1 Digits | 15 Rows | 0.7s display timing parameters</td></tr>
-                    <tr><td>1900 - 1999</td><td>2 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2000 - 2099</td><td>2 Digits | 10 Rows | 1.2s display timing parameters</td></tr>
-                    <tr><td>2100 - 2199</td><td>2 Digits | 10 Rows | 0.95s display timing parameters</td></tr>
-                    <tr><td>2200 - 2299</td><td>2 Digits | 15 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2300 - 2399</td><td>2 Digits | 15 Rows | 0.75s display timing parameters</td></tr>
-                    <tr><td>2400 - 2499</td><td>2 Digits | 15 Rows | 0.70s display timing parameters</td></tr>
-                    <tr><td>2500 - 2599</td><td>3 Digits | 5 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2600 - 2699</td><td>3 Digits | 7 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2700 - 2799</td><td>3 Digits | 10 Rows | 1.0s display timing parameters</td></tr>
-                    <tr><td>2800 - 2899</td><td>4 Digits | 5 Rows | 0.95s display timing parameters</td></tr>
-                    <tr><td>2900 - 2999</td><td>4 Digits | 7 Rows | 0.90s display timing parameters</td></tr>
-                    <tr><td>3000 - 3099</td><td>4 Digits | 10 Rows | 0.85s display timing parameters</td></tr>
-                    <tr><td>3100 - 3199</td><td>4 Digits | 15 Rows | 0.80s display timing parameters</td></tr>
-                    <tr><td>3200 - 3299</td><td>5 Digits | 10 Rows | 0.75s display timing parameters</td></tr>
-                    <tr><td>3300 - 3399</td><td>5 Digits | 15 Rows | 0.70s display timing parameters</td></tr>
-                    <tr><td>3400 - 3499</td><td>5 Digits | 20 Rows | 0.65s display timing parameters</td></tr>
-                    <tr><td>3500 - 3599</td><td>5 Digits | 25 Rows | 0.60s display timing parameters</td></tr>
-                    <tr><td>3600 - 3699</td><td>5 Digits | 30 Rows | 0.55s display timing parameters</td></tr>
-                    <tr><td>3700 - 3799</td><td>5 Digits | 35 Rows | 0.50s display timing parameters</td></tr>
-                    <tr><td>3800 - 3899</td><td>5 Digits | 40 Rows | 0.45s display timing parameters</td></tr>
-                    <tr><td>3900 - 3999</td><td>5 Digits | 45 Rows | 0.40s display timing parameters</td></tr>
-                    <tr><td>4000 - 5199</td><td>5 Digits | 50 Rows | 0.35s display timing parameters</td></tr>
-                    <tr><td>5200+</td><td>5 Digits | 50 Rows | 0.25s display timing parameters</td></tr>
+                    <!-- 1200 - 1500 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1200-1500', this)">
+                        <td style="font-weight:700; color:#ffd700;">1200 - 1499 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 2-5 Rows | 1.00s - 0.75s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1200 - 1249</td><td>1 Digit | 2 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1250 - 1299</td><td>1 Digit | 3 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1300 - 1349</td><td>1 Digit | 4 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1350 - 1399</td><td>1 Digit | 5 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1400 - 1449</td><td>1 Digit | 5 Rows | 0.85s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1200-1500"><td>└ 1450 - 1499</td><td>1 Digit | 5 Rows | 0.75s display timing</td></tr>
+
+                    <!-- 1500 - 1600 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1500-1600', this)">
+                        <td style="font-weight:700; color:#ffd700;">1500 - 1599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 5-10 Rows | 1.00s - 0.80s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1500 - 1509</td><td>1 Digit | 5 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1510 - 1519</td><td>1 Digit | 6 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1520 - 1529</td><td>1 Digit | 7 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1530 - 1539</td><td>1 Digit | 8 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1540 - 1549</td><td>1 Digit | 9 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1550 - 1559</td><td>1 Digit | 10 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1560 - 1569</td><td>1 Digit | 10 Rows | 0.95s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1570 - 1579</td><td>1 Digit | 10 Rows | 0.90s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1580 - 1589</td><td>1 Digit | 10 Rows | 0.85s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1500-1600"><td>└ 1590 - 1599</td><td>1 Digit | 10 Rows | 0.80s display timing</td></tr>
+
+                    <!-- 1600 - 1700 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1600-1700', this)">
+                        <td style="font-weight:700; color:#ffd700;">1600 - 1699 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 10-15 Rows | 0.75s - 0.71s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1600 - 1609</td><td>1 Digit | 10 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1610 - 1619</td><td>1 Digit | 11 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1620 - 1629</td><td>1 Digit | 12 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1630 - 1639</td><td>1 Digit | 13 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1640 - 1649</td><td>1 Digit | 14 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1650 - 1659</td><td>1 Digit | 15 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1660 - 1669</td><td>1 Digit | 15 Rows | 0.74s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1670 - 1679</td><td>1 Digit | 15 Rows | 0.73s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1680 - 1689</td><td>1 Digit | 15 Rows | 0.72s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1600-1700"><td>└ 1690 - 1699</td><td>1 Digit | 15 Rows | 0.71s display timing</td></tr>
+
+                    <!-- 1700 - 1800 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1700-1800', this)">
+                        <td style="font-weight:700; color:#ffd700;">1700 - 1799 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 15-20 Rows | 0.70s - 0.62s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1700 - 1709</td><td>1 Digit | 15 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1710 - 1719</td><td>1 Digit | 16 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1720 - 1729</td><td>1 Digit | 17 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1730 - 1739</td><td>1 Digit | 18 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1740 - 1749</td><td>1 Digit | 19 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1750 - 1759</td><td>1 Digit | 20 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1760 - 1769</td><td>1 Digit | 20 Rows | 0.68s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1770 - 1779</td><td>1 Digit | 20 Rows | 0.66s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1780 - 1789</td><td>1 Digit | 20 Rows | 0.64s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1700-1800"><td>└ 1790 - 1799</td><td>1 Digit | 20 Rows | 0.62s display timing</td></tr>
+
+                    <!-- 1800 - 1900 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1800-1900', this)">
+                        <td style="font-weight:700; color:#ffd700;">1800 - 1899 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 20-25 Rows | 0.60s - 0.52s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1800 - 1809</td><td>1 Digit | 20 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1810 - 1819</td><td>1 Digit | 21 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1820 - 1829</td><td>1 Digit | 22 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1830 - 1839</td><td>1 Digit | 23 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1840 - 1849</td><td>1 Digit | 24 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1850 - 1859</td><td>1 Digit | 25 Rows | 0.60s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1860 - 1869</td><td>1 Digit | 25 Rows | 0.58s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1870 - 1879</td><td>1 Digit | 25 Rows | 0.56s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1880 - 1889</td><td>1 Digit | 25 Rows | 0.54s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1800-1900"><td>└ 1890 - 1899</td><td>1 Digit | 25 Rows | 0.52s display timing</td></tr>
+
+                    <!-- 1900 - 2000 RANGE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1900-2000', this)">
+                        <td style="font-weight:700; color:#ffd700;">1900 - 1999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 5-10 Rows | 1.00s - 0.80s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1900 - 1909</td><td>2 Digits | 5 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1910 - 1919</td><td>2 Digits | 6 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1920 - 1929</td><td>2 Digits | 7 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1930 - 1939</td><td>2 Digits | 8 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1940 - 1949</td><td>2 Digits | 9 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1950 - 1959</td><td>2 Digits | 10 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1960 - 1969</td><td>2 Digits | 10 Rows | 0.95s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1970 - 1979</td><td>2 Digits | 10 Rows | 0.90s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1980 - 1989</td><td>2 Digits | 10 Rows | 0.85s display timing</td></tr>
+                    <tr class="sub-tier-row sub-1900-2000"><td>└ 1990 - 1999</td><td>2 Digits | 10 Rows | 0.80s display timing</td></tr>
+
+                    <!-- 2000 - 3200 COMPACT RANGES -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2000-2100', this)">
+                        <td style="font-weight:700; color:#ffd700;">2000 - 2099 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 1.20s - 1.00s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2000-2100"><td>└ 2000 - 2049</td><td>2 Digits | 10-14 Rows | 1.20s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2000-2100"><td>└ 2050 - 2099</td><td>2 Digits | 15 Rows | 1.20s - 1.00s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2100-2200', this)">
+                        <td style="font-weight:700; color:#ffd700;">2100 - 2199 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 0.95s - 0.78s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2100-2200"><td>└ 2100 - 2149</td><td>2 Digits | 10-14 Rows | 0.95s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2100-2200"><td>└ 2150 - 2199</td><td>2 Digits | 15 Rows | 0.95s - 0.78s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2200-2300', this)">
+                        <td style="font-weight:700; color:#ffd700;">2200 - 2299 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 1.00s - 0.80s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2200-2300"><td>└ 2200 - 2249</td><td>2 Digits | 15-19 Rows | 1.00s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2200-2300"><td>└ 2250 - 2299</td><td>2 Digits | 20 Rows | 1.00s - 0.80s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2300-2400', this)">
+                        <td style="font-weight:700; color:#ffd700;">2300 - 2399 (AAM) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 0.75s - 0.71s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2300-2400"><td>└ 2300 - 2349</td><td>2 Digits | 15-19 Rows | 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2300-2400"><td>└ 2350 - 2399</td><td>2 Digits | 20 Rows | 0.75s - 0.71s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2400-2500', this)">
+                        <td style="font-weight:700; color:#ffd700;">2400 - 2499 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 0.70s - 0.62s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2400-2500"><td>└ 2400 - 2449</td><td>2 Digits | 15-19 Rows | 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2400-2500"><td>└ 2450 - 2499</td><td>2 Digits | 20 Rows | 0.70s - 0.62s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2500-2800', this)">
+                        <td style="font-weight:700; color:#ffd700;">2500 - 2799 (3 Digits) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">3 Digits | 5-15 Rows | 1.00s - 0.80s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2500-2800"><td>└ 2500 - 2599</td><td>3 Digits | 5-10 Rows | 1.00s - 0.80s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2500-2800"><td>└ 2600 - 2699</td><td>3 Digits | 7-12 Rows | 1.00s - 0.80s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2500-2800"><td>└ 2700 - 2799</td><td>3 Digits | 10-15 Rows | 1.00s - 0.80s display timing</td></tr>
+
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2800-3200', this)">
+                        <td style="font-weight:700; color:#ffd700;">2800 - 3199 (4 Digits) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">4 Digits | 5-20 Rows | 0.95s - 0.60s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-2800-3200"><td>└ 2800 - 2899</td><td>4 Digits | 5-10 Rows | 0.95s - 0.75s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2800-3200"><td>└ 2900 - 2999</td><td>4 Digits | 7-12 Rows | 0.90s - 0.70s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2800-3200"><td>└ 3000 - 3099</td><td>4 Digits | 10-15 Rows | 0.85s - 0.65s display timing</td></tr>
+                    <tr class="sub-tier-row sub-2800-3200"><td>└ 3100 - 3199</td><td>4 Digits | 15-20 Rows | 0.80s - 0.60s display timing</td></tr>
+
+                    <!-- 3200+ ULTIMATE -->
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-3200-plus', this)">
+                        <td style="font-weight:700; color:#ffd700;">3200+ (Grandmaster & Beyond) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">5 Digits | 10-50 Rows | 0.75s - 0.25s display timing</td>
+                    </tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>└ 3200 - 3499</td><td>5 Digits | 10-20 Rows | 0.75s - 0.65s display timing</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>└ 3500 - 3999</td><td>5 Digits | 25-45 Rows | 0.60s - 0.40s display timing</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>└ 4000 - 5199</td><td>5 Digits | 50 Rows | 0.35s display timing</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>└ 5200+</td><td>5 Digits | 50 Rows | 0.25s display timing</td></tr>
                 </tbody>
             </table>
             <h3 style="color: #ffeb3b; margin: 40px 0 10px 0; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 5px;">Message From the Founder</h3>
@@ -2498,35 +2630,126 @@
 
         function getRatingBoundDifficulty(targetRating) {
             let r = targetRating;
-            if (r < 1500) return { digits: 1, rows: 2, time: 1000 }; 
-            if (r < 1600) return { digits: 1, rows: 5, time: 1000 }; 
-            if (r < 1700) return { digits: 1, rows: 10, time: 1000 }; 
-            if (r < 1800) return { digits: 1, rows: 10, time: 750 }; 
-            if (r < 1899) return { digits: 1, rows: 15, time: 700 }; 
-            if (r < 2000) return { digits: 2, rows: 5, time: 1000 }; 
-            if (r < 2100) return { digits: 2, rows: 10, time: 1200 }; 
-            if (r < 2200) return { digits: 2, rows: 10, time: 950 }; 
-            if (r < 2300) return { digits: 2, rows: 15, time: 1000 }; 
-            if (r < 2400) return { digits: 2, rows: 15, time: 750 }; 
-            if (r < 2499) return { digits: 2, rows: 15, time: 700 }; 
-            if (r < 2600) return { digits: 3, rows: 5, time: 1000 }; 
-            if (r < 2700) return { digits: 3, rows: 7, time: 1000 }; 
-            if (r < 2800) return { digits: 3, rows: 10, time: 1000 }; 
-            if (r < 2900) return { digits: 4, rows: 5, time: 950 }; 
-            if (r < 3000) return { digits: 4, rows: 7, time: 900 }; 
-            if (r < 3100) return { digits: 4, rows: 10, time: 850 }; 
-            if (r < 3200) return { digits: 4, rows: 15, time: 800 }; 
-            if (r < 3300) return { digits: 5, rows: 10, time: 750 }; 
-            if (r < 3400) return { digits: 5, rows: 15, time: 700 }; 
-            if (r < 3500) return { digits: 5, rows: 20, time: 650 }; 
-            if (r < 3600) return { digits: 5, rows: 25, time: 600 }; 
-            if (r < 3700) return { digits: 5, rows: 30, time: 550 }; 
-            if (r < 3800) return { digits: 5, rows: 40, time: 450 }; 
-            if (r < 3900) return { digits: 5, rows: 45, time: 400 }; 
-            if (r < 5199) return { digits: 5, rows: 50, time: 350 }; 
+            
+            // 1200 - 1499 (50-point tiers)
+            if (r < 1250) return { digits: 1, rows: 2, time: 1000 };
+            if (r < 1300) return { digits: 1, rows: 3, time: 1000 };
+            if (r < 1350) return { digits: 1, rows: 4, time: 1000 };
+            if (r < 1400) return { digits: 1, rows: 5, time: 1000 };
+            if (r < 1450) return { digits: 1, rows: 5, time: 850 };
+            if (r < 1500) return { digits: 1, rows: 5, time: 750 };
+
+            // 1500 - 1599 (10-point tiers)
+            if (r < 1510) return { digits: 1, rows: 5, time: 1000 };
+            if (r < 1520) return { digits: 1, rows: 6, time: 1000 };
+            if (r < 1530) return { digits: 1, rows: 7, time: 1000 };
+            if (r < 1540) return { digits: 1, rows: 8, time: 1000 };
+            if (r < 1550) return { digits: 1, rows: 9, time: 1000 };
+            if (r < 1560) return { digits: 1, rows: 10, time: 1000 };
+            if (r < 1570) return { digits: 1, rows: 10, time: 950 };
+            if (r < 1580) return { digits: 1, rows: 10, time: 900 };
+            if (r < 1590) return { digits: 1, rows: 10, time: 850 };
+            if (r < 1600) return { digits: 1, rows: 10, time: 800 };
+
+            // 1600 - 1699 (10-point tiers)
+            if (r < 1610) return { digits: 1, rows: 10, time: 750 };
+            if (r < 1620) return { digits: 1, rows: 11, time: 750 };
+            if (r < 1630) return { digits: 1, rows: 12, time: 750 };
+            if (r < 1640) return { digits: 1, rows: 13, time: 750 };
+            if (r < 1650) return { digits: 1, rows: 14, time: 750 };
+            if (r < 1660) return { digits: 1, rows: 15, time: 750 };
+            if (r < 1670) return { digits: 1, rows: 15, time: 740 };
+            if (r < 1680) return { digits: 1, rows: 15, time: 730 };
+            if (r < 1690) return { digits: 1, rows: 15, time: 720 };
+            if (r < 1700) return { digits: 1, rows: 15, time: 710 };
+
+            // 1700 - 1799 (10-point tiers)
+            if (r < 1710) return { digits: 1, rows: 15, time: 700 };
+            if (r < 1720) return { digits: 1, rows: 16, time: 700 };
+            if (r < 1730) return { digits: 1, rows: 17, time: 700 };
+            if (r < 1740) return { digits: 1, rows: 18, time: 700 };
+            if (r < 1750) return { digits: 1, rows: 19, time: 700 };
+            if (r < 1760) return { digits: 1, rows: 20, time: 700 };
+            if (r < 1770) return { digits: 1, rows: 20, time: 680 };
+            if (r < 1780) return { digits: 1, rows: 20, time: 660 };
+            if (r < 1790) return { digits: 1, rows: 20, time: 640 };
+            if (r < 1800) return { digits: 1, rows: 20, time: 620 };
+
+            // 1800 - 1899 (10-point tiers)
+            if (r < 1810) return { digits: 1, rows: 20, time: 600 };
+            if (r < 1820) return { digits: 1, rows: 21, time: 600 };
+            if (r < 1830) return { digits: 1, rows: 22, time: 600 };
+            if (r < 1840) return { digits: 1, rows: 23, time: 600 };
+            if (r < 1850) return { digits: 1, rows: 24, time: 600 };
+            if (r < 1860) return { digits: 1, rows: 25, time: 600 };
+            if (r < 1870) return { digits: 1, rows: 25, time: 580 };
+            if (r < 1880) return { digits: 1, rows: 25, time: 560 };
+            if (r < 1890) return { digits: 1, rows: 25, time: 540 };
+            if (r < 1900) return { digits: 1, rows: 25, time: 520 };
+
+            // 1900 - 1999 (10-point tiers - 2 Digits)
+            if (r < 1910) return { digits: 2, rows: 5, time: 1000 };
+            if (r < 1920) return { digits: 2, rows: 6, time: 1000 };
+            if (r < 1930) return { digits: 2, rows: 7, time: 1000 };
+            if (r < 1940) return { digits: 2, rows: 8, time: 1000 };
+            if (r < 1950) return { digits: 2, rows: 9, time: 1000 };
+            if (r < 1960) return { digits: 2, rows: 10, time: 1000 };
+            if (r < 1970) return { digits: 2, rows: 10, time: 950 };
+            if (r < 1980) return { digits: 2, rows: 10, time: 900 };
+            if (r < 1990) return { digits: 2, rows: 10, time: 850 };
+            if (r < 2000) return { digits: 2, rows: 10, time: 800 };
+
+            // 2000 - 2099 (10-point tiers)
+            if (r < 2010) return { digits: 2, rows: 10, time: 1200 };
+            if (r < 2020) return { digits: 2, rows: 11, time: 1200 };
+            if (r < 2030) return { digits: 2, rows: 12, time: 1200 };
+            if (r < 2040) return { digits: 2, rows: 13, time: 1200 };
+            if (r < 2050) return { digits: 2, rows: 14, time: 1200 };
+            if (r < 2060) return { digits: 2, rows: 15, time: 1200 };
+            if (r < 2070) return { digits: 2, rows: 15, time: 1150 };
+            if (r < 2080) return { digits: 2, rows: 15, time: 1100 };
+            if (r < 2090) return { digits: 2, rows: 15, time: 1050 };
+            if (r < 2100) return { digits: 2, rows: 15, time: 1000 };
+
+            // 2100 - 2199
+            if (r < 2150) return { digits: 2, rows: 10, time: 950 };
+            if (r < 2200) return { digits: 2, rows: 15, time: 780 };
+
+            // 2200 - 2299
+            if (r < 2250) return { digits: 2, rows: 15, time: 1000 };
+            if (r < 2300) return { digits: 2, rows: 20, time: 800 };
+
+            // 2300 - 2399
+            if (r < 2350) return { digits: 2, rows: 15, time: 750 };
+            if (r < 2400) return { digits: 2, rows: 20, time: 710 };
+
+            // 2400 - 2499
+            if (r < 2450) return { digits: 2, rows: 15, time: 700 };
+            if (r < 2500) return { digits: 2, rows: 20, time: 620 };
+
+            // 2500 - 2799 (3 Digits)
+            if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
+            if (r < 2700) return { digits: 3, rows: 7, time: 1000 };
+            if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
+
+            // 2800 - 3199 (4 Digits)
+            if (r < 2900) return { digits: 4, rows: 5, time: 950 };
+            if (r < 3000) return { digits: 4, rows: 7, time: 900 };
+            if (r < 3100) return { digits: 4, rows: 10, time: 850 };
+            if (r < 3200) return { digits: 4, rows: 15, time: 800 };
+
+            // 3200+ (5 Digits - 100-point increments)
+            if (r < 3300) return { digits: 5, rows: 10, time: 750 };
+            if (r < 3400) return { digits: 5, rows: 15, time: 700 };
+            if (r < 3500) return { digits: 5, rows: 20, time: 650 };
+            if (r < 3600) return { digits: 5, rows: 25, time: 600 };
+            if (r < 3700) return { digits: 5, rows: 30, time: 550 };
+            if (r < 3800) return { digits: 5, rows: 35, time: 500 };
+            if (r < 3900) return { digits: 5, rows: 40, time: 450 };
+            if (r < 4000) return { digits: 5, rows: 45, time: 400 };
+            if (r < 5200) return { digits: 5, rows: 50, time: 350 };
             return { digits: 5, rows: 50, time: 250 };
         }
-
         function getNormalDifficulty() { 
             return (appOperationalContext === 'manual') ? { digits: manualDigits, rows: manualRows, time: manualTime } : getRatingBoundDifficulty(rating); 
         }
@@ -2961,90 +3184,50 @@
             }
 
             if (num < 1200) {
-                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Great job starting out! This rating shows you are laying down the fundamentals. Keep pushing to break past the baseline boundaries.`;
-            } else if (num < 1250) {
-                res.innerHTML = `⚡ **Rating Level: 1200+ Cutoff**<br>Wow! You're now able to do **1 digit, 2 rows at 1.0s display timing**, that's good! You are stepping out of the absolute beginner tier.`;
-            } else if (num < 1300) {
-                res.innerHTML = `⚡ **Rating Level: 1250+ Cutoff**<br>Awesome pacing! You're successfully processing structural calculation frames. You're emerging as a solid rookie track player.`;
-            } else if (num < 1350) {
-                res.innerHTML = `🚀 **Rating Level: 1300+ Cutoff**<br>This rating is so awesome! You have stable visual recognition filters for basic integer streams.`;
-            } else if (num < 1400) {
-                res.innerHTML = `🚀 **Rating Level: 1350+ Cutoff**<br>Excellent stability! You are narrowing the tracking gap and demonstrating clean computational velocity accuracy.`;
-            } else if (num < 1450) {
-                res.innerHTML = `🔥 **Rating Level: 1400+ Cutoff**<br>Incredible focus! You are steadily approaching advanced category thresholds. Keep tracking those matrix metrics!`;
-            } else if (num < 1500) {
-                res.innerHTML = `🔥 **Rating Level: 1450+ Cutoff**<br>Outstanding progress! You have completely optimized the basic setup and are ready for massive tracking matrix jumps.`;
-            } else if (num < 1550) {
-                res.innerHTML = `✨ **Rating Level: 1500+ Cutoff**<br>Wow! You're now able to do **1 digit, 5 rows at 1.0s display timing**, that's good! You are officially an active Intermediate calculation competitor.`;
-            } else if (num < 1600) {
-                res.innerHTML = `✨ **Rating Level: 1550+ Cutoff**<br>Great consistency! You are managing a deeper depth of memory frames with excellent numeric compilation accuracy.`;
-            } else if (num < 1650) {
-                res.innerHTML = `🌟 **Rating Level: 1600+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 1.0s display timing**, that's good! You're a highly proficient visualizer.`;
-            } else if (num < 1700) {
-                res.innerHTML = `🌟 **Rating Level: 1650+ Cutoff**<br>Brilliant speed controls! Your cognitive recovery timeline across 10-row segments is sharp.`;
-            } else if (num < 1750) {
-                res.innerHTML = `🏆 **Rating Level: 1700+ Cutoff**<br>Wow! You're now able to do **1 digit, 10 rows at 0.75s display timing**, that's good! You've officially entered Expert status.`;
-            } else if (num < 1800) {
-                res.innerHTML = `🏆 **Rating Level: 1750+ Cutoff**<br>Superb metrics! You are processing items faster than baseline human clock cycles. Truly impressive tracking!`;
-            } else if (num < 1850) {
-                res.innerHTML = `💎 **Rating Level: 1800+ Cutoff**<br>Wow! You're now able to do **1 digit, 15 rows at 0.70s display timing**, that's good! You are navigating the advanced execution zones seamlessly.`;
-            } else if (num < 1900) {
-                res.innerHTML = `💎 **Rating Level: 1850+ Cutoff**<br>Stunning execution parameters! You are maintaining total operational composure inside deep flash calibration matrices.`;
-            } else if (num < 1950) {
-                res.innerHTML = `⚡ **Rating Level: 1900+ Cutoff**<br>Wow! You're now able to do **2 digits, 5 rows at 1.0s display timing**, that's good! You've broken past the multi-digit sorting layer barrier.`;
-            } else if (num < 2000) {
-                res.innerHTML = `⚡ **Rating Level: 1950+ Cutoff**<br>Spectacular expansion skills! Multi-digit stacking requires high concentration, and you are handling it expertly.`;
-            } else if (num < 2050) {
-                res.innerHTML = `👑 **Rating Level: 2000+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 1.2s display timing**, that's good! You are officially a Candidate Master track competitor.`;
-            } else if (num < 2100) {
-                res.innerHTML = `👑 **Rating Level: 2050+ Cutoff**<br>Incredible spatial awareness! Stacking 10 consecutive double-digit variables requires elite working memory block usage.`;
-            } else if (num < 2150) {
-                res.innerHTML = `🌟 **Rating Level: 2100+ Cutoff**<br>Wow! You're now able to do **2 digits, 10 rows at 0.95s display timing**, that's good! Sub-second double-digit arithmetic tracking is world-class.`;
-            } else if (num < 2200) {
-                res.innerHTML = `🌟 **Rating Level: 2150+ Cutoff**<br>This rating is so awesome! You are generating math calculations with near-instantaneous accuracy.`;
-            } else if (num < 2250) {
-                res.innerHTML = `🔥 **Rating Level: 2200+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 1.0s display timing**, that's good! Master levels are opening up to you.`;
-            } else if (num < 2300) {
-                res.innerHTML = `🔥 **Rating Level: 2250+ Cutoff**<br>Phenomenal processing capacity! You stand right at the doorstep of permanent platform titled recognition tags.`;
-            } else if (num < 2350) {
-                res.innerHTML = `✨ **Rating Level: 2300+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.75s display timing**, that's good! You are officially an **Abacus Arena Master (AAM)** titled player!`;
-            } else if (num < 2400) {
-                res.innerHTML = `✨ **Rating Level: 2350+ Cutoff**<br>Sensational visual processing! Your multi-digit chronometer speed calculations are elite.`;
-            } else if (num < 2450) {
-                res.innerHTML = `🎯 **Rating Level: 2400+ Cutoff**<br>Wow! You're now able to do **2 digits, 15 rows at 0.70s display timing**, that's good! You are outpacing elite computer frameworks.`;
-            } else if (num < 2500) {
-                res.innerHTML = `🎯 **Rating Level: 2450+ Cutoff**<br>Breathtaking speed limits! You are executing cognitive arithmetic calculations perfectly.`;
-            } else if (num < 2550) {
-                res.innerHTML = `👑 **Rating Level: 2500+ Cutoff**<br>Wow! You're now able to do **3 digits, 5 rows at 1.0s display timing**, that's good! You have crossed into the legendary 3-Digit execution realm!`;
-            } else if (num < 2600) {
-                res.innerHTML = `👑 **Rating Level: 2550+ Cutoff**<br>This rating is so awesome! Triple-digit mental manipulation sets you apart as a certified calculator prodigy.`;
-            } else if (num < 2650) {
-                res.innerHTML = `🚀 **Rating Level: 2600+ Cutoff**<br>Wow! You're now able to do **3 digits, 7 rows at 1.0s display timing**, that's good! You are tracking deep visual space fields easily.`;
-            } else if (num < 2700) {
-                res.innerHTML = `🚀 **Rating Level: 2650+ Cutoff**<br>Stellar metrics capacity! The speed and structural complexity of your arithmetic choices are legendary.`;
-            } else if (num < 2750) {
-                res.innerHTML = `💎 **Rating Level: 2700+ Cutoff**<br>Wow! You're now able to do **3 digits, 10 rows at 1.0s display timing**, that's good! You're a relentless grandmaster track visualizer.`;
-            } else if (num < 2800) {
-                res.innerHTML = `💎 **Rating Level: 2750+ Cutoff**<br>Magnificent! You have mastered 3-digit tracking limits and stand ready to break absolute limits.`;
-            } else if (num < 2850) {
-                res.innerHTML = `🌟 **Rating Level: 2800+ Cutoff**<br>Wow! You're now able to do **4 digits, 5 rows at 0.95s display timing**, that's good! You are officially an **Elite Player** status legend!`;
-            } else if (num < 2950) {
-                res.innerHTML = `🌟 **Rating Level: 2900+ Cutoff**<br>Wow! You're now able to do **4 digits, 7 rows at 0.90s display timing**, that's good! An absolutely terrifying display of mental power.`;
-            } else if (num < 3050) {
-                res.innerHTML = `🏆 **Rating Level: 3000+ Cutoff**<br>Wow! You're now able to do **4 digits, 10 rows at 0.85s display timing**, that's good! Absolute cognitive ascendancy reached.`;
-            } else if (num < 3200) {
-                res.innerHTML = `🏆 **Rating Level: 3100+ Cutoff**<br>Wow! You're now able to do **4 digits, 15 rows at 0.80s display timing**, that's good! Complete tracking mastery over immense arithmetic sets.`;
-            } else if (num < 3500) {
-                res.innerHTML = `👑 **Rating Level: 3200+ Cutoff**<br>Wow! You are fully **Tournament Ready** for professional worldwide arithmetic challenges!`;
-            } else if (num < 4000) {
-                res.innerHTML = `🔥 **Rating Level: 3500+ Cutoff**<br>Wow! You operate at speeds that match high-performance microchips.`;
-            } else if (num < 5200) {
-                res.innerHTML = `⚡ **Rating Level: 4000+ Cutoff**<br>Wow! You have transformed into a biological math engine entity.`;
+                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Keep pushing to break past the 1200 baseline cutoff.`;
+                return;
+            }
+
+            // 1200 - 1500: Every 50 points
+            if (num < 1500) {
+                let start = Math.floor(num / 50) * 50;
+                let end = start + 49;
+                let diff = { digits: 1, rows: 2, time: "1.00s" };
+
+                if (start === 1200) diff = { digits: 1, rows: 2, time: "1.00s" };
+                else if (start === 1250) diff = { digits: 1, rows: 3, time: "1.00s" };
+                else if (start === 1300) diff = { digits: 1, rows: 4, time: "1.00s" };
+                else if (start === 1350) diff = { digits: 1, rows: 5, time: "1.00s" };
+                else if (start === 1400) diff = { digits: 1, rows: 5, time: "0.85s" };
+                else if (start === 1450) diff = { digits: 1, rows: 5, time: "0.75s" };
+
+                res.innerHTML = `⚡ **Rating Level: ${start} - ${end} Cutoff**<br>Your setup configuration matrix is **${diff.digits} Digit | ${diff.rows} Rows | ${diff.time} display timing**.`;
+                return;
+            }
+
+            // 1500 - 3200: Every 10 points
+            if (num < 3200) {
+                let start = Math.floor(num / 10) * 10;
+                let end = start + 9;
+                let cfg = getRatingBoundDifficulty(num);
+                let timeSec = (cfg.time / 1000).toFixed(2) + "s";
+
+                res.innerHTML = `✨ **Rating Level: ${start} - ${end} Cutoff**<br>Your exact setup configuration matrix is **${cfg.digits} Digit${cfg.digits > 1 ? 's' : ''} | ${cfg.rows} Rows | ${timeSec} display timing**.`;
+                return;
+            }
+
+            // 3200+: Every 100 points
+            let start = Math.floor(num / 100) * 100;
+            let end = start + 99;
+            let cfg = getRatingBoundDifficulty(num);
+            let timeSec = (cfg.time / 1000).toFixed(2) + "s";
+
+            if (num >= 5200) {
+                res.innerHTML = `🚀 **Rating Level: 5200+ Cutoff**<br>Your setup configuration matrix is **5 Digits | 50 Rows | 0.25s display timing**. Ultimate Ascendant Threshold!`;
             } else {
-                res.innerHTML = `🚀 **Rating Level: 5200+ Ultimate Ascendant Deity Threshold**<br>Wow! Absolute maximum system capability achieved. Incredible!`;
+                res.innerHTML = `👑 **Rating Level: ${start} - ${end} Cutoff**<br>Your setup configuration matrix is **${cfg.digits} Digits | ${cfg.rows} Rows | ${timeSec} display timing**.`;
             }
         }
-
         // TRIGGER COMPUTER ANALYSIS MAIN BOARD CARD
         function triggerMainBoardComputerAnalysis() {
             if (!lastCompletedGameDetails) return;
@@ -3556,6 +3739,18 @@ function toggleFaq(headerElement) {
         arrow.style.transform = 'rotate(180deg)';
     }
 }
+function toggleTableAccordion(className, btnElement) {
+            const rows = document.querySelectorAll('.' + className);
+            const icon = btnElement.querySelector('.tier-expand-icon');
+            
+            rows.forEach(row => {
+                row.classList.toggle('open-row');
+            });
+            
+            if (icon) {
+                icon.classList.toggle('rotated');
+            }
+        }
     </script>
     <!-- FAQ PAGE - LICHESS STYLE -->
 <div id="faq-fullscreen" style="display:none; position:fixed; inset:0; z-index:6000; flex-direction:column; padding:25px; overflow-y:auto; background:linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad, #d35400, #c0392b); background-size:400% 400%; animation:colorFlashCycle 12s ease infinite; color:#ffffff;">
