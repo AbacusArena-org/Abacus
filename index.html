@@ -948,6 +948,45 @@
         .accordion-toggle-btn:hover { background: rgba(255, 255, 255, 0.15); }
         .tier-expand-icon { font-size: 0.8rem; margin-left: 8px; transition: transform 0.2s ease; }
         .tier-expand-icon.rotated { transform: rotate(180deg); }
+       
+
+/* DELETE EVERYTHING BUTTON STYLE */
+.delete-progress-btn {
+    background: linear-gradient(135deg, #d63031, #c0392b);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 14px 18px;
+    border-radius: 40px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 0.92rem;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transform: perspective(800px) rotateX(1deg) translateZ(8px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.delete-progress-btn:hover {
+    transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(214, 48, 49, 0.6);
+    background: linear-gradient(135deg, #e74c3c, #d63031);
+}
+/* ONE CLEAN PULSE FROM 0% TO 100% */
+@keyframes highlightFlashRed {
+    0% { transform: scale(1); box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4); }
+    50% { transform: scale(1.08); box-shadow: 0 0 30px #ff7675, 0 0 10px #ffffff; }
+    100% { transform: scale(1); box-shadow: 0 6px 20px rgba(214, 48, 49, 0.4); }
+}
+
+/* RUNS THE SINGLE PULSE EXACTLY 2 TIMES */
+.flash-highlight {
+    animation: highlightFlashRed 0.6s ease-in-out 2;
+}
     </style>
 </head>
 <body onload="initApp()">
@@ -1186,6 +1225,10 @@
             <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-btn">
                 <i class="fas fa-chess-knight"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
             </a>
+            <!-- RED DELETE BUTTON -->
+<button class="delete-progress-btn" onclick="triggerAccountResetSequence()">
+    <i class="fas fa-trash-alt"></i> Reset All Ratings & Progress
+</button>
         </div>
     </div>
 
@@ -1653,25 +1696,20 @@
             </div>
 
             <!-- SECTION: Tournaments -->
-            <div class="faq-section-title" style="color:#ffd700;">Tournaments & Competitions</div>
-
-            <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
-                <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
-                    <span>Does AbacusArena host tournaments?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
-                    <p>We are actively working on hosting <strong style="color:#ffd700;">offline tournaments</strong> for players who have reached a rating of <strong style="color:#ffd700;">3000+</strong>. These events are not guaranteed, but we are aiming to organize them as soon as possible (targeting around 2030).</p>
-                    <p><strong>Key details:</strong></p>
-                    <ul>
-                        <li><strong>Format:</strong> Offline competitions (not online).</li>
-                        <li><strong>Eligibility:</strong> Players with a rating of 3000+ will be eligible to participate.</li>
-                        <li><strong>Recognition:</strong> Participants will have the opportunity to earn medals and recognition.</li>
-                        <li><strong>Status:</strong> This is a long-term goal, and we will provide updates as we get closer to making it a reality. This is not a promise, but our current intention.</li>
-                    </ul>
-             
-                </div>
-            </div>
+         <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+    <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+        <span>What is the benefit of practicing daily to reach a high rating?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+    <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+        <p>Daily practice sharpens your working memory, visual bead processing, and focus. Pushing your rating higher directly translates to real-world competitive speed.</p>
+        <p><strong>Key benefits of high ratings:</strong></p>
+        <ul>
+            <li><strong>Competition Readiness (3000+ Rating):</strong> Reaching a 3000+ rating means you have developed elite mental math speed, allowing you to compete with total confidence in official state, national, and international abacus competitions against top peers.</li>
+            <li><strong>Brain & Focus Training:</strong> Daily sessions condition your brain to process large numbers instantly without subvocalization or cognitive fatigue.</li>
+        </ul>
+    </div>
+</div>
 
             <!-- SECTION: Gameplay -->
             <div class="faq-section-title" style="color:#ffd700;">Gameplay</div>
@@ -1768,6 +1806,20 @@
                     <strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.
                 </div>
             </div>
+           <!-- SECTION: Account & Data Management -->
+<div class="faq-section-title" style="color:#ffd700;">Account &amp; Data Management</div>
+
+<div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+    <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+        <span>How can I delete everything and start fresh?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+    <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+        You can clear your browser data to reset your account. Alternatively, visit your 
+        <strong><a href="javascript:void(0)" onclick="openProfileAndHighlightDelete()" style="color:#60a5fa; text-decoration:underline;">Profile Page</a></strong>, 
+        scroll down to the bottom, and click the <strong>Reset All Ratings &amp; Progress</strong> button. Confirm by typing <strong>DeleteEverything</strong> to reset all ratings, games history, and statistics from the beginning.
+    </div>
+</div>
 
         </div>
     </div>
@@ -3751,6 +3803,67 @@ function toggleTableAccordion(className, btnElement) {
                 icon.classList.toggle('rotated');
             }
         }
+        function triggerAccountResetSequence() {
+    if (gameInProgress) {
+        alert("⚠️ Cannot reset progress during an active match!");
+        return;
+    }
+
+    let userConfirmation = prompt(
+        "Your ratings, Your last 5 games history, and everything will start fresh, are you sure?\n\nIf yes, type 'DeleteEverything'"
+    );
+
+    if (userConfirmation === 'DeleteEverything') {
+        // Clear saved browser storage
+        localStorage.removeItem('abacus-rating');
+        localStorage.removeItem('abacus-games');
+        localStorage.removeItem('game-history-rated');
+        localStorage.removeItem('consecutive-aborts-count');
+        localStorage.removeItem('lock-until-timestamp');
+        localStorage.removeItem('abacus-sum-interrupted');
+        localStorage.removeItem('abacus-aam-popup-fired');
+
+        // Reset runtime values
+        rating = 1500;
+        gamesPlayed = 0; // Resets dynamic K-Factor back to K=256
+        historyGames = [];
+        lastCompletedGameDetails = null;
+        consecutiveAbortsCount = 0;
+        lockUntilTimestamp = 0;
+        wasAAMTitleNotificationTriggered = false;
+
+        // Write fresh baseline state
+        localStorage.setItem('abacus-rating', 1500);
+        localStorage.setItem('abacus-games', 0);
+        localStorage.setItem('game-history-rated', JSON.stringify([]));
+
+        // Refresh UI
+        updateProfileFullscreen();
+        updateMainDisplay();
+        updateRatingUI();
+        clearOpponentDisplay();
+
+        alert("✅ All account progress, ratings, and game history have been completely reset. You are starting fresh!");
+        closeProfileFullscreen();
+    } else if (userConfirmation !== null) {
+        alert("❌ Reset cancelled. You must type 'DeleteEverything' exactly as shown to proceed.");
+    }
+}
+// OPEN PROFILE PAGE AND FLASH RESET BUTTON TWICE
+function openProfileAndHighlightDelete() {
+    closeFAQFullscreen();
+    openProfileFullscreen();
+
+    setTimeout(() => {
+        let deleteBtn = document.querySelector('.delete-progress-btn');
+        if (deleteBtn) {
+            deleteBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            deleteBtn.classList.remove('flash-highlight');
+            void deleteBtn.offsetWidth; // Trigger browser reflow to restart animation
+            deleteBtn.classList.add('flash-highlight');
+        }
+    }, 300);
+}
     </script>
     <!-- FAQ PAGE - LICHESS STYLE -->
 <div id="faq-fullscreen" style="display:none; position:fixed; inset:0; z-index:6000; flex-direction:column; padding:25px; overflow-y:auto; background:linear-gradient(-45deg, #2980b9, #3498db, #1e3a8a, #8e44ad, #d35400, #c0392b); background-size:400% 400%; animation:colorFlashCycle 12s ease infinite; color:#ffffff;">
@@ -3812,25 +3925,20 @@ function toggleTableAccordion(className, btnElement) {
         </div>
 
         <!-- SECTION: Tournaments -->
-        <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">Tournaments & Competitions</div>
-
-        <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; margin-bottom:8px; overflow:hidden;">
-            <div onclick="toggleFaq(this)" style="padding:18px 24px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:16px; color:#fff;">
-                <span>Does AbacusArena host tournaments?</span>
-                <span style="transition:transform .3s;"><i class="fas fa-chevron-down"></i></span>
-            </div>
-            <div style="padding:0 24px 20px 24px; display:none; line-height:1.7; color:#e5e7eb; border-top:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.2);">
-                <p>We are actively working on hosting <strong style="color:#ffd700;">offline tournaments</strong> for players who have reached a rating of <strong style="color:#ffd700;">3000+</strong>. These events are not guaranteed, but we are aiming to organize them as soon as possible (targeting around 2030).</p>
-                <p><strong>Key details:</strong></p>
-                <ul style="padding-left:25px; margin:10px 0;">
-                    <li><strong>Format:</strong> Offline competitions (not online).</li>
-                    <li><strong>Eligibility:</strong> Players with a rating of 3000+ will be eligible to participate.</li>
-                    <li><strong>Recognition:</strong> Participants will have the opportunity to earn medals and recognition.</li>
-                    <li><strong>Status:</strong> This is a long-term goal, and we will provide updates as we get closer to making it a reality. This is not a promise, but our current intention.</li>
-                </ul>
-                <p><strong>Note:</strong> All tournaments are planned as offline events. No online competitions are currently scheduled.</p>
-            </div>
-        </div>
+        <div class="faq-item" style="background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.15);">
+    <div class="faq-question" onclick="toggleFaq(this)" style="color:#fff;">
+        <span>What is the benefit of practicing daily to reach a high rating?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+    <div class="faq-answer" style="color:#e5e7eb; background:rgba(0,0,0,0.2); border-color:rgba(255,255,255,0.1);">
+        <p>Daily practice sharpens your working memory, visual bead processing, and mental focus. Pushing your rating higher directly translates to real-world competitive speed.</p>
+        <p><strong>Key benefits of high ratings:</strong></p>
+        <ul>
+            <li><strong>Competition Readiness (3000+ Rating):</strong> Reaching a 3000+ rating means you have developed elite calculation speed, allowing you to compete with total confidence in official state, national, and international abacus competitions against top peers.</li>
+            <li><strong>Brain & Focus Training:</strong> Regular sessions condition your brain to process multi-digit sequences instantly without cognitive fatigue.</li>
+        </ul>
+    </div>
+</div>
 
         <!-- SECTION: Gameplay -->
         <div style="font-size:24px; font-weight:800; margin:30px 0 16px 0; padding-bottom:10px; border-bottom:2px solid rgba(255,255,255,0.2); color:#ffd700;">Gameplay</div>
