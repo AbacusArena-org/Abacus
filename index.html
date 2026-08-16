@@ -36,6 +36,7 @@
             --radius: 20px;
             --radius-sm: 12px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-sound-volume: 0.15;
         }
 
         [data-theme="dark"] {
@@ -783,98 +784,55 @@
             transform: none !important;
         }
 
-        /* Rating change display (bottom-right) */
+        /* ─── RATING CHANGE DISPLAY (in middle) ─── */
         #rating-change-display {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9000;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(16px);
             color: #fff;
-            padding: 12px 20px;
-            border-radius: 40px;
-            font-size: 1.2rem;
-            font-weight: 800;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+            padding: 20px 32px;
+            border-radius: var(--radius);
+            font-size: 1.8rem;
+            font-weight: 900;
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
             display: none;
             opacity: 0;
-            transform: translateY(20px);
             transition: opacity 0.4s ease, transform 0.4s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             pointer-events: none;
+            text-align: center;
+            line-height: 1.4;
+            min-width: 200px;
         }
         #rating-change-display.show {
             display: block;
             opacity: 1;
-            transform: translateY(0);
+            transform: translate(-50%, -50%) scale(1.05);
         }
-        #rating-change-display.positive {
-            border-color: var(--green);
+        #rating-change-display .sub {
+            font-size: 0.9rem;
+            font-weight: 500;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+        #rating-change-display .delta {
+            font-size: 2.4rem;
+        }
+        #rating-change-display .delta.positive {
             color: var(--green);
         }
-        #rating-change-display.negative {
-            border-color: var(--red);
+        #rating-change-display .delta.negative {
             color: var(--red);
         }
-        #rating-change-display.draw {
-            border-color: var(--yellow);
+        #rating-change-display .delta.draw {
             color: var(--yellow);
         }
 
-        /* Mobile rating info button */
-        #rating-info-mobile {
-            display: none;
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9000;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            color: #fff;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.15);
-            font-size: 1.2rem;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            transition: var(--transition);
-        }
-        #rating-info-mobile:hover {
-            transform: scale(1.05);
-            background: rgba(0, 0, 0, 0.85);
-        }
-        #rating-info-mobile i {
-            color: #fff;
-        }
-
-        /* Mobile rating popup */
-        #rating-popup-mobile {
-            display: none;
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            z-index: 9001;
-            background: var(--surface);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 16px 20px;
-            box-shadow: var(--card-shadow-hover);
-            max-width: 220px;
-            color: var(--text);
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-align: center;
-            line-height: 1.5;
-        }
-        #rating-popup-mobile.show {
-            display: block;
-        }
-
+        /* ─── MATCH ACTIONS ─── */
         .match-actions-container {
             display: flex;
             width: 100%;
@@ -1136,6 +1094,32 @@
             font-variant-numeric: tabular-nums;
         }
 
+        /* Profile stats inside profile page */
+        .profile-stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px 16px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: var(--radius);
+            padding: 16px 18px;
+            margin: 12px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .profile-stats-grid .ps-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #e5e7eb;
+            padding: 2px 0;
+        }
+        .profile-stats-grid .ps-item .ps-label {
+            opacity: 0.6;
+        }
+        .profile-stats-grid .ps-item .ps-value {
+            font-weight: 700;
+            color: #f1c40f;
+        }
+
         .username-edit-section {
             display: flex;
             align-items: center;
@@ -1159,6 +1143,25 @@
         .username-edit-section span {
             font-size: 1.1rem;
             font-weight: 600;
+        }
+        .username-edit-section .edit-icon {
+            transition: transform 0.3s ease;
+        }
+        .username-edit-section:hover .edit-icon {
+            transform: rotate(30deg) scale(1.1);
+        }
+
+        #inlineNameInputWrapper {
+            display: none;
+            margin: 8px 0;
+            animation: fadeSlideDown 0.35s ease;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #inlineNameInputWrapper.show {
+            display: block;
         }
 
         .studio-trigger-btn {
@@ -1236,7 +1239,7 @@
             border-color: #f1c40f;
         }
 
-        /* ─── HISTORY MODAL ─── */
+        /* ─── HISTORY MODAL (full history) ─── */
         #history-fullscreen,
         #notification-center-fullscreen {
             display: none;
@@ -1255,7 +1258,7 @@
             background: var(--surface);
             border-radius: var(--radius);
             width: 100%;
-            max-width: 520px;
+            max-width: 560px;
             max-height: 80vh;
             overflow: hidden;
             box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
@@ -1285,9 +1288,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 16px;
+            padding: 12px 14px;
             border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         .history-item-modal:last-child {
             border-bottom: none;
@@ -1295,17 +1298,42 @@
         .history-question-text {
             font-family: monospace;
             font-weight: 500;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            max-width: 60%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .history-status {
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
         .history-status.correct {
             color: var(--green);
         }
         .history-status.wrong {
             color: var(--red);
+        }
+        .history-status.draw {
+            color: var(--yellow);
+        }
+        .history-result-badge {
+            font-size: 0.65rem;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .history-result-badge.win {
+            background: var(--green);
+            color: #fff;
+        }
+        .history-result-badge.loss {
+            background: var(--red);
+            color: #fff;
+        }
+        .history-result-badge.draw {
+            background: var(--yellow);
+            color: #000;
         }
         .close-history-btn {
             font-size: 1.6rem;
@@ -1577,9 +1605,11 @@
         .settings-pane-section.pane-active {
             display: block;
         }
+
+        /* Themes: only 5 */
         .themes-horizontal {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             gap: 8px;
         }
         .theme-btn {
@@ -1819,9 +1849,9 @@
             position: fixed;
             inset: 0;
             z-index: 8000;
-            background: linear-gradient(-45deg, #059669, #1d4ed8, #6d28d9, #8b5cf6, #047857);
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #312e81, #4c1d95, #1e3a8a);
             background-size: 400% 400%;
-            animation: aiTutorSmoothShift 14s ease infinite;
+            animation: aiTutorSmoothShift 18s ease infinite;
             flex-direction: column;
             padding: 25px;
             overflow-y: auto;
@@ -1829,11 +1859,11 @@
         }
         .tutor-analysis-board {
             background: rgba(17, 24, 39, 0.85);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: var(--radius);
             padding: 18px 22px;
             backdrop-filter: blur(20px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
         .eval-bar-wrapper {
             width: 100%;
@@ -2211,7 +2241,7 @@
                 grid-template-columns: 1fr 1fr;
             }
             .themes-horizontal {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
             .header-stats {
                 padding: 12px 16px;
@@ -2225,20 +2255,13 @@
                 padding: 6px 8px;
                 min-width: 50px;
             }
-            /* hide desktop rating display, show mobile info button */
             #rating-change-display {
-                display: none !important;
+                font-size: 1.4rem;
+                padding: 16px 24px;
+                min-width: 160px;
             }
-            #rating-info-mobile {
-                display: flex !important;
-            }
-        }
-        @media(min-width: 701px) {
-            #rating-info-mobile {
-                display: none !important;
-            }
-            #rating-change-display {
-                display: block; /* but hidden by default via opacity */
+            #rating-change-display .delta {
+                font-size: 1.8rem;
             }
         }
         @media(max-width: 480px) {
@@ -2260,6 +2283,9 @@
             .outcome-rating-row {
                 font-size: 2rem;
             }
+            .themes-horizontal {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
     </style>
 </head>
@@ -2268,12 +2294,15 @@
     <div class="bg-layer layer-active" id="bg-layer-1"></div>
     <div class="bg-layer" id="bg-layer-2"></div>
 
+    <!-- Background audio (ambient) -->
+    <audio id="bg-audio" loop style="display:none;"></audio>
+
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner-large"></div>
         <div class="loading-text"><i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span></div>
     </div>
 
-    <!-- ─── SPLASH SCREEN (colorful) ─── -->
+    <!-- ─── SPLASH SCREEN ─── -->
     <div id="splash-screen">
         <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png"
         alt="Abacus Arena Logo"
@@ -2345,6 +2374,9 @@
 
         <!-- GAME CONTAINER -->
         <div class="game-container">
+            <!-- RATING CHANGE DISPLAY (middle) -->
+            <div id="rating-change-display"></div>
+
             <!-- OUTCOME OVERLAY -->
             <div id="fide-match-outcome-overlay">
                 <div id="overlayCloseIconBtn" onclick="dismissPerformanceOverlay()"><i class="fas fa-times"></i></div>
@@ -2427,7 +2459,7 @@
                 </div>
             </div>
 
-            <!-- INPUT AREA (no "Request Computer Analysis" button) -->
+            <!-- INPUT AREA -->
             <div class="input-area">
                 <input type="number" id="user-ans" class="main-ans-field" placeholder="?" disabled autocomplete="off">
                 <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
@@ -2440,15 +2472,6 @@
             </div>
         </div>
     </div>
-
-    <!-- ─── RATING CHANGE DISPLAY (desktop bottom-right) ─── -->
-    <div id="rating-change-display"></div>
-
-    <!-- ─── MOBILE RATING INFO BUTTON ─── -->
-    <button id="rating-info-mobile" onclick="toggleRatingPopupMobile()">
-        <i class="fas fa-info-circle"></i>
-    </button>
-    <div id="rating-popup-mobile"></div>
 
     <!-- ─── LEVEL CHECK ─── -->
     <div id="level-check-fullscreen" class="colorful-animated-bg">
@@ -2488,6 +2511,17 @@
                 <div class="value" id="profileRatingLarge" style="font-variant-numeric:tabular-nums;">1500</div>
             </div>
 
+            <!-- Profile Stats -->
+            <div class="profile-stats-grid" id="profileStatsGrid">
+                <div class="ps-item"><span class="ps-label">Highest Rating</span><span class="ps-value" id="ps-highestRating">1500</span></div>
+                <div class="ps-item"><span class="ps-label">Highest Beaten</span><span class="ps-value" id="ps-highestBeaten">—</span></div>
+                <div class="ps-item"><span class="ps-label">Win %</span><span class="ps-value" id="ps-winRate">0%</span></div>
+                <div class="ps-item"><span class="ps-label">Loss %</span><span class="ps-value" id="ps-lossRate">0%</span></div>
+                <div class="ps-item"><span class="ps-label">Draw %</span><span class="ps-value" id="ps-drawRate">0%</span></div>
+                <div class="ps-item"><span class="ps-label">Avg Opponent</span><span class="ps-value" id="ps-avgOpp">—</span></div>
+                <div class="ps-item" style="grid-column: span 2;"><span class="ps-label">Total Games</span><span class="ps-value" id="ps-totalGames">0</span></div>
+            </div>
+
             <div class="manual-doc-box" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);border-left:4px solid #f1c40f;border-radius:var(--radius);padding:14px 18px;margin-bottom:12px;color:#fff;">
                 <div style="font-weight:800;font-size:0.85rem;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px;"><i class="fas fa-graduation-cap"></i> Calculation Onboarding Manual</div>
                 <div style="font-size:0.9rem;line-height:1.4;opacity:0.9;">You have to continuously add all those numbers appearing on the screen layout. Click the <strong>NEW SESSION</strong> button on the dashboard grid structure to initiate your calculation practice sequence journey.</div>
@@ -2500,7 +2534,7 @@
                 <i class="fas fa-pencil-alt edit-icon"></i>
             </div>
 
-            <div id="inlineNameInputWrapper" style="display:none;margin:8px 0;">
+            <div id="inlineNameInputWrapper">
                 <input type="text" id="inlineNameInput" style="width:100%;padding:12px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.3);color:#fff;font-size:1rem;outline:none;" maxlength="20" placeholder="Enter new username...">
                 <button onclick="saveInlineUsername()" style="width:100%;margin-top:8px;background:var(--green);color:white;padding:10px;border-radius:var(--radius);font-weight:700;border:none;cursor:pointer;">
                     <i class="fas fa-check"></i> Save Name
@@ -2508,7 +2542,7 @@
             </div>
 
             <button class="studio-trigger-btn" onclick="openAestheticsStudio()"><i class="fas fa-palette"></i> Aesthetics Studio</button>
-            <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Last 5 Games</button>
+            <button class="history-btn" id="historyBtnWithAnimation"><i class="fas fa-history"></i> View Full History</button>
 
             <button class="history-btn" id="aiTutorBtn" onclick="runAITutorAnalysisSequence()" style="background:linear-gradient(135deg,#059669,#0d9488);border:1px solid rgba(255,255,255,0.15);font-weight:700;">
                 <i class="fas fa-brain"></i> AI Tutor Analysis (Rated Only)
@@ -2527,9 +2561,9 @@
     <!-- ─── AI TUTOR ─── -->
     <div id="ai-tutor-modal-fullscreen">
         <div style="max-width:850px;margin:0 auto;width:100%;">
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.12);padding-bottom:14px;margin-bottom:18px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.08);padding-bottom:14px;margin-bottom:18px;">
                 <div style="display:flex;align-items:center;gap:12px;">
-                    <div style="width:42px;height:44px;background:#059669;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;box-shadow:0 4px 15px rgba(0,0,0,0.3);">
+                    <div style="width:42px;height:44px;background:linear-gradient(135deg,#059669,#0d9488);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:#fff;box-shadow:0 4px 15px rgba(0,0,0,0.3);">
                         <i class="fas fa-microchip"></i>
                     </div>
                     <div>
@@ -2538,7 +2572,7 @@
                     </div>
                 </div>
                 <div style="display:flex;align-items:center;gap:12px;">
-                    <button onclick="toggleGlobalVoiceMute()" style="width:auto;padding:6px 12px;font-size:0.8rem;background:rgba(255,255,255,0.08);color:#fff;border-radius:8px;border:1px solid rgba(255,255,255,0.1);" id="tutorVoiceBtn">
+                    <button onclick="toggleGlobalVoiceMute()" style="width:auto;padding:6px 12px;font-size:0.8rem;background:rgba(255,255,255,0.06);color:#fff;border-radius:8px;border:1px solid rgba(255,255,255,0.06);" id="tutorVoiceBtn">
                         <i class="fas fa-volume-up"></i> Voice Active
                     </button>
                     <div class="close-tutor-btn" onclick="closeAITutorModal()"><i class="fas fa-times"></i></div>
@@ -2551,11 +2585,11 @@
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
                     <h3 style="margin:0;font-size:1rem;color:#f3f4f6;"><i class="fas fa-desktop"></i> Game Step Analysis Sandbox</h3>
                     <div style="display:flex;gap:8px;align-items:center;">
-                        <button onclick="navigateReplayStep(-1)" style="width:auto;padding:6px 14px;font-size:0.8rem;background:rgba(255,255,255,0.06);color:#fff;border-radius:8px;border:1px solid rgba(255,255,255,0.1);"><i class="fas fa-chevron-left"></i> Prev</button>
+                        <button onclick="navigateReplayStep(-1)" style="width:auto;padding:6px 14px;font-size:0.8rem;background:rgba(255,255,255,0.06);color:#fff;border-radius:8px;border:1px solid rgba(255,255,255,0.06);"><i class="fas fa-chevron-left"></i> Prev</button>
                         <button onclick="navigateReplayStep(1)" style="width:auto;padding:6px 14px;font-size:0.8rem;background:#2563eb;color:#fff;border-radius:8px;border:none;">Next Step <i class="fas fa-chevron-right"></i></button>
                     </div>
                 </div>
-                <div id="sandboxReplayView" style="background:rgba(0,0,0,0.3);border-radius:var(--radius-sm);padding:18px;text-align:center;border:1px dashed rgba(255,255,255,0.08);">
+                <div id="sandboxReplayView" style="background:rgba(0,0,0,0.25);border-radius:var(--radius-sm);padding:18px;text-align:center;border:1px dashed rgba(255,255,255,0.06);">
                 </div>
             </div>
 
@@ -2568,7 +2602,7 @@
     <div id="history-fullscreen">
         <div class="history-modal-card">
             <div class="history-modal-header">
-                <h2><i class="fas fa-history"></i> Last 5 Games</h2>
+                <h2><i class="fas fa-history"></i> Full Game History</h2>
                 <div class="close-history-btn" onclick="closeHistoryFullscreen()"><i class="fas fa-times"></i></div>
             </div>
             <div class="history-list-container" id="historyListModal"></div>
@@ -2593,10 +2627,13 @@
             </div>
 
             <div class="setting-sub-box">
-                <div class="setting-sub-title"><i class="fas fa-volume-up"></i> Speech Synthesis Audio Options</div>
+                <div class="setting-sub-title"><i class="fas fa-volume-up"></i> Speech & Ambient Audio</div>
                 <div class="config-select-grid">
                     <button class="config-select-btn" id="voice-btn-active" onclick="toggleGlobalVoiceMute(false)">Voice Active</button>
                     <button class="config-select-btn" id="voice-btn-muted" onclick="toggleGlobalVoiceMute(true)">Mute AI Voice</button>
+                </div>
+                <div style="margin-top:10px;">
+                    <button class="config-select-btn" id="bg-sound-toggle" onclick="toggleBackgroundSound()" style="width:100%;">🔊 Ambient Sound On</button>
                 </div>
             </div>
 
@@ -2639,20 +2676,23 @@
         <div class="panel-wrapper-content">
             <div class="settings-nav-tabs">
                 <div id="nav-tab-themes" class="tab-nav-link tab-active" onclick="switchSettingsPane('themes')"><i class="fas fa-palette"></i> Themes</div>
+                <div id="nav-tab-stats" class="tab-nav-link" onclick="switchSettingsPane('stats')"><i class="fas fa-chart-bar"></i> Stats</div>
                 <div id="nav-tab-about" class="tab-nav-link" onclick="switchSettingsPane('about')"><i class="fas fa-info-circle"></i> About</div>
             </div>
             <div id="pane-themes" class="settings-pane-section pane-active">
-                <h3>🎨 System Themes</h3>
+                <h3>🎨 System Themes (5)</h3>
                 <div class="themes-horizontal">
                     <button class="theme-btn" onclick="applyThemeWithLoading('light')"><i class="fas fa-sun"></i> Light</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('dark')"><i class="fas fa-moon"></i> Dark</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('nature')"><i class="fas fa-tree"></i> Nature</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('space')"><i class="fas fa-user-astronaut"></i> Space</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('cyber')"><i class="fas fa-microchip"></i> Cyber</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('sunset')"><i class="fas fa-cloud-sun"></i> Sunset</button>
                     <button class="theme-btn" onclick="applyThemeWithLoading('ocean')"><i class="fas fa-water"></i> Ocean</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('gold')"><i class="fas fa-crown"></i> Gold</button>
+                    <button class="theme-btn" onclick="applyThemeWithLoading('space')"><i class="fas fa-user-astronaut"></i> Space</button>
                 </div>
+                <div style="margin-top:12px;font-size:0.75rem;opacity:0.5;">Ambient sounds change with theme.</div>
+            </div>
+            <div id="pane-stats" class="settings-pane-section">
+                <h3>📊 Full Career Stats</h3>
+                <div id="settingsStatsContent" style="margin-top:12px;"></div>
             </div>
             <div id="pane-about" class="settings-pane-section"><h3>📖 About</h3><button class="segmented-node" onclick="openAboutWithLoading()" style="background:var(--accent);color:white;border:none;width:100%;padding:12px;border-radius:40px;font-weight:bold;cursor:pointer;"><i class="fas fa-external-link-alt"></i> Open Fullscreen About Page</button></div>
         </div>
@@ -3124,6 +3164,7 @@
         let appTheme = localStorage.getItem('abacus-app-theme') || 'light';
         let username = localStorage.getItem('username') || 'Grandmaster';
         let selectedFlair = localStorage.getItem('selected-flair') || '🏆';
+        let bgSoundEnabled = localStorage.getItem('bg-sound-enabled') !== 'false';
 
         let manualDigits = 1;
         let manualRows = 2;
@@ -3169,14 +3210,22 @@
             lastActivity: parseInt(localStorage.getItem('stats-lastActivity')) || Date.now()
         };
 
-        const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
-        const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
+        const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector",
+            "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel",
+            "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"
+        ];
+        const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel",
+            "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth",
+            "Wizard", "Sage", "Tracker", "Vector"
+        ];
 
         let aiNames = [];
         let aiAvatars = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾", "👑", "🎯", "🔥", "💎", "🌟"];
 
-        const allFlairs = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾", "👑", "🎯", "🔥", "💎", "🌟", "🐱", "🦊", "🦁", "🦅", "🦉",
-            "🐼", "🐯", "🐻", "🐨", "🐺", "🐸", "🐵", "🐔", "🐧", "🦆", "🐗", "🐴", "🦄", "🐝", "🪲", "🦋", "🐙", "🦑", "🦐", "🐡", "🐠", "🐟", "🐬", "🐳", "🐋", "鲨", "🐊", "🐅", "🐆", "🦍", "🦧", "🦣", "🦏", "🦛", "🐪", "🐫", "🦒",
+        const allFlairs = ["🤖", "🧠", "⚡", "🔮", "🧮", "🦾", "📡", "🛸", "☄️", "👾", "👑", "🎯", "🔥", "💎", "🌟", "🐱", "🦊", "🦁",
+            "🦅", "🦉",
+            "🐼", "🐯", "🐻", "🐨", "🐺", "🐸", "🐵", "🐔", "🐧", "🦆", "🐗", "🐴", "🦄", "🐝", "🪲", "🦋", "🐙", "🦑", "🦐", "🐡", "🐠",
+            "🐟", "🐬", "🐳", "🐋", "鲨", "🐊", "🐅", "🐆", "🦍", "🦧", "🦣", "🦏", "🦛", "🐪", "🐫", "🦒",
             "🦘", "🦬", "🦙", "🐐", "🦌", "🐕", "🐩", "🐈", "🐇", "🦫", "🦔", "🐿️", "🦡", "🦥", "🧗", "🏇", "⛷️", "🏂",
             "🏌️", "🏄", "🚣", "🏊", "🏋️", "🚴", "🪂", "👨‍💻", "👩‍💻", "🧙", "🧝", "🧛", "🧞", "🧜", "🧚", "💂", "🤵", "🥷", "🧑‍🚀",
             "🌍", "🪐", "☀️", "🌙", "⭐", "🌌", "☁️", "🌪️", "🌊", "⛰️", "🌋", "🏕️", "🍄", "🪵", "🍁", "🌵", "🌲", "☘️", "🌹",
@@ -3184,7 +3233,8 @@
             "🥇", "🥈", "🥉", "🏆", "🎖️", "⚽", "🏀", "🏈", "⚾", "🎾", "🏐", "🏉", "🎱", "🏓", "🏸", "🥅", "🏹", "🎣", "🚲",
             "🚗", "🏍️", "✈️", "🚀", "🚂", "⚓", "🗿", "🗼", "🗺️", "🧭", "⌛", "⌚", "⏰", "🔋", "🔌", "💻", "⚙️", "🛠️",
             "🔑", "🔒", "🔓", "🔨", "🪓", "🛡️", "⚔️", "📯", "🔔", "🏺", "📿", "💈", "🧿", "🪞", "🧪", "🔬", "🔭", "🩺", "🩹",
-            "📁", "📅", "📊", "📉", "📈", "📜", "📝", "📒", "📕", "📗", "📙", "📚", "✉️", "📦", "📥", "📤", "🏷️", "💵", "💳", "🕶️", "🧳", "🎒", "👕", "👖", "👟", "👠", "🎩", "🎓", "🎨", "🎬",
+            "📁", "📅", "📊", "📉", "📈", "📜", "📝", "📒", "📕", "📗", "📙", "📚", "✉️", "📦", "📥", "📤", "🏷️", "💵", "💳", "🕶️",
+            "🧳", "🎒", "👕", "👖", "👟", "👠", "🎩", "🎓", "🎨", "🎬",
             "🎤", "🎧", "🎼", "🎹", "🥁", "🎸", "🎺", "🎻", "🎲", "🧩", "🎯", "👑", "🎰", "🟥", "🟧", "🟨", "🟩", "🟦", "🟪",
             "🖤", "🤍", "🤎", "❤️", "💖", "💝", "💔", "💕", "💘", "❣️", "💟", "🔊", "📢", "💬", "💭", "🗯️", "🪔", "🧲", "🧱", "🪢",
             "🪡", "🧵", "🪚", "🪛", "🔧", "🧰", "🛢️", "⛽", "🛴", "🛼", "🚏", "⛵", "🛥️", "🛳️", "⛴️", "🚢", "🛫", "🛬", "💺",
@@ -3192,6 +3242,208 @@
         ];
 
         const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
+        const bgAudio = document.getElementById('bg-audio');
+
+        // ─── BACKGROUND SOUNDS ───
+        const themeSounds = {
+            light: { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' }, // silent
+            dark: { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' },
+            nature: { url: 'https://www.soundjay.com/nature/birds-forest-01.wav', type: 'nature' },
+            ocean: { url: 'https://www.soundjay.com/nature/ocean-waves-01.wav', type: 'ocean' },
+            space: { url: 'https://www.soundjay.com/ambient/space-ambient-01.wav', type: 'space' }
+        };
+
+        // We'll use Web Audio oscillators for ambient sounds since external files might not load
+        let ambientOsc = null;
+        let ambientGain = null;
+        let ambientInterval = null;
+        let isAmbientPlaying = false;
+        let bgVolume = 0.08;
+
+        function startAmbientSound(theme) {
+            if (!bgSoundEnabled) return;
+            stopAmbientSound();
+
+            try {
+                ambientGain = audioCtx.createGain();
+                ambientGain.connect(audioCtx.destination);
+                ambientGain.gain.setValueAtTime(bgVolume, audioCtx.currentTime);
+
+                if (theme === 'ocean') {
+                    // Wave-like noise
+                    const bufferSize = 2 * audioCtx.sampleRate;
+                    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < bufferSize; i++) {
+                        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / bufferSize * 3) * 0.3;
+                    }
+                    const noise = audioCtx.createBufferSource();
+                    noise.buffer = buffer;
+                    noise.loop = true;
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 400;
+                    const gainNode = audioCtx.createGain();
+                    gainNode.gain.value = 0.3;
+                    noise.connect(filter);
+                    filter.connect(gainNode);
+                    gainNode.connect(ambientGain);
+                    noise.start();
+                    ambientOsc = noise;
+                    isAmbientPlaying = true;
+                    // Add gentle wave modulation
+                    let t = 0;
+                    ambientInterval = setInterval(() => {
+                        if (ambientGain) {
+                            const val = 0.06 + 0.03 * Math.sin(t * 0.5);
+                            ambientGain.gain.setValueAtTime(val, audioCtx.currentTime);
+                            t += 0.1;
+                        }
+                    }, 200);
+                } else if (theme === 'nature') {
+                    // Birds-like: high frequency chirps with delay
+                    const osc = audioCtx.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.value = 1200;
+                    const gain = audioCtx.createGain();
+                    gain.gain.value = 0.02;
+                    const delay = audioCtx.createDelay(0.3);
+                    delay.delayTime.value = 0.15;
+                    const feedback = audioCtx.createGain();
+                    feedback.gain.value = 0.3;
+                    osc.connect(gain);
+                    gain.connect(delay);
+                    delay.connect(feedback);
+                    feedback.connect(delay);
+                    delay.connect(ambientGain);
+                    osc.start();
+                    ambientOsc = osc;
+                    isAmbientPlaying = true;
+                    // Random chirps
+                    let chirpInterval = setInterval(() => {
+                        if (ambientOsc) {
+                            const freq = 800 + Math.random() * 1000;
+                            ambientOsc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                            const g = ambientGain;
+                            if (g) {
+                                g.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                                g.gain.exponentialRampToValueAtTime(0.005, audioCtx.currentTime + 0.2);
+                            }
+                        }
+                    }, 800);
+                    ambientInterval = chirpInterval;
+                } else if (theme === 'space') {
+                    // Deep drone
+                    const osc = audioCtx.createOscillator();
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = 55;
+                    const gain = audioCtx.createGain();
+                    gain.gain.value = 0.04;
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.value = 200;
+                    const osc2 = audioCtx.createOscillator();
+                    osc2.type = 'sine';
+                    osc2.frequency.value = 75;
+                    const gain2 = audioCtx.createGain();
+                    gain2.gain.value = 0.03;
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(ambientGain);
+                    osc2.connect(gain2);
+                    gain2.connect(ambientGain);
+                    osc.start();
+                    osc2.start();
+                    ambientOsc = [osc, osc2];
+                    isAmbientPlaying = true;
+                    // Slow modulation
+                    let t = 0;
+                    ambientInterval = setInterval(() => {
+                        if (ambientGain) {
+                            const val = 0.04 + 0.02 * Math.sin(t * 0.3);
+                            ambientGain.gain.setValueAtTime(val, audioCtx.currentTime);
+                            t += 0.1;
+                        }
+                    }, 300);
+                } else {
+                    // Light or dark: soft piano-like sine
+                    const osc = audioCtx.createOscillator();
+                    osc.type = 'sine';
+                    osc.frequency.value = 220;
+                    const gain = audioCtx.createGain();
+                    gain.gain.value = 0.02;
+                    osc.connect(gain);
+                    gain.connect(ambientGain);
+                    osc.start();
+                    ambientOsc = osc;
+                    isAmbientPlaying = true;
+                    // gentle swell
+                    let t = 0;
+                    ambientInterval = setInterval(() => {
+                        if (ambientGain) {
+                            const val = 0.015 + 0.01 * Math.sin(t * 0.2);
+                            ambientGain.gain.setValueAtTime(val, audioCtx.currentTime);
+                            t += 0.1;
+                        }
+                    }, 300);
+                }
+            } catch (e) {
+                console.warn('Ambient sound error:', e);
+            }
+        }
+
+        function stopAmbientSound() {
+            if (ambientInterval) {
+                clearInterval(ambientInterval);
+                ambientInterval = null;
+            }
+            if (ambientOsc) {
+                if (Array.isArray(ambientOsc)) {
+                    ambientOsc.forEach(o => { try { o.stop();
+                            o.disconnect(); } catch (e) {} });
+                } else {
+                    try { ambientOsc.stop();
+                        ambientOsc.disconnect(); } catch (e) {}
+                }
+                ambientOsc = null;
+            }
+            if (ambientGain) {
+                try { ambientGain.disconnect(); } catch (e) {}
+                ambientGain = null;
+            }
+            isAmbientPlaying = false;
+        }
+
+        function toggleBackgroundSound() {
+            bgSoundEnabled = !bgSoundEnabled;
+            localStorage.setItem('bg-sound-enabled', bgSoundEnabled);
+            const btn = document.getElementById('bg-sound-toggle');
+            if (btn) {
+                btn.innerHTML = bgSoundEnabled ? '🔊 Ambient Sound On' : '🔇 Ambient Sound Off';
+                btn.classList.toggle('setting-active', bgSoundEnabled);
+            }
+            if (bgSoundEnabled) {
+                startAmbientSound(appTheme);
+            } else {
+                stopAmbientSound();
+            }
+        }
+
+        function updateBackgroundSoundForTheme(theme) {
+            stopAmbientSound();
+            if (bgSoundEnabled) {
+                startAmbientSound(theme);
+            }
+        }
+
+        // Duck ambient when AI speaks
+        function duckAmbient(duck = true) {
+            if (!ambientGain || !isAmbientPlaying) return;
+            try {
+                const target = duck ? 0.015 : bgVolume;
+                ambientGain.gain.linearRampToValueAtTime(target, audioCtx.currentTime + 0.5);
+            } catch (e) {}
+        }
 
         // ─── INIT ───
         function initApp() {
@@ -3219,8 +3471,26 @@
             updateCustomControlsUI();
             updateTypographyStyles();
 
-            // stats panel
             renderStatsPanel();
+            updateProfileStats();
+
+            // Start ambient
+            if (bgSoundEnabled) {
+                setTimeout(() => startAmbientSound(appTheme), 1000);
+            }
+            const btn = document.getElementById('bg-sound-toggle');
+            if (btn) {
+                btn.innerHTML = bgSoundEnabled ? '🔊 Ambient Sound On' : '🔇 Ambient Sound Off';
+                btn.classList.toggle('setting-active', bgSoundEnabled);
+            }
+
+            // Override speak to duck ambient
+            const origSpeak = speakVoiceAnalysisText;
+            speakVoiceAnalysisText = function(text) {
+                duckAmbient(true);
+                origSpeak(text);
+                setTimeout(() => duckAmbient(false), 3000);
+            };
         }
 
         function buildComprehensiveAIPools() {
@@ -3265,11 +3535,13 @@
             let mainBtn = document.getElementById('mainVoiceMuteBtn');
             let tutorBtn = document.getElementById('tutorVoiceBtn');
             if (mainBtn) {
-                mainBtn.innerHTML = isVoiceMuted ? `<i class="fas fa-volume-mute"></i> Voice Muted` : `<i class="fas fa-volume-up"></i> Voice Active`;
+                mainBtn.innerHTML = isVoiceMuted ? `<i class="fas fa-volume-mute"></i> Voice Muted` :
+                    `<i class="fas fa-volume-up"></i> Voice Active`;
                 mainBtn.style.borderColor = isVoiceMuted ? '#ef4444' : '#3b82f6';
             }
             if (tutorBtn) {
-                tutorBtn.innerHTML = isVoiceMuted ? `<i class="fas fa-volume-mute"></i> Voice Muted` : `<i class="fas fa-volume-up"></i> Voice Active`;
+                tutorBtn.innerHTML = isVoiceMuted ? `<i class="fas fa-volume-mute"></i> Voice Muted` :
+                    `<i class="fas fa-volume-up"></i> Voice Active`;
                 tutorBtn.style.borderColor = isVoiceMuted ? '#ef4444' : '#10b981';
             }
             let activeBtn = document.getElementById('voice-btn-active');
@@ -3351,7 +3623,8 @@
                     localStorage.setItem('abacus-aam-popup-fired', 'true');
                     let msg = `Hi, ${username}! You have reached a rating cutoff of 2300+ and claimed AAM [Abacus Arena Master]!`;
                     injectSystemNotificationMessage("AbacusArena (Aswin Krishnamoorthy)", msg);
-                    alert(`🏆 Verification Milestone Achieved!\n\nHi, ${username}! You have reached a rating cutoff of 2300+ and claimed AAM [Abacus Arena Master].`);
+                    alert(
+                        `🏆 Verification Milestone Achieved!\n\nHi, ${username}! You have reached a rating cutoff of 2300+ and claimed AAM [Abacus Arena Master].`);
                 }
             } else {
                 mainBadge.style.display = "none";
@@ -3408,7 +3681,8 @@
 
         function closeNotificationCenter() { document.getElementById('notification-center-fullscreen').style.display = "none"; }
 
-        function escapeHtml(text) { return text ? text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;") : ''; }
+        function escapeHtml(text) { return text ? text.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
+            "&gt;").replace(/"/g, "&quot;") : ''; }
 
         // ─── OPPONENT ───
         function generateOpponentProfile() {
@@ -3434,6 +3708,38 @@
             dot.style.background = "#2ecc71";
             hasActiveOpponent = true;
             calculateStakes();
+
+            // Show rating change prediction in middle
+            showRatingChangePrediction();
+        }
+
+        function showRatingChangePrediction() {
+            const disp = document.getElementById('rating-change-display');
+            if (!disp || !hasActiveOpponent) return;
+            let k = getActiveKFactor();
+            let expected = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
+            let winDelta = Math.max(2, Math.min(k, Math.round(k * (1 - expected))));
+            let lossDelta = -Math.max(2, Math.min(k, Math.round(k * expected)));
+            let drawDelta = Math.round(k * (0.5 - expected));
+
+            disp.innerHTML = `
+                        <div class="delta positive">+${winDelta}</div>
+                        <div style="font-size:0.8rem;color:#10b981;">Win</div>
+                        <div style="display:flex;gap:16px;justify-content:center;margin:4px 0;">
+                            <span style="color:var(--yellow);">${drawDelta > 0 ? '+'+drawDelta : drawDelta}</span>
+                            <span style="color:var(--red);">${lossDelta}</span>
+                        </div>
+                        <div style="display:flex;gap:24px;justify-content:center;font-size:0.65rem;opacity:0.6;">
+                            <span>Draw</span>
+                            <span>Loss</span>
+                        </div>
+                        <div class="sub">vs ${document.getElementById('oppNameDisplay').innerText}</div>
+                    `;
+            disp.className = 'show';
+            clearTimeout(disp._hideTimer);
+            disp._hideTimer = setTimeout(() => {
+                disp.classList.remove('show');
+            }, 5000);
         }
 
         function clearOpponentDisplay() {
@@ -3445,6 +3751,9 @@
             dot.className = "identity-status-dot";
             dot.style.background = "#b2bec3";
             hasActiveOpponent = false;
+            // Hide rating prediction
+            const disp = document.getElementById('rating-change-display');
+            if (disp) disp.classList.remove('show');
         }
 
         // ─── MATCHMAKING ───
@@ -3455,7 +3764,9 @@
             let now = Date.now();
             if (now < lockUntilTimestamp) {
                 let diff = Math.ceil((lockUntilTimestamp - now) / 1000);
-                alert(`⏳ Activity cooldown active! Please wait: ${Math.floor(diff / 60)}:${diff % 60 < 10 ? '0' : ''}${diff % 60}`);
+                alert(
+                    `⏳ Activity cooldown active! Please wait: ${Math.floor(diff / 60)}:${diff % 60 < 10 ? '0' : ''}${diff % 60}`
+                    );
                 return;
             }
             if (appOperationalContext === 'manual') { initiateGame(); return; }
@@ -3514,6 +3825,9 @@
             actionBtn.style.background = "var(--accent)";
             actionBtn.style.display = "none";
             actionBtn.disabled = true;
+            // Hide rating prediction
+            const disp = document.getElementById('rating-change-display');
+            if (disp) disp.classList.remove('show');
             initiateGame();
         }
 
@@ -3564,6 +3878,8 @@
             clearOpponentDisplay();
             disableControls(false);
             updateRatingUI();
+            const disp = document.getElementById('rating-change-display');
+            if (disp) disp.classList.remove('show');
         }
 
         function triggerManualResign() {
@@ -3597,13 +3913,15 @@
             actionBtn.disabled = false;
             actionBtn.onclick = startMatchmakingSequence;
 
-            triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0, "You resigned the match. Your rating decreased accordingly.");
+            triggerPerformanceOverlay("Defeat", "Resigned Match Forfeit", oldUserRating, -lossPoints, 0,
+                "You resigned the match. Your rating decreased accordingly.");
 
             if (appOperationalContext === 'rated') {
                 gamesPlayed++;
                 localStorage.setItem('abacus-games', gamesPlayed);
-                addHistory(sequence.join('+') + '=' + sequence.reduce((a, b) => a + b, 0) + ' (Resigned)', false, sequence, 0, true, false, true);
-                updateStats(false, false, true, oldUserRating, opponentRating); // loss
+                addHistory(sequence.join('+') + '=' + sequence.reduce((a, b) => a + b, 0) + ' (Resigned)', false, sequence, 0,
+                    true, false, true);
+                updateStats(false, false, true, oldUserRating, opponentRating);
             }
 
             updateRatingUI();
@@ -3611,6 +3929,7 @@
             disableControls(false);
             checkTitledMilestoneThresholdStatus();
             renderStatsPanel();
+            updateProfileStats();
         }
 
         function startCooldownTickerLoop() {
@@ -3627,7 +3946,8 @@
                     return;
                 }
                 let secs = Math.ceil(remaining / 1000);
-                actionBtn.innerHTML = `<i class="fas fa-clock"></i> Cooldown: ${Math.floor(secs / 60)}:${secs % 60 < 10 ? '0' : ''}${secs % 60}`;
+                actionBtn.innerHTML =
+                    `<i class="fas fa-clock"></i> Cooldown: ${Math.floor(secs / 60)}:${secs % 60 < 10 ? '0' : ''}${secs % 60}`;
             }, 1000);
         }
 
@@ -3688,64 +4008,36 @@
             }
             setTimeout(() => closeIcon.style.display = "flex", 5000);
 
-            // Show rating change display (desktop) and store for mobile popup
-            showRatingChangeDisplay(deltaVal, bannerTitle);
+            // Show rating change in middle briefly
+            showMiddleRatingChange(deltaVal, bannerTitle);
         }
 
-        function dismissPerformanceOverlay() {
-            document.getElementById('fide-match-outcome-overlay').style.display = "none";
-            clearOpponentDisplay();
-            // after overlay closes, auto-show analysis
-            if (lastCompletedGameDetails && appOperationalContext === 'rated') {
-                setTimeout(() => {
-                    triggerMainBoardComputerAnalysis();
-                }, 400);
-            }
-        }
-
-        // ─── RATING CHANGE DISPLAY ───
-        function showRatingChangeDisplay(delta, result) {
+        function showMiddleRatingChange(delta, result) {
             const disp = document.getElementById('rating-change-display');
             if (!disp) return;
             let sign = delta > 0 ? '+' : (delta < 0 ? '' : '');
             let text = `${sign}${delta}`;
             if (delta === 0) text = '=0';
-            disp.innerText = text;
+            let cls = delta > 0 ? 'positive' : (delta < 0 ? 'negative' : 'draw');
+            disp.innerHTML = `
+                        <div class="delta ${cls}">${text}</div>
+                        <div class="sub">${result}</div>
+                    `;
             disp.className = 'show';
-            if (delta > 0) disp.classList.add('positive');
-            else if (delta < 0) disp.classList.add('negative');
-            else disp.classList.add('draw');
-
-            // Hide after 6 seconds
-            clearTimeout(disp._hideTimeout);
-            disp._hideTimeout = setTimeout(() => {
+            clearTimeout(disp._hideTimer);
+            disp._hideTimer = setTimeout(() => {
                 disp.classList.remove('show');
-            }, 6000);
-
-            // Also store for mobile popup
-            window._lastRatingDelta = { delta, result };
+            }, 4000);
         }
 
-        function toggleRatingPopupMobile() {
-            const popup = document.getElementById('rating-popup-mobile');
-            if (!popup) return;
-            if (popup.classList.contains('show')) {
-                popup.classList.remove('show');
-                return;
+        function dismissPerformanceOverlay() {
+            document.getElementById('fide-match-outcome-overlay').style.display = "none";
+            clearOpponentDisplay();
+            if (lastCompletedGameDetails && appOperationalContext === 'rated') {
+                setTimeout(() => {
+                    triggerMainBoardComputerAnalysis();
+                }, 400);
             }
-            const data = window._lastRatingDelta || { delta: 0, result: 'Draw' };
-            let sign = data.delta > 0 ? '+' : (data.delta < 0 ? '' : '');
-            let text = `${sign}${data.delta}`;
-            if (data.delta === 0) text = '=0';
-            popup.innerHTML = `
-                        <div style="font-weight:800; margin-bottom:4px;">Rating Change</div>
-                        <div style="font-size:1.4rem; font-weight:900; color:${data.delta > 0 ? 'var(--green)' : data.delta < 0 ? 'var(--red)' : 'var(--yellow)'}">
-                            ${text}
-                        </div>
-                        <div style="font-size:0.75rem; opacity:0.6;">${data.result}</div>
-                    `;
-            popup.classList.add('show');
-            setTimeout(() => popup.classList.remove('show'), 5000);
         }
 
         // ─── LOADING ───
@@ -3755,7 +4047,8 @@
 
         // ─── UI UPDATES ───
         function updateMainDisplay() {
-            document.getElementById('mainUsername').innerHTML = username.length > 15 ? username.substring(0, 13) + '...' : username;
+            document.getElementById('mainUsername').innerHTML = username.length > 15 ? username.substring(0, 13) + '...' :
+            username;
             document.getElementById('mainFlair').innerHTML = selectedFlair;
             document.getElementById('userBottomRatingDisplay').innerText = rating;
             let frame = document.getElementById('profileAvatarDisplayFrame');
@@ -3766,6 +4059,29 @@
         function updateProfileFullscreen() {
             document.getElementById('profileRatingLarge').innerText = rating;
             document.getElementById('profileUsername').innerText = username;
+            updateProfileStats();
+        }
+
+        function updateProfileStats() {
+            const total = stats.totalGames;
+            if (total === 0) {
+                document.getElementById('ps-highestRating').innerText = '1500';
+                document.getElementById('ps-highestBeaten').innerText = '—';
+                document.getElementById('ps-winRate').innerText = '0%';
+                document.getElementById('ps-lossRate').innerText = '0%';
+                document.getElementById('ps-drawRate').innerText = '0%';
+                document.getElementById('ps-avgOpp').innerText = '—';
+                document.getElementById('ps-totalGames').innerText = '0';
+                return;
+            }
+            document.getElementById('ps-highestRating').innerText = stats.highestRating;
+            document.getElementById('ps-highestBeaten').innerText = stats.highestBeaten || '—';
+            document.getElementById('ps-winRate').innerText = Math.round((stats.totalWins / total) * 100) + '%';
+            document.getElementById('ps-lossRate').innerText = Math.round((stats.totalLosses / total) * 100) + '%';
+            document.getElementById('ps-drawRate').innerText = Math.round((stats.totalDraws / total) * 100) + '%';
+            document.getElementById('ps-avgOpp').innerText = stats.totalGames ? Math.round(stats.sumOpponentRatings / stats
+                .totalGames) : '—';
+            document.getElementById('ps-totalGames').innerText = total;
         }
 
         function openProfileFullscreen() {
@@ -3794,14 +4110,16 @@
         function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.display = 'none'; }
 
         function toggleInlineNameEdit() {
-            let wrapper = document.getElementById('inlineNameInputWrapper');
-            let input = document.getElementById('inlineNameInput');
-            if (wrapper.style.display === 'none' || wrapper.style.display === '') {
+            const wrapper = document.getElementById('inlineNameInputWrapper');
+            const input = document.getElementById('inlineNameInput');
+            if (wrapper.classList.contains('show')) {
+                wrapper.classList.remove('show');
+                setTimeout(() => wrapper.style.display = 'none', 350);
+            } else {
                 wrapper.style.display = 'block';
+                setTimeout(() => wrapper.classList.add('show'), 10);
                 input.value = username;
                 input.focus();
-            } else {
-                wrapper.style.display = 'none';
             }
         }
 
@@ -3813,22 +4131,21 @@
                 localStorage.setItem('username', username);
                 updateProfileFullscreen();
                 updateMainDisplay();
-                document.getElementById('inlineNameInputWrapper').style.display = 'none';
+                const wrapper = document.getElementById('inlineNameInputWrapper');
+                wrapper.classList.remove('show');
+                setTimeout(() => wrapper.style.display = 'none', 350);
             }
         }
 
         // ─── THEMES ───
-        const darkThemes = ['dark', 'dark-green', 'dark-red', 'dark-purple'];
-        let darkIndex = 0;
-
         function applyThemeWithLoading(t) {
             showLoading();
             setTimeout(() => {
-                if (t === 'dark') { darkIndex = (darkIndex + 1) % darkThemes.length;
-                    appTheme = darkThemes[darkIndex]; } else appTheme = t;
+                appTheme = t;
                 localStorage.setItem('abacus-app-theme', appTheme);
                 document.documentElement.setAttribute('data-theme', appTheme);
                 startThemeChangerLoop();
+                updateBackgroundSoundForTheme(t);
                 hideLoading();
                 closeControlSuite();
                 updateTypographyStyles();
@@ -3851,33 +4168,15 @@
                     ['#0a1628', '#1a2a4a'],
                     ['#0a1f1a', '#1a3a2a']
                 ], panClass: 'gradient-pan-effect' },
-            'dark-green': { type: 'gradient', cycle: [
-                    ['#0a1f1a', '#1a3a2a']
-                ], panClass: 'gradient-pan-effect' },
-            'dark-red': { type: 'gradient', cycle: [
-                    ['#1f0a0a', '#3a1a1a']
-                ], panClass: 'gradient-pan-effect' },
-            'dark-purple': { type: 'gradient', cycle: [
-                    ['#1a0a2a', '#2a1a3a']
-                ], panClass: 'gradient-pan-effect' },
-            nature: { type: 'image', cycle: ['https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'], panClass: 'nature-pan-effect' },
-            space: { type: 'image', cycle: ['https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1400&q=80'], panClass: 'space-pan-effect' },
-            cyber: { type: 'gradient', cycle: [
-                    ['#0f172a', '#312e81'],
-                    ['#1e1b4b', '#581c87'],
-                    ['#020617', '#0f766e']
-                ], panClass: 'gradient-pan-effect' },
-            sunset: { type: 'gradient', cycle: [
-                    ['#451254', '#831843'],
-                    ['#831843', '#9a3412'],
-                    ['#7c2d12', '#451254']
-                ], panClass: 'gradient-pan-effect' },
-            ocean: { type: 'image', cycle: ['https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80'], panClass: 'nature-pan-effect' },
-            gold: { type: 'gradient', cycle: [
-                    ['#2a1a08', '#78350f'],
-                    ['#451a03', '#b45309'],
-                    ['#1c1917', '#78350f']
-                ], panClass: 'gradient-pan-effect' }
+            nature: { type: 'image', cycle: [
+                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'
+                ], panClass: 'nature-pan-effect' },
+            ocean: { type: 'image', cycle: [
+                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80'
+                ], panClass: 'nature-pan-effect' },
+            space: { type: 'image', cycle: [
+                    'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1400&q=80'
+                ], panClass: 'space-pan-effect' }
         };
         let currentActiveLayer = 1,
             themeCycleIndex = 0;
@@ -3933,17 +4232,24 @@
         }
 
         function updateCustomControlsUI() {
-            document.querySelectorAll('#aesthetics-studio-screen .config-select-btn').forEach(b => b.classList.remove('setting-active'));
+            document.querySelectorAll('#aesthetics-studio-screen .config-select-btn').forEach(b => b.classList.remove(
+            'setting-active'));
             let sb = document.getElementById(`tick-sound-${soundStyleSetting}`);
             if (sb) sb.classList.add('setting-active');
             let fb = document.getElementById(`font-style-${typographySetting}`);
             if (fb) fb.classList.add('setting-active');
             updateVoiceMuteUI();
+            const btn = document.getElementById('bg-sound-toggle');
+            if (btn) {
+                btn.innerHTML = bgSoundEnabled ? '🔊 Ambient Sound On' : '🔇 Ambient Sound Off';
+                btn.classList.toggle('setting-active', bgSoundEnabled);
+            }
         }
 
         function updateTypographyStyles() {
             let root = document.documentElement;
-            let isDark = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement.getAttribute('data-theme') !== 'nature';
+            let isDark = document.documentElement.getAttribute('data-theme') !== 'light' && document.documentElement
+                .getAttribute('data-theme') !== 'nature';
 
             let color = isDark ? '#f0f3f8' : '#1a1a2e';
             if (typographySetting === 'red') color = "#d63031";
@@ -4019,6 +4325,16 @@
             gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + d);
             osc.start();
             osc.stop(audioCtx.currentTime + d);
+        }
+
+        // Tick sound for delete animation
+        function playTickSound(count = 2) {
+            let i = 0;
+            let interval = setInterval(() => {
+                if (i >= count) { clearInterval(interval); return; }
+                triggerAudioTone(600 + i * 100, 0.04);
+                i++;
+            }, 200);
         }
 
         // ─── RATING / DIFFICULTY ───
@@ -4137,8 +4453,8 @@
         }
 
         function getNormalDifficulty() {
-            return (appOperationalContext === 'manual') ? { digits: manualDigits, rows: manualRows, time: manualTime } : getRatingBoundDifficulty(
-            rating);
+            return (appOperationalContext === 'manual') ? { digits: manualDigits, rows: manualRows, time: manualTime } :
+                getRatingBoundDifficulty(rating);
         }
 
         function getFinalDifficulty() {
@@ -4280,7 +4596,8 @@
             if (timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 timeLeft -= 0.1;
-                if (appOperationalContext === 'manual') document.getElementById('timerNumber').innerText = timeLeft.toFixed(1);
+                if (appOperationalContext === 'manual') document.getElementById('timerNumber').innerText = timeLeft.toFixed(
+                1);
                 if (appOperationalContext === 'rated') {
                     let pct = (timeLeft / timerSecs) * 100;
                     barFill.style.width = `${pct}%`;
@@ -4335,7 +4652,7 @@
                 oldUserRating = rating;
             let speedMsAhead = 0;
             let explanation = "";
-            let resultType = 'draw'; // 'win', 'loss', 'draw'
+            let resultType = 'draw';
 
             if (appOperationalContext === 'rated' && hasActiveOpponent) {
                 let userDiff = getRatingBoundDifficulty(rating);
@@ -4347,8 +4664,8 @@
                     botSubmissionTimeMs = 7000;
                 if (!botTimedOut) {
                     botCorrect = Math.random() < baseProb;
-                    botSubmissionTimeMs = (opponentRating >= 2000 && userDiff.rows <= 15 && userDiff.digits <= 1) ? 3000 : Math.floor(
-                        Math.random() * 2500) + 3000;
+                    botSubmissionTimeMs = (opponentRating >= 2000 && userDiff.rows <= 15 && userDiff.digits <= 1) ? 3000 :
+                        Math.floor(Math.random() * 2500) + 3000;
                 }
 
                 let timeGapMs = botSubmissionTimeMs - userElapsedMs;
@@ -4382,7 +4699,7 @@
                     resultType = 'draw';
                     addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect, sequence, userVal, userVal ===
                         null);
-                    updateStats(false, false, true, oldUserRating, opponentRating); // draw
+                    updateStats(false, false, true, oldUserRating, opponentRating);
                 } else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     let baseGain = k * (1 - expected);
                     let speedMult = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
@@ -4441,7 +4758,6 @@
                     display.removeAttribute('style');
                 }, 2500);
 
-                // After match, auto-analysis will be triggered by overlay dismiss
             } else {
                 playSfx(userCorrect ? 1200 : 150, userCorrect ? 'sine' : 'sawtooth', userCorrect ? 0.3 : 0.4);
                 display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
@@ -4452,7 +4768,7 @@
                     explanation = `✅ Correct! The sum was ${actualSum}. Great job!`;
                 } else {
                     explanation =
-                    `❌ Incorrect. The correct sum was ${actualSum}. Your answer was ${userVal !== null ? userVal : 'no answer'}.`;
+                        `❌ Incorrect. The correct sum was ${actualSum}. Your answer was ${userVal !== null ? userVal : 'no answer'}.`;
                 }
                 let delta = userCorrect ? 0 : 0;
                 triggerPerformanceOverlay(userCorrect ? "Correct!" : "Incorrect", userCorrect ? "You nailed it!" :
@@ -4463,7 +4779,6 @@
                     display.className = "ready-text";
                     display.removeAttribute('style');
                 }, 2500);
-                // For manual, we don't update stats
             }
 
             if (appOperationalContext === 'rated') {
@@ -4476,12 +4791,13 @@
             disableControls(false);
             checkTitledMilestoneThresholdStatus();
             renderStatsPanel();
+            updateProfileStats();
         }
 
         document.getElementById('user-ans').disabled = true;
         document.getElementById('user-ans').addEventListener('keypress', (e) => { if (e.key === 'Enter') validateInput(); });
 
-        // ─── HISTORY ───
+        // ─── HISTORY (full) ───
         function addHistory(questionStr, isCorrect, seqArray = [], userVal = null, isTimeout = false, isInterrupted = false,
             isRefreshPenalty = false) {
             let entry = {
@@ -4492,13 +4808,14 @@
                 userTimeMs: userElapsedMsGlobal || 0,
                 isTimeout: isTimeout,
                 isInterrupted: isInterrupted,
-                isRefreshPenalty: isRefreshPenalty
+                isRefreshPenalty: isRefreshPenalty,
+                timestamp: Date.now()
             };
             lastCompletedGameDetails = entry;
 
             if (appOperationalContext === 'rated') {
                 historyGames.unshift(entry);
-                if (historyGames.length > 10) historyGames.pop();
+                // Keep all games
                 localStorage.setItem('game-history-rated', JSON.stringify(historyGames));
             }
         }
@@ -4506,18 +4823,30 @@
         function openHistoryWithAnimation() {
             if (gameInProgress) return;
             showLoading();
-            setTimeout(() => { renderHistoryModal();
+            setTimeout(() => { renderFullHistory();
                 hideLoading();
                 document.getElementById('history-fullscreen').style.display = 'flex'; }, 2000);
         }
 
-        function renderHistoryModal() {
+        function renderFullHistory() {
             let container = document.getElementById('historyListModal');
-            if (!historyGames.length) { container.innerHTML =
-                '<div style="text-align:center;padding:40px;color:var(--text-secondary);">— No games yet —</div>'; return; }
-            container.innerHTML = historyGames.slice(0, 5).map(g =>
-                `<div class="history-item-modal"><span class="history-question-text">${g.q}</span><span class="history-status ${g.correct ? 'correct' : 'wrong'}">${g.correct ? '✓' : '✗'}</span></div>`
-                ).join('');
+            if (!historyGames.length) {
+                container.innerHTML =
+                    '<div style="text-align:center;padding:40px;color:var(--text-secondary);">— No games played yet —</div>';
+                return;
+            }
+            container.innerHTML = historyGames.map((g, idx) => {
+                let result = g.correct ? 'win' : 'loss';
+                if (g.q.includes('Draw')) result = 'draw';
+                if (g.isInterrupted || g.isRefreshPenalty) result = 'loss';
+                let badge = result === 'win' ? '<span class="history-result-badge win">Win</span>' :
+                    result === 'draw' ? '<span class="history-result-badge draw">Draw</span>' :
+                    '<span class="history-result-badge loss">Loss</span>';
+                return `<div class="history-item-modal">
+                            <span class="history-question-text">#${idx+1} ${g.q}</span>
+                            <span>${badge}</span>
+                        </div>`;
+            }).join('');
         }
 
         function closeHistoryFullscreen() { document.getElementById('history-fullscreen').style.display = 'none'; }
@@ -4658,12 +4987,14 @@
 
             let num = parseInt(val);
             if (isNaN(num) || !/^\d+$/.test(val)) {
-                res.innerHTML = "⚠️ This is not a valid score configuration! Please specify numeric integers within structural bounds.";
+                res.innerHTML =
+                    "⚠️ This is not a valid score configuration! Please specify numeric integers within structural bounds.";
                 return;
             }
 
             if (num < 1200) {
-                res.innerHTML = `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Keep pushing to break past the 1200 baseline cutoff.`;
+                res.innerHTML =
+                    `🌱 **Rating Level: Initial Training Phase (< 1200)**<br>Keep pushing to break past the 1200 baseline cutoff.`;
                 return;
             }
 
@@ -4716,14 +5047,11 @@
 
             stats.sumOpponentRatings += opponentRatingVal || 0;
 
-            // highest rating
             if (rating > stats.highestRating) stats.highestRating = rating;
-            // highest beaten opponent
             if (win && opponentRatingVal > stats.highestBeaten) stats.highestBeaten = opponentRatingVal;
 
             stats.lastActivity = Date.now();
 
-            // store
             localStorage.setItem('stats-highestRating', stats.highestRating);
             localStorage.setItem('stats-highestBeaten', stats.highestBeaten);
             localStorage.setItem('stats-totalGames', stats.totalGames);
@@ -4734,6 +5062,8 @@
             localStorage.setItem('stats-lastActivity', stats.lastActivity);
 
             renderStatsPanel();
+            updateProfileStats();
+            renderSettingsStats();
         }
 
         function renderStatsPanel() {
@@ -4768,6 +5098,32 @@
                             <div class="stats-item"><span class="label">Avg Opponent</span><span class="value">${avgOpp}</span></div>
                         </div>
                         <div style="font-size:0.6rem; text-align:right; opacity:0.3; margin-top:4px;">${stats.totalGames} games played</div>
+                    `;
+        }
+
+        function renderSettingsStats() {
+            const container = document.getElementById('settingsStatsContent');
+            if (!container) return;
+            if (stats.totalGames === 0) {
+                container.innerHTML =
+                    `<div style="text-align:center;padding:20px;opacity:0.5;">Play rated games to see stats here.</div>`;
+                return;
+            }
+            const winRate = Math.round((stats.totalWins / stats.totalGames) * 100);
+            const lossRate = Math.round((stats.totalLosses / stats.totalGames) * 100);
+            const drawRate = Math.round((stats.totalDraws / stats.totalGames) * 100);
+            const avgOpp = Math.round(stats.sumOpponentRatings / stats.totalGames);
+            container.innerHTML = `
+                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;">
+                            <div><span style="opacity:0.6;">Highest Rating</span> <strong>${stats.highestRating}</strong></div>
+                            <div><span style="opacity:0.6;">Highest Beaten</span> <strong>${stats.highestBeaten || '—'}</strong></div>
+                            <div><span style="opacity:0.6;">Win %</span> <strong>${winRate}%</strong></div>
+                            <div><span style="opacity:0.6;">Loss %</span> <strong>${lossRate}%</strong></div>
+                            <div><span style="opacity:0.6;">Draw %</span> <strong>${drawRate}%</strong></div>
+                            <div><span style="opacity:0.6;">Avg Opponent</span> <strong>${avgOpp}</strong></div>
+                            <div style="grid-column:span 2;"><span style="opacity:0.6;">Total Games</span> <strong>${stats.totalGames}</strong></div>
+                            <div style="grid-column:span 2;"><span style="opacity:0.6;">Wins</span> <strong>${stats.totalWins}</strong> | <span style="opacity:0.6;">Losses</span> <strong>${stats.totalLosses}</strong> | <span style="opacity:0.6;">Draws</span> <strong>${stats.totalDraws}</strong></div>
+                        </div>
                     `;
         }
 
@@ -4817,7 +5173,9 @@
                 card.style.display = 'block';
 
                 updateVoiceMuteUI();
+                duckAmbient(true);
                 speakVoiceAnalysisText(spokenDiagnostic);
+                setTimeout(() => duckAmbient(false), 3000);
             }, 800);
         }
 
@@ -4837,14 +5195,16 @@
             ];
             const winEnd = [
                 "continue pushing forward to reach higher ranks!", "keep building your winning streak!",
-                "you are well on your way to claiming new master cutoffs!", "keep training to solidify your grandmaster status!",
+                "you are well on your way to claiming new master cutoffs!",
+                "keep training to solidify your grandmaster status!",
                 "your rating potential is skyrocketing!", "keep this momentum going in your next session!",
                 "aim even higher in the next difficulty bracket!", "your consistent practice is paying off massively!",
                 "keep crushing these calculations!", "maintain this elite level of concentration!"
             ];
             const lossStart = ["Notice,", "Attention,", "Analysis shows", "Review required:", "Keep your head up,",
                 "Stay resilient,", "Learning moment:", "Stay sharp,", "Focus point:", "Take note,",
-                "Correction ahead,", "Don't get discouraged,", "Diagnostic insight:", "Refuse to give up,", "Adjust strategy:"
+                "Correction ahead,", "Don't get discouraged,", "Diagnostic insight:", "Refuse to give up,",
+                "Adjust strategy:"
             ];
 
             if (isWin) {
@@ -4898,7 +5258,8 @@
             setTimeout(() => {
                 clearInterval(pi);
                 hideLoading();
-                textNode.innerHTML = `<i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span>`;
+                textNode.innerHTML =
+                `<i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span>`;
                 selectedReplayGameIndex = 0;
                 selectedReplayStepIndex = 0;
                 renderAITutorReportModal();
@@ -4962,7 +5323,7 @@
                 mainDiag =
                     `<strong>Outstanding Consistency!</strong> Your current rating is <strong>${rating}</strong>. Your speed and visualization are sharp. Focus on pushing higher rated ranks to keep advancing!`;
                 spoken =
-                `Outstanding consistency! Your current rating is ${rating}. Your speed and mental soroban visualization are sharp. Keep pushing higher rated ranks!`;
+                    `Outstanding consistency! Your current rating is ${rating}. Your speed and mental soroban visualization are sharp. Keep pushing higher rated ranks!`;
             } else if (refreshPenalties >= 2) {
                 mainDiag =
                     `<strong>Rating Leak Detected: Tab Refresh Penalties!</strong> You have ${refreshPenalties} games penalized for refreshing or closing the tab during active calculation streams. This violates Fair Play guidelines and cost you Elo points. Since your current rating is <strong>${rating}</strong>, avoiding tab exits will easily allow you to increase your rating!`;
@@ -5024,7 +5385,9 @@
             renderSandboxReplayStep();
             document.getElementById('ai-tutor-modal-fullscreen').style.display = 'flex';
 
+            duckAmbient(true);
             speakVoiceAnalysisText(spoken);
+            setTimeout(() => duckAmbient(false), 3000);
         }
 
         function selectReplayGame(idx) {
@@ -5097,6 +5460,7 @@
             if (!gameInProgress) {
                 document.getElementById('gear-trigger').classList.add('rotate-active');
                 document.body.classList.add('sidebar-active');
+                renderSettingsStats();
             }
         }
 
@@ -5110,6 +5474,7 @@
             document.querySelectorAll('.settings-pane-section').forEach(sec => sec.classList.remove('pane-active'));
             document.getElementById(`nav-tab-${p}`).classList.add('tab-active');
             document.getElementById(`pane-${p}`).classList.add('pane-active');
+            if (p === 'stats') renderSettingsStats();
         }
 
         function closeAboutViewPage() { document.getElementById('pane-about-fullscreen').style.display = 'none'; }
@@ -5132,6 +5497,9 @@
             );
 
             if (confirm === 'DeleteEverything') {
+                // Play tick sound
+                playTickSound(2);
+
                 localStorage.removeItem('abacus-rating');
                 localStorage.removeItem('abacus-games');
                 localStorage.removeItem('game-history-rated');
@@ -5139,7 +5507,6 @@
                 localStorage.removeItem('lock-until-timestamp');
                 localStorage.removeItem('abacus-sum-interrupted');
                 localStorage.removeItem('abacus-aam-popup-fired');
-                // stats
                 localStorage.removeItem('stats-highestRating');
                 localStorage.removeItem('stats-highestBeaten');
                 localStorage.removeItem('stats-totalGames');
@@ -5157,7 +5524,6 @@
                 lockUntilTimestamp = 0;
                 wasAAMTitleNotificationTriggered = false;
 
-                // Reset stats object
                 stats = {
                     highestRating: 1500,
                     highestBeaten: 0,
@@ -5168,7 +5534,6 @@
                     sumOpponentRatings: 0,
                     lastActivity: Date.now()
                 };
-                // store baseline
                 localStorage.setItem('stats-highestRating', 1500);
                 localStorage.setItem('stats-totalGames', 0);
                 localStorage.setItem('stats-lastActivity', Date.now());
@@ -5182,8 +5547,11 @@
                 updateRatingUI();
                 clearOpponentDisplay();
                 renderStatsPanel();
+                updateProfileStats();
+                renderSettingsStats();
 
-                alert("✅ All account progress, ratings, and game history have been completely reset. You are starting fresh!");
+                alert(
+                "✅ All account progress, ratings, and game history have been completely reset. You are starting fresh!");
                 closeProfileFullscreen();
             } else if (confirm !== null) {
                 alert("❌ Reset cancelled. You must type 'DeleteEverything' exactly as shown to proceed.");
@@ -5201,6 +5569,7 @@
                     btn.classList.remove('flash-highlight');
                     void btn.offsetWidth;
                     btn.classList.add('flash-highlight');
+                    playTickSound(2);
                 }
             }, 300);
         }
@@ -5359,6 +5728,9 @@
                 e.returnValue = '';
             }
         });
+
+        // ─── OVERRIDE speakVoiceAnalysisText for ducking ───
+        // Already done in initApp
     </script>
 </body>
 </html>
