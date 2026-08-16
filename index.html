@@ -96,15 +96,17 @@
         }
 
         @keyframes colorFlashCycle {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes rainbowSplash {
+            0% { background-position: 0% 50%; }
+            20% { background-position: 100% 50%; }
+            40% { background-position: 50% 100%; }
+            60% { background-position: 0% 100%; }
+            80% { background-position: 100% 0%; }
+            100% { background-position: 0% 50%; }
         }
 
         .colorful-animated-bg {
@@ -127,56 +129,23 @@
         }
 
         @keyframes slowMotionPan {
-            0% {
-                background-position: 0% 50%;
-                background-size: 140% 140%;
-            }
-            50% {
-                background-position: 100% 50%;
-                background-size: 115% 115%;
-            }
-            100% {
-                background-position: 0% 50%;
-                background-size: 140% 140%;
-            }
+            0% { background-position: 0% 50%; background-size: 140% 140%; }
+            50% { background-position: 100% 50%; background-size: 115% 115%; }
+            100% { background-position: 0% 50%; background-size: 140% 140%; }
         }
-        .nature-pan-effect {
-            animation: slowMotionPan 60s linear infinite;
-        }
+        .nature-pan-effect { animation: slowMotionPan 60s linear infinite; }
         @keyframes spacePanEffect {
-            0% {
-                background-position: 0% 0%;
-                background-size: 140% 140%;
-            }
-            50% {
-                background-position: 100% 100%;
-                background-size: 115% 115%;
-            }
-            100% {
-                background-position: 0% 0%;
-                background-size: 140% 140%;
-            }
+            0% { background-position: 0% 0%; background-size: 140% 140%; }
+            50% { background-position: 100% 100%; background-size: 115% 115%; }
+            100% { background-position: 0% 0%; background-size: 140% 140%; }
         }
         @keyframes gentleGlowPan {
-            0% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
-            50% {
-                background-position: 100% 50%;
-                background-size: 120% 120%;
-            }
-            100% {
-                background-position: 0% 50%;
-                background-size: 150% 150%;
-            }
+            0% { background-position: 0% 50%; background-size: 150% 150%; }
+            50% { background-position: 100% 50%; background-size: 120% 120%; }
+            100% { background-position: 0% 50%; background-size: 150% 150%; }
         }
-        .space-pan-effect {
-            animation: spacePanEffect 50s ease infinite;
-        }
-        .gradient-pan-effect {
-            animation: gentleGlowPan 35s ease infinite;
-        }
+        .space-pan-effect { animation: spacePanEffect 50s ease infinite; }
+        .gradient-pan-effect { animation: gentleGlowPan 35s ease infinite; }
 
         body {
             display: flex;
@@ -255,12 +224,8 @@
             border: 2px solid var(--surface);
         }
         @keyframes gearInfiniteSpin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .settings-gear-btn.rotate-active i {
             animation: gearInfiniteSpin 2.5s linear infinite;
@@ -398,15 +363,49 @@
             animation: pulse 1s ease-in-out infinite;
         }
         @keyframes pulse {
-            0%,
-            100% {
-                opacity: 0.4;
-                transform: scale(0.9);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.15);
-            }
+            0%, 100% { opacity: 0.4; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.15); }
+        }
+
+        /* ─── STATS PANEL ─── */
+        .stats-panel {
+            background: var(--surface);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            box-shadow: var(--card-shadow);
+            color: var(--text);
+            transition: var(--transition);
+        }
+        .stats-panel:hover {
+            box-shadow: var(--card-shadow-hover);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 12px;
+            margin-top: 6px;
+        }
+        .stats-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            padding: 2px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .stats-item .label {
+            opacity: 0.6;
+            font-weight: 500;
+        }
+        .stats-item .value {
+            font-weight: 700;
+        }
+        .stats-placeholder {
+            text-align: center;
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            padding: 6px 0;
         }
 
         /* ─── GAME CONTAINER ─── */
@@ -784,26 +783,96 @@
             transform: none !important;
         }
 
-        .req-analysis-main-btn {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
+        /* Rating change display (bottom-right) */
+        #rating-change-display {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9000;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
             display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.1);
+            pointer-events: none;
+        }
+        #rating-change-display.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+        #rating-change-display.positive {
+            border-color: var(--green);
+            color: var(--green);
+        }
+        #rating-change-display.negative {
+            border-color: var(--red);
+            color: var(--red);
+        }
+        #rating-change-display.draw {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        /* Mobile rating info button */
+        #rating-info-mobile {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9000;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            color: #fff;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.15);
+            font-size: 1.2rem;
+            cursor: pointer;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 16px var(--accent-glow);
-            width: 220px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            transition: var(--transition);
         }
-        .req-analysis-main-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 28px var(--accent-glow);
+        #rating-info-mobile:hover {
+            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.85);
+        }
+        #rating-info-mobile i {
+            color: #fff;
+        }
+
+        /* Mobile rating popup */
+        #rating-popup-mobile {
+            display: none;
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            z-index: 9001;
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: var(--card-shadow-hover);
+            max-width: 220px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.5;
+        }
+        #rating-popup-mobile.show {
+            display: block;
         }
 
         .match-actions-container {
@@ -1573,12 +1642,8 @@
             padding-right: 40px;
         }
         @keyframes scrollTextMarquee {
-            0% {
-                transform: translate3d(0, 0, 0);
-            }
-            100% {
-                transform: translate3d(-50%, 0, 0);
-            }
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); }
         }
         .philosophy-section {
             background: rgba(255, 255, 255, 0.06);
@@ -1745,15 +1810,9 @@
 
         /* ─── AI TUTOR ─── */
         @keyframes aiTutorSmoothShift {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         #ai-tutor-modal-fullscreen {
             display: none;
@@ -1803,27 +1862,17 @@
         }
 
         /* ─── SPLASH SCREEN ─── */
-        @keyframes splashGreenGlow {
-            0% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-            100% {
-                background-position: 0% 50%;
-            }
+        @keyframes splashRainbow {
+            0% { background-position: 0% 50%; background-size: 300% 300%; }
+            25% { background-position: 50% 100%; background-size: 350% 350%; }
+            50% { background-position: 100% 50%; background-size: 300% 300%; }
+            75% { background-position: 50% 0%; background-size: 350% 350%; }
+            100% { background-position: 0% 50%; background-size: 300% 300%; }
         }
         @keyframes floatUpDown {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
-            100% {
-                transform: translateY(0px);
-            }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0px); }
         }
         #splash-screen {
             position: fixed;
@@ -1834,17 +1883,17 @@
             justify-content: center;
             z-index: 10000;
             transition: opacity 0.5s ease-out;
-            background: linear-gradient(-45deg, #059669, #047857, #065f46, #0f766e, #111827);
+            background: linear-gradient(-45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd);
             background-size: 300% 300%;
-            animation: splashGreenGlow 10s ease infinite;
+            animation: splashRainbow 12s ease infinite;
         }
         .splash-logo-rect {
             width: 140px;
             height: auto;
             border-radius: 16px;
-            border: 2px solid #34d399;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(52, 211, 153, 0.3);
-            background: rgba(6, 78, 70, 0.3);
+            border: 2px solid #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.15);
             padding: 8px;
             backdrop-filter: blur(10px);
             margin-bottom: 16px;
@@ -1852,11 +1901,11 @@
         }
         .splash-logo {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.6rem;
+            font-size: 3.8rem;
             text-align: center;
-            color: #6ee7b7;
+            color: #fff;
             margin-bottom: 18px;
-            text-shadow: 0 4px 20px rgba(52, 211, 153, 0.4), 0 0 10px rgba(0, 0, 0, 0.5);
+            text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.3);
         }
         .modes-entry-grid {
             display: flex;
@@ -1869,8 +1918,8 @@
         .mode-entry-button {
             width: 100%;
             padding: 14px 24px;
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid #34d399;
+            background: rgba(255, 255, 255, 0.12);
+            border: 2px solid #fff;
             border-radius: 50px;
             color: #ffffff;
             font-weight: 800;
@@ -1883,12 +1932,14 @@
             backdrop-filter: blur(8px);
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }
         .mode-entry-button:hover {
-            background: #34d399;
-            color: #064e3b;
+            background: rgba(255, 255, 255, 0.3);
+            color: #000;
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 25px rgba(52, 211, 153, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            border-color: #ffd700;
         }
 
         /* ─── FOUNDER STORY ─── */
@@ -2055,18 +2106,9 @@
             background: linear-gradient(135deg, #e74c3c, #d63031);
         }
         @keyframes highlightFlashRed {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 6px 20px rgba(214, 48, 49, 0.3);
-            }
-            50% {
-                transform: scale(1.06);
-                box-shadow: 0 0 30px #ff7675, 0 0 10px #ffffff;
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 6px 20px rgba(214, 48, 49, 0.3);
-            }
+            0% { transform: scale(1); box-shadow: 0 6px 20px rgba(214, 48, 49, 0.3); }
+            50% { transform: scale(1.06); box-shadow: 0 0 30px #ff7675, 0 0 10px #ffffff; }
+            100% { transform: scale(1); box-shadow: 0 6px 20px rgba(214, 48, 49, 0.3); }
         }
         .flash-highlight {
             animation: highlightFlashRed 0.6s ease-in-out 2;
@@ -2103,9 +2145,7 @@
             gap: 8px;
         }
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
         /* ─── RESPONSIVE ─── */
@@ -2124,6 +2164,10 @@
                 min-width: 180px;
             }
             .mode-selection-bar {
+                width: 100%;
+            }
+            .stats-panel {
+                order: 10;
                 width: 100%;
             }
         }
@@ -2181,6 +2225,21 @@
                 padding: 6px 8px;
                 min-width: 50px;
             }
+            /* hide desktop rating display, show mobile info button */
+            #rating-change-display {
+                display: none !important;
+            }
+            #rating-info-mobile {
+                display: flex !important;
+            }
+        }
+        @media(min-width: 701px) {
+            #rating-info-mobile {
+                display: none !important;
+            }
+            #rating-change-display {
+                display: block; /* but hidden by default via opacity */
+            }
         }
         @media(max-width: 480px) {
             .flair-grid-full {
@@ -2214,7 +2273,7 @@
         <div class="loading-text"><i class="fas fa-hourglass-half"></i> Processing Sandbox Stream Matrix<span>...</span></div>
     </div>
 
-    <!-- ─── SPLASH SCREEN ─── -->
+    <!-- ─── SPLASH SCREEN (colorful) ─── -->
     <div id="splash-screen">
         <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png"
         alt="Abacus Arena Logo"
@@ -2270,6 +2329,17 @@
                     </div>
                 </div>
                 <div><span class="identity-status-dot"></span></div>
+            </div>
+
+            <!-- STATS PANEL -->
+            <div class="stats-panel" id="statsPanel">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                    <span style="font-weight:700; font-size:0.9rem;"><i class="fas fa-chart-line"></i> Career Stats</span>
+                    <span id="statsLockIcon" style="font-size:0.7rem; opacity:0.5;"><i class="fas fa-lock"></i></span>
+                </div>
+                <div id="statsContent">
+                    <!-- dynamically filled -->
+                </div>
             </div>
         </div>
 
@@ -2345,7 +2415,7 @@
             <div class="main-display-area">
                 <main><div id="display" class="ready-text">READY</div></main>
 
-                <!-- COMPUTER ANALYSIS CARD -->
+                <!-- COMPUTER ANALYSIS CARD (auto-displayed) -->
                 <div id="mainCompAnalysisCard">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
                         <h4 style="margin:0;font-size:0.9rem;color:#60a5fa;"><i class="fas fa-calculator"></i> Computer Deep Analysis</h4>
@@ -2357,15 +2427,11 @@
                 </div>
             </div>
 
-            <!-- INPUT AREA -->
+            <!-- INPUT AREA (no "Request Computer Analysis" button) -->
             <div class="input-area">
                 <input type="number" id="user-ans" class="main-ans-field" placeholder="?" disabled autocomplete="off">
                 <button id="submit-btn" onclick="validateInput()"><i class="fas fa-check-circle"></i> SUBMIT</button>
                 <button id="action-btn" onclick="startMatchmakingSequence()"><i class="fas fa-play"></i> NEW SESSION</button>
-
-                <button id="mainReqAnalysisBtn" class="req-analysis-main-btn" onclick="triggerMainBoardComputerAnalysis()">
-                    <i class="fas fa-microchip"></i> Request Computer Analysis
-                </button>
 
                 <div class="match-actions-container">
                     <button id="abort-match-btn" class="action-control-btn" onclick="triggerManualAbort()"><i class="fas fa-ban"></i> Abort</button>
@@ -2374,6 +2440,15 @@
             </div>
         </div>
     </div>
+
+    <!-- ─── RATING CHANGE DISPLAY (desktop bottom-right) ─── -->
+    <div id="rating-change-display"></div>
+
+    <!-- ─── MOBILE RATING INFO BUTTON ─── -->
+    <button id="rating-info-mobile" onclick="toggleRatingPopupMobile()">
+        <i class="fas fa-info-circle"></i>
+    </button>
+    <div id="rating-popup-mobile"></div>
 
     <!-- ─── LEVEL CHECK ─── -->
     <div id="level-check-fullscreen" class="colorful-animated-bg">
@@ -3082,6 +3157,18 @@
         let lastCompletedGameDetails = null;
         let userElapsedMsGlobal = 0;
 
+        // Stats
+        let stats = {
+            highestRating: parseInt(localStorage.getItem('stats-highestRating')) || 1500,
+            highestBeaten: parseInt(localStorage.getItem('stats-highestBeaten')) || 0,
+            totalGames: parseInt(localStorage.getItem('stats-totalGames')) || 0,
+            totalWins: parseInt(localStorage.getItem('stats-totalWins')) || 0,
+            totalLosses: parseInt(localStorage.getItem('stats-totalLosses')) || 0,
+            totalDraws: parseInt(localStorage.getItem('stats-totalDraws')) || 0,
+            sumOpponentRatings: parseInt(localStorage.getItem('stats-sumOpponentRatings')) || 0,
+            lastActivity: parseInt(localStorage.getItem('stats-lastActivity')) || Date.now()
+        };
+
         const firstPrefixList = ["Alpha", "Stockfish", "Soroban", "Quantum", "Hyper", "Mega", "Omega", "Cyber", "Deep", "Vector", "Cerebral", "Matrix", "Sonic", "Turbo", "Titan", "Zenith", "Apex", "Nexus", "Aero", "Crypto", "Meta", "Pixel", "Cosmo", "Astral", "Aura", "Synapse", "Neural", "Kortex", "Cipher", "Binary"];
         const secondSuffixList = ["Bead", "Mind", "Cortex", "Arith", "Calculus", "Pulse", "Brain", "Logic", "Digit", "Intel", "Core", "Node", "Nexus", "Vertex", "Grid", "Prime", "Wave", "Flow", "Spark", "Forge", "Glitch", "Bot", "Synth", "Wizard", "Sage", "Tracker", "Vector"];
 
@@ -3131,6 +3218,9 @@
 
             updateCustomControlsUI();
             updateTypographyStyles();
+
+            // stats panel
+            renderStatsPanel();
         }
 
         function buildComprehensiveAIPools() {
@@ -3361,7 +3451,6 @@
         function startMatchmakingSequence() {
             if (gameInProgress) return;
             document.getElementById('mainCompAnalysisCard').style.display = 'none';
-            document.getElementById('mainReqAnalysisBtn').style.display = 'none';
 
             let now = Date.now();
             if (now < lockUntilTimestamp) {
@@ -3514,12 +3603,14 @@
                 gamesPlayed++;
                 localStorage.setItem('abacus-games', gamesPlayed);
                 addHistory(sequence.join('+') + '=' + sequence.reduce((a, b) => a + b, 0) + ' (Resigned)', false, sequence, 0, true, false, true);
+                updateStats(false, false, true, oldUserRating, opponentRating); // loss
             }
 
             updateRatingUI();
             updateMainDisplay();
             disableControls(false);
             checkTitledMilestoneThresholdStatus();
+            renderStatsPanel();
         }
 
         function startCooldownTickerLoop() {
@@ -3596,11 +3687,65 @@
                 }, 500);
             }
             setTimeout(() => closeIcon.style.display = "flex", 5000);
+
+            // Show rating change display (desktop) and store for mobile popup
+            showRatingChangeDisplay(deltaVal, bannerTitle);
         }
 
         function dismissPerformanceOverlay() {
             document.getElementById('fide-match-outcome-overlay').style.display = "none";
             clearOpponentDisplay();
+            // after overlay closes, auto-show analysis
+            if (lastCompletedGameDetails && appOperationalContext === 'rated') {
+                setTimeout(() => {
+                    triggerMainBoardComputerAnalysis();
+                }, 400);
+            }
+        }
+
+        // ─── RATING CHANGE DISPLAY ───
+        function showRatingChangeDisplay(delta, result) {
+            const disp = document.getElementById('rating-change-display');
+            if (!disp) return;
+            let sign = delta > 0 ? '+' : (delta < 0 ? '' : '');
+            let text = `${sign}${delta}`;
+            if (delta === 0) text = '=0';
+            disp.innerText = text;
+            disp.className = 'show';
+            if (delta > 0) disp.classList.add('positive');
+            else if (delta < 0) disp.classList.add('negative');
+            else disp.classList.add('draw');
+
+            // Hide after 6 seconds
+            clearTimeout(disp._hideTimeout);
+            disp._hideTimeout = setTimeout(() => {
+                disp.classList.remove('show');
+            }, 6000);
+
+            // Also store for mobile popup
+            window._lastRatingDelta = { delta, result };
+        }
+
+        function toggleRatingPopupMobile() {
+            const popup = document.getElementById('rating-popup-mobile');
+            if (!popup) return;
+            if (popup.classList.contains('show')) {
+                popup.classList.remove('show');
+                return;
+            }
+            const data = window._lastRatingDelta || { delta: 0, result: 'Draw' };
+            let sign = data.delta > 0 ? '+' : (data.delta < 0 ? '' : '');
+            let text = `${sign}${data.delta}`;
+            if (data.delta === 0) text = '=0';
+            popup.innerHTML = `
+                        <div style="font-weight:800; margin-bottom:4px;">Rating Change</div>
+                        <div style="font-size:1.4rem; font-weight:900; color:${data.delta > 0 ? 'var(--green)' : data.delta < 0 ? 'var(--red)' : 'var(--yellow)'}">
+                            ${text}
+                        </div>
+                        <div style="font-size:0.75rem; opacity:0.6;">${data.result}</div>
+                    `;
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 5000);
         }
 
         // ─── LOADING ───
@@ -3996,9 +4141,6 @@
             rating);
         }
 
-        // ─── FAIR PLAY REMOVED ───
-        // All fair-play verification logic has been removed.
-
         function getFinalDifficulty() {
             return getNormalDifficulty();
         }
@@ -4186,8 +4328,6 @@
             actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             actionBtn.onclick = startMatchmakingSequence;
 
-            document.getElementById('mainReqAnalysisBtn').style.display = 'flex';
-
             let userCorrect = (userVal === actualSum);
             let bannerTitle = "",
                 subText = "",
@@ -4195,6 +4335,7 @@
                 oldUserRating = rating;
             let speedMsAhead = 0;
             let explanation = "";
+            let resultType = 'draw'; // 'win', 'loss', 'draw'
 
             if (appOperationalContext === 'rated' && hasActiveOpponent) {
                 let userDiff = getRatingBoundDifficulty(rating);
@@ -4238,8 +4379,10 @@
                     }
                     ratingDelta = Math.round(k * (0.5 - expected));
                     rating = Math.max(1000, rating + ratingDelta);
+                    resultType = 'draw';
                     addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect, sequence, userVal, userVal ===
                         null);
+                    updateStats(false, false, true, oldUserRating, opponentRating); // draw
                 } else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     let baseGain = k * (1 - expected);
                     let speedMult = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
@@ -4257,7 +4400,9 @@
                         explanation =
                             `✅ You correctly calculated ${actualSum} while the AI got it wrong. Your rating increased by +${ratingDelta}.`;
                     }
+                    resultType = 'win';
                     addHistory(sequence.join('+') + '=' + actualSum, true, sequence, userVal, false);
+                    updateStats(true, false, false, oldUserRating, opponentRating);
                 } else {
                     let baseLoss = k * expected;
                     let speedMult = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
@@ -4280,12 +4425,12 @@
                         explanation =
                             `💻 The AI either answered correctly or out-paced you. Your rating decreased by ${Math.abs(ratingDelta)}. Keep practicing to close the gap!`;
                     }
+                    resultType = 'loss';
                     addHistory(sequence.join('+') + '=' + actualSum, false, sequence, userVal, userVal === null);
+                    updateStats(false, true, false, oldUserRating, opponentRating);
                 }
 
                 localStorage.setItem('abacus-rating', rating);
-                let overlayColor = bannerTitle.toLowerCase().includes('win') || bannerTitle.toLowerCase().includes('victory') ?
-                    'win' : bannerTitle.toLowerCase().includes('draw') ? 'draw' : 'loss';
                 triggerPerformanceOverlay(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead, explanation);
                 display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
                 display.style.color = userCorrect ? "var(--green)" : "var(--red)";
@@ -4295,6 +4440,8 @@
                     display.className = "ready-text";
                     display.removeAttribute('style');
                 }, 2500);
+
+                // After match, auto-analysis will be triggered by overlay dismiss
             } else {
                 playSfx(userCorrect ? 1200 : 150, userCorrect ? 'sine' : 'sawtooth', userCorrect ? 0.3 : 0.4);
                 display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
@@ -4307,7 +4454,6 @@
                     explanation =
                     `❌ Incorrect. The correct sum was ${actualSum}. Your answer was ${userVal !== null ? userVal : 'no answer'}.`;
                 }
-                let overlayColor = userCorrect ? 'win' : 'loss';
                 let delta = userCorrect ? 0 : 0;
                 triggerPerformanceOverlay(userCorrect ? "Correct!" : "Incorrect", userCorrect ? "You nailed it!" :
                     "Try again next time.", rating, delta, 0, explanation);
@@ -4317,6 +4463,7 @@
                     display.className = "ready-text";
                     display.removeAttribute('style');
                 }, 2500);
+                // For manual, we don't update stats
             }
 
             if (appOperationalContext === 'rated') {
@@ -4328,13 +4475,7 @@
             updateMainDisplay();
             disableControls(false);
             checkTitledMilestoneThresholdStatus();
-
-            // Auto-request computer analysis for rated matches
-            if (appOperationalContext === 'rated') {
-                setTimeout(() => {
-                    triggerMainBoardComputerAnalysis();
-                }, 1200);
-            }
+            renderStatsPanel();
         }
 
         document.getElementById('user-ans').disabled = true;
@@ -4563,6 +4704,71 @@
                 res.innerHTML =
                     `👑 **Rating Level: ${start} - ${end} Cutoff**<br>Your setup configuration matrix is **${cfg.digits} Digits | ${cfg.rows} Rows | ${timeSec} display timing**.`;
             }
+        }
+
+        // ─── STATS ───
+        function updateStats(win, loss, draw, oldRating, opponentRatingVal) {
+            if (appOperationalContext !== 'rated') return;
+            stats.totalGames++;
+            if (win) stats.totalWins++;
+            else if (loss) stats.totalLosses++;
+            else stats.totalDraws++;
+
+            stats.sumOpponentRatings += opponentRatingVal || 0;
+
+            // highest rating
+            if (rating > stats.highestRating) stats.highestRating = rating;
+            // highest beaten opponent
+            if (win && opponentRatingVal > stats.highestBeaten) stats.highestBeaten = opponentRatingVal;
+
+            stats.lastActivity = Date.now();
+
+            // store
+            localStorage.setItem('stats-highestRating', stats.highestRating);
+            localStorage.setItem('stats-highestBeaten', stats.highestBeaten);
+            localStorage.setItem('stats-totalGames', stats.totalGames);
+            localStorage.setItem('stats-totalWins', stats.totalWins);
+            localStorage.setItem('stats-totalLosses', stats.totalLosses);
+            localStorage.setItem('stats-totalDraws', stats.totalDraws);
+            localStorage.setItem('stats-sumOpponentRatings', stats.sumOpponentRatings);
+            localStorage.setItem('stats-lastActivity', stats.lastActivity);
+
+            renderStatsPanel();
+        }
+
+        function renderStatsPanel() {
+            const container = document.getElementById('statsContent');
+            if (!container) return;
+
+            const lockIcon = document.getElementById('statsLockIcon');
+            const now = Date.now();
+            const weekMs = 7 * 24 * 60 * 60 * 1000;
+            const inactive = (now - stats.lastActivity) > weekMs;
+            const showStats = stats.totalGames >= 11 && !inactive;
+
+            if (!showStats) {
+                container.innerHTML = `<div class="stats-placeholder">?</div>`;
+                if (lockIcon) lockIcon.innerHTML = `<i class="fas fa-lock"></i>`;
+                return;
+            }
+            if (lockIcon) lockIcon.innerHTML = `<i class="fas fa-unlock"></i>`;
+
+            const winRate = stats.totalGames ? Math.round((stats.totalWins / stats.totalGames) * 100) : 0;
+            const lossRate = stats.totalGames ? Math.round((stats.totalLosses / stats.totalGames) * 100) : 0;
+            const drawRate = stats.totalGames ? Math.round((stats.totalDraws / stats.totalGames) * 100) : 0;
+            const avgOpp = stats.totalGames ? Math.round(stats.sumOpponentRatings / stats.totalGames) : 0;
+
+            container.innerHTML = `
+                        <div class="stats-grid">
+                            <div class="stats-item"><span class="label">Highest Rating</span><span class="value">${stats.highestRating}</span></div>
+                            <div class="stats-item"><span class="label">Highest Beaten</span><span class="value">${stats.highestBeaten || '—'}</span></div>
+                            <div class="stats-item"><span class="label">Win %</span><span class="value">${winRate}%</span></div>
+                            <div class="stats-item"><span class="label">Loss %</span><span class="value">${lossRate}%</span></div>
+                            <div class="stats-item"><span class="label">Draw %</span><span class="value">${drawRate}%</span></div>
+                            <div class="stats-item"><span class="label">Avg Opponent</span><span class="value">${avgOpp}</span></div>
+                        </div>
+                        <div style="font-size:0.6rem; text-align:right; opacity:0.3; margin-top:4px;">${stats.totalGames} games played</div>
+                    `;
         }
 
         // ─── COMPUTER ANALYSIS ───
@@ -4933,6 +5139,15 @@
                 localStorage.removeItem('lock-until-timestamp');
                 localStorage.removeItem('abacus-sum-interrupted');
                 localStorage.removeItem('abacus-aam-popup-fired');
+                // stats
+                localStorage.removeItem('stats-highestRating');
+                localStorage.removeItem('stats-highestBeaten');
+                localStorage.removeItem('stats-totalGames');
+                localStorage.removeItem('stats-totalWins');
+                localStorage.removeItem('stats-totalLosses');
+                localStorage.removeItem('stats-totalDraws');
+                localStorage.removeItem('stats-sumOpponentRatings');
+                localStorage.removeItem('stats-lastActivity');
 
                 rating = 1500;
                 gamesPlayed = 0;
@@ -4942,6 +5157,22 @@
                 lockUntilTimestamp = 0;
                 wasAAMTitleNotificationTriggered = false;
 
+                // Reset stats object
+                stats = {
+                    highestRating: 1500,
+                    highestBeaten: 0,
+                    totalGames: 0,
+                    totalWins: 0,
+                    totalLosses: 0,
+                    totalDraws: 0,
+                    sumOpponentRatings: 0,
+                    lastActivity: Date.now()
+                };
+                // store baseline
+                localStorage.setItem('stats-highestRating', 1500);
+                localStorage.setItem('stats-totalGames', 0);
+                localStorage.setItem('stats-lastActivity', Date.now());
+
                 localStorage.setItem('abacus-rating', 1500);
                 localStorage.setItem('abacus-games', 0);
                 localStorage.setItem('game-history-rated', JSON.stringify([]));
@@ -4950,6 +5181,7 @@
                 updateMainDisplay();
                 updateRatingUI();
                 clearOpponentDisplay();
+                renderStatsPanel();
 
                 alert("✅ All account progress, ratings, and game history have been completely reset. You are starting fresh!");
                 closeProfileFullscreen();
