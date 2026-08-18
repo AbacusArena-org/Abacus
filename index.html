@@ -2955,138 +2955,160 @@
     <div id="blog-fullscreen" class="colorful-animated-bg" style="display:none;position:fixed;inset:0;z-index:7200;flex-direction:column;padding:25px;overflow-y:auto;color:#fff;">
         <button class="back-arena-btn" onclick="closeBlogFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
 
-        <div style="max-width:740px;margin:30px auto 0 auto;width:100%;display:flex;flex-direction:column;gap:20px;">
+        <div style="max-width:740px;margin:35px auto 0 auto;width:100%;">
             
-            <!-- Blog Feed Header -->
-            <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(59,130,246,0.25);padding-bottom:12px;">
-                <div>
-                    <h2 style="margin:0;font-size:1.4rem;font-weight:800;color:#fff;"><i class="fas fa-book-open"></i> AbacusArena Blog</h2>
-                    <span style="font-size:0.75rem;color:#94a3b8;">Official articles, development logs & community milestones</span>
+            <!-- Blog Index View -->
+            <div id="blog-feed-list" style="display:flex;flex-direction:column;gap:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(59,130,246,0.25);padding-bottom:12px;">
+                    <div>
+                        <h2 style="margin:0;font-size:1.4rem;font-weight:800;color:#fff;"><i class="fas fa-book-open"></i> AbacusArena Blog</h2>
+                        <span style="font-size:0.75rem;color:#94a3b8;">Articles, milestone logs & platform news</span>
+                    </div>
+                    <div style="font-size:0.72rem;background:#162754;border:1px solid rgba(59,130,246,0.3);padding:4px 10px;border-radius:20px;color:#60a5fa;font-weight:700;">
+                        1 Article
+                    </div>
                 </div>
-                <div style="font-size:0.72rem;background:#162754;border:1px solid rgba(59,130,246,0.3);padding:4px 10px;border-radius:20px;color:#60a5fa;font-weight:700;">
-                    1 Post Published
+
+                <!-- Compact Blog Item Card -->
+                <div style="background:#0f1c3f;border:1px solid rgba(59,130,246,0.2);border-radius:14px;padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;box-shadow:0 8px 24px rgba(0,0,0,0.3);flex-wrap:wrap;">
+                    <div style="flex:1;min-width:260px;">
+                        <div style="display:inline-flex;align-items:center;gap:4px;font-size:0.65rem;font-weight:700;color:#60a5fa;text-transform:uppercase;margin-bottom:6px;">
+                            <i class="fas fa-bullhorn"></i> Milestone Log
+                        </div>
+                        <h3 style="margin:0 0 6px 0;font-size:1.1rem;font-weight:800;color:#ffffff;">100+ Days of AbacusArena</h3>
+                        <p style="margin:0;font-size:0.8rem;color:#94a3b8;line-height:1.4;">Reflecting on 100+ days of development, platform growth, updates, and community milestones.</p>
+                        <div style="margin-top:8px;font-size:0.72rem;color:#64748b;">Posted on August 18th, 2026 · By Aswin Krishnamoorthy</div>
+                    </div>
+
+                    <!-- Small Open Button -->
+                    <div>
+                        <button onclick="openBlogPostDetail()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:30px;padding:8px 18px;font-size:0.8rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:0.2s;">
+                            Read Full Post <i class="fas fa-arrow-right" style="font-size:0.7rem;"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Post #1 -->
-            <article style="background:#0f1c3f;border:1px solid rgba(59,130,246,0.2);border-radius:16px;padding:32px 36px;box-shadow:0 16px 48px rgba(0,0,0,0.4);font-family:'Inter',sans-serif;">
+            <!-- Full Article Reader View -->
+            <div id="blog-post-detail" style="display:none;">
+                <button onclick="backToBlogList()" style="background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:6px 14px;font-size:0.75rem;font-weight:600;cursor:pointer;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px;">
+                    <i class="fas fa-chevron-left"></i> All Articles
+                </button>
 
-                <!-- Header -->
-                <header style="margin-bottom:20px;border-bottom:1px solid rgba(59,130,246,0.2);padding-bottom:18px;">
-                    <div style="display:flex;align-items:center;gap:6px;font-size:0.72rem;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.6px;margin-bottom:10px;">
-                        <span>Arena</span> <span>/</span> <span>Milestone Updates</span>
-                    </div>
+                <article style="background:#0f1c3f;border:1px solid rgba(59,130,246,0.2);border-radius:16px;padding:28px 32px;box-shadow:0 16px 48px rgba(0,0,0,0.4);font-family:'Inter',sans-serif;">
 
-                    <div style="display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;background:rgba(59,130,246,0.15);color:#60a5fa;border:1px solid rgba(59,130,246,0.3);font-size:0.68rem;font-weight:700;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:10px;">
-                        <i class="fas fa-bullhorn"></i> Milestone Log #1
-                    </div>
+                    <!-- Header -->
+                    <header style="margin-bottom:18px;border-bottom:1px solid rgba(59,130,246,0.2);padding-bottom:14px;">
+                        <div style="display:flex;align-items:center;gap:6px;font-size:0.7rem;font-weight:600;color:#94a3b8;text-transform:uppercase;margin-bottom:8px;">
+                            <span>Arena</span> <span>/</span> <span>Milestone Updates</span>
+                        </div>
 
-                    <h1 style="font-size:1.55rem;font-weight:800;line-height:1.25;color:#ffffff;letter-spacing:-0.4px;margin:0 0 14px 0;">100+ Days of AbacusArena: Building the Open-Source Future of Mental Math</h1>
+                        <h1 style="font-size:1.45rem;font-weight:800;line-height:1.25;color:#ffffff;letter-spacing:-0.4px;margin:0 0 12px 0;">100+ Days of AbacusArena: Building the Open-Source Future of Mental Math</h1>
 
-                    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-                        <div style="display:flex;align-items:center;gap:10px;">
-                            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:1rem;border:1.5px solid rgba(255,255,255,0.15);">🏆</div>
-                            <div>
-                                <div style="font-weight:700;font-size:0.82rem;color:#ffffff;display:flex;align-items:center;gap:6px;">
-                                    Aswin Krishnamoorthy <span style="font-size:0.58rem;padding:1px 6px;border-radius:3px;background:#2563eb;color:#fff;font-weight:800;">FOUNDER & LEAD DEV</span>
+                        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);display:flex;align-items:center;justify-content:center;font-size:0.9rem;border:1.5px solid rgba(255,255,255,0.15);">🏆</div>
+                                <div>
+                                    <div style="font-weight:700;font-size:0.8rem;color:#ffffff;display:flex;align-items:center;gap:6px;">
+                                        Aswin Krishnamoorthy <span style="font-size:0.55rem;padding:1px 5px;border-radius:3px;background:#2563eb;color:#fff;font-weight:800;">FOUNDER & LEAD DEV</span>
+                                    </div>
+                                    <div style="font-size:0.7rem;color:#94a3b8;">Posted on August 18th, 2026 · 3 min read</div>
                                 </div>
-                                <div style="font-size:0.72rem;color:#94a3b8;font-weight:500;">Posted on August 18th, 2026 · 3 min read</div>
+                            </div>
+
+                            <div style="font-family:monospace;font-size:0.68rem;color:#60a5fa;background:#162754;padding:4px 8px;border-radius:6px;border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;gap:5px;">
+                                <i class="fas fa-clock-rotate-left"></i> Last updated: August 18th, 2026
+                            </div>
+                        </div>
+                    </header>
+
+                    <!-- Hero Image -->
+                    <div style="margin:16px 0 20px;border-radius:8px;overflow:hidden;border:1px solid rgba(59,130,246,0.2);background:#162754;">
+                        <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" alt="AbacusArena Icon" style="width:100%;height:auto;display:block;max-height:180px;object-fit:contain;padding:12px;">
+                        <div style="font-size:0.7rem;color:#94a3b8;padding:6px 10px;text-align:center;background:rgba(0,0,0,0.2);border-top:1px solid rgba(59,130,246,0.2);">
+                            AbacusArena.org marks over 100 consecutive days of live arithmetic matches.
+                        </div>
+                    </div>
+
+                    <!-- Body Content -->
+                    <div style="font-size:0.88rem;line-height:1.65;color:#cbd5e1;">
+                        <p style="margin-bottom:12px;">
+                            When I compiled the very first build of <strong style="color:#fff;">AbacusArena</strong> on <strong style="color:#fff;">April 23, 2026</strong>, the goal was simple: construct a distraction-free, zero-paywall arena where anyone can train mental arithmetic without seeing a single advertisement.
+                        </p>
+
+                        <p style="margin-bottom:12px;">
+                            Crossing our first <strong style="color:#fff;">100+ days of continuous operation</strong>, the platform has grown rapidly. Solvers now log on daily to test their speed, challenge adaptive bots, and master mental Soroban visualization.
+                        </p>
+
+                        <!-- Metric Grid (Founder Rating 1843 on August 18th) -->
+                        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0;">
+                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
+                                <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">100+</div>
+                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Days Live</div>
+                            </div>
+                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
+                                <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">50+</div>
+                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Updates Shipped</div>
+                            </div>
+                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
+                                <div style="font-size:1.15rem;font-weight:800;color:#fbbf24;font-family:monospace;">1843</div>
+                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Founder Rating (Aug 18)</div>
+                            </div>
+                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
+                                <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">100%</div>
+                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Free Forever</div>
                             </div>
                         </div>
 
-                        <div style="font-family:monospace;font-size:0.7rem;color:#60a5fa;background:#162754;padding:4px 10px;border-radius:6px;border:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;gap:5px;">
-                            <i class="fas fa-clock-rotate-left"></i> Last updated: August 18th, 2026
+                        <p style="margin-bottom:12px;">
+                            On <strong style="color:#fff;">August 18th, 2026</strong>, my rating on this web platform stood at <strong style="color:#fbbf24;">1843</strong>. Every update deployed to the arena is tested in real practice sessions right on the grid.
+                        </p>
+
+                        <p style="margin-bottom:12px;">
+                            From learners practicing single-digit sets to competitive solvers pushing high rating cutoffs, watching players improve speed and accuracy has been remarkable.
+                        </p>
+
+                        <!-- Pull Quote -->
+                        <div style="border-left:3px solid #3b82f6;background:rgba(59,130,246,0.08);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:0.85rem;line-height:1.5;color:#ffffff;">
+                            "Education should never be held hostage by paywalls or obscured by clickbait advertisements. If Lichess proved that world-class chess training can be completely free forever, we will prove the exact same for mental math."
                         </div>
-                    </div>
-                </header>
 
-                <!-- Hero Image -->
-                <div style="margin:18px 0 22px;border-radius:10px;overflow:hidden;border:1px solid rgba(59,130,246,0.2);background:#162754;">
-                    <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" alt="AbacusArena Icon" style="width:100%;height:auto;display:block;max-height:200px;object-fit:contain;padding:14px;">
-                    <div style="font-size:0.72rem;color:#94a3b8;padding:8px 12px;text-align:center;background:rgba(0,0,0,0.2);border-top:1px solid rgba(59,130,246,0.2);">
-                        AbacusArena.org marks over 100 consecutive days of live arithmetic matches.
-                    </div>
-                </div>
-
-                <!-- Body Content -->
-                <div style="font-size:0.9rem;line-height:1.65;color:#cbd5e1;">
-                    <p style="margin-bottom:14px;">
-                        When I compiled the very first build of <strong style="color:#fff;">AbacusArena</strong> on <strong style="color:#fff;">April 23, 2026</strong>, the goal was simple: construct a distraction-free, zero-paywall arena where anyone can train mental arithmetic without seeing a single advertisement.
-                    </p>
-
-                    <p style="margin-bottom:14px;">
-                        Crossing our first <strong style="color:#fff;">100+ days of continuous operation</strong>, the platform has grown rapidly. Solvers now log on daily to test their speed, challenge adaptive bots, and master mental Soroban visualization.
-                    </p>
-
-                    <!-- Metric Grid (Includes Founder Rating 1843) -->
-                    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:18px 0;">
-                        <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:12px 6px;text-align:center;">
-                            <div style="font-size:1.25rem;font-weight:800;color:#60a5fa;font-family:monospace;">100+</div>
-                            <div style="font-size:0.62rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:4px;">Days Live</div>
+                        <!-- Feature Box -->
+                        <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:14px 16px;margin:16px 0;">
+                            <div style="font-size:0.8rem;font-weight:700;color:#ffffff;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+                                <i class="fas fa-code-branch" style="color:#60a5fa;"></i> Shipped in the First 100 Days:
+                            </div>
+                            <ul style="list-style:none;padding:0;margin:0;font-size:0.78rem;line-height:1.5;">
+                                <li style="margin-bottom:5px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Dynamic K-Factor Elo Engine:</strong> Progressive stabilization settling permanently at K=16.</li>
+                                <li style="margin-bottom:5px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Deep AI Replay Diagnostics:</strong> Step-by-step sandbox breakdown identifying bead slips and timing gaps.</li>
+                                <li style="padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Aesthetics Studio:</strong> Metronome sound suite with customizable contrast and theme environments.</li>
+                            </ul>
                         </div>
-                        <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:12px 6px;text-align:center;">
-                            <div style="font-size:1.25rem;font-weight:800;color:#60a5fa;font-family:monospace;">50+</div>
-                            <div style="font-size:0.62rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:4px;">Updates Shipped</div>
+
+                        <p style="margin-bottom:12px;">
+                            Our core mission remains unchanged: <strong style="color:#fff;">100% free, forever, with zero ads or paywalls</strong>.
+                        </p>
+
+                        <p style="margin-bottom:0;">
+                            Keep your visualization sharp and stay consistent with your practice drills. More features and engine improvements are on the way.
+                        </p>
+                    </div>
+
+                    <!-- Footer -->
+                    <footer style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                        <div style="font-size:0.75rem;color:#94a3b8;">
+                            Written by <strong style="color:#ffffff;">Aswin Krishnamoorthy</strong>
                         </div>
-                        <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:12px 6px;text-align:center;">
-                            <div style="font-size:1.25rem;font-weight:800;color:#fbbf24;font-family:monospace;">1843</div>
-                            <div style="font-size:0.62rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:4px;">Founder Rating</div>
+
+                        <div>
+                            <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,0.3);background:#162754;color:#ffffff;">
+                                <i class="fas fa-chess"></i> AswinNK-Elite
+                            </a>
                         </div>
-                        <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:12px 6px;text-align:center;">
-                            <div style="font-size:1.25rem;font-weight:800;color:#60a5fa;font-family:monospace;">100%</div>
-                            <div style="font-size:0.62rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:4px;">Free Forever</div>
-                        </div>
-                    </div>
+                    </footer>
 
-                    <p style="margin-bottom:14px;">
-                        As of today, <strong style="color:#fff;">August 18th, 2026</strong>, my personal arena rating stands at <strong style="color:#fbbf24;">1843</strong> in the Expert tier cutoff. Every update we deploy is tested through real rated matches right here on the live grid alongside all of you.
-                    </p>
-
-                    <p style="margin-bottom:14px;">
-                        From beginners practicing single-digit sets to competitive solvers training above 3200+ rating cutoffs, watching players push their speed and accuracy has been incredible.
-                    </p>
-
-                    <!-- Pull Quote -->
-                    <div style="border-left:3px solid #3b82f6;background:rgba(59,130,246,0.08);border-radius:0 8px 8px 0;padding:12px 16px;margin:18px 0;font-size:0.88rem;line-height:1.5;color:#ffffff;">
-                        "Education should never be held hostage by paywalls or obscured by clickbait advertisements. If Lichess proved that world-class chess training can be completely free forever, we will prove the exact same for mental math."
-                    </div>
-
-                    <!-- Feature Box -->
-                    <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:16px 18px;margin:18px 0;">
-                        <div style="font-size:0.82rem;font-weight:700;color:#ffffff;margin-bottom:8px;display:flex;align-items:center;gap:6px;">
-                            <i class="fas fa-code-branch" style="color:#60a5fa;"></i> Shipped in the First 100 Days:
-                        </div>
-                        <ul style="list-style:none;padding:0;margin:0;font-size:0.8rem;line-height:1.5;">
-                            <li style="margin-bottom:6px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Dynamic K-Factor Elo Engine:</strong> Accelerated onboarding settling permanently at K=16.</li>
-                            <li style="margin-bottom:6px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Deep AI Replay Diagnostics:</strong> Step-by-step sandbox breakdown identifying bead slips and time leaks.</li>
-                            <li style="margin-bottom:6px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Aesthetics Studio:</strong> Metronome sound suite with customizable contrast and theme modes.</li>
-                            <li style="padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Fair Play Policy Matrix:</strong> Integrity calibrations safeguarding genuine speed calculations.</li>
-                        </ul>
-                    </div>
-
-                    <p style="margin-bottom:14px;">
-                        Our core mission remains unchanged: <strong style="color:#fff;">100% free, forever, with zero ads or paywalls</strong>.
-                    </p>
-
-                    <p style="margin-bottom:0;">
-                        Keep your visualization sharp and stay consistent with your daily practice drills. More features, blogs, and engine improvements are on the way.
-                    </p>
-                </div>
-
-                <!-- Footer -->
-                <footer style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-                    <div style="font-size:0.78rem;color:#94a3b8;">
-                        Written by <strong style="color:#ffffff;">Aswin Krishnamoorthy</strong> · Current Rating: <strong style="color:#fbbf24;">1843</strong>
-                    </div>
-
-                    <div>
-                        <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:0.72rem;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,0.3);background:#162754;color:#ffffff;">
-                            <i class="fas fa-chess"></i> AswinNK-Elite
-                        </a>
-                    </div>
-                </footer>
-
-            </article>
+                </article>
+            </div>
 
         </div>
     </div>
@@ -4252,6 +4274,27 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
         function openBlogFullscreen() {
             if (gameInProgress) return;
+            document.getElementById('blog-feed-list').style.display = 'flex';
+            document.getElementById('blog-post-detail').style.display = 'none';
+            document.getElementById('blog-fullscreen').style.display = 'flex';
+        }
+
+        function closeBlogFullscreen() {
+            document.getElementById('blog-fullscreen').style.display = 'none';
+        }
+
+        function openBlogPostDetail() {
+            document.getElementById('blog-feed-list').style.display = 'none';
+            document.getElementById('blog-post-detail').style.display = 'block';
+        }
+
+        function backToBlogList() {
+            document.getElementById('blog-post-detail').style.display = 'none';
+            document.getElementById('blog-feed-list').style.display = 'flex';
+        }
+
+        function openBlogFullscreen() {
+            if (gameInProgress) return;
             document.getElementById('blog-fullscreen').style.display = 'flex';
         }
 
@@ -4989,7 +5032,13 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                 let result = g.correct ? 'win' : 'loss';
                 if (g.q.includes('Draw')) result = 'draw';
                 if (g.isInterrupted || g.isRefreshPenalty) result = 'loss';
-                let badge = result === 'win' ? '<span class="history-result-badge win">Win</span>' :
+                let badge = result === 'win' ? '<span class="history-result-badge win">Won</span>' :
+                    result === 'draw' ? '<span class="history-result-badge draw">Drew</span>' :
+                    '<span class="history-result-badge loss">Lost</span>';
+                return `<div class="history-item-modal">
+                            <span class="history-question-text">#${idx+1} ${g.q}</span>
+                            <span>${badge}</span>
+                        </div>`;
                     result === 'draw' ? '<span class="history-result-badge draw">Draw</span>' :
                     '<span class="history-result-badge loss">Loss</span>';
                 return `<div class="history-item-modal">
