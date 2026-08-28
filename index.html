@@ -3559,9 +3559,13 @@
             return String(name || '').trim().toLowerCase();
         }
 
+        // ─── REGISTER: account is permanently tied to this browser/device ───
         async function executeRegister() {
             const input = document.getElementById('regUsernameInput').value.trim();
-            if (!isValidNickname(input)) return;
+            if (!isValidNickname(input)) {
+                alert('Please enter a valid nickname.');
+                return;
+            }
 
             showLoading();
             try {
@@ -3569,7 +3573,7 @@
                 const userId = getUserDocId(input);
                 const docRef = window.fbDoc(db, 'users', userId);
 
-                // Check the account before creating it.
+                // Never overwrite an existing account.
                 const existing = await window.fbGetDoc(docRef);
                 if (existing.exists()) {
                     hideLoading();
@@ -3578,9 +3582,6 @@
                 }
 
                 const now = Date.now();
-
-                // IMPORTANT: The device ID is written at registration time.
-                // This permanently associates this account with this browser/device.
                 await window.fbSetDoc(docRef, {
                     username: input,
                     usernameLower: userId,
@@ -3588,6 +3589,8 @@
                     flair: selectedFlair || '🏆',
                     deviceId: deviceId,
                     deviceLockedAt: now,
+                    createdAt: now,
+                    updatedAt: now,
                     stats: {
                         highestRating: 1500,
                         highestBeaten: 0,
@@ -3597,36 +3600,33 @@
                         totalDraws: 0,
                         sumOpponentRatings: 0,
                         lastActivity: now
-                    },
-                    createdAt: now,
-                    updatedAt: now
+                    }
                 });
 
+                // Only mark the account as logged in AFTER Firestore succeeds.
                 username = input;
                 rating = 1500;
                 isAnonymous = false;
-
                 localStorage.setItem('username', username);
-                localStorage.setItem('abacus-rating', String(rating));
+                localStorage.setItem('abacus-rating', '1500');
                 localStorage.setItem('selected-flair', selectedFlair || '🏆');
                 localStorage.setItem('abacus-is-anonymous', 'false');
 
+                hideLoading();
                 updateMainDisplay();
                 updateRatingUI();
-                hideLoading();
                 launchDirectAppWorkspace('rated');
-
-                console.log('✅ Registered and device locked:', userId);
             } catch (e) {
                 hideLoading();
                 console.error('Registration error:', e);
-                alert('❌ Registration failed: ' + (e?.message || e));
+                alert('❌ Registration failed.\n\n' + (e && e.message ? e.message : e));
             }
         }
 
+        // ─── LOGIN: Firestore checks the registered device ID ───
         async function executeLogin() {
             const input = document.getElementById('loginUsernameInput').value.trim();
-            if (!input) {
+            if (!isValidNickname(input)) {
                 alert('Please enter your registered nickname.');
                 return;
             }
@@ -3640,45 +3640,32 @@
 
                 if (!snap.exists()) {
                     hideLoading();
-                    alert("⚠️ Account '" + input + "' not found. Please check spelling or register first.");
+                    alert('⚠️ Account not found. Please check the nickname.');
                     return;
                 }
 
                 const data = snap.data();
 
-                // ─────────────────────────────────────────────
-                // ONE DEVICE ONLY
-                // ─────────────────────────────────────────────
-                // New accounts always have deviceId. If the account does not,
-                // DO NOT automatically claim it from the current device.
+                // IMPORTANT: Never claim an old/unlocked account automatically.
                 if (!data.deviceId) {
                     hideLoading();
-                    alert(
-                        '🔒 ACCOUNT NOT DEVICE-LOCKED\n\n' +
-                        'This account was created before the one-device system was enabled.\n\n' +
-                        'It must be migrated by the site administrator before it can be used.'
-                    );
+                    alert('🔒 This account is not registered with the one-device system yet.\n\nPlease contact the site administrator.');
                     return;
                 }
 
-                if (data.deviceId !== deviceId) {
+                // The ONLY device allowed is the device that registered the account.
+                if (String(data.deviceId) !== String(deviceId)) {
                     hideLoading();
-                    alert(
-                        '🚫 LOGIN BLOCKED\n\n' +
-                        'This account is registered to another device.\n\n' +
-                        'Only the original device used during registration can log in.'
-                    );
-                    console.warn('Blocked device login attempt:', { userId, currentDevice: deviceId });
+                    alert('🚫 LOGIN BLOCKED\n\nThis account is registered on another device.\n\nYou can only log in on the device where this account was originally registered.');
                     return;
                 }
 
-                // DEVICE MATCHED — continue normal login.
+                // Correct device → restore the cloud account.
                 username = data.username || input;
                 rating = Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500;
                 selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
 
-                // Restore cloud stats when available.
                 if (data.stats) {
                     stats = {
                         highestRating: Number(data.stats.highestRating) || rating,
@@ -3690,14 +3677,6 @@
                         sumOpponentRatings: Number(data.stats.sumOpponentRatings) || 0,
                         lastActivity: Number(data.stats.lastActivity) || Date.now()
                     };
-                    localStorage.setItem('stats-highestRating', String(stats.highestRating));
-                    localStorage.setItem('stats-highestBeaten', String(stats.highestBeaten));
-                    localStorage.setItem('stats-totalGames', String(stats.totalGames));
-                    localStorage.setItem('stats-totalWins', String(stats.totalWins));
-                    localStorage.setItem('stats-totalLosses', String(stats.totalLosses));
-                    localStorage.setItem('stats-totalDraws', String(stats.totalDraws));
-                    localStorage.setItem('stats-sumOpponentRatings', String(stats.sumOpponentRatings));
-                    localStorage.setItem('stats-lastActivity', String(stats.lastActivity));
                 }
 
                 localStorage.setItem('username', username);
@@ -3705,18 +3684,14 @@
                 localStorage.setItem('selected-flair', selectedFlair);
                 localStorage.setItem('abacus-is-anonymous', 'false');
 
+                hideLoading();
                 updateMainDisplay();
                 updateRatingUI();
-                renderStatsPanel();
-                updateProfileStats();
-                hideLoading();
                 launchDirectAppWorkspace('rated');
-
-                console.log('✅ Login allowed — device matched:', userId);
             } catch (e) {
                 hideLoading();
                 console.error('Login error:', e);
-                alert('❌ Login failed: ' + (e?.message || e));
+                alert('❌ Login failed.\n\n' + (e && e.message ? e.message : e));
             }
         }
 
