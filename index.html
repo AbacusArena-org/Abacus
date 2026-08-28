@@ -2854,7 +2854,7 @@
             <p style="text-align:center;font-weight:600;color:#ffffff;font-size:1rem;margin:-6px 0 6px 0;letter-spacing:0.3px;">
                 Founder & Lead Developer: <strong>Aswin Krishnamoorthy</strong>
             </p>
-            <p style="text-align:center;font-weight:500;color:#ffffff;font-size:0.95rem;margin-top:2px;">Co-Dev | Content and product strategy lead: <strong>Sreejeeth Vigneswaran</strong></p>
+            <p style="text-align:center;font-weight:500;color:#ffffff;font-size:0.95rem;margin-top:2px;"><strong>Sreejeeth Vigneswaran</strong> <span style="font-size:0.6rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;vertical-align:middle;">CO-DEV</span> <span style="font-size:0.85rem;">| Content and product strategy lead</span></p>
 
             <div style="text-align:center;margin-bottom:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
                 <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);color:#ffd700;padding:6px 18px;border-radius:20px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.15);transition:var(--transition);">
@@ -3253,7 +3253,7 @@
                     <p><strong>AbacusArena</strong> was created by:</p>
                     <ul>
                         <li><strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> – Founder & Lead Developer. Responsible for the core architecture, codebase, and overall platform direction.</li>
-                        <li><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> – Co-Developer & Media Lead. Manages all YouTube content, promotional media, and community outreach.</li>
+                        <li><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span> – Co-Developer & Media Lead. Manages all YouTube content, promotional media, and community outreach.</li>
                     </ul>
                     <p>Development started on <strong style="color:#ffd700;">April 23, 2026</strong>.</p>
                     <p><strong>Note:</strong> We are only responsible for the official YouTube channel and content we produce. Other third-party sites are not affiliated with us.</p>
@@ -3364,7 +3364,7 @@
                     <span>Who is Sreejeeth Vigneswaran?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer"><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.</div>
+                <div class="faq-answer"><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.</div>
             </div>
 
             <div class="faq-section-title">Account & Data Management</div>
@@ -3591,6 +3591,8 @@
                     deviceLockedAt: now,
                     createdAt: now,
                     updatedAt: now,
+                    gamesPlayed: 0,
+                    kFactor: 256,
                     stats: {
                         highestRating: 1500,
                         highestBeaten: 0,
@@ -3678,6 +3680,11 @@
                         lastActivity: Number(data.stats.lastActivity) || Date.now()
                     };
                 }
+
+                // Keep the adaptive K-factor progression tied to the real cloud game count.
+                // New accounts therefore start with K=256 for their first 3 rated games.
+                gamesPlayed = Number(stats.totalGames) || 0;
+                localStorage.setItem('abacus-games', String(gamesPlayed));
 
                 localStorage.setItem('username', username);
                 localStorage.setItem('abacus-rating', String(rating));
