@@ -2288,6 +2288,35 @@
             }
         }
     </style>
+<!-- Firebase Modular SDKs -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, orderBy, limit, getDocs, getCountFromServer } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBpuExsr5Q8jiRatCqj83b9X_FTtjI4huo",
+        authDomain: "abacusarena-23c43.firebaseapp.com",
+        projectId: "abacusarena-23c43",
+        storageBucket: "abacusarena-23c43.firebasestorage.app",
+        messagingSenderId: "283225896214",
+        appId: "1:283225896214:web:d498f302ae3dbd704e4c37"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    window.fbDb = getFirestore(app);
+    window.fbDoc = doc;
+    window.fbGetDoc = getDoc;
+    window.fbSetDoc = setDoc;
+    window.fbUpdateDoc = updateDoc;
+    window.fbDeleteDoc = deleteDoc;
+    window.fbCollection = collection;
+    window.fbQuery = query;
+    window.fbWhere = where;
+    window.fbOrderBy = orderBy;
+    window.fbLimit = limit;
+    window.fbGetDocs = getDocs;
+    window.fbGetCountFromServer = getCountFromServer;
+</script>
 </head>
 <body onload="initApp()">
 
@@ -2309,13 +2338,16 @@
         class="splash-logo-rect">
         <div class="splash-logo">AbacusArena.org</div>
         <div class="modes-entry-grid">
-            <button class="mode-entry-button" onclick="launchDirectAppWorkspace('rated')"><i class="fas fa-trophy"></i> RATED MODE</button>
-            <button class="mode-entry-button" onclick="launchDirectAppWorkspace('manual')"><i class="fas fa-sliders-h"></i> MANUAL PRACTICE</button>
+            <button class="mode-entry-button" onclick="handleAccountAction('login')"><i class="fas fa-sign-in-alt"></i> LOGIN REGISTERED ACCOUNT</button>
+            <button class="mode-entry-button" onclick="handleAccountAction('register')"><i class="fas fa-user-plus"></i> CREATE PERMANENT ACCOUNT</button>
+            <button class="mode-entry-button" onclick="handleAccountAction('anonymous')"><i class="fas fa-user-secret"></i> PLAY ANONYMOUSLY</button>
         </div>
     </div>
 
     <!-- ─── TOP NAVBAR ─── -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
+        <button class="check-level-btn" onclick="openUserSearchModal()" style="background:rgba(255,255,255,0.12); color:var(--text); border:1px solid var(--border);"><i class="fas fa-search"></i> Search</button>
+        <button class="check-level-btn" onclick="openLeaderboardModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none;"><i class="fas fa-trophy"></i> Top 10</button>
         <button class="check-level-btn" id="nav-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
@@ -2555,6 +2587,15 @@
                 <i class="fas fa-chess-knight"></i> Follow the founder on Lichess: AswinNK-Elite
             </a>
 
+            <div id="anonymousRegisterPromptBox" style="display:none; margin:10px 0; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); padding:12px; border-radius:12px; text-align:center;">
+                <span style="font-size:0.82rem; color:#fde68a;">You are playing Anonymously (Local browser only).</span><br>
+                <button class="studio-trigger-btn" style="background:#10b981; margin-top:8px; padding:10px;" onclick="promptRegisterFromProfile()"><i class="fas fa-id-badge"></i> Register Permanent Account</button>
+            </div>
+
+            <button class="history-btn" onclick="closeProfileFullscreen(); openUserSearchModal();"><i class="fas fa-search"></i> Search Other Solvers</button>
+            
+            <button class="history-btn" style="background:rgba(239,68,68,0.2); border-color:rgba(239,68,68,0.4);" onclick="logoutAccount()"><i class="fas fa-sign-out-alt"></i> Logout / Switch Account</button>
+
             <button class="delete-progress-btn" onclick="triggerAccountResetSequence()">
                 <i class="fas fa-trash-alt"></i> Reset All Ratings & Progress
             </button>
@@ -2705,6 +2746,11 @@
     <div id="pane-about-fullscreen" class="colorful-animated-bg">
         <button class="back-arena-btn" onclick="closeAboutViewPage()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="about-centered">
+            <div style="background:rgba(255,255,255,0.08); padding:16px 20px; border-radius:14px; text-align:center; margin-bottom:20px; border:1px solid rgba(255,255,255,0.15);">
+                <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:#60a5fa; font-weight:700;">Global Active Solvers</div>
+                <div style="font-size:2.4rem; font-weight:900; color:#ffd700;" id="aboutActiveUserCount">Loading...</div>
+                <div style="font-size:0.75rem; opacity:0.6;">Total registered accounts on AbacusArena.org</div>
+            </div>
 
             <div class="moving-gif-card">
                 <div style="text-align:center;font-family:system-ui,sans-serif;">
@@ -3042,28 +3088,11 @@
 
                         <!-- Metric Grid (Founder Rating 1937 on August 18th) -->
                         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0;">
-                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
-                                <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">100+</div>
-                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Days Live</div>
-                            </div>
-                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
-                                <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">50+</div>
-                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Updates Shipped</div>
-                            </div>
-                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
-                                <div style="font-size:1.15rem;font-weight:800;color:#fbbf24;font-family:monospace;">1937</div>
-                                <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Founder Rating (Aug 18)</div>
-                            </div>
-                            <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center;">
+                             <div style="background:#162754;border:1px solid rgba(59,130,246,0.2);border-radius:8px;padding:10px 6px;text-align:center; grid-column: span 2;">
                                 <div style="font-size:1.15rem;font-weight:800;color:#60a5fa;font-family:monospace;">100%</div>
                                 <div style="font-size:0.6rem;font-weight:600;text-transform:uppercase;color:#94a3b8;margin-top:2px;">Free Forever</div>
                             </div>
                         </div>
-
-                        <p style="margin-bottom:12px;">
-                            On <strong style="color:#fff;">August 18th, 2026</strong>, my rating on this web platform stood at <strong style="color:#fbbf24;">1937</strong>. Every update deployed to the arena is tested in real practice sessions right on the grid.
-                        </p>
-
                         <p style="margin-bottom:12px;">
                             From learners practicing single-digit sets to competitive solvers pushing high rating cutoffs, watching players improve speed and accuracy has been remarkable.
                         </p>
@@ -3117,6 +3146,24 @@
         <button class="back-arena-btn" onclick="closeFAQFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="faq-container" style="max-width:900px;margin:0 auto;width:100%;padding-top:20px;">
             <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:18px;border-bottom:2px solid rgba(255,255,255,0.12);padding-bottom:12px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+
+            <div class="faq-section-title">Fair Play & Account Policy</div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>Can multiple people play on the same account? (Account Sharing Policy)</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p><strong>Yes, account sharing is currently permitted.</strong></p>
+                    <p>Since opponents are currently adaptive AI bots rather than direct human competitors, there is no strict prohibition against account sharing like on platforms such as Chess.com or Lichess.org. If human-to-human matchmaking is implemented as the userbase scales, matchmaking guidelines will adapt accordingly.</p>
+                    <p><strong>Fair Play Requirements:</strong></p>
+                    <ul>
+                        <li>Anyone is permitted to practice on any account, but using <strong>calculators or external calculation devices is strictly prohibited</strong> to preserve leaderboard fairness.</li>
+                        <li><strong>Special Request to World-Class & Top-Tier Solvers:</strong> We kindly request that top-notch competitive players avoid playing on multiple user accounts. Doing so prevents other dedicated learners from achieving fair placement on the leaderboard.</li>
+                    </ul>
+                </div>
+            </div>
 
             <div class="faq-section-title">General</div>
 
@@ -3304,7 +3351,8 @@
                 <div class="story-body-text"><p>We operate as a non-profit initiative because we firmly believe high-quality education should never be hidden behind paywalls or ruined by annoying ads. Every single feature we build will remain 100% free forever.</p></div>
             </div>
         </div>
-        <div id="founder-screen-6" class="founder-story-screen">
+        
+<div id="founder-screen-6" class="founder-story-screen">
             <div class="founder-card-content">
                 <div class="badge-icon gold-star"><i class="fas fa-star"></i></div>
                 <h1 class="thank-you-title">Thank you for visiting our website!</h1>
@@ -3313,7 +3361,31 @@
         </div>
     </div>
 
+    <!-- ─── TOP 10 LEADERBOARD MODAL ─── -->
+    <div id="leaderboard-fullscreen" class="colorful-animated-bg" style="display:none; position:fixed; inset:0; z-index:9000; flex-direction:column; padding:25px; overflow-y:auto; color:#fff;">
+        <button class="back-arena-btn" onclick="closeLeaderboardModal()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div style="max-width:550px; margin:40px auto; width:100%; background:rgba(15,23,42,0.95); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius); padding:24px;">
+            <h2 style="color:#ffd700; margin-top:0;"><i class="fas fa-crown"></i> Global Top 10 Leaderboard</h2>
+            <div id="leaderboardListRows">Loading leaderboard...</div>
+        </div>
+    </div>
+
+    <!-- ─── USER SEARCH MODAL ─── -->
+    <div id="user-search-fullscreen" class="colorful-animated-bg" style="display:none; position:fixed; inset:0; z-index:9000; flex-direction:column; padding:25px; overflow-y:auto; color:#fff;">
+        <button class="back-arena-btn" onclick="closeUserSearchModal()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+        <div style="max-width:550px; margin:40px auto; width:100%; background:rgba(15,23,42,0.95); border:1px solid rgba(255,255,255,0.15); border-radius:var(--radius); padding:24px;">
+            <h2 style="color:#60a5fa; margin-top:0;"><i class="fas fa-search"></i> Inspect Player Profile</h2>
+            <div style="display:flex; gap:8px; margin-bottom:14px;">
+                <input type="text" id="playerSearchInput" class="main-ans-field" style="width:100%; font-size:1rem; text-align:left; padding:8px 12px; background:rgba(0,0,0,0.3); color:#fff;" placeholder="Enter exact username...">
+                <button onclick="executePlayerSearch()" style="background:var(--accent); color:#fff; padding:8px 16px; border-radius:var(--radius-sm); border:none; cursor:pointer;"><i class="fas fa-search"></i></button>
+            </div>
+            <div id="playerSearchResultBox" style="display:none; background:rgba(0,0,0,0.25); border-radius:12px; padding:14px; border:1px solid rgba(255,255,255,0.1);"></div>
+        </div>
+    </div>
+
     <script>
+
+
         // ─── STATE ───
         let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
@@ -3325,10 +3397,135 @@
         let historyGames = JSON.parse(localStorage.getItem('game-history-rated')) || [];
         let gameInProgress = false;
         let appTheme = localStorage.getItem('abacus-app-theme') || 'light';
-        let username = localStorage.getItem('username') || 'Grandmaster';
+        let isAnonymous = localStorage.getItem('abacus-is-anonymous') === 'true' || !localStorage.getItem('username');
+        let username = localStorage.getItem('username') || 'Anonymous';
         let selectedFlair = localStorage.getItem('selected-flair') || '🏆';
         let bgSoundEnabled = localStorage.getItem('bg-sound-enabled') !== 'false';
 
+        // Helper: Validate Lichess format (3-20 chars: letters, numbers, -, _)
+        function isValidNickname(name) {
+            return /^[a-zA-Z0-9_-]{3,20}$/.test(name);
+        }
+
+        async function handleAccountAction(action) {
+            if (action === 'anonymous') {
+                username = 'Anonymous';
+                isAnonymous = true;
+                localStorage.setItem('username', 'Anonymous');
+                localStorage.setItem('abacus-is-anonymous', 'true');
+                launchDirectAppWorkspace('rated');
+            } else if (action === 'register') {
+                let input = prompt("Public Leaderboard Notice:\nYour name will appear on the public leaderboard. Real names are not required (3-20 chars: letters, numbers, -, _ only).\n\nEnter Nickname:");
+                if (!input) return;
+                if (!isValidNickname(input)) {
+                    alert("⚠️ Invalid Username! Use 3-20 characters: letters, numbers, -, _ only.");
+                    return;
+                }
+                if (window.fbDb) {
+                    const q = window.fbQuery(window.fbCollection(window.fbDb, "users"), window.fbWhere("username", "==", input));
+                    const snap = await window.fbGetDocs(q);
+                    if (!snap.empty) {
+                        alert("⚠️ Nickname already taken! Choose another.");
+                        return;
+                    }
+                    await window.fbSetDoc(window.fbDoc(window.fbDb, "users", input), {
+                        username: input,
+                        rating: rating,
+                        flair: selectedFlair,
+                        updatedAt: Date.now()
+                    });
+                }
+                username = input;
+                isAnonymous = false;
+                localStorage.setItem('username', username);
+                localStorage.setItem('abacus-is-anonymous', 'false');
+                launchDirectAppWorkspace('rated');
+            } else if (action === 'login') {
+                let input = prompt("Enter your registered Nickname:");
+                if (!input) return;
+                if (window.fbDb) {
+                    const docRef = window.fbDoc(window.fbDb, "users", input);
+                    const snap = await window.fbGetDoc(docRef);
+                    if (!snap.exists()) {
+                        alert("⚠️ Account not found!");
+                        return;
+                    }
+                    const data = snap.data();
+                    username = data.username;
+                    rating = data.rating || 1500;
+                    selectedFlair = data.flair || '🏆';
+                    isAnonymous = false;
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('abacus-rating', rating);
+                    localStorage.setItem('selected-flair', selectedFlair);
+                    localStorage.setItem('abacus-is-anonymous', 'false');
+                    launchDirectAppWorkspace('rated');
+                }
+            }
+        }
+
+        function promptRegisterFromProfile() {
+            handleAccountAction('register');
+        }
+
+        function logoutAccount() {
+            if (confirm("Log out of your account? Your local progress will be reset from this browser session.")) {
+                localStorage.removeItem('username');
+                localStorage.removeItem('abacus-is-anonymous');
+                window.location.reload();
+            }
+        }
+
+        async function syncRatingToCloud(newRating) {
+            if (isAnonymous || !window.fbDb || !username || username === 'Anonymous') return;
+            try {
+                const userRef = window.fbDoc(window.fbDb, "users", username);
+                await window.fbUpdateDoc(userRef, { rating: newRating, updatedAt: Date.now() });
+            } catch(e) { console.warn("Cloud sync error:", e); }
+        }
+
+        async function openLeaderboardModal() {
+            document.getElementById('leaderboard-fullscreen').style.display = 'flex';
+            const list = document.getElementById('leaderboardListRows');
+            list.innerHTML = 'Fetching top 10 rankings...';
+            try {
+                const q = window.fbQuery(window.fbCollection(window.fbDb, "users"), window.fbOrderBy("rating", "desc"), window.fbLimit(10));
+                const snap = await window.fbGetDocs(q);
+                let rank = 1, html = '';
+                snap.forEach(d => {
+                    const u = d.data();
+                    let cup = `${rank}.`;
+                    if (rank === 1) cup = '🥇';
+                    if (rank === 2) cup = '🥈';
+                    if (rank === 3) cup = '🥉';
+                    html += `<div class="leaderboard-row"><div>${cup} ${u.flair || '🏆'} <strong>${u.username}</strong></div><div><strong style="color:#ffd700;">${u.rating}</strong></div></div>`;
+                    rank++;
+                });
+                list.innerHTML = html || 'No scores registered yet.';
+            } catch(e) { list.innerHTML = 'Error loading rankings.'; }
+        }
+        function closeLeaderboardModal() { document.getElementById('leaderboard-fullscreen').style.display = 'none'; }
+
+        function openUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'flex'; }
+        function closeUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'none'; }
+
+        async function executePlayerSearch() {
+            const qName = document.getElementById('playerSearchInput').value.trim();
+            const box = document.getElementById('playerSearchResultBox');
+            if (!qName) return;
+            box.style.display = 'block';
+            box.innerHTML = 'Searching...';
+            try {
+                const docRef = window.fbDoc(window.fbDb, "users", qName);
+                const snap = await window.fbGetDoc(docRef);
+                if (!snap.exists()) {
+                    box.innerHTML = `<div>Player <strong>${qName}</strong> not found.</div>`;
+                } else {
+                    const u = snap.data();
+                    box.innerHTML = `<div style="display:flex; justify-content:space-between; align-items:center;"><div><span style="font-size:1.8rem;">${u.flair || '🏆'}</span> <strong>${u.username}</strong></div><div style="font-size:1.4rem; color:#ffd700; font-weight:800;">${u.rating}</div></div><div style="font-size:0.75rem; opacity:0.6; margin-top:8px;">Shareable: https://abacusarena.org/@/${u.username}</div>`;
+                }
+            } catch(e) { box.innerHTML = 'Search failed.'; }
+        }
         let manualDigits = 1;
         let manualRows = 2;
         let manualTime = 1000;
@@ -3615,6 +3812,7 @@
             if (wasInterrupted && appOperationalContext === 'rated') {
                 rating = Math.max(1000, (parseInt(localStorage.getItem('abacus-rating')) || 1500) - 25);
                 localStorage.setItem('abacus-rating', rating);
+syncRatingToCloud(rating);
                 localStorage.removeItem('abacus-sum-interrupted');
                 addHistory("Tab Exit / Refresh Penalty", false, [], null, false, true, true);
                 alert("⚠️ Penalty Applied: You left or refreshed during an active sum! -25 Rating Deduction applied per Fair Play ToS.");
@@ -4347,9 +4545,19 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
         function openAboutWithLoading() {
             showLoading();
-            setTimeout(() => { closeControlSuite();
+            setTimeout(async () => {
+                closeControlSuite();
                 document.getElementById('pane-about-fullscreen').style.display = 'block';
-                hideLoading(); }, 600);
+                hideLoading();
+                const countBox = document.getElementById('aboutActiveUserCount');
+                if (countBox && window.fbDb) {
+                    try {
+                        const coll = window.fbCollection(window.fbDb, "users");
+                        const snapshot = await window.fbGetCountFromServer(coll);
+                        countBox.innerText = snapshot.data().count.toLocaleString();
+                    } catch(e) { countBox.innerText = '1+'; }
+                }
+            }, 600);
         }
 
         const themesData = {
@@ -5698,6 +5906,9 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             if (confirm === 'DeleteEverything') {
                 // Play tick sound
                 playTickSound(2);
+if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
+                    window.fbDeleteDoc(window.fbDoc(window.fbDb, "users", username));
+                }
 
                 localStorage.removeItem('abacus-rating');
                 localStorage.removeItem('abacus-games');
