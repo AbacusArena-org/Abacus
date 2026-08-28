@@ -2299,20 +2299,22 @@
 <!-- Firebase Modular SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { 
-        getFirestore, 
-        doc, 
-        getDoc, 
-        setDoc, 
-        updateDoc, 
-        deleteDoc, 
-        collection, 
-        query, 
-        where, 
-        orderBy, 
-        limit, 
-        getDocs, 
-        getCountFromServer 
+    import {
+        getFirestore,
+        doc,
+        getDoc,
+        setDoc,
+        updateDoc,
+        deleteDoc,
+        collection,
+        addDoc,
+        query,
+        where,
+        orderBy,
+        limit,
+        getDocs,
+        getCountFromServer,
+        serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -2324,20 +2326,36 @@
         appId: "1:283225896214:web:d498f302ae3dbd704e4c37"
     };
 
-    const app = initializeApp(firebaseConfig);
-    window.fbDb = getFirestore(app);
-    window.fbDoc = doc;
-    window.fbGetDoc = getDoc;
-    window.fbSetDoc = setDoc;
-    window.fbUpdateDoc = updateDoc;
-    window.fbDeleteDoc = deleteDoc;
-    window.fbCollection = collection;
-    window.fbQuery = query;
-    window.fbWhere = where;
-    window.fbOrderBy = orderBy;
-    window.fbLimit = limit;
-    window.fbGetDocs = getDocs;
-    window.fbGetCountFromServer = getCountFromServer;
+    // Expose one promise so the normal (non-module) app code can safely wait
+    // for Firebase before attempting any read/write.
+    window.firebaseReady = (async () => {
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            window.fbDb = db;
+            window.fbDoc = doc;
+            window.fbGetDoc = getDoc;
+            window.fbSetDoc = setDoc;
+            window.fbUpdateDoc = updateDoc;
+            window.fbDeleteDoc = deleteDoc;
+            window.fbCollection = collection;
+            window.fbAddDoc = addDoc;
+            window.fbQuery = query;
+            window.fbWhere = where;
+            window.fbOrderBy = orderBy;
+            window.fbLimit = limit;
+            window.fbGetDocs = getDocs;
+            window.fbGetCountFromServer = getCountFromServer;
+            window.fbServerTimestamp = serverTimestamp;
+
+            console.log("Firebase/Firestore connected:", firebaseConfig.projectId);
+            return db;
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+            throw error;
+        }
+    })();
 </script>
 </head>
 <body onload="initApp()">
@@ -3519,34 +3537,73 @@
             }, 300);
         }
 
+        async function waitForFirebase() {
+            if (!window.firebaseReady) {
+                throw new Error("Firebase SDK did not load. Check your internet connection and Firebase imports.");
+            }
+            return await window.firebaseReady;
+        }
+
+        function getUserDocId(name) {
+            return String(name || '').trim().toLowerCase();
+        }
+
         async function executeRegister() {
             const input = document.getElementById('regUsernameInput').value.trim();
             if (!isValidNickname(input)) return;
 
             showLoading();
             try {
-                if (window.fbDb) {
-                    const docRef = window.fbDoc(window.fbDb, "users", input.toLowerCase());
-                    await window.fbSetDoc(docRef, {
-                        username: input,
-                        rating: 1500,
-                        flair: selectedFlair,
-                        updatedAt: Date.now()
-                    });
+                const db = await waitForFirebase();
+                const userId = getUserDocId(input);
+                const docRef = window.fbDoc(db, "users", userId);
+                const existing = await window.fbGetDoc(docRef);
+
+                if (existing.exists()) {
+                    hideLoading();
+                    alert("⚠️ That nickname is already registered. Please choose another.");
+                    return;
                 }
+
+                const now = Date.now();
+                await window.fbSetDoc(docRef, {
+                    username: input,
+                    usernameLower: userId,
+                    rating: 1500,
+                    flair: selectedFlair || '🏆',
+                    stats: {
+                        highestRating: 1500,
+                        highestBeaten: 0,
+                        totalGames: 0,
+                        totalWins: 0,
+                        totalLosses: 0,
+                        totalDraws: 0,
+                        sumOpponentRatings: 0,
+                        lastActivity: now
+                    },
+                    createdAt: now,
+                    updatedAt: now
+                });
+
                 username = input;
                 rating = 1500;
                 isAnonymous = false;
+
                 localStorage.setItem('username', username);
-                localStorage.setItem('abacus-rating', rating);
+                localStorage.setItem('abacus-rating', String(rating));
+                localStorage.setItem('selected-flair', selectedFlair || '🏆');
                 localStorage.setItem('abacus-is-anonymous', 'false');
+
                 updateMainDisplay();
                 updateRatingUI();
                 hideLoading();
                 launchDirectAppWorkspace('rated');
+
+                console.log("Registered user in Firestore:", userId);
             } catch (e) {
                 hideLoading();
-                alert("Registration error: " + e.message);
+                console.error("Registration error:", e);
+                alert("Registration failed: " + (e?.message || e));
             }
         }
 
@@ -3559,34 +3616,60 @@
 
             showLoading();
             try {
-                if (window.fbDb) {
-                    const docRef = window.fbDoc(window.fbDb, "users", input.toLowerCase());
-                    const snap = await window.fbGetDoc(docRef);
-                    if (!snap.exists()) {
-                        hideLoading();
-                        alert("⚠️ Account '" + input + "' not found! Please check spelling or register.");
-                        return;
-                    }
-                    const data = snap.data();
-                    username = data.username || input;
-                    rating = data.rating || 1500;
-                    selectedFlair = data.flair || '🏆';
-                } else {
-                    username = input;
+                const db = await waitForFirebase();
+                const userId = getUserDocId(input);
+                const docRef = window.fbDoc(db, "users", userId);
+                const snap = await window.fbGetDoc(docRef);
+
+                if (!snap.exists()) {
+                    hideLoading();
+                    alert("⚠️ Account '" + input + "' not found! Please check spelling or register.");
+                    return;
                 }
 
+                const data = snap.data();
+                username = data.username || input;
+                rating = Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500;
+                selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
+
+                // Restore cloud stats when available.
+                if (data.stats) {
+                    stats = {
+                        highestRating: Number(data.stats.highestRating) || rating,
+                        highestBeaten: Number(data.stats.highestBeaten) || 0,
+                        totalGames: Number(data.stats.totalGames) || 0,
+                        totalWins: Number(data.stats.totalWins) || 0,
+                        totalLosses: Number(data.stats.totalLosses) || 0,
+                        totalDraws: Number(data.stats.totalDraws) || 0,
+                        sumOpponentRatings: Number(data.stats.sumOpponentRatings) || 0,
+                        lastActivity: Number(data.stats.lastActivity) || Date.now()
+                    };
+                    localStorage.setItem('stats-highestRating', String(stats.highestRating));
+                    localStorage.setItem('stats-highestBeaten', String(stats.highestBeaten));
+                    localStorage.setItem('stats-totalGames', String(stats.totalGames));
+                    localStorage.setItem('stats-totalWins', String(stats.totalWins));
+                    localStorage.setItem('stats-totalLosses', String(stats.totalLosses));
+                    localStorage.setItem('stats-totalDraws', String(stats.totalDraws));
+                    localStorage.setItem('stats-sumOpponentRatings', String(stats.sumOpponentRatings));
+                    localStorage.setItem('stats-lastActivity', String(stats.lastActivity));
+                }
+
                 localStorage.setItem('username', username);
-                localStorage.setItem('abacus-rating', rating);
+                localStorage.setItem('abacus-rating', String(rating));
                 localStorage.setItem('selected-flair', selectedFlair);
                 localStorage.setItem('abacus-is-anonymous', 'false');
+
                 updateMainDisplay();
                 updateRatingUI();
+                renderStatsPanel();
+                updateProfileStats();
                 hideLoading();
                 launchDirectAppWorkspace('rated');
             } catch (e) {
                 hideLoading();
-                alert("Login error: " + e.message);
+                console.error("Login error:", e);
+                alert("Login failed: " + (e?.message || e));
             }
         }
 
@@ -3614,12 +3697,85 @@
                 window.location.reload();
             }
         }
+
         async function syncRatingToCloud(newRating) {
-            if (isAnonymous || !window.fbDb || !username || username === 'Anonymous') return;
+            if (isAnonymous || !username || username === 'Anonymous') return false;
+
             try {
-                const userRef = window.fbDoc(window.fbDb, "users", username);
-                await window.fbUpdateDoc(userRef, { rating: newRating, updatedAt: Date.now() });
-            } catch(e) { console.warn("Cloud sync error:", e); }
+                const db = await waitForFirebase();
+                const userId = getUserDocId(username);
+                const userRef = window.fbDoc(db, "users", userId);
+
+                // setDoc + merge also works if an older account is missing a field.
+                await window.fbSetDoc(userRef, {
+                    username: username,
+                    usernameLower: userId,
+                    rating: Number(newRating),
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                console.log("Cloud rating synced:", userId, newRating);
+                return true;
+            } catch (e) {
+                console.error("Cloud rating sync error:", e);
+                return false;
+            }
+        }
+
+        async function syncStatsToCloud() {
+            if (isAnonymous || !username || username === 'Anonymous') return false;
+
+            try {
+                const db = await waitForFirebase();
+                const userId = getUserDocId(username);
+                const userRef = window.fbDoc(db, "users", userId);
+
+                await window.fbSetDoc(userRef, {
+                    username: username,
+                    usernameLower: userId,
+                    rating: Number(rating),
+                    flair: selectedFlair || '🏆',
+                    stats: {
+                        highestRating: Number(stats.highestRating) || Number(rating),
+                        highestBeaten: Number(stats.highestBeaten) || 0,
+                        totalGames: Number(stats.totalGames) || 0,
+                        totalWins: Number(stats.totalWins) || 0,
+                        totalLosses: Number(stats.totalLosses) || 0,
+                        totalDraws: Number(stats.totalDraws) || 0,
+                        sumOpponentRatings: Number(stats.sumOpponentRatings) || 0,
+                        lastActivity: Number(stats.lastActivity) || Date.now()
+                    },
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                return true;
+            } catch (e) {
+                console.error("Cloud stats sync error:", e);
+                return false;
+            }
+        }
+
+        async function saveGameToCloud(entry) {
+            if (isAnonymous || !username || username === 'Anonymous' || !entry) return false;
+
+            try {
+                const db = await waitForFirebase();
+                const userId = getUserDocId(username);
+                const gamesRef = window.fbCollection(db, "users", userId, "games");
+
+                await window.fbAddDoc(gamesRef, {
+                    ...entry,
+                    username: username,
+                    ratingAfter: Number(rating),
+                    opponentRating: Number(opponentRating) || 0,
+                    serverCreatedAt: window.fbServerTimestamp()
+                });
+
+                return true;
+            } catch (e) {
+                console.error("Cloud game save error:", e);
+                return false;
+            }
         }
 
         async function openLeaderboardModal() {
@@ -4458,6 +4614,7 @@ syncRatingToCloud(rating);
                 "You resigned the match. Your rating decreased accordingly.");
 
             if (appOperationalContext === 'rated') {
+                syncRatingToCloud(rating);
                 gamesPlayed++;
                 localStorage.setItem('abacus-games', gamesPlayed);
                 addHistory(sequence.join('+') + '=' + sequence.reduce((a, b) => a + b, 0) + ' (Resigned)', false, sequence, 0,
@@ -5340,6 +5497,8 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                 }
 
                 localStorage.setItem('abacus-rating', rating);
+                // Persist the new rating immediately; do not wait for the next game.
+                syncRatingToCloud(rating);
                 triggerPerformanceOverlay(bannerTitle, subText, oldUserRating, ratingDelta, speedMsAhead, explanation);
                 display.innerText = userCorrect ? "✓" : "✗ " + actualSum;
                 display.style.color = userCorrect ? "var(--green)" : "var(--red)";
@@ -5407,8 +5566,9 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
             if (appOperationalContext === 'rated') {
                 historyGames.unshift(entry);
-                // Keep all games
+                // Keep all games locally and also save each rated game to Firestore.
                 localStorage.setItem('game-history-rated', JSON.stringify(historyGames));
+                saveGameToCloud(entry);
             }
         }
 
@@ -5658,6 +5818,9 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             localStorage.setItem('stats-totalDraws', stats.totalDraws);
             localStorage.setItem('stats-sumOpponentRatings', stats.sumOpponentRatings);
             localStorage.setItem('stats-lastActivity', stats.lastActivity);
+
+            // Persist the complete statistics snapshot in Firestore.
+            syncStatsToCloud();
 
             renderStatsPanel();
             updateProfileStats();
@@ -6084,7 +6247,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             if (icon) icon.classList.toggle('rotated');
         }
 
-        function triggerAccountResetSequence() {
+        async function triggerAccountResetSequence() {
             if (gameInProgress) {
                 alert("⚠️ Cannot reset progress during an active match!");
                 return;
@@ -6098,7 +6261,8 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                 // Play tick sound
                 playTickSound(2);
 if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
-                    window.fbDeleteDoc(window.fbDoc(window.fbDb, "users", username));
+                    await waitForFirebase();
+                    await window.fbDeleteDoc(window.fbDoc(window.fbDb, "users", getUserDocId(username)));
                 }
 
                 localStorage.removeItem('abacus-rating');
