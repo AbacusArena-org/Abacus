@@ -1219,7 +1219,7 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
             background: rgba(255, 255, 255, 0.18);
         }
-        .lichess-btn {
+        .linkedin-btn {
             background: linear-gradient(135deg, #1f2937, #111827);
             color: #f3f4f6;
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -1239,7 +1239,7 @@
             transform: perspective(800px) rotateX(1deg) translateZ(8px);
             transition: var(--transition);
         }
-        .lichess-btn:hover {
+        .linkedin-btn:hover {
             transform: perspective(800px) rotateX(0deg) translateZ(20px) scale(1.02);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             background: linear-gradient(135deg, #374151, #1f2937);
@@ -2295,7 +2295,17 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-    </style>
+    
+        .rating-val.clickable-rating { cursor:pointer; transition:transform .15s ease, opacity .15s ease; }
+        .rating-val.clickable-rating:hover { transform:scale(1.05); opacity:.9; }
+        .rating-insight-modal { position:fixed; inset:0; z-index:9500; display:none; align-items:center; justify-content:center; padding:20px; background:rgba(2,6,23,.78); backdrop-filter:blur(10px); }
+        .rating-insight-card { width:min(460px,100%); background:rgba(15,23,42,.98); border:1px solid rgba(255,255,255,.14); border-radius:22px; padding:26px; color:#fff; box-shadow:0 24px 70px rgba(0,0,0,.4); }
+        .rating-insight-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:18px 0; }
+        .rating-insight-item { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px; text-align:center; }
+        .rating-insight-label { display:block; font-size:.72rem; opacity:.65; text-transform:uppercase; letter-spacing:.6px; margin-bottom:5px; }
+        .rating-insight-value { font-size:1.25rem; font-weight:850; }
+
+</style>
 <!-- Firebase Modular SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -2497,7 +2507,7 @@
                 <div class="premium-update-pill" id="premiumNotificationBadge">UPDATED SUCCESSFULLY</div>
                 <div class="header-center-pill">
                     <div id="rating-ui-label" style="font-size:0.7rem;letter-spacing:0.8px;opacity:0.6;font-weight:600;text-transform:uppercase;">YOUR ARENA RATING</div>
-                    <div class="rating-val" id="rating-ui">1500</div>
+                    <div class="rating-val clickable-rating" id="rating-ui" onclick="openRatingInsights()" title="Click to view your rating statistics">1500</div>
                 </div>
             </div>
 
@@ -2644,8 +2654,8 @@
                 <i class="fas fa-brain"></i> AI Tutor Analysis (Rated Only)
             </button>
 
-            <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-btn">
-                <i class="fas fa-chess-knight"></i> Follow the founder on Lichess: AswinNK-Elite
+            <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" class="linkedin-btn">
+                <i class="fas fa-chess-knight"></i> Follow Aswin NK on LinkedIn
             </a>
 
             <div id="anonymousRegisterPromptBox" style="display:none; margin:10px 0; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); padding:12px; border-radius:12px; text-align:center;">
@@ -2830,8 +2840,8 @@
 
                     <div class="ticker-wrapper">
                         <div class="ticker-scroll">
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on Lichess: AswinNK-Elite ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on Lichess: AswinNK-Elite ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow Aswin NK on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow Aswin NK on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
                         </div>
                     </div>
                     <div style="width:80px;height:2px;background:#f1c40f;margin:12px auto 0 auto;border-radius:2px;opacity:0.5;"></div>
@@ -2857,8 +2867,8 @@
             <p style="text-align:center;font-weight:500;color:#ffffff;font-size:0.95rem;margin-top:2px;"><strong>Sreejeeth Vigneswaran</strong> <span style="font-size:0.6rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;vertical-align:middle;">CO-DEV</span> <span style="font-size:0.85rem;">| Content and product strategy lead</span></p>
 
             <div style="text-align:center;margin-bottom:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
-                <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);color:#ffd700;padding:6px 18px;border-radius:20px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.15);transition:var(--transition);">
-                    <i class="fas fa-chess"></i> Follow AswinNK-Elite on Lichess.org
+                <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);color:#ffd700;padding:6px 18px;border-radius:20px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.15);transition:var(--transition);">
+                    <i class="fas fa-chess"></i> Follow Aswin NK on LinkedIn
                 </a>
                 <a href="javascript:void(0)" onclick="launchFounderStorySequence()" style="display:inline-flex;align-items:center;gap:8px;font-size:0.9rem;font-weight:700;color:#ffd700;background:rgba(255,215,0,0.08);padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.25);text-decoration:none;transition:var(--transition);cursor:pointer;">
                     <i class="fas fa-book-open"></i> Read More About the Creators <i class="fas fa-arrow-right"></i>
@@ -2872,35 +2882,18 @@
             <p style="font-size:1rem;margin-top:0;">We choose to remain ad-free and focus purely on providing value to you. Thanks for supporting us!</p>
 
             <div class="philosophy-section">
-                <h3><i class="fas fa-brain"></i> Our Digital Philosophy</h3>
-                <p><strong>Modern internet spaces are broken.</strong> Countless educational websites subsist by cluttering screens with intrusive advertisements or locking their best features away behind aggressive paywalls. We fundamentally refuse to follow this pattern. Our project is built on the belief that premium learning tools should never be restricted by financial status.</p>
-                <h4 style="color:#f1c40f;margin-top:20px;"><i class="fas fa-ban"></i> Why Paywalls Fail Education</h4>
-                <p>Imagine arriving at a restaurant, only to be told you must pay a premium cover charge just to open the menu and look at the list of available items. Does that feel right? Or imagine buying an educational textbook, only to find every other page blacked out with a lock icon demanding a monthly subscription. Education shouldn't be hidden in the shadows.</p>
-                <p>True learning platforms should exist to elevate their students, <strong>not to exploit</strong> their attention spans.</p>
-                <h4 style="color:#f1c40f;margin-top:20px;"><i class="fas fa-chess-queen"></i> The Lichess Inspiration</h4>
-                <p>We proudly draw inspiration from open systems like <strong>Lichess.org</strong>. On our platform, every user—regardless of background, location, or financial standing—will always have total, unrestricted access to every single feature we build. No tiers, no hidden premiums, and no systemic biases.</p>
-                <h4 style="color:#f1c40f;margin-top:20px;"><i class="fas fa-hand-holding-heart"></i> How We Handle Scaling & Costs</h4>
-                <p>As our active student directory grows, running real-time global rankings, persistent leaderboard systems, secure user databases, and reliable computational servers will incur ongoing infrastructure costs. To handle this sustainably, we intend to implement an optional donation module in the future once the user base scales significantly.</p>
-                <p>However, let us make one promise absolute: <strong>Donors will receive the exact same application experience and feature access as everyone else.</strong> Financial contributions will strictly serve to support background server upkeep, ensuring the ecosystem stays alive and robust for the community. We're not tracking direct margins, but we pledge to reinvest dynamically into background infrastructure layers. We are here to create value, and we intend to remain exactly like this forever.</p>
-                <div style="margin-top:24px;text-align:center;border-top:1px solid rgba(255,255,255,0.06);padding-top:16px;">
-                    <p style="color:#ffd700;font-weight:600;">AbacusArena.org • Built on Integrity</p>
-                </div>
+                <h3><i class="fas fa-graduation-cap"></i> Our Mission</h3>
+                <p>AbacusArena.org is built to give students a focused, accessible place to practise mental arithmetic, improve speed, and track progress.</p>
+                <p><strong>This website is free for everyone, forever.</strong> We aim to keep the experience simple, useful, and accessible to learners everywhere.</p>
+                <p>As the platform grows, we will continue improving the practice experience while keeping the core service available to everyone.</p>
             </div>
-
-            <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-shield-alt"></i> Fair Play Policy</h3>
-            <ul style="font-size:1rem;padding-left:22px;margin:8px 0;">
-                <li style="margin-bottom:6px;">Any attempt to refresh or close the tab while a sum is in progress results in a dynamic account security flag evaluation and automatic -25 rating deduction.</li>
-                <li style="margin-bottom:6px;">Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
-                <li style="margin-bottom:6px;">Wrong answer in the Fair Play Verification Zone updates security calibrations to insulate baseline leaderboard integrity.</li>
-            </ul>
-
-            <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-crown"></i> Elite Standings</h3>
+<h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-crown"></i> Elite Standings</h3>
             <p style="font-size:1rem;">Once a player crosses the <strong>2800 Rating</strong> threshold, they are recognized as an <strong>Elite Player</strong>. Reaching <strong>3200+</strong> means you are "Tournament Ready" for professional worldwide arithmetic challenges.</p>
 
             <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-calculator"></i> Rating Acceleration & Dynamic K-Factor</h3>
-            <p style="font-size:1rem;line-height:1.5;color:#fff;">Your performance ranking operates under a specialized statistical Elo evaluation algorithm with a highly adaptive dynamic placement K-factor index to accelerate beginners safely and insulate established configurations:</p>
+            <p style="font-size:1rem;line-height:1.5;color:#fff;">Ratings are designed to be easier to climb while still rewarding consistent speed and accuracy. Strong players should not be trapped at an artificially slow progression rate.</p>
             <ul style="font-size:1rem;padding-left:22px;margin:8px 0;line-height:1.5;">
-                <li style="margin-bottom:4px;"><strong>Dynamic K-Progressions:</strong> K=256 for your first 3 games; K=128 for the next 2 games; K=64 for the next 5 games; K=32 for the next 5 games; settling permanently to K=16 from game 16 onwards.</li>
+                <li style="margin-bottom:4px;"><strong>Rating Progression:</strong> K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter.</li>
                 <li style="margin-bottom:4px;"><strong>Rating Multipliers (Increases):</strong> Successfully submitting correct compilation results shifts your value upwards. If you out-pace your opponent's baseline chronometer speed, an accelerated speed multiplier index scales your output up to your active game index optimization boundary.</li>
                 <li style="margin-bottom:4px;"><strong>Deflection Degradation (Decreases):</strong> Registering incorrect responses or allowing the absolute countdown clock sequence to exhaust automatically drops your value parameter. Resigning inside an active matchmaking timeline applies a variable deficit modifier.</li>
             </ul>
@@ -2909,149 +2902,75 @@
             <table class="rank-table">
                 <thead><tr><th>Rating Cutoff</th><th>Setup Configuration Matrix</th></tr></thead>
                 <tbody>
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1200-1500', this)">
-                        <td style="font-weight:700;color:#ffd700;">1200 - 1499 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 2-5 Rows | 1.00s - 0.75s</td>
-                    </tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1200 - 1249</td><td>1 Digit | 2 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1250 - 1299</td><td>1 Digit | 3 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1300 - 1349</td><td>1 Digit | 4 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1350 - 1399</td><td>1 Digit | 5 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1400 - 1449</td><td>1 Digit | 5 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-1200-1500"><td> 1450 - 1499</td><td>1 Digit | 5 Rows | 0.75s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1000-1400', this)">
+                        <td style="font-weight:700;color:#ffd700;">1000 - 1399 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 2-4 Rows | 1.10s - 1.00s</td></tr>
+                    <tr class="sub-tier-row sub-1000-1400"><td>1000 - 1199</td><td>1 Digit | 2 Rows | 1.10s</td></tr>
+                    <tr class="sub-tier-row sub-1000-1400"><td>1200 - 1299</td><td>1 Digit | 3 Rows | 1.05s</td></tr>
+                    <tr class="sub-tier-row sub-1000-1400"><td>1300 - 1399</td><td>1 Digit | 4 Rows | 1.00s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1500-1600', this)">
-                        <td style="font-weight:700;color:#ffd700;">1500 - 1599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 5-10 Rows | 1.00s - 0.80s</td>
-                    </tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1500 - 1509</td><td>1 Digit | 5 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1510 - 1519</td><td>1 Digit | 6 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1520 - 1529</td><td>1 Digit | 7 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1530 - 1539</td><td>1 Digit | 8 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1540 - 1549</td><td>1 Digit | 9 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1550 - 1559</td><td>1 Digit | 10 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1560 - 1569</td><td>1 Digit | 10 Rows | 0.95s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1570 - 1579</td><td>1 Digit | 10 Rows | 0.90s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1580 - 1589</td><td>1 Digit | 10 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-1500-1600"><td> 1590 - 1599</td><td>1 Digit | 10 Rows | 0.80s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1400-1600', this)">
+                        <td style="font-weight:700;color:#ffd700;">1400 - 1599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 5-6 Rows | 1.00s</td></tr>
+                    <tr class="sub-tier-row sub-1400-1600"><td>1400 - 1499</td><td>1 Digit | 5 Rows | 1.00s</td></tr>
+                    <tr class="sub-tier-row sub-1400-1600"><td>1500 - 1599</td><td>1 Digit | 6 Rows | 1.00s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1600-1700', this)">
-                        <td style="font-weight:700;color:#ffd700;">1600 - 1699 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 10-15 Rows | 0.75s - 0.71s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1600 - 1609</td><td>1 Digit | 10 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1610 - 1619</td><td>1 Digit | 11 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1620 - 1629</td><td>1 Digit | 12 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1630 - 1639</td><td>1 Digit | 13 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1640 - 1649</td><td>1 Digit | 14 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1650 - 1659</td><td>1 Digit | 15 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1660 - 1669</td><td>1 Digit | 15 Rows | 0.74s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1670 - 1679</td><td>1 Digit | 15 Rows | 0.73s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1680 - 1689</td><td>1 Digit | 15 Rows | 0.72s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1700"><td> 1690 - 1699</td><td>1 Digit | 15 Rows | 0.71s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1600-1800', this)">
+                        <td style="font-weight:700;color:#ffd700;">1600 - 1799 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1 Digit | 7-8 Rows | 0.95s - 0.90s</td></tr>
+                    <tr class="sub-tier-row sub-1600-1800"><td>1600 - 1699</td><td>1 Digit | 7 Rows | 0.95s</td></tr>
+                    <tr class="sub-tier-row sub-1600-1800"><td>1700 - 1799</td><td>1 Digit | 8 Rows | 0.90s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1700-1800', this)">
-                        <td style="font-weight:700;color:#ffd700;">1700 - 1799 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 15-20 Rows | 0.70s - 0.62s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1700 - 1709</td><td>1 Digit | 15 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1710 - 1719</td><td>1 Digit | 16 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1720 - 1729</td><td>1 Digit | 17 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1730 - 1739</td><td>1 Digit | 18 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1740 - 1749</td><td>1 Digit | 19 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1750 - 1759</td><td>1 Digit | 20 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1760 - 1769</td><td>1 Digit | 20 Rows | 0.68s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1770 - 1779</td><td>1 Digit | 20 Rows | 0.66s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1780 - 1789</td><td>1 Digit | 20 Rows | 0.64s</td></tr>
-                    <tr class="sub-tier-row sub-1700-1800"><td> 1790 - 1799</td><td>1 Digit | 20 Rows | 0.62s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1800-2000', this)">
+                        <td style="font-weight:700;color:#ffd700;">1800 - 1999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">1-2 Digits | 8-10 Rows | 0.90s - 0.85s</td></tr>
+                    <tr class="sub-tier-row sub-1800-2000"><td>1800 - 1899</td><td>1 Digit | 10 Rows | 0.85s</td></tr>
+                    <tr class="sub-tier-row sub-1800-2000"><td>1900 - 1999</td><td>2 Digits | 8 Rows | 0.90s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1800-1900', this)">
-                        <td style="font-weight:700;color:#ffd700;">1800 - 1899 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 20-25 Rows | 0.60s - 0.52s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1800 - 1809</td><td>1 Digit | 20 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1810 - 1819</td><td>1 Digit | 21 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1820 - 1829</td><td>1 Digit | 22 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1830 - 1839</td><td>1 Digit | 23 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1840 - 1849</td><td>1 Digit | 24 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1850 - 1859</td><td>1 Digit | 25 Rows | 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1860 - 1869</td><td>1 Digit | 25 Rows | 0.58s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1870 - 1879</td><td>1 Digit | 25 Rows | 0.56s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1880 - 1889</td><td>1 Digit | 25 Rows | 0.54s</td></tr>
-                    <tr class="sub-tier-row sub-1800-1900"><td> 1890 - 1899</td><td>1 Digit | 25 Rows | 0.52s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2000-2300', this)">
+                        <td style="font-weight:700;color:#ffd700;">2000 - 2299 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 0.85s - 0.75s</td></tr>
+                    <tr class="sub-tier-row sub-2000-2300"><td>2000 - 2099</td><td>2 Digits | 10 Rows | 0.85s</td></tr>
+                    <tr class="sub-tier-row sub-2000-2300"><td>2100 - 2199</td><td>2 Digits | 12 Rows | 0.80s</td></tr>
+                    <tr class="sub-tier-row sub-2000-2300"><td>2200 - 2299</td><td>2 Digits | 15 Rows | 0.75s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1900-2000', this)">
-                        <td style="font-weight:700;color:#ffd700;">1900 - 1999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 5-10 Rows | 1.00s - 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1900 - 1909</td><td>2 Digits | 5 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1910 - 1919</td><td>2 Digits | 6 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1920 - 1929</td><td>2 Digits | 7 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1930 - 1939</td><td>2 Digits | 8 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1940 - 1949</td><td>2 Digits | 9 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1950 - 1959</td><td>2 Digits | 10 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1960 - 1969</td><td>2 Digits | 10 Rows | 0.95s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1970 - 1979</td><td>2 Digits | 10 Rows | 0.90s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1980 - 1989</td><td>2 Digits | 10 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-1900-2000"><td> 1990 - 1999</td><td>2 Digits | 10 Rows | 0.80s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2300-2600', this)">
+                        <td style="font-weight:700;color:#ffd700;">2300 - 2599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">2-3 Digits | 10-15 Rows | 0.85s - 0.75s</td></tr>
+                    <tr class="sub-tier-row sub-2300-2600"><td>2300 - 2399</td><td>2 Digits | 15 Rows | 0.75s</td></tr>
+                    <tr class="sub-tier-row sub-2300-2600"><td>2400 - 2499</td><td>3 Digits | 10 Rows | 0.85s</td></tr>
+                    <tr class="sub-tier-row sub-2300-2600"><td>2500 - 2599</td><td>3 Digits | 12 Rows | 0.80s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2000-2100', this)">
-                        <td style="font-weight:700;color:#ffd700;">2000 - 2099 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 1.20s - 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-2000-2100"><td> 2000 - 2049</td><td>2 Digits | 10-14 Rows | 1.20s</td></tr>
-                    <tr class="sub-tier-row sub-2000-2100"><td> 2050 - 2099</td><td>2 Digits | 15 Rows | 1.20s - 1.00s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2600-3000', this)">
+                        <td style="font-weight:700;color:#ffd700;">2600 - 2999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">3-4 Digits | 15-18 Rows | 0.75s - 0.70s</td></tr>
+                    <tr class="sub-tier-row sub-2600-3000"><td>2600 - 2699</td><td>3 Digits | 15 Rows | 0.75s</td></tr>
+                    <tr class="sub-tier-row sub-2600-3000"><td>2700 - 2799</td><td>3 Digits | 18 Rows | 0.70s</td></tr>
+                    <tr class="sub-tier-row sub-2600-3000"><td>2800 - 2899</td><td>4 Digits | 12 Rows | 0.80s</td></tr>
+                    <tr class="sub-tier-row sub-2600-3000"><td>2900 - 2999</td><td>4 Digits | 15 Rows | 0.75s</td></tr>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2100-2200', this)">
-                        <td style="font-weight:700;color:#ffd700;">2100 - 2199 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 0.95s - 0.78s</td></tr>
-                    <tr class="sub-tier-row sub-2100-2200"><td> 2100 - 2149</td><td>2 Digits | 10-14 Rows | 0.95s</td></tr>
-                    <tr class="sub-tier-row sub-2100-2200"><td> 2150 - 2199</td><td>2 Digits | 15 Rows | 0.95s - 0.78s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2200-2300', this)">
-                        <td style="font-weight:700;color:#ffd700;">2200 - 2299 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 1.00s - 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2200-2300"><td> 2200 - 2249</td><td>2 Digits | 15-19 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-2200-2300"><td> 2250 - 2299</td><td>2 Digits | 20 Rows | 1.00s - 0.80s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2300-2400', this)">
-                        <td style="font-weight:700;color:#ffd700;">2300 - 2399 (AAM) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 0.75s - 0.71s</td></tr>
-                    <tr class="sub-tier-row sub-2300-2400"><td> 2300 - 2349</td><td>2 Digits | 15-19 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2300-2400"><td> 2350 - 2399</td><td>2 Digits | 20 Rows | 0.75s - 0.71s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2400-2500', this)">
-                        <td style="font-weight:700;color:#ffd700;">2400 - 2499 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 15-20 Rows | 0.70s - 0.62s</td></tr>
-                    <tr class="sub-tier-row sub-2400-2500"><td> 2400 - 2449</td><td>2 Digits | 15-19 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-2400-2500"><td> 2450 - 2499</td><td>2 Digits | 20 Rows | 0.70s - 0.62s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2500-2800', this)">
-                        <td style="font-weight:700;color:#ffd700;">2500 - 2799 (3 Digits) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">3 Digits | 5-15 Rows | 1.00s - 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2500-2800"><td> 2500 - 2599</td><td>3 Digits | 5-10 Rows | 1.00s - 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2500-2800"><td> 2600 - 2699</td><td>3 Digits | 7-12 Rows | 1.00s - 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2500-2800"><td> 2700 - 2799</td><td>3 Digits | 10-15 Rows | 1.00s - 0.80s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2800-3200', this)">
-                        <td style="font-weight:700;color:#ffd700;">2800 - 3199 (4 Digits) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">4 Digits | 5-20 Rows | 0.95s - 0.60s</td></tr>
-                    <tr class="sub-tier-row sub-2800-3200"><td> 2800 - 2899</td><td>4 Digits | 5-10 Rows | 0.95s - 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2800-3200"><td> 2900 - 2999</td><td>4 Digits | 7-12 Rows | 0.90s - 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-2800-3200"><td> 3000 - 3099</td><td>4 Digits | 10-15 Rows | 0.85s - 0.65s</td></tr>
-                    <tr class="sub-tier-row sub-2800-3200"><td> 3100 - 3199</td><td>4 Digits | 15-20 Rows | 0.80s - 0.60s</td></tr>
+                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-3000-3200', this)">
+                        <td style="font-weight:700;color:#ffd700;">3000 - 3199 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">4-5 Digits | 18-20 Rows | 0.70s - 0.65s</td></tr>
+                    <tr class="sub-tier-row sub-3000-3200"><td>3000 - 3099</td><td>4 Digits | 18 Rows | 0.70s</td></tr>
+                    <tr class="sub-tier-row sub-3000-3200"><td>3100 - 3199</td><td>4 Digits | 20 Rows | 0.65s</td></tr>
 
                     <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-3200-plus', this)">
-                        <td style="font-weight:700;color:#ffd700;">3200+ (Grandmaster & Beyond) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">5 Digits | 10-50 Rows | 0.75s - 0.25s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td> 3200 - 3499</td><td>5 Digits | 10-20 Rows | 0.75s - 0.65s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td> 3500 - 3999</td><td>5 Digits | 25-45 Rows | 0.60s - 0.40s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td> 4000 - 5199</td><td>5 Digits | 50 Rows | 0.35s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td> 5200+</td><td>5 Digits | 50 Rows | 0.25s</td></tr>
+                        <td style="font-weight:700;color:#ffd700;">3200 - 3499 (Elite Limit) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
+                        <td style="font-weight:600;">5 Digits | 15-25 Rows | 0.70s - 0.55s</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>3200 - 3299</td><td>5 Digits | 15 Rows | 0.70s</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>3300 - 3399</td><td>5 Digits | 18 Rows | 0.65s</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>3400 - 3499</td><td>5 Digits | 25 Rows | 0.55s</td></tr>
+                    <tr class="sub-tier-row sub-3200-plus"><td>3500+</td><td>Not attainable — the Arena rating limit is 3499</td></tr>
                 </tbody>
             </table>
 
             <h3 style="color:#ffeb3b;margin:30px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;">Message From the Founder</h3>
-            <p style="font-size:1rem;line-height:1.6;text-align:justify;color:#ffffff;opacity:0.9;margin-bottom:16px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to offer students a premium, distraction-free environment for rapid calculation practice. We want to be completely open with our community regarding our structural operations and explicitly state that we'll not provide the full amount of incoming donations directly to technical updates. We are a free platform aiming to serve your interactive speed calculation needs without ads or paywalls.</p>
+            <p style="font-size:1rem;line-height:1.6;text-align:justify;color:#ffffff;opacity:0.9;margin-bottom:16px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to give students a focused place to practise mental arithmetic, improve speed, and track progress. Our goal is simple: provide a useful mental-arithmetic practice platform without ads or paywalls.</p>
 
             <div style="margin-top:24px;text-align:center;">
-                <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" class="lichess-btn" style="max-width:450px;margin:0 auto;">
-                    <i class="fas fa-crown"></i> Follow the founder of this website on Lichess.org: AswinNK-Elite
+                <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" class="linkedin-btn" style="max-width:450px;margin:0 auto;">
+                    <i class="fas fa-crown"></i> Follow Aswin NK on LinkedIn
                 </a>
             </div>
 
@@ -3160,7 +3079,7 @@
 
                         <!-- Pull Quote -->
                         <div style="border-left:3px solid #3b82f6;background:rgba(59,130,246,0.08);border-radius:0 8px 8px 0;padding:12px 16px;margin:16px 0;font-size:0.85rem;line-height:1.5;color:#ffffff;">
-                            "Education should never be held hostage by paywalls or obscured by clickbait advertisements. If Lichess proved that world-class chess training can be completely free forever, we will prove the exact same for mental math."
+                            "Learning should remain accessible, focused, and useful. AbacusArena is built to make mental arithmetic practice available to everyone."
                         </div>
 
                         <!-- Feature Box -->
@@ -3169,7 +3088,7 @@
                                 <i class="fas fa-code-branch" style="color:#60a5fa;"></i> Shipped in the First 100 Days:
                             </div>
                             <ul style="list-style:none;padding:0;margin:0;font-size:0.78rem;line-height:1.5;">
-                                <li style="margin-bottom:5px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Dynamic K-Factor Elo Engine:</strong> Progressive stabilization settling permanently at K=16.</li>
+                                <li style="margin-bottom:5px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Dynamic K-Factor Elo Engine:</strong> A more forgiving progression keeps rating changes meaningful for established players.</li>
                                 <li style="margin-bottom:5px;padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Deep AI Replay Diagnostics:</strong> Step-by-step sandbox breakdown identifying bead slips and timing gaps.</li>
                                 <li style="padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:#60a5fa;">•</span> <strong>Aesthetics Studio:</strong> Metronome sound suite with customizable contrast and theme environments.</li>
                             </ul>
@@ -3191,7 +3110,7 @@
                         </div>
 
                         <div>
-                            <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,0.3);background:#162754;color:#ffffff;">
+                            <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,0.3);background:#162754;color:#ffffff;">
                                 <i class="fas fa-chess"></i> AswinNK-Elite
                             </a>
                         </div>
@@ -3208,23 +3127,7 @@
         <div class="faq-container" style="max-width:900px;margin:0 auto;width:100%;padding-top:20px;">
             <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:18px;border-bottom:2px solid rgba(255,255,255,0.12);padding-bottom:12px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
 
-            <div class="faq-section-title">Fair Play & Account Policy</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Can multiple people play on the same account? (Account Sharing Policy)</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p><strong>Yes, account sharing is currently permitted.</strong></p>
-                    <p>Since opponents are currently adaptive AI bots rather than direct human competitors, there is no strict prohibition against account sharing like on platforms such as Chess.com or Lichess.org. If human-to-human matchmaking is implemented as the userbase scales, matchmaking guidelines will adapt accordingly.</p>
-                    <p><strong>Fair Play Requirements:</strong></p>
-                    <ul>
-                        <li>Anyone is permitted to practice on any account, but using <strong>calculators or external calculation devices is strictly prohibited</strong> to preserve leaderboard fairness.</li>
-                        <li><strong>Special Request to World-Class & Top-Tier Solvers:</strong> We kindly request that top-notch competitive players avoid playing on multiple user accounts. Doing so prevents other dedicated learners from achieving fair placement on the leaderboard.</li>
-                    </ul>
-                </div>
-            </div>
+            <div class="faq-section-title">General</div>
 
             <div class="faq-section-title">General</div>
 
@@ -3241,7 +3144,7 @@
                     <span>Is AbacusArena really free?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by the open-source philosophy of platforms like Lichess.org.</div>
+                <div class="faq-answer">Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by the open and accessible learning principles.</div>
             </div>
 
             <div class="faq-item">
@@ -3265,7 +3168,7 @@
                     <span>Where can I follow the founders?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on <a href="https://lichess.org/@/AswinNK-Elite" target="_blank" style="color:#60a5fa;font-weight:600;">Lichess.org</a>. For updates, tutorials, and community content, subscribe to our official YouTube channel (managed by Sreejeeth Vigneswaran).</div>
+                <div class="faq-answer">You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="color:#60a5fa;font-weight:600;">LinkedIn</a>. For updates, tutorials, and community content, subscribe to our official YouTube channel (managed by Sreejeeth Vigneswaran).</div>
             </div>
 
             <div class="faq-item">
@@ -3274,7 +3177,7 @@
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    <p>Daily practice sharpens your working memory, visual bead processing, and mental focus. Pushing your rating higher directly translates to real-world competitive speed.</p>
+                    <p>Daily practice sharpens your working memory, visual bead processing, and mental focus. A higher rating reflects stronger speed and accuracy under increasingly difficult calculation settings.</p>
                     <p><strong>Key benefits of high ratings:</strong></p>
                     <ul>
                         <li><strong>Competition Readiness (3000+ Rating):</strong> Reaching a 3000+ rating means you have developed elite calculation speed, allowing you to compete with total confidence in official state, national, and international abacus competitions against top peers.</li>
@@ -3290,7 +3193,7 @@
                     <span>How does the Rated Mode work?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is dynamic: K=256 for first 3 games, K=128 for next 2, K=64 for next 5, K=32 for next 5, and K=16 from game 16 onwards.</div>
+                <div class="faq-answer">Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is dynamic: K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter. Rating changes are intentionally more forgiving so strong players can progress faster.</div>
             </div>
 
             <div class="faq-item">
@@ -3310,16 +3213,10 @@
 
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What is the Fair Play Policy?</span>
+                    <span>Why is there a 40-sum daily limit?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">
-                    <ul>
-                        <li>Any attempt to refresh or close the tab while a sum is in progress results in an automatic -25 rating deduction.</li>
-                        <li>Only enter the exact arithmetic answer before the counter timer runs out completely.</li>
-                        <li>Wrong answers in the Fair Play Verification Zone update security calibrations to maintain leaderboard integrity.</li>
-                    </ul>
-                </div>
+                <div class="faq-answer">AbacusArena limits every player to 40 sums per day. The limit is the same for everyone and helps us keep database usage manageable while keeping the website free for everyone, forever.</div>
             </div>
 
             <div class="faq-section-title">Ratings & Progression</div>
@@ -3331,10 +3228,15 @@
                 </div>
                 <div class="faq-answer">
                     <ul>
-                        <li><strong>1200 - 1499:</strong> Novice Tier</li>
-                        <li><strong>1500 - 1799:</strong> Intermediate Tier</li>
-                        <li><strong>1800 - 2299:</strong> Expert Competitor</li>
-                        <li><strong>2300 - 2799:</strong> Abacus Arena Master (AAM)</li>
+                        <li><strong>1000 - 1399:</strong> Developing</li>
+                        <li><strong>1400 - 1599:</strong> Intermediate</li>
+                        <li><strong>1600 - 1899:</strong> Advanced</li>
+                        <li><strong>1900 - 2199:</strong> Expert</li>
+                        <li><strong>2200 - 2499:</strong> Elite</li>
+                        <li><strong>2500 - 2799:</strong> Master</li>
+                        <li><strong>2800 - 3199:</strong> Grandmaster</li>
+                        <li><strong>3200 - 3499:</strong> Elite Limit</li>
+                        <li><strong>3500+:</strong> Not attainable — the rating ceiling is 3499</li>
                         <li><strong>2800 - 3199:</strong> Elite Player</li>
                         <li><strong>3200+:</strong> Grandmaster / Tournament Ready</li>
                     </ul>
@@ -3346,7 +3248,7 @@
                     <span>How is the rating calculated?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">Your rating updates using an adaptive Elo system. Beginners enjoy accelerated progression with a high K-factor (K=256 for the first 3 games), which gradually settles down to K=16 by game 16. Outpacing your opponent's response time also earns speed bonus multipliers! The difficulty matrix adjusts every 10 rating points for precise progression.</div>
+                <div class="faq-answer">Your rating updates using an adaptive Elo system. Players receive stronger rating movement early on and a more generous long-term progression: K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter. The difficulty matrix increases smoothly with rating.</div>
             </div>
 
             <div class="faq-section-title">About the Founders</div>
@@ -3387,7 +3289,7 @@
         <div id="founder-screen-2" class="founder-story-screen">
             <div class="founder-card-content">
                 <div class="badge-icon"><i class="fas fa-chess-knight"></i></div>
-                <h1 class="glow-heading">Inspired by Lichess.org</h1>
+                <h1 class="glow-heading">Built for Focused Learning</h1>
                 <p class="sub-quote">"Open-source, non-profit, free for everyone, forever—without ads or paywalls."</p>
             </div>
         </div>
@@ -3448,8 +3350,50 @@
 
 
         // ─── STATE ───
-        let rating = parseInt(localStorage.getItem('abacus-rating')) || 1500;
+        let rating = Math.min(3499, Math.max(1000, parseInt(localStorage.getItem('abacus-rating')) || 1500));
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
+
+        // ─── DAILY SUM LIMIT ───
+        // Every player gets the same maximum of 40 completed sum attempts per local calendar day.
+        // Registered accounts also sync this small usage snapshot with their existing user document.
+        const DAILY_SUM_LIMIT = 40;
+        let dailySumDate = localStorage.getItem('abacus-daily-sum-date') || '';
+        let dailySumCount = parseInt(localStorage.getItem('abacus-daily-sum-count')) || 0;
+
+        function getLocalDayKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        function refreshDailySumCounter() {
+            const today = getLocalDayKey();
+            if (dailySumDate !== today) {
+                dailySumDate = today;
+                dailySumCount = 0;
+                localStorage.setItem('abacus-daily-sum-date', dailySumDate);
+                localStorage.setItem('abacus-daily-sum-count', '0');
+            }
+            return dailySumCount;
+        }
+
+        function canStartDailySum(showMessage = true) {
+            const used = refreshDailySumCounter();
+            if (used >= DAILY_SUM_LIMIT) {
+                if (showMessage) {
+                    alert(`We're sorry, but you've reached today's limit.\n\nAbacusArena allows every player to complete up to 40 sums per day. This limit is the same for everyone, as higher daily usage would require significantly more database resources.\n\nPlease come back tomorrow.`);
+                }
+                return false;
+            }
+            return true;
+        }
+
+        function consumeDailySumSlot() {
+            refreshDailySumCounter();
+            if (dailySumCount >= DAILY_SUM_LIMIT) return false;
+            dailySumCount++;
+            localStorage.setItem('abacus-daily-sum-count', String(dailySumCount));
+            return true;
+        }
         let appOperationalContext = "rated";
         let isRated = true;
         let sequence = [],
@@ -3474,7 +3418,7 @@
         let selectedFlair = localStorage.getItem('selected-flair') || '🏆';
         let bgSoundEnabled = localStorage.getItem('bg-sound-enabled') !== 'false';
 
-        // Helper: Validate Lichess format (3-20 chars: letters, numbers, -, _)
+        // Helper: Validate nickname format (3-20 chars: letters, numbers, -, _)
         function isValidNickname(name) {
             return /^[a-zA-Z0-9_-]{3,20}$/.test(name);
         }
@@ -3664,7 +3608,7 @@
 
                 // Correct device → restore the cloud account.
                 username = data.username || input;
-                rating = Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500;
+                rating = Math.min(3499, Math.max(1000, Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500));
                 selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
 
@@ -3685,6 +3629,20 @@
                 // New accounts therefore start with K=256 for their first 3 rated games.
                 gamesPlayed = Number(stats.totalGames) || 0;
                 localStorage.setItem('abacus-games', String(gamesPlayed));
+
+                // Restore the daily usage snapshot when the account has one.
+                const todayKey = getLocalDayKey();
+                if (data.dailySumDate === todayKey) {
+                    dailySumDate = todayKey;
+                    dailySumCount = Math.min(DAILY_SUM_LIMIT, Number(data.dailySumCount) || 0);
+                    localStorage.setItem('abacus-daily-sum-date', dailySumDate);
+                    localStorage.setItem('abacus-daily-sum-count', String(dailySumCount));
+                } else {
+                    dailySumDate = todayKey;
+                    dailySumCount = 0;
+                    localStorage.setItem('abacus-daily-sum-date', dailySumDate);
+                    localStorage.setItem('abacus-daily-sum-count', '0');
+                }
 
                 localStorage.setItem('username', username);
                 localStorage.setItem('abacus-rating', String(rating));
@@ -3775,6 +3733,8 @@
                         sumOpponentRatings: Number(stats.sumOpponentRatings) || 0,
                         lastActivity: Number(stats.lastActivity) || Date.now()
                     },
+                    dailySumDate: dailySumDate || getLocalDayKey(),
+                    dailySumCount: Math.min(DAILY_SUM_LIMIT, Number(dailySumCount) || 0),
                     updatedAt: Date.now()
                 }, { merge: true });
 
@@ -4229,12 +4189,12 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
             buildComprehensiveAIPools();
             let wasInterrupted = localStorage.getItem('abacus-sum-interrupted') === 'true';
             if (wasInterrupted && appOperationalContext === 'rated') {
-                rating = Math.max(1000, (parseInt(localStorage.getItem('abacus-rating')) || 1500) - 25);
+                rating = Math.min(3499, Math.max(1000, (parseInt(localStorage.getItem('abacus-rating')) || 1500) - 25));
                 localStorage.setItem('abacus-rating', rating);
 syncRatingToCloud(rating);
                 localStorage.removeItem('abacus-sum-interrupted');
                 addHistory("Tab Exit / Refresh Penalty", false, [], null, false, true, true);
-                alert("⚠️ Penalty Applied: You left or refreshed during an active sum! -25 Rating Deduction applied per Fair Play ToS.");
+                alert("⚠️ Session interruption detected. A -25 rating deduction has been applied.");
             }
 
             if (Date.now() < lockUntilTimestamp) startCooldownTickerLoop();
@@ -4473,7 +4433,7 @@ syncRatingToCloud(rating);
             else offset = Math.floor(Math.random() * 301);
 
             let sign = Math.random() > 0.5 ? 1 : -1;
-            opponentRating = Math.max(1000, rating + (offset * sign));
+            opponentRating = Math.min(3499, Math.max(1000, rating + (offset * sign)));
 
             document.getElementById('oppRatingDisplay').innerText = opponentRating;
             document.getElementById('oppTitleDisplay').innerText = opponentRating >= 2300 ? "AAM" : "AI";
@@ -4539,6 +4499,7 @@ syncRatingToCloud(rating);
         // ─── MATCHMAKING ───
         function startMatchmakingSequence() {
             if (gameInProgress) return;
+            if (!canStartDailySum(true)) return;
             document.getElementById('mainCompAnalysisCard').style.display = 'none';
 
             let now = Date.now();
@@ -4672,7 +4633,7 @@ syncRatingToCloud(rating);
             calculateStakes();
 
             if (appOperationalContext === 'rated') {
-                rating = Math.max(1000, rating - lossPoints);
+                rating = Math.min(3499, Math.max(1000, rating - lossPoints));
                 localStorage.setItem('abacus-rating', rating);
             }
 
@@ -5171,11 +5132,12 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
         // ─── RATING / DIFFICULTY ───
         function getActiveKFactor() {
-            if (gamesPlayed < 3) return 256;
-            if (gamesPlayed < 5) return 128;
-            if (gamesPlayed < 10) return 64;
-            if (gamesPlayed < 15) return 32;
-            return 16;
+            // More forgiving progression so strong players can move through the ratings faster.
+            // The old permanent K=16 made established ratings unnecessarily difficult to improve.
+            if (gamesPlayed < 5) return 192;
+            if (gamesPlayed < 15) return 128;
+            if (gamesPlayed < 30) return 96;
+            return 64;
         }
 
         function calculateStakes() {
@@ -5190,98 +5152,32 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
         }
 
         function getRatingBoundDifficulty(targetRating) {
-            let r = targetRating;
-            if (r < 1250) return { digits: 1, rows: 2, time: 1000 };
-            if (r < 1300) return { digits: 1, rows: 3, time: 1000 };
-            if (r < 1350) return { digits: 1, rows: 4, time: 1000 };
-            if (r < 1400) return { digits: 1, rows: 5, time: 1000 };
-            if (r < 1450) return { digits: 1, rows: 5, time: 850 };
-            if (r < 1500) return { digits: 1, rows: 5, time: 750 };
-            if (r < 1510) return { digits: 1, rows: 5, time: 1000 };
-            if (r < 1520) return { digits: 1, rows: 6, time: 1000 };
-            if (r < 1530) return { digits: 1, rows: 7, time: 1000 };
-            if (r < 1540) return { digits: 1, rows: 8, time: 1000 };
-            if (r < 1550) return { digits: 1, rows: 9, time: 1000 };
-            if (r < 1560) return { digits: 1, rows: 10, time: 1000 };
-            if (r < 1570) return { digits: 1, rows: 10, time: 950 };
-            if (r < 1580) return { digits: 1, rows: 10, time: 900 };
-            if (r < 1590) return { digits: 1, rows: 10, time: 850 };
-            if (r < 1600) return { digits: 1, rows: 10, time: 800 };
-            if (r < 1610) return { digits: 1, rows: 10, time: 750 };
-            if (r < 1620) return { digits: 1, rows: 11, time: 750 };
-            if (r < 1630) return { digits: 1, rows: 12, time: 750 };
-            if (r < 1640) return { digits: 1, rows: 13, time: 750 };
-            if (r < 1650) return { digits: 1, rows: 14, time: 750 };
-            if (r < 1660) return { digits: 1, rows: 15, time: 750 };
-            if (r < 1670) return { digits: 1, rows: 15, time: 740 };
-            if (r < 1680) return { digits: 1, rows: 15, time: 730 };
-            if (r < 1690) return { digits: 1, rows: 15, time: 720 };
-            if (r < 1700) return { digits: 1, rows: 15, time: 710 };
-            if (r < 1710) return { digits: 1, rows: 15, time: 700 };
-            if (r < 1720) return { digits: 1, rows: 16, time: 700 };
-            if (r < 1730) return { digits: 1, rows: 17, time: 700 };
-            if (r < 1740) return { digits: 1, rows: 18, time: 700 };
-            if (r < 1750) return { digits: 1, rows: 19, time: 700 };
-            if (r < 1760) return { digits: 1, rows: 20, time: 700 };
-            if (r < 1770) return { digits: 1, rows: 20, time: 680 };
-            if (r < 1780) return { digits: 1, rows: 20, time: 660 };
-            if (r < 1790) return { digits: 1, rows: 20, time: 640 };
-            if (r < 1800) return { digits: 1, rows: 20, time: 620 };
-            if (r < 1810) return { digits: 1, rows: 20, time: 600 };
-            if (r < 1820) return { digits: 1, rows: 21, time: 600 };
-            if (r < 1830) return { digits: 1, rows: 22, time: 600 };
-            if (r < 1840) return { digits: 1, rows: 23, time: 600 };
-            if (r < 1850) return { digits: 1, rows: 24, time: 600 };
-            if (r < 1860) return { digits: 1, rows: 25, time: 600 };
-            if (r < 1870) return { digits: 1, rows: 25, time: 580 };
-            if (r < 1880) return { digits: 1, rows: 25, time: 560 };
-            if (r < 1890) return { digits: 1, rows: 25, time: 540 };
-            if (r < 1900) return { digits: 1, rows: 25, time: 520 };
-            if (r < 1910) return { digits: 2, rows: 5, time: 1000 };
-            if (r < 1920) return { digits: 2, rows: 6, time: 1000 };
-            if (r < 1930) return { digits: 2, rows: 7, time: 1000 };
-            if (r < 1940) return { digits: 2, rows: 8, time: 1000 };
-            if (r < 1950) return { digits: 2, rows: 9, time: 1000 };
-            if (r < 1960) return { digits: 2, rows: 10, time: 1000 };
-            if (r < 1970) return { digits: 2, rows: 10, time: 950 };
-            if (r < 1980) return { digits: 2, rows: 10, time: 900 };
-            if (r < 1990) return { digits: 2, rows: 10, time: 850 };
-            if (r < 2000) return { digits: 2, rows: 10, time: 800 };
-            if (r < 2010) return { digits: 2, rows: 10, time: 1200 };
-            if (r < 2020) return { digits: 2, rows: 11, time: 1200 };
-            if (r < 2030) return { digits: 2, rows: 12, time: 1200 };
-            if (r < 2040) return { digits: 2, rows: 13, time: 1200 };
-            if (r < 2050) return { digits: 2, rows: 14, time: 1200 };
-            if (r < 2060) return { digits: 2, rows: 15, time: 1200 };
-            if (r < 2070) return { digits: 2, rows: 15, time: 1150 };
-            if (r < 2080) return { digits: 2, rows: 15, time: 1100 };
-            if (r < 2090) return { digits: 2, rows: 15, time: 1050 };
-            if (r < 2100) return { digits: 2, rows: 15, time: 1000 };
-            if (r < 2150) return { digits: 2, rows: 10, time: 950 };
-            if (r < 2200) return { digits: 2, rows: 15, time: 780 };
-            if (r < 2250) return { digits: 2, rows: 15, time: 1000 };
-            if (r < 2300) return { digits: 2, rows: 20, time: 800 };
-            if (r < 2350) return { digits: 2, rows: 15, time: 750 };
-            if (r < 2400) return { digits: 2, rows: 20, time: 710 };
-            if (r < 2450) return { digits: 2, rows: 15, time: 700 };
-            if (r < 2500) return { digits: 2, rows: 20, time: 620 };
-            if (r < 2600) return { digits: 3, rows: 5, time: 1000 };
-            if (r < 2700) return { digits: 3, rows: 7, time: 1000 };
-            if (r < 2800) return { digits: 3, rows: 10, time: 1000 };
-            if (r < 2900) return { digits: 4, rows: 5, time: 950 };
-            if (r < 3000) return { digits: 4, rows: 7, time: 900 };
-            if (r < 3100) return { digits: 4, rows: 10, time: 850 };
-            if (r < 3200) return { digits: 4, rows: 15, time: 800 };
-            if (r < 3300) return { digits: 5, rows: 10, time: 750 };
-            if (r < 3400) return { digits: 5, rows: 15, time: 700 };
-            if (r < 3500) return { digits: 5, rows: 20, time: 650 };
-            if (r < 3600) return { digits: 5, rows: 25, time: 600 };
-            if (r < 3700) return { digits: 5, rows: 30, time: 550 };
-            if (r < 3800) return { digits: 5, rows: 35, time: 500 };
-            if (r < 3900) return { digits: 5, rows: 40, time: 450 };
-            if (r < 4000) return { digits: 5, rows: 45, time: 400 };
-            if (r < 5200) return { digits: 5, rows: 50, time: 350 };
-            return { digits: 5, rows: 50, time: 250 };
+            const r = Math.max(1000, Math.min(3499, Number(targetRating) || 1500));
+            // Difficulty increases smoothly with rating. There is no backward difficulty jump.
+            if (r < 1200) return { digits: 1, rows: 2, time: 1100 };
+            if (r < 1300) return { digits: 1, rows: 3, time: 1050 };
+            if (r < 1400) return { digits: 1, rows: 4, time: 1000 };
+            if (r < 1500) return { digits: 1, rows: 5, time: 1000 };
+            if (r < 1600) return { digits: 1, rows: 6, time: 1000 };
+            if (r < 1700) return { digits: 1, rows: 7, time: 950 };
+            if (r < 1800) return { digits: 1, rows: 8, time: 900 };
+            if (r < 1900) return { digits: 1, rows: 10, time: 850 };
+            if (r < 2000) return { digits: 2, rows: 8, time: 900 };
+            if (r < 2100) return { digits: 2, rows: 10, time: 850 };
+            if (r < 2200) return { digits: 2, rows: 12, time: 800 };
+            if (r < 2300) return { digits: 2, rows: 15, time: 750 };
+            if (r < 2400) return { digits: 3, rows: 10, time: 850 };
+            if (r < 2500) return { digits: 3, rows: 12, time: 800 };
+            if (r < 2600) return { digits: 3, rows: 15, time: 750 };
+            if (r < 2700) return { digits: 3, rows: 18, time: 700 };
+            if (r < 2800) return { digits: 4, rows: 12, time: 800 };
+            if (r < 2900) return { digits: 4, rows: 15, time: 750 };
+            if (r < 3000) return { digits: 4, rows: 18, time: 700 };
+            if (r < 3100) return { digits: 4, rows: 20, time: 650 };
+            if (r < 3200) return { digits: 5, rows: 15, time: 700 };
+            if (r < 3300) return { digits: 5, rows: 18, time: 650 };
+            if (r < 3400) return { digits: 5, rows: 20, time: 600 };
+            return { digits: 5, rows: 25, time: 550 };
         }
 
         function getNormalDifficulty() {
@@ -5339,6 +5235,14 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
         // ─── GAME LOOP ───
         async function initiateGame() {
+            if (!consumeDailySumSlot()) {
+                gameInProgress = false;
+                matchStateStep = "idle";
+                disableControls(false);
+                document.getElementById('action-btn').style.display = 'block';
+                canStartDailySum(true);
+                return;
+            }
             matchStateStep = "countdown";
             gameInProgress = true;
             if (appOperationalContext === 'rated') localStorage.setItem('abacus-sum-interrupted', 'true');
@@ -5527,7 +5431,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                             `⏱️ Both you and the AI failed to submit an answer in time. The match ends in a draw. Your rating remains stable.`;
                     }
                     ratingDelta = Math.round(k * (0.5 - expected));
-                    rating = Math.max(1000, rating + ratingDelta);
+                    rating = Math.min(3499, Math.max(1000, rating + ratingDelta));
                     resultType = 'draw';
                     addHistory(sequence.join('+') + '=' + actualSum + ' (Draw)', userCorrect, sequence, userVal, userVal ===
                         null);
@@ -5536,7 +5440,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                     let baseGain = k * (1 - expected);
                     let speedMult = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
                     ratingDelta = Math.max(2, Math.min(k, Math.round(baseGain * speedMult)));
-                    rating += ratingDelta;
+                    rating = Math.min(3499, Math.max(1000, rating + ratingDelta));
                     let timeDiff = (userElapsedMs - botSubmissionTimeMs) / 1000;
                     if (botCorrect) {
                         bannerTitle = "Won by Speed!";
@@ -5556,7 +5460,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                     let baseLoss = k * expected;
                     let speedMult = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
                     ratingDelta = -Math.max(2, Math.min(k, Math.round(baseLoss * speedMult)));
-                    rating = Math.max(1000, rating + ratingDelta);
+                    rating = Math.min(3499, Math.max(1000, rating + ratingDelta));
                     if (botCorrect && !userCorrect) {
                         bannerTitle = "Loss";
                         subText = "The AI calculated correctly, you didn't.";
@@ -5871,7 +5775,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
             if (num >= 5200) {
                 res.innerHTML =
-                    `🚀 **Rating Level: 5200+ Cutoff**<br>Your setup configuration matrix is **5 Digits | 50 Rows | 0.25s display timing**. Ultimate Ascendant Threshold!`;
+                    `🚀 **Rating Level: 3200–3499**<br>Your setup configuration is at the Arena's highest attainable level. Ratings of 3500+ are not attainable.`;
             } else {
                 res.innerHTML =
                     `👑 **Rating Level: ${start} - ${end} Cutoff**<br>Your setup configuration matrix is **${cfg.digits} Digits | ${cfg.rows} Rows | ${timeSec} display timing**.`;
@@ -6061,7 +5965,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             let p1 = lossStart[Math.floor(Math.random() * lossStart.length)];
 
             if (isRefreshPenalty) {
-                return `${p1} leaving or refreshing mid-game causes a direct -25 rating penalty and violates Fair Play rules. Since your current rating is ${rating}, avoiding tab refreshes will easily allow you to increase your rating!`;
+                return `${p1} leaving or refreshing mid-game causes a direct -25 rating penalty and ends the active session early. Since your current rating is ${rating}, avoiding tab refreshes will easily allow you to increase your rating!`;
             }
 
             if (isTimeoutLoss) {
@@ -6170,9 +6074,9 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                     `Outstanding consistency! Your current rating is ${rating}. Your speed and mental soroban visualization are sharp. Keep pushing higher rated ranks!`;
             } else if (refreshPenalties >= 2) {
                 mainDiag =
-                    `<strong>Rating Leak Detected: Tab Refresh Penalties!</strong> You have ${refreshPenalties} games penalized for refreshing or closing the tab during active calculation streams. This violates Fair Play guidelines and cost you Elo points. Since your current rating is <strong>${rating}</strong>, avoiding tab exits will easily allow you to increase your rating!`;
+                    `<strong>Rating Leak Detected: Tab Refresh Penalties!</strong> You have ${refreshPenalties} games penalized for refreshing or closing the tab during active calculation streams. This resulted in rating deductions. Since your current rating is <strong>${rating}</strong>, avoiding tab exits will easily allow you to increase your rating!`;
                 spoken =
-                    `Rating leak detected! You have lost points from tab refreshes. Leaving mid-game violates Fair Play rules. Since your current rating is ${rating}, avoiding tab exits will easily boost your rating!`;
+                    `Rating leak detected! You have lost points from tab refreshes. Leaving mid-game ends the active session early. Since your current rating is ${rating}, avoiding tab exits will easily boost your rating!`;
             } else if (timeLosses > arithmeticErrors) {
                 mainDiag =
                     `<strong>Rating Leak Detected: Time Pressure!</strong> You are calculating accurately, but running out of time before submitting. Since your current rating is <strong>${rating}</strong>, you can easily increase your rating by training in Manual Mode at faster display speeds to eliminate subvocalization!`;
@@ -6580,5 +6484,93 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
         // ─── OVERRIDE speakVoiceAnalysisText for ducking ───
         // Already done in initApp
     </script>
+
+    <!-- ─── RATING INSIGHTS MODAL ─── -->
+    <div id="rating-insight-modal" class="rating-insight-modal" onclick="if(event.target===this) closeRatingInsights()">
+        <div class="rating-insight-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;">
+                <div>
+                    <div style="font-size:.72rem;opacity:.65;text-transform:uppercase;letter-spacing:.8px;">Your Arena Rating</div>
+                    <div id="ratingInsightTitle" style="font-size:2.3rem;font-weight:900;color:#ffd700;">1500</div>
+                </div>
+                <button onclick="closeRatingInsights()" style="border:0;background:rgba(255,255,255,.08);color:#fff;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1rem;"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="rating-insight-grid">
+                <div class="rating-insight-item"><span class="rating-insight-label">Global Rank</span><span class="rating-insight-value" id="ratingInsightRank">—</span></div>
+                <div class="rating-insight-item"><span class="rating-insight-label">Percentile</span><span class="rating-insight-value" id="ratingInsightPercentile">—</span></div>
+                <div class="rating-insight-item"><span class="rating-insight-label">Tier</span><span class="rating-insight-value" id="ratingInsightTier">—</span></div>
+                <div class="rating-insight-item"><span class="rating-insight-label">Daily Sums</span><span class="rating-insight-value" id="ratingInsightDaily">0 / 40</span></div>
+            </div>
+            <div id="ratingInsightNote" style="font-size:.82rem;line-height:1.5;opacity:.72;text-align:center;">Loading your ranking…</div>
+        </div>
+    </div>
+
+
+    <script>
+        function getRatingTierName(r) {
+            if (r < 1400) return 'Developing';
+            if (r < 1600) return 'Intermediate';
+            if (r < 1900) return 'Advanced';
+            if (r < 2200) return 'Expert';
+            if (r < 2500) return 'Elite';
+            if (r < 2800) return 'Master';
+            if (r < 3200) return 'Grandmaster';
+            return 'Elite Limit';
+        }
+
+        function closeRatingInsights() {
+            const modal = document.getElementById('rating-insight-modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        async function openRatingInsights() {
+            const modal = document.getElementById('rating-insight-modal');
+            if (!modal) return;
+            refreshDailySumCounter();
+            document.getElementById('ratingInsightTitle').innerText = Math.min(3499, rating);
+            document.getElementById('ratingInsightDaily').innerText = `${dailySumCount} / ${DAILY_SUM_LIMIT}`;
+            document.getElementById('ratingInsightTier').innerText = getRatingTierName(rating);
+            document.getElementById('ratingInsightRank').innerText = 'Loading…';
+            document.getElementById('ratingInsightPercentile').innerText = 'Loading…';
+            document.getElementById('ratingInsightNote').innerText = 'Calculating your current position…';
+            modal.style.display = 'flex';
+
+            try {
+                await waitForFirebase();
+                const users = window.fbCollection(window.fbDb, 'users');
+                const higherQuery = window.fbQuery(users, window.fbWhere('rating', '>', Number(rating)));
+                const totalQuery = window.fbQuery(users);
+                const [higherSnap, totalSnap] = await Promise.all([
+                    window.fbGetCountFromServer(higherQuery),
+                    window.fbGetCountFromServer(totalQuery)
+                ]);
+                const higher = Number(higherSnap.data().count || 0);
+                const total = Number(totalSnap.data().count || 0);
+                if (total > 0) {
+                    const rank = higher + 1;
+                    const topPercent = Math.max(0.1, Math.min(100, (rank / total) * 100));
+                    document.getElementById('ratingInsightRank').innerText = `#${rank.toLocaleString()}`;
+                    document.getElementById('ratingInsightPercentile').innerText = `Top ${topPercent < 1 ? topPercent.toFixed(1) : Math.round(topPercent)}%`;
+                    document.getElementById('ratingInsightNote').innerText = `Based on ${total.toLocaleString()} registered players. Players with the same rating share the same position range.`;
+                } else {
+                    throw new Error('No registered players yet');
+                }
+            } catch (e) {
+                // Anonymous/offline fallback: useful estimate without another database dependency.
+                const estimated = Math.max(1, Math.min(99.9, 50 * Math.pow(0.9985, Number(rating) - 1500)));
+                document.getElementById('ratingInsightRank').innerText = '—';
+                document.getElementById('ratingInsightPercentile').innerText = `Top ${estimated < 1 ? estimated.toFixed(1) : Math.round(estimated)}%*`;
+                document.getElementById('ratingInsightNote').innerText = 'Exact global rank is available for registered players when the database is reachable. *The displayed percentile is an estimate when an exact ranking cannot be calculated.';
+            }
+        }
+
+        // Keep the displayed rating within the public 3499 ceiling.
+        const _originalUpdateRatingUI = updateRatingUI;
+        updateRatingUI = function() {
+            rating = Math.min(3499, Math.max(1000, Number(rating) || 1500));
+            _originalUpdateRatingUI();
+        };
+    </script>
+
 </body>
 </html>
