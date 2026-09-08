@@ -3685,6 +3685,12 @@ style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:no
                 isAAM = data.aam === true;
                 selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
+// Sync cloud notifications into local storage so the bell indicator lights up
+                if (Array.isArray(data.notifications)) {
+                    systemNotificationsList = data.notifications;
+                    localStorage.setItem('abacus-system-notifications', JSON.stringify(systemNotificationsList));
+                    evaluateBellNotificationIndicatorState();
+                }
 
                 if (data.stats) {
                     stats = {
@@ -3997,14 +4003,38 @@ async function executePlayerSearch() {
             try {
                 showLoading();
                 const db = await waitForFirebase();
-                const ref = window.fbDoc(db, 'users', getUserDocId(targetUsername));
+                const userId = getUserDocId(targetUsername);
+                const ref = window.fbDoc(db, 'users', userId);
+                
+                // Fetch existing notifications array or initialize a new one
+                const snap = await window.fbGetDoc(ref);
+                let currentNotifs = [];
+                if (snap.exists() && snap.data().notifications) {
+                    currentNotifs = snap.data().notifications;
+                }
+
+                // Create the notification object for their bell inbox
+                const newNotification = {
+                    id: Date.now(),
+                    sender: "System Administration (Founder)",
+                    body: "🎉 Congratulations! You have been awarded the prestigious permanent AAM (AbacusArenaMaster) title by the Founder & Lead Developer!",
+                    timestamp: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
+                    aiGenerated: false
+                };
+
+                currentNotifs.unshift(newNotification);
+
                 await window.fbSetDoc(ref, {
+                    username: targetUsername,
+                    usernameLower: userId,
                     aam: true,
+                    aamNotified: false,
+                    notifications: currentNotifs,
                     updatedAt: Date.now()
                 }, { merge: true });
 
                 hideLoading();
-                alert(`✅ Successfully awarded AAM to ${targetUsername}! The title is now permanent.`);
+                alert(`✅ Successfully awarded AAM to ${targetUsername}! The notification has been sent to their bell inbox.`);
                 
                 if (document.getElementById('playerSearchInput').value.trim().toLowerCase() === targetUsername.toLowerCase()) {
                     executePlayerSearch();
@@ -4013,8 +4043,7 @@ async function executePlayerSearch() {
                 hideLoading();
                 alert('Could not award AAM: ' + (e && e.message ? e.message : e));
             }
-        }
-                let manualDigits = 1;
+        }        let manualDigits = 1;
         let manualRows = 2;
         let manualTime = 1000;
 
