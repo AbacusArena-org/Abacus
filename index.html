@@ -3849,11 +3849,11 @@ style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:no
                     let badgeTag = '';
                     const leaderboardName = isFounderRecord(u) ? FOUNDER_USERNAME : (u.username || 'Unknown');
 
-if (u.username && isFounderRecord(u)) {
-    badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER & LEAD DEV</span>';
-} else if (u.username && u.username.toLowerCase() === 'sree') {
-    badgeTag = '<span class="identity-title-badge" style="background:#7c3aed;color:#fff;">CO-DEV</span>';
-}
+                    if (u.username && isFounderRecord(u)) {
+                        badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER & LEAD DEV</span>';
+                    } else if (u.aam === true) {
+                        badgeTag = '<span class="identity-title-badge aam-badge">AAM</span>';
+                    }
 
                     html += `
 <div class="leaderboard-row" onclick="inspectLeaderboardUser('${escapeHtml(u.username || '')}')" style="
@@ -3868,7 +3868,8 @@ if (u.username && isFounderRecord(u)) {
     border:1px solid rgba(255,255,255,0.08);
     cursor:pointer;
     transition:background 0.2s;
-">    <div style="
+">
+    <div style="
         display:flex;
         align-items:center;
         gap:10px;
@@ -3911,8 +3912,7 @@ if (u.username && isFounderRecord(u)) {
                 });
                 list.innerHTML = html || 'No scores registered yet.';
             } catch(e) { list.innerHTML = 'Error loading rankings: ' + e.message; }
-        }
-        function closeLeaderboardModal() { document.getElementById('leaderboard-fullscreen').style.display = 'none'; }
+        }        function closeLeaderboardModal() { document.getElementById('leaderboard-fullscreen').style.display = 'none'; }
 
         function openUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'flex'; }
         function closeUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'none'; }
