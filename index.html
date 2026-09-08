@@ -2453,7 +2453,15 @@
     <!-- ─── TOP NAVBAR ─── -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
         <button class="check-level-btn" onclick="openUserSearchModal()" style="background:rgba(255,255,255,0.12); color:var(--text); border:1px solid var(--border);"><i class="fas fa-search"></i> Search</button>
-        <button class="check-level-btn" onclick="openLeaderboardModal()" style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none;"><i class="fas fa-trophy"></i> Top 10</button>
+        <button class="check-level-btn" onclick="openLeaderboardModal()" 
+async function inspectLeaderboardUser(targetName) {
+            if (!targetName) return;
+            closeLeaderboardModal();
+            openUserSearchModal();
+            document.getElementById('playerSearchInput').value = targetName;
+            executePlayerSearch();
+        }
+style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:none;"><i class="fas fa-trophy"></i> Top 10</button>
         <button class="check-level-btn" id="nav-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
@@ -3848,7 +3856,7 @@ if (u.username && isFounderRecord(u)) {
 }
 
                     html += `
-<div class="leaderboard-row" style="
+<div class="leaderboard-row" onclick="inspectLeaderboardUser('${escapeHtml(u.username || '')}')" style="
     display:flex;
     align-items:center;
     justify-content:space-between;
@@ -3858,8 +3866,9 @@ if (u.username && isFounderRecord(u)) {
     border-radius:12px;
     background:rgba(255,255,255,0.06);
     border:1px solid rgba(255,255,255,0.08);
-">
-    <div style="
+    cursor:pointer;
+    transition:background 0.2s;
+">    <div style="
         display:flex;
         align-items:center;
         gap:10px;
@@ -3908,7 +3917,7 @@ if (u.username && isFounderRecord(u)) {
         function openUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'flex'; }
         function closeUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'none'; }
 
-        async function executePlayerSearch() {
+async function executePlayerSearch() {
             const qName = document.getElementById('playerSearchInput').value.trim();
             const box = document.getElementById('playerSearchResultBox');
             if (!qName) return;
@@ -3937,6 +3946,18 @@ if (u.username && isFounderRecord(u)) {
                         badgeTag = '<span class="identity-title-badge aam-badge">AAM</span>';
                     }
 
+                    let founderAwardBtnHTML = '';
+                    if (isFounderUser()) {
+                        const isAlreadyAAM = u.aam === true;
+                        founderAwardBtnHTML = `
+                            <div style="margin-top:12px; border-top:1px solid rgba(255,255,255,0.1); padding-top:10px; text-align:right;">
+                                <button onclick="founderAwardAAM('${escapeHtml(u.username || '')}')" style="background:${isAlreadyAAM ? '#10b981' : '#b45309'}; color:#fff; border:none; padding:8px 14px; border-radius:20px; font-weight:700; font-size:0.8rem; cursor:pointer;">
+                                    <i class="fas fa-award"></i> ${isAlreadyAAM ? 'AAM Already Awarded (Permanent)' : 'Award AAM'}
+                                </button>
+                            </div>
+                        `;
+                    }
+
                     box.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:center;">
                             <div style="display:flex; align-items:center; gap:10px;">
@@ -3951,8 +3972,9 @@ if (u.username && isFounderRecord(u)) {
                                 <div style="font-size:0.65rem; opacity:0.6;">ARENA RATING</div>
                             </div>
                         </div>
-                        <div style="margin-top:12px; font-size:0.75rem; opacity:0.7; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
-                            Shareable: <code style="color:#60a5fa;">https://abacusarena.org/@/${searchedDisplayName}</code>
+                        ${founderAwardBtnHTML}
+                        <div style="margin-top:10px; font-size:0.75rem; opacity:0.7; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
+                            Shareable: <code style="color:#60a5fa;">https://abacusarena.org/@/${escapeHtml(searchedDisplayName)}</code>
                         </div>
                     `;
                 }
@@ -3960,7 +3982,39 @@ if (u.username && isFounderRecord(u)) {
                 box.innerHTML = 'Search failed: ' + e.message; 
             }
         }
-        let manualDigits = 1;
+
+        async function founderAwardAAM(targetUsername) {
+            if (!isFounderUser()) {
+                alert('Only Aswin-Krishnamoorthy can award AAM.');
+                return;
+            }
+            if (!targetUsername) return;
+
+            if (!confirm(`Are you sure you want to award the permanent AAM title to "${targetUsername}"? Once awarded, it cannot be manually removed.`)) {
+                return;
+            }
+
+            try {
+                showLoading();
+                const db = await waitForFirebase();
+                const ref = window.fbDoc(db, 'users', getUserDocId(targetUsername));
+                await window.fbSetDoc(ref, {
+                    aam: true,
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                hideLoading();
+                alert(`✅ Successfully awarded AAM to ${targetUsername}! The title is now permanent.`);
+                
+                if (document.getElementById('playerSearchInput').value.trim().toLowerCase() === targetUsername.toLowerCase()) {
+                    executePlayerSearch();
+                }
+            } catch (e) {
+                hideLoading();
+                alert('Could not award AAM: ' + (e && e.message ? e.message : e));
+            }
+        }
+                let manualDigits = 1;
         let manualRows = 2;
         let manualTime = 1000;
 
