@@ -165,6 +165,16 @@
             transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
         }
         .home-tutorial-card:hover { transform:translateY(-2px); box-shadow:0 18px 38px rgba(15,23,42,.22); border-color:rgba(147,197,253,.55); }
+        .home-tutorial-main { display:flex; align-items:center; gap:12px; width:100%; cursor:pointer; padding-right:28px; }
+        .home-tutorial-close {
+            position:absolute; top:7px; right:8px; width:26px; height:26px; padding:0;
+            border-radius:50%; border:1px solid rgba(255,255,255,.16);
+            background:rgba(0,0,0,.22); color:rgba(255,255,255,.78);
+            display:flex; align-items:center; justify-content:center; font-size:.72rem;
+            cursor:pointer; z-index:3; transition:all .18s ease;
+        }
+        .home-tutorial-close:hover { background:rgba(239,68,68,.9); color:#fff; transform:scale(1.08); }
+        .home-tutorial-card.dismissed { display:none; }
         .home-tutorial-icon { width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);font-size:1.25rem;flex-shrink:0; }
         .home-tutorial-kicker { font-size:.64rem; text-transform:uppercase; letter-spacing:1px; color:#93c5fd; font-weight:800; }
         .home-tutorial-title { font-size:.95rem; font-weight:900; margin-top:2px; }
@@ -1847,7 +1857,15 @@
         .faq-question .arrow.open {
             transform: rotate(180deg);
         }
-        .faq-answer {
+                .aam-read-more-btn {
+            margin-top:4px; padding:7px 12px; border-radius:20px;
+            border:1px solid rgba(255,215,0,.28); background:rgba(255,215,0,.08);
+            color:#ffd700; font-size:.76rem; font-weight:800; cursor:pointer;
+            transition:all .2s ease;
+        }
+        .aam-read-more-btn:hover { background:rgba(255,215,0,.16); transform:translateY(-1px); }
+        .aam-more-details { margin-top:8px; animation:fadeSlideDown .25s ease; }
+.faq-answer {
             padding: 0 22px 18px 22px;
             display: none;
             line-height: 1.7;
@@ -2458,14 +2476,23 @@
                 <div class="hub-nav-btn" id="hub-mode-manual" onclick="switchMainOperationalContext('manual')"><i class="fas fa-sliders-h"></i> Manual</div>
             </div>
 
-            <div class="home-tutorial-card" onclick="window.open('https://www.youtube.com/watch?v=vHyQdB9HeP0','_blank')">
-                <div class="home-tutorial-icon"><i class="fab fa-youtube"></i></div>
-                <div class="home-tutorial-copy">
-                    <div class="home-tutorial-kicker">Quick guide</div>
-                    <div class="home-tutorial-title">How to use AbacusArena?</div>
-                    <div class="home-tutorial-sub">Click for more info · short video tutorial</div>
+            <div class="home-tutorial-card" id="homeTutorialCard" style="position:relative;">
+                <button type="button"
+                        class="home-tutorial-close"
+                        aria-label="Dismiss How to use AbacusArena"
+                        title="Dismiss"
+                        onclick="event.stopPropagation(); dismissHomeTutorialCard();">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="home-tutorial-main" onclick="window.open('https://www.youtube.com/watch?v=vHyQdB9HeP0','_blank')">
+                    <div class="home-tutorial-icon"><i class="fab fa-youtube"></i></div>
+                    <div class="home-tutorial-copy">
+                        <div class="home-tutorial-kicker">Quick guide</div>
+                        <div class="home-tutorial-title">How to use AbacusArena?</div>
+                        <div class="home-tutorial-sub">Click for more info · short video tutorial</div>
+                    </div>
+                    <div class="home-tutorial-arrow"><i class="fas fa-arrow-right"></i></div>
                 </div>
-                <div class="home-tutorial-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
             <div class="player-identity-card" id="opponentIdentityCard">
@@ -2687,10 +2714,9 @@
 
             <div id="founderAAMControls" style="display:none;margin-top:10px;padding:14px;border-radius:16px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);">
                 <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:8px;"><i class="fas fa-crown"></i> Founder AAM Controls</div>
-                <div style="font-size:.78rem;color:#e5e7eb;line-height:1.45;margin-bottom:10px;">Only Aswin-Krishnamoorthy can award AAM to another account, award it to himself, or remove it from any account.</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                <div style="font-size:.78rem;color:#e5e7eb;line-height:1.45;margin-bottom:10px;">Only Aswin-Krishnamoorthy can award AAM to a registered account, including his own account. Once AAM is awarded, it cannot be manually removed.</div>
+                <div style="display:grid;grid-template-columns:1fr;gap:8px;">
                     <button class="history-btn" style="background:#b45309;border-color:#f59e0b;" onclick="setAAMForPlayer()"><i class="fas fa-award"></i> Award AAM</button>
-                    <button class="history-btn" style="background:#991b1b;border-color:#ef4444;" onclick="removeAAMFromPlayer()"><i class="fas fa-user-minus"></i> Remove AAM</button>
                 </div>
             </div>
 
@@ -3142,7 +3168,7 @@
 
             <div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);border-radius:16px;padding:16px 18px;margin:18px 0;color:#fff;">
                 <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:7px;"><i class="fas fa-crown"></i> AAM Policy</div>
-                <div style="font-size:.88rem;line-height:1.55;opacity:.92;"><strong>AAM means AbacusArenaMaster.</strong> It is an honorary title awarded manually by the Founder & Lead Developer, not an automatic rating reward. The Founder & Lead Developer can award AAM to any deserving player, award it to himself, or remove it from any account. If an AAM holder's rating drops substantially below the expected master-level standard, the title may be removed.</div>
+                <div style="font-size:.88rem;line-height:1.55;opacity:.92;"><strong>AAM means AbacusArenaMaster.</strong> It is an honorary title awarded manually by the Founder &amp; Lead Developer, not an automatic rating reward. The Founder &amp; Lead Developer can award AAM to a deserving player, including himself. Once awarded, AAM cannot be manually removed and is not affected by rating changes or inactivity. The title disappears only when the account itself is deleted; a newly created account does not inherit it.</div>
             </div>
 
                     <!-- Footer -->
@@ -3302,16 +3328,20 @@
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    <p><strong style="color:#ffd700;">AAM means AbacusArenaMaster.</strong> You don't simply get the title. <strong style="color:#ffd700;">The AAM title gets you.</strong></p>
-                    <p>Please don't ask us to make you an AAM. AbacusArena awards the title to players whom we believe may truly deserve it.</p>
-                    <p><strong>Is it easy?</strong> No. Getting AAM on AbacusArena.org is not easy, but it is possible.</p>
-                    <p>As of now, there isn't even a single AAM on the website.</p>
-                    <p>If AbacusArena awards you the AAM title, it is a <strong>Master-level title on AbacusArena</strong>, as an honorary master-level title unique to AbacusArena.</p>
-                    <p>The AAM title does <strong>not</strong> give you money, sponsorships, academy partnerships, or any financial benefits from AbacusArena. It is an honorary AbacusArena title awarded by the Founder & Lead Developer.</p>
-                    <p>If you receive AAM and later delete your account, the AAM title is deleted with that account as well.</p>
-                    <p>If you create the same username again after deleting the old account, the AAM title is <strong>not automatically restored</strong>. The new account must independently qualify for the title.</p>
-                    <p>If an AAM holder's rating drops substantially below the expected master-level standard, AbacusArena may remove the AAM title. The Founder & Lead Developer can also revoke AAM at any time when the account no longer meets the standard.</p>
-                    <p><strong style="color:#ffd700;">Please don't ask us to restore AAM simply because an old account had it. The title is based on the current account and current eligibility. Only the Founder & Lead Developer can award or remove AAM.</strong></p>
+                    <p><strong style="color:#ffd700;">AAM means AbacusArenaMaster.</strong> It is an honorary master-level title awarded manually by the Founder &amp; Lead Developer.</p>
+                    <p>Once AAM is awarded to an account, the title cannot be manually removed. It remains with that account permanently.</p>
+
+                    <button type="button" class="aam-read-more-btn" onclick="toggleAAMMore(this)">
+                        Read more <i class="fas fa-chevron-down"></i>
+                    </button>
+
+                    <div class="aam-more-details" style="display:none;">
+                        <p>AAM is not an automatic rating reward. The Founder &amp; Lead Developer decides which players deserve the title based on their performance and overall standing on AbacusArena.</p>
+                        <p>The title is unique to AbacusArena and is honorary. It does not provide money, sponsorships, academy partnerships, or other financial benefits.</p>
+                        <p>After an account receives AAM, its rating may rise or fall without affecting the title. <strong>The title is not removed because of a rating drop, inactivity, or normal account activity.</strong></p>
+                        <p>The only way an AAM title disappears is when the account itself is deleted. If the user later creates a new account, the new account starts without AAM and must independently qualify for the title.</p>
+                        <p>For this reason, there is no manual “Remove AAM” option. Once the Founder &amp; Lead Developer awards the title, nobody can revoke it from that account.</p>
+                    </div>
                 </div>
             </div>
 
@@ -3340,7 +3370,7 @@
                     <span>How can I delete everything and start fresh?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">You can clear your browser data to reset your account. Alternatively, visit your <strong><a href="javascript:void(0)" onclick="openProfileAndHighlightDelete()" style="color:#60a5fa;text-decoration:underline;">Profile Page</a></strong>, scroll down to the bottom, and click the <strong>Reset All Ratings & Progress</strong> button. Confirm by typing <strong>DeleteEverything</strong> to reset all ratings, games history, and statistics from the beginning.</div>
+                <div class="faq-answer">You can clear your browser data to reset your account. Alternatively, visit your <strong><a href="javascript:void(0)" onclick="openProfileAndHighlightDelete()" style="color:#60a5fa;text-decoration:underline;">Profile Page</a></strong>, scroll down to the bottom, and click the <strong>Reset All Ratings & Progress</strong> button. Confirm by typing <strong>DeleteEverything</strong> to reset all ratings, games history, and statistics from the beginning. If the deleted account previously held AAM, its AAM title is deleted with that account. A newly created account does not inherit the old title.</div>
             </div>
         </div>
     </div>
@@ -4210,6 +4240,11 @@ if (u.username && isFounderRecord(u)) {
 
         // ─── INIT ───
         function initApp() {
+            const homeTutorialCard = document.getElementById('homeTutorialCard');
+            if (homeTutorialCard && localStorage.getItem('abacus-hide-home-tutorial') === 'true') {
+                homeTutorialCard.classList.add('dismissed');
+            }
+
             buildComprehensiveAIPools();
             let wasInterrupted = localStorage.getItem('abacus-sum-interrupted') === 'true';
             if (wasInterrupted && appOperationalContext === 'rated') {
@@ -4374,13 +4409,9 @@ syncRatingToCloud(rating);
             }
         }
         function checkTitledMilestoneThresholdStatus() {
-            // AAM is honorary and manually awarded. Rating never grants it automatically.
-            if (isAAM && rating < AAM_MIN_RATING && !isFounderUser()) {
-                isAAM = false;
-                localStorage.setItem('abacus-aam', 'false');
-                syncAAMStatusToCloud(false).catch(() => {});
-                injectSystemNotificationMessage("AbacusArena (Aswin Krishnamoorthy)", `Your AAM title was removed because your rating fell below ${AAM_MIN_RATING}.`);
-            }
+            // AAM is an honorary, manually awarded title.
+            // Once awarded, it is permanent for that account.
+            // Rating changes and inactivity do not remove AAM.
             updateMainDisplay();
         }
 
@@ -4823,37 +4854,52 @@ syncRatingToCloud(rating);
         }
 
         async function setAAMForPlayer() {
-            if (!isFounderUser()) { alert('Only Aswin-Krishnamoorthy can award or remove AAM.'); return; }
-            const input = prompt('Enter the exact username to award AAM:');
-            if (!input) return;
-            const target = input.trim();
-            if (!isValidNickname(target)) { alert('Enter a valid registered username.'); return; }
-            try {
-                const db = await waitForFirebase();
-                const ref = window.fbDoc(db, 'users', getUserDocId(target));
-                const snap = await window.fbGetDoc(ref);
-                if (!snap.exists()) { alert('Player not found.'); return; }
-                await window.fbSetDoc(ref, { aam: true, updatedAt: Date.now() }, { merge: true });
-                if (getUserDocId(target) === getUserDocId(username)) { isAAM = true; localStorage.setItem('abacus-aam','true'); updateMainDisplay(); }
-                alert(`AAM awarded to ${target}.`);
-            } catch (e) { alert('Could not award AAM.\n\n' + e.message); }
-        }
+            if (!isFounderUser()) {
+                alert('Only Aswin-Krishnamoorthy can award AAM.');
+                return;
+            }
 
-        async function removeAAMFromPlayer() {
-            if (!isFounderUser()) { alert('Only Aswin-Krishnamoorthy can award or remove AAM.'); return; }
-            const input = prompt('Enter the exact username to remove AAM from:');
+            const input = prompt('Enter the exact registered username to award AAM:');
             if (!input) return;
+
             const target = input.trim();
-            if (!isValidNickname(target)) { alert('Enter a valid registered username.'); return; }
+            if (!isValidNickname(target)) {
+                alert('Enter a valid registered username.');
+                return;
+            }
+
             try {
                 const db = await waitForFirebase();
                 const ref = window.fbDoc(db, 'users', getUserDocId(target));
                 const snap = await window.fbGetDoc(ref);
-                if (!snap.exists()) { alert('Player not found.'); return; }
-                await window.fbSetDoc(ref, { aam: false, updatedAt: Date.now() }, { merge: true });
-                if (getUserDocId(target) === getUserDocId(username)) { isAAM = false; localStorage.setItem('abacus-aam','false'); updateMainDisplay(); }
-                alert(`AAM removed from ${target}.`);
-            } catch (e) { alert('Could not remove AAM.\n\n' + e.message); }
+
+                if (!snap.exists()) {
+                    alert('Player not found. Make sure the username is an existing registered account.');
+                    return;
+                }
+
+                const currentData = snap.data() || {};
+                if (currentData.aam === true) {
+                    alert(`AAM is already awarded to ${target}. It cannot be manually removed.`);
+                    return;
+                }
+
+                await window.fbSetDoc(ref, {
+                    aam: true,
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                if (getUserDocId(target) === getUserDocId(username)) {
+                    isAAM = true;
+                    localStorage.setItem('abacus-aam', 'true');
+                    updateMainDisplay();
+                }
+
+                alert(`AAM awarded to ${target}. The title is now permanent for this account.`);
+            } catch (e) {
+                console.error('AAM award error:', e);
+                alert('Could not award AAM.\n\n' + (e && e.message ? e.message : e));
+            }
         }
 
         function updateMainDisplay() {
@@ -4916,6 +4962,20 @@ syncRatingToCloud(rating);
 
         function closeProfileFullscreen() { document.getElementById('profile-fullscreen').style.display = 'none'; }
 
+        function dismissHomeTutorialCard() {
+            const card = document.getElementById('homeTutorialCard');
+            if (!card) return;
+            card.classList.add('dismissed');
+            localStorage.setItem('abacus-hide-home-tutorial', 'true');
+        }
+
+        function restoreHomeTutorialCard() {
+            const card = document.getElementById('homeTutorialCard');
+            if (!card) return;
+            card.classList.remove('dismissed');
+            localStorage.removeItem('abacus-hide-home-tutorial');
+        }
+
         function openLevelCheckFullscreen() {
             if (gameInProgress) return;
             document.getElementById('levelCheckInput').value = "";
@@ -4929,6 +4989,16 @@ syncRatingToCloud(rating);
         function openFAQFullscreen() {
             if (gameInProgress) return;
             document.getElementById('faq-fullscreen').style.display = 'flex';
+        }
+
+        function toggleAAMMore(button) {
+            const details = button.nextElementSibling;
+            if (!details) return;
+            const isOpen = details.style.display !== 'none';
+            details.style.display = isOpen ? 'none' : 'block';
+            button.innerHTML = isOpen
+                ? 'Read more <i class="fas fa-chevron-down"></i>'
+                : 'Read less <i class="fas fa-chevron-up"></i>';
         }
 
 function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.display = 'none'; }
