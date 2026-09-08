@@ -3251,6 +3251,25 @@
                 <div class="faq-answer">Your rating updates using an adaptive Elo system. Players receive stronger rating movement early on and a more generous long-term progression: K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter. The difficulty matrix increases smoothly with rating.</div>
             </div>
 
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFaq(this)">
+                    <span>How to get AAM title?</span>
+                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    <p>You don't get the AAM title. <strong style="color:#ffd700;">The AAM title gets you.</strong></p>
+                    <p>Please don't ask us to make you an AAM. AbacusArena awards the title to players whom we believe may truly deserve it.</p>
+                    <p><strong>Is it easy?</strong> No. Getting AAM on AbacusArena.org is not easy, but it is possible.</p>
+                    <p>As of now, there isn't even a single AAM on the website.</p>
+                    <p>If AbacusArena awards you the AAM title, it is a <strong>Master-level title on AbacusArena</strong>, similar in concept to the LM (Lichess Master) title on Lichess.</p>
+                    <p>The AAM title does <strong>not</strong> give you money, sponsorships, academy partnerships, or any financial benefits from AbacusArena.</p>
+                    <p>If you receive AAM and later delete your account, the AAM title is deleted with that account as well.</p>
+                    <p>If you create the same username again after deleting the old account, the AAM title is <strong>not automatically restored</strong>. The new account must independently qualify for the title.</p>
+                    <p>If the new account has low rating or otherwise does not meet the standard expected of an AAM, the title will be removed immediately.</p>
+                    <p><strong style="color:#ffd700;">Please don't ask us to restore AAM simply because an old account had it. The title is based on the current account and current eligibility.</strong></p>
+                </div>
+            </div>
+
             <div class="faq-section-title">About the Founders</div>
 
             <div class="faq-item">
@@ -3789,8 +3808,6 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
     badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER & LEAD DEV</span>';
 } else if (u.username && u.username.toLowerCase() === 'sree') {
     badgeTag = '<span class="identity-title-badge" style="background:#7c3aed;color:#fff;">CO-DEV</span>';
-} else if (u.rating >= 2300) {
-    badgeTag = '<span class="identity-title-badge aam-badge">AAM</span>';
 }
 
                     html += `
@@ -3878,8 +3895,6 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                     let badgeTag = '';
                     if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                         badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER</span>';
-                    } else if (u.rating >= 2300) {
-                        badgeTag = '<span class="identity-title-badge aam-badge">AAM</span>';
                     }
 
                     box.innerHTML = `
@@ -3932,7 +3947,6 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
         let lastSpokenTextBuffer = "";
 
         let systemNotificationsList = JSON.parse(localStorage.getItem('abacus-system-notifications')) || [];
-        let wasAAMTitleNotificationTriggered = localStorage.getItem('abacus-aam-popup-fired') === 'true';
 
         let lastCompletedGameDetails = null;
         let userElapsedMsGlobal = 0;
@@ -4351,21 +4365,17 @@ syncRatingToCloud(rating);
         }
 
         function checkTitledMilestoneThresholdStatus() {
-            let isUserAAM = rating >= 2300;
+            // AAM is an honorary title awarded manually by AbacusArena.
+            // Reaching a rating of 2300 does NOT automatically grant AAM.
             let mainBadge = document.getElementById('mainTitleBadge');
 
-            if (isUserAAM) {
-                mainBadge.style.display = "inline-block";
-                mainBadge.className = "identity-title-badge aam-badge";
+            if (!mainBadge) return;
 
-                if (!wasAAMTitleNotificationTriggered) {
-                    wasAAMTitleNotificationTriggered = true;
-                    localStorage.setItem('abacus-aam-popup-fired', 'true');
-                    let msg = `Hi, ${username}! You have reached a rating cutoff of 2300+ and claimed AAM [Abacus Arena Master]!`;
-                    injectSystemNotificationMessage("AbacusArena (Aswin Krishnamoorthy)", msg);
-                    alert(
-                        `🏆 Verification Milestone Achieved!\n\nHi, ${username}! You have reached a rating cutoff of 2300+ and claimed AAM [Abacus Arena Master].`);
-                }
+            // Only manually assigned AAM status should display the badge.
+            // Do not auto-award, auto-notify, or auto-claim AAM based on rating.
+            if (username && username.toLowerCase() === 'aswinnk-elite') {
+                mainBadge.style.display = "inline-block";
+                mainBadge.className = "identity-title-badge founder-badge";
             } else {
                 mainBadge.style.display = "none";
             }
@@ -4436,7 +4446,7 @@ syncRatingToCloud(rating);
             opponentRating = Math.min(3499, Math.max(1000, rating + (offset * sign)));
 
             document.getElementById('oppRatingDisplay').innerText = opponentRating;
-            document.getElementById('oppTitleDisplay').innerText = opponentRating >= 2300 ? "AAM" : "AI";
+            document.getElementById('oppTitleDisplay').innerText = "AI";
 
             let randomName = aiNames[Math.floor(Math.random() * aiNames.length)] + "_" + (Math.floor(Math.random() * 89) + 10);
             let randomAvatar = aiAvatars[Math.floor(Math.random() * aiAvatars.length)];
@@ -4800,10 +4810,6 @@ syncRatingToCloud(rating);
                 mainBadge.style.display = "inline-block";
                 mainBadge.className = "identity-title-badge founder-badge";
                 mainBadge.innerText = "FOUNDER";
-            } else if (rating >= 2300) {
-                mainBadge.style.display = "inline-block";
-                mainBadge.className = "identity-title-badge aam-badge";
-                mainBadge.innerText = "AAM";
             } else {
                 mainBadge.style.display = "none";
             }
@@ -6258,7 +6264,6 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
                 localStorage.removeItem('consecutive-aborts-count');
                 localStorage.removeItem('lock-until-timestamp');
                 localStorage.removeItem('abacus-sum-interrupted');
-                localStorage.removeItem('abacus-aam-popup-fired');
                 localStorage.removeItem('stats-highestRating');
                 localStorage.removeItem('stats-highestBeaten');
                 localStorage.removeItem('stats-totalGames');
@@ -6274,7 +6279,6 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
                 lastCompletedGameDetails = null;
                 consecutiveAbortsCount = 0;
                 lockUntilTimestamp = 0;
-                wasAAMTitleNotificationTriggered = false;
 
                 stats = {
                     highestRating: 1500,
