@@ -156,6 +156,23 @@
             overflow-x: hidden;
         }
 
+        /* ─── PROFESSIONAL HOME ENHANCEMENTS ─── */
+        .home-tutorial-card {
+            display:flex; align-items:center; gap:12px; width:100%; padding:14px 15px;
+            border-radius:16px; cursor:pointer; color:#fff;
+            background:linear-gradient(135deg,rgba(15,23,42,.97),rgba(30,64,175,.92));
+            border:1px solid rgba(96,165,250,.28); box-shadow:0 12px 28px rgba(15,23,42,.16);
+            transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+        }
+        .home-tutorial-card:hover { transform:translateY(-2px); box-shadow:0 18px 38px rgba(15,23,42,.22); border-color:rgba(147,197,253,.55); }
+        .home-tutorial-icon { width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.12);font-size:1.25rem;flex-shrink:0; }
+        .home-tutorial-kicker { font-size:.64rem; text-transform:uppercase; letter-spacing:1px; color:#93c5fd; font-weight:800; }
+        .home-tutorial-title { font-size:.95rem; font-weight:900; margin-top:2px; }
+        .home-tutorial-sub { font-size:.7rem; color:#cbd5e1; margin-top:2px; }
+        .home-tutorial-arrow { margin-left:auto; opacity:.75; }
+        .professional-home-glow { position:relative; }
+        .professional-home-glow::before { content:""; position:absolute; inset:-1px; border-radius:22px; pointer-events:none; background:linear-gradient(120deg,rgba(59,130,246,.14),transparent 45%,rgba(139,92,246,.10)); z-index:-1; }
+
         /* ─── TOP NAVBAR ─── */
         .top-navbar {
             width: 100%;
@@ -2432,13 +2449,23 @@
     </div>
 
     <!-- ─── MAIN WRAPPER ─── -->
-    <div class="page-wrapper" id="mainAppWrapper" style="display: none;">
+    <div class="page-wrapper professional-home-glow" id="mainAppWrapper" style="display: none;">
 
         <!-- SIDEBAR -->
         <div class="sidebar-profile-column">
             <div class="mode-selection-bar" id="appModeSelectionBar">
                 <div class="hub-nav-btn active-hub" id="hub-mode-rated" onclick="switchMainOperationalContext('rated')"><i class="fas fa-bolt"></i> Rated</div>
                 <div class="hub-nav-btn" id="hub-mode-manual" onclick="switchMainOperationalContext('manual')"><i class="fas fa-sliders-h"></i> Manual</div>
+            </div>
+
+            <div class="home-tutorial-card" onclick="window.open('https://www.youtube.com/watch?v=vHyQdB9HeP0','_blank')">
+                <div class="home-tutorial-icon"><i class="fab fa-youtube"></i></div>
+                <div class="home-tutorial-copy">
+                    <div class="home-tutorial-kicker">Quick guide</div>
+                    <div class="home-tutorial-title">How to use AbacusArena?</div>
+                    <div class="home-tutorial-sub">Click for more info · short video tutorial</div>
+                </div>
+                <div class="home-tutorial-arrow"><i class="fas fa-arrow-right"></i></div>
             </div>
 
             <div class="player-identity-card" id="opponentIdentityCard">
@@ -2655,8 +2682,17 @@
             </button>
 
             <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" class="linkedin-btn">
-                <i class="fas fa-chess-knight"></i> Follow Aswin NK on LinkedIn
+                <i class="fas fa-chess-knight"></i> Follow the founder on LinkedIn
             </a>
+
+            <div id="founderAAMControls" style="display:none;margin-top:10px;padding:14px;border-radius:16px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);">
+                <div style="font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:8px;"><i class="fas fa-crown"></i> Founder AAM Controls</div>
+                <div style="font-size:.78rem;color:#e5e7eb;line-height:1.45;margin-bottom:10px;">Only Aswin-Krishnamoorthy can award AAM to another account, award it to himself, or remove it from any account.</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <button class="history-btn" style="background:#b45309;border-color:#f59e0b;" onclick="setAAMForPlayer()"><i class="fas fa-award"></i> Award AAM</button>
+                    <button class="history-btn" style="background:#991b1b;border-color:#ef4444;" onclick="removeAAMFromPlayer()"><i class="fas fa-user-minus"></i> Remove AAM</button>
+                </div>
+            </div>
 
             <div id="anonymousRegisterPromptBox" style="display:none; margin:10px 0; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); padding:12px; border-radius:12px; text-align:center;">
                 <span style="font-size:0.82rem; color:#fde68a;">You are playing Anonymously (Local browser only).</span><br>
@@ -2840,8 +2876,8 @@
 
                     <div class="ticker-wrapper">
                         <div class="ticker-scroll">
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow Aswin NK on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
-                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow Aswin NK on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
+                            <span class="ticker-text">🧮 Welcome to AbacusArena.org 🧮 &nbsp;|&nbsp; ✨ Free for everyone, forever ✨ &nbsp;|&nbsp; ♟️ Follow the founder on LinkedIn ♟️ &nbsp;|&nbsp; 🌟 Community-Driven 🌟 &nbsp;|&nbsp;</span>
                         </div>
                     </div>
                     <div style="width:80px;height:2px;background:#f1c40f;margin:12px auto 0 auto;border-radius:2px;opacity:0.5;"></div>
@@ -2868,7 +2904,7 @@
 
             <div style="text-align:center;margin-bottom:20px;display:flex;flex-direction:column;align-items:center;gap:10px;">
                 <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);color:#ffd700;padding:6px 18px;border-radius:20px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.15);transition:var(--transition);">
-                    <i class="fas fa-chess"></i> Follow Aswin NK on LinkedIn
+                    <i class="fas fa-chess"></i> Follow the founder on LinkedIn
                 </a>
                 <a href="javascript:void(0)" onclick="launchFounderStorySequence()" style="display:inline-flex;align-items:center;gap:8px;font-size:0.9rem;font-weight:700;color:#ffd700;background:rgba(255,215,0,0.08);padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.25);text-decoration:none;transition:var(--transition);cursor:pointer;">
                     <i class="fas fa-book-open"></i> Read More About the Creators <i class="fas fa-arrow-right"></i>
@@ -2970,7 +3006,7 @@
 
             <div style="margin-top:24px;text-align:center;">
                 <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" class="linkedin-btn" style="max-width:450px;margin:0 auto;">
-                    <i class="fas fa-crown"></i> Follow Aswin NK on LinkedIn
+                    <i class="fas fa-crown"></i> Follow the founder on LinkedIn
                 </a>
             </div>
 
@@ -3103,15 +3139,21 @@
                         </p>
                     </div>
 
+
+            <div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);border-radius:16px;padding:16px 18px;margin:18px 0;color:#fff;">
+                <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:7px;"><i class="fas fa-crown"></i> AAM Policy</div>
+                <div style="font-size:.88rem;line-height:1.55;opacity:.92;"><strong>AAM means AbacusArenaMaster.</strong> It is an honorary title awarded manually by the Founder & Lead Developer, not an automatic rating reward. The Founder & Lead Developer can award AAM to any deserving player, award it to himself, or remove it from any account. If an AAM holder's rating drops substantially below the expected master-level standard, the title may be removed.</div>
+            </div>
+
                     <!-- Footer -->
                     <footer style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
                         <div style="font-size:0.75rem;color:#94a3b8;">
-                            Written by <strong style="color:#ffffff;">Aswin Krishnamoorthy</strong>
+                            Written by <strong style="color:#ffffff;">Aswin-Krishnamoorthy</strong>
                         </div>
 
                         <div>
                             <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,0.3);background:#162754;color:#ffffff;">
-                                <i class="fas fa-chess"></i> AswinNK-Elite
+                                <i class="fas fa-chess"></i> Aswin-Krishnamoorthy
                             </a>
                         </div>
                     </footer>
@@ -3126,8 +3168,6 @@
         <button class="back-arena-btn" onclick="closeFAQFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
         <div class="faq-container" style="max-width:900px;margin:0 auto;width:100%;padding-top:20px;">
             <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:18px;border-bottom:2px solid rgba(255,255,255,0.12);padding-bottom:12px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
-
-            <div class="faq-section-title">General</div>
 
             <div class="faq-section-title">General</div>
 
@@ -3193,7 +3233,7 @@
                     <span>How does the Rated Mode work?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is dynamic: K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter. Rating changes are intentionally more forgiving so strong players can progress faster.</div>
+                <div class="faq-answer">Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is intentionally high and adaptive. New and returning players can see larger meaningful changes, while the system gradually becomes more stable as they play consistently. Rating confidence also changes with activity and inactivity.</div>
             </div>
 
             <div class="faq-item">
@@ -3211,12 +3251,17 @@
                 </div>
             </div>
 
+
             <div class="faq-item">
                 <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Why is there a 40-sum daily limit?</span>
+                    <span>How does rating confidence change?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">AbacusArena limits every player to 40 sums per day. The limit is the same for everyone and helps us keep database usage manageable while keeping the website free for everyone, forever.</div>
+                <div class="faq-answer">
+                    <p>Every new account starts with <strong>350 points of rating confidence</strong>. As you actively play rated sessions, this value gradually falls toward a minimum of <strong>45</strong>, making your rating more stable over time.</p>
+                    <p>When you stop playing for a while, the confidence value rises again. When you return and actively participate, it decreases again. This makes rating changes more responsive after inactivity and more stable during consistent activity.</p>
+                    <p>The confidence system works together with the high adaptive K-factor, so new and returning players can move through the ratings meaningfully while established active players get steadier results.</p>
+                </div>
             </div>
 
             <div class="faq-section-title">Ratings & Progression</div>
@@ -3248,7 +3293,7 @@
                     <span>How is the rating calculated?</span>
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
-                <div class="faq-answer">Your rating updates using an adaptive Elo system. Players receive stronger rating movement early on and a more generous long-term progression: K=192 for the first 5 games, K=128 for the next 10, K=96 for the next 15, and K=64 thereafter. The difficulty matrix increases smoothly with rating.</div>
+                <div class="faq-answer">Your rating updates using an adaptive Elo system. Players receive high, adaptive rating movement that responds to both experience and rating confidence. Consistent activity makes the rating more stable, while inactivity makes the system more responsive again. The difficulty matrix increases smoothly with rating.</div>
             </div>
 
             <div class="faq-item">
@@ -3257,16 +3302,16 @@
                     <span class="arrow"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-answer">
-                    <p>You don't get the AAM title. <strong style="color:#ffd700;">The AAM title gets you.</strong></p>
+                    <p><strong style="color:#ffd700;">AAM means AbacusArenaMaster.</strong> You don't simply get the title. <strong style="color:#ffd700;">The AAM title gets you.</strong></p>
                     <p>Please don't ask us to make you an AAM. AbacusArena awards the title to players whom we believe may truly deserve it.</p>
                     <p><strong>Is it easy?</strong> No. Getting AAM on AbacusArena.org is not easy, but it is possible.</p>
                     <p>As of now, there isn't even a single AAM on the website.</p>
-                    <p>If AbacusArena awards you the AAM title, it is a <strong>Master-level title on AbacusArena</strong>, similar in concept to the LM (Lichess Master) title on Lichess.</p>
-                    <p>The AAM title does <strong>not</strong> give you money, sponsorships, academy partnerships, or any financial benefits from AbacusArena.</p>
+                    <p>If AbacusArena awards you the AAM title, it is a <strong>Master-level title on AbacusArena</strong>, as an honorary master-level title unique to AbacusArena.</p>
+                    <p>The AAM title does <strong>not</strong> give you money, sponsorships, academy partnerships, or any financial benefits from AbacusArena. It is an honorary AbacusArena title awarded by the Founder & Lead Developer.</p>
                     <p>If you receive AAM and later delete your account, the AAM title is deleted with that account as well.</p>
                     <p>If you create the same username again after deleting the old account, the AAM title is <strong>not automatically restored</strong>. The new account must independently qualify for the title.</p>
-                    <p>If the new account has low rating or otherwise does not meet the standard expected of an AAM, the title will be removed immediately.</p>
-                    <p><strong style="color:#ffd700;">Please don't ask us to restore AAM simply because an old account had it. The title is based on the current account and current eligibility.</strong></p>
+                    <p>If an AAM holder's rating drops substantially below the expected master-level standard, AbacusArena may remove the AAM title. The Founder & Lead Developer can also revoke AAM at any time when the account no longer meets the standard.</p>
+                    <p><strong style="color:#ffd700;">Please don't ask us to restore AAM simply because an old account had it. The title is based on the current account and current eligibility. Only the Founder & Lead Developer can award or remove AAM.</strong></p>
                 </div>
             </div>
 
@@ -3370,49 +3415,8 @@
 
         // ─── STATE ───
         let rating = Math.min(3499, Math.max(1000, parseInt(localStorage.getItem('abacus-rating')) || 1500));
+        let ratingConfidence = Math.max(45, Math.min(350, Number(localStorage.getItem('abacus-rating-confidence')) || 350));
         let gamesPlayed = parseInt(localStorage.getItem('abacus-games')) || 0;
-
-        // ─── DAILY SUM LIMIT ───
-        // Every player gets the same maximum of 40 completed sum attempts per local calendar day.
-        // Registered accounts also sync this small usage snapshot with their existing user document.
-        const DAILY_SUM_LIMIT = 40;
-        let dailySumDate = localStorage.getItem('abacus-daily-sum-date') || '';
-        let dailySumCount = parseInt(localStorage.getItem('abacus-daily-sum-count')) || 0;
-
-        function getLocalDayKey() {
-            const d = new Date();
-            return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        }
-
-        function refreshDailySumCounter() {
-            const today = getLocalDayKey();
-            if (dailySumDate !== today) {
-                dailySumDate = today;
-                dailySumCount = 0;
-                localStorage.setItem('abacus-daily-sum-date', dailySumDate);
-                localStorage.setItem('abacus-daily-sum-count', '0');
-            }
-            return dailySumCount;
-        }
-
-        function canStartDailySum(showMessage = true) {
-            const used = refreshDailySumCounter();
-            if (used >= DAILY_SUM_LIMIT) {
-                if (showMessage) {
-                    alert(`We're sorry, but you've reached today's limit.\n\nAbacusArena allows every player to complete up to 40 sums per day. This limit is the same for everyone, as higher daily usage would require significantly more database resources.\n\nPlease come back tomorrow.`);
-                }
-                return false;
-            }
-            return true;
-        }
-
-        function consumeDailySumSlot() {
-            refreshDailySumCounter();
-            if (dailySumCount >= DAILY_SUM_LIMIT) return false;
-            dailySumCount++;
-            localStorage.setItem('abacus-daily-sum-count', String(dailySumCount));
-            return true;
-        }
         let appOperationalContext = "rated";
         let isRated = true;
         let sequence = [],
@@ -3423,6 +3427,12 @@
         let appTheme = localStorage.getItem('abacus-app-theme') || 'light';
         let isAnonymous = localStorage.getItem('abacus-is-anonymous') === 'true' || !localStorage.getItem('username');
         let username = localStorage.getItem('username') || 'Anonymous';
+        const FOUNDER_USERNAME = 'Aswin-Krishnamoorthy';
+        const LEGACY_FOUNDER_USERNAME = 'aswinnk-elite';
+        const AAM_MIN_RATING = 1800;
+        let isAAM = localStorage.getItem('abacus-aam') === 'true';
+        if (username.toLowerCase() === LEGACY_FOUNDER_USERNAME) { username = FOUNDER_USERNAME; localStorage.setItem('username', username); }
+        if (!localStorage.getItem('abacus-aam')) localStorage.setItem('abacus-aam', 'false');
 
         // ─── ONE-DEVICE LOCK ───
         // Every browser/device gets a private random ID. The ID is saved in
@@ -3519,7 +3529,9 @@
         }
 
         function getUserDocId(name) {
-            return String(name || '').trim().toLowerCase();
+            const value = String(name || '').trim().toLowerCase();
+            if (value === FOUNDER_USERNAME.toLowerCase()) return LEGACY_FOUNDER_USERNAME;
+            return value;
         }
 
         // ─── REGISTER: account is permanently tied to this browser/device ───
@@ -3549,6 +3561,8 @@
                     username: input,
                     usernameLower: userId,
                     rating: 1500,
+                    ratingConfidence: 350,
+                    aam: false,
                     flair: selectedFlair || '🏆',
                     deviceId: deviceId,
                     deviceLockedAt: now,
@@ -3576,6 +3590,7 @@
                 localStorage.setItem('abacus-rating', '1500');
                 localStorage.setItem('selected-flair', selectedFlair || '🏆');
                 localStorage.setItem('abacus-is-anonymous', 'false');
+                localStorage.setItem('abacus-aam', String(!!isAAM));
 
                 hideLoading();
                 updateMainDisplay();
@@ -3626,8 +3641,10 @@
                 }
 
                 // Correct device → restore the cloud account.
-                username = data.username || input;
+                username = isFounderRecord(data) ? FOUNDER_USERNAME : (data.username || input);
                 rating = Math.min(3499, Math.max(1000, Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500));
+                ratingConfidence = Math.max(45, Math.min(350, Number(data.ratingConfidence) || 350));
+                isAAM = data.aam === true;
                 selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
 
@@ -3649,24 +3666,12 @@
                 gamesPlayed = Number(stats.totalGames) || 0;
                 localStorage.setItem('abacus-games', String(gamesPlayed));
 
-                // Restore the daily usage snapshot when the account has one.
-                const todayKey = getLocalDayKey();
-                if (data.dailySumDate === todayKey) {
-                    dailySumDate = todayKey;
-                    dailySumCount = Math.min(DAILY_SUM_LIMIT, Number(data.dailySumCount) || 0);
-                    localStorage.setItem('abacus-daily-sum-date', dailySumDate);
-                    localStorage.setItem('abacus-daily-sum-count', String(dailySumCount));
-                } else {
-                    dailySumDate = todayKey;
-                    dailySumCount = 0;
-                    localStorage.setItem('abacus-daily-sum-date', dailySumDate);
-                    localStorage.setItem('abacus-daily-sum-count', '0');
-                }
-
                 localStorage.setItem('username', username);
                 localStorage.setItem('abacus-rating', String(rating));
+                localStorage.setItem('abacus-rating-confidence', String(ratingConfidence));
                 localStorage.setItem('selected-flair', selectedFlair);
                 localStorage.setItem('abacus-is-anonymous', 'false');
+                localStorage.setItem('abacus-aam', String(!!isAAM));
 
                 hideLoading();
                 updateMainDisplay();
@@ -3718,6 +3723,8 @@
                     username: username,
                     usernameLower: userId,
                     rating: Number(newRating),
+                    ratingConfidence: Number(ratingConfidence),
+                    aam: !!isAAM,
                     updatedAt: Date.now()
                 }, { merge: true });
 
@@ -3750,10 +3757,9 @@
                         totalLosses: Number(stats.totalLosses) || 0,
                         totalDraws: Number(stats.totalDraws) || 0,
                         sumOpponentRatings: Number(stats.sumOpponentRatings) || 0,
-                        lastActivity: Number(stats.lastActivity) || Date.now()
+                        lastActivity: Number(stats.lastActivity) || Date.now(),
+                        ratingConfidence: Number(ratingConfidence) || 350
                     },
-                    dailySumDate: dailySumDate || getLocalDayKey(),
-                    dailySumCount: Math.min(DAILY_SUM_LIMIT, Number(dailySumCount) || 0),
                     updatedAt: Date.now()
                 }, { merge: true });
 
@@ -3803,8 +3809,9 @@
                     if (rank === 3) cup = '🥉';
 
                     let badgeTag = '';
+                    const leaderboardName = isFounderRecord(u) ? FOUNDER_USERNAME : (u.username || 'Unknown');
 
-if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
+if (u.username && isFounderRecord(u)) {
     badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER & LEAD DEV</span>';
 } else if (u.username && u.username.toLowerCase() === 'sree') {
     badgeTag = '<span class="identity-title-badge" style="background:#7c3aed;color:#fff;">CO-DEV</span>';
@@ -3849,7 +3856,7 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                 color:#fff;
                 font-size:0.95rem;
                 word-break:break-word;
-            ">${u.username}</strong>
+            ">${leaderboardName}</strong>
 
             ${badgeTag}
         </div>
@@ -3881,7 +3888,7 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
 
             try {
                 if (!window.fbDb) {
-                    box.innerHTML = 'Database is offline.';
+                    box.innerHTML = 'Player directory is offline.';
                     return;
                 }
 
@@ -3892,9 +3899,12 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                     box.innerHTML = `<div>Player <strong>${escapeHtml(qName)}</strong> was not found.</div>`;
                 } else {
                     const u = snap.data();
+                    const searchedDisplayName = isFounderRecord(u) ? FOUNDER_USERNAME : (u.username || qName);
                     let badgeTag = '';
-                    if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
-                        badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER</span>';
+                    if (u.username && isFounderRecord(u)) {
+                        badgeTag = '<span class="identity-title-badge founder-badge">FOUNDER & LEAD DEV</span>';
+                    } else if (u.aam === true) {
+                        badgeTag = '<span class="identity-title-badge aam-badge">AAM</span>';
                     }
 
                     box.innerHTML = `
@@ -3902,7 +3912,7 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                             <div style="display:flex; align-items:center; gap:10px;">
                                 <span style="font-size:2.2rem;">${u.flair || '🏆'}</span>
                                 <div>
-                                    <div style="font-size:1.1rem; font-weight:800;">${badgeTag}${escapeHtml(u.username)}</div>
+                                    <div style="font-size:1.1rem; font-weight:800;">${badgeTag}${escapeHtml(searchedDisplayName)}</div>
                                     <span style="font-size:0.75rem; color:#10b981;">● Registered Public Profile</span>
                                 </div>
                             </div>
@@ -3912,7 +3922,7 @@ if (u.username && u.username.toLowerCase() === 'aswinnk-elite') {
                             </div>
                         </div>
                         <div style="margin-top:12px; font-size:0.75rem; opacity:0.7; border-top:1px solid rgba(255,255,255,0.08); padding-top:8px;">
-                            Shareable: <code style="color:#60a5fa;">https://abacusarena.org/@/${u.username}</code>
+                            Shareable: <code style="color:#60a5fa;">https://abacusarena.org/@/${searchedDisplayName}</code>
                         </div>
                     `;
                 }
@@ -4363,22 +4373,15 @@ syncRatingToCloud(rating);
                 clearOpponentDisplay();
             }
         }
-
         function checkTitledMilestoneThresholdStatus() {
-            // AAM is an honorary title awarded manually by AbacusArena.
-            // Reaching a rating of 2300 does NOT automatically grant AAM.
-            let mainBadge = document.getElementById('mainTitleBadge');
-
-            if (!mainBadge) return;
-
-            // Only manually assigned AAM status should display the badge.
-            // Do not auto-award, auto-notify, or auto-claim AAM based on rating.
-            if (username && username.toLowerCase() === 'aswinnk-elite') {
-                mainBadge.style.display = "inline-block";
-                mainBadge.className = "identity-title-badge founder-badge";
-            } else {
-                mainBadge.style.display = "none";
+            // AAM is honorary and manually awarded. Rating never grants it automatically.
+            if (isAAM && rating < AAM_MIN_RATING && !isFounderUser()) {
+                isAAM = false;
+                localStorage.setItem('abacus-aam', 'false');
+                syncAAMStatusToCloud(false).catch(() => {});
+                injectSystemNotificationMessage("AbacusArena (Aswin Krishnamoorthy)", `Your AAM title was removed because your rating fell below ${AAM_MIN_RATING}.`);
             }
+            updateMainDisplay();
         }
 
         // ─── NOTIFICATIONS ───
@@ -4509,7 +4512,6 @@ syncRatingToCloud(rating);
         // ─── MATCHMAKING ───
         function startMatchmakingSequence() {
             if (gameInProgress) return;
-            if (!canStartDailySum(true)) return;
             document.getElementById('mainCompAnalysisCard').style.display = 'none';
 
             let now = Date.now();
@@ -4798,26 +4800,87 @@ syncRatingToCloud(rating);
         function hideLoading() { document.getElementById('loadingOverlay').style.display = 'none'; }
 
         // ─── UI UPDATES ───
+        function isFounderRecord(u) {
+            const value = String((u && u.username) || '').toLowerCase();
+            return value === FOUNDER_USERNAME.toLowerCase() || value === LEGACY_FOUNDER_USERNAME;
+        }
+
+        function getDisplayUsername() {
+            return isFounderUser() ? FOUNDER_USERNAME : username;
+        }
+
+        function isFounderUser() {
+            const u = String(username || '').toLowerCase();
+            return u === FOUNDER_USERNAME.toLowerCase() || u === LEGACY_FOUNDER_USERNAME;
+        }
+
+        async function syncAAMStatusToCloud(status, targetUsername = username) {
+            if (!targetUsername || targetUsername === 'Anonymous') return false;
+            const db = await waitForFirebase();
+            const userRef = window.fbDoc(db, 'users', getUserDocId(targetUsername));
+            await window.fbSetDoc(userRef, { aam: !!status, updatedAt: Date.now() }, { merge: true });
+            return true;
+        }
+
+        async function setAAMForPlayer() {
+            if (!isFounderUser()) { alert('Only Aswin-Krishnamoorthy can award or remove AAM.'); return; }
+            const input = prompt('Enter the exact username to award AAM:');
+            if (!input) return;
+            const target = input.trim();
+            if (!isValidNickname(target)) { alert('Enter a valid registered username.'); return; }
+            try {
+                const db = await waitForFirebase();
+                const ref = window.fbDoc(db, 'users', getUserDocId(target));
+                const snap = await window.fbGetDoc(ref);
+                if (!snap.exists()) { alert('Player not found.'); return; }
+                await window.fbSetDoc(ref, { aam: true, updatedAt: Date.now() }, { merge: true });
+                if (getUserDocId(target) === getUserDocId(username)) { isAAM = true; localStorage.setItem('abacus-aam','true'); updateMainDisplay(); }
+                alert(`AAM awarded to ${target}.`);
+            } catch (e) { alert('Could not award AAM.\n\n' + e.message); }
+        }
+
+        async function removeAAMFromPlayer() {
+            if (!isFounderUser()) { alert('Only Aswin-Krishnamoorthy can award or remove AAM.'); return; }
+            const input = prompt('Enter the exact username to remove AAM from:');
+            if (!input) return;
+            const target = input.trim();
+            if (!isValidNickname(target)) { alert('Enter a valid registered username.'); return; }
+            try {
+                const db = await waitForFirebase();
+                const ref = window.fbDoc(db, 'users', getUserDocId(target));
+                const snap = await window.fbGetDoc(ref);
+                if (!snap.exists()) { alert('Player not found.'); return; }
+                await window.fbSetDoc(ref, { aam: false, updatedAt: Date.now() }, { merge: true });
+                if (getUserDocId(target) === getUserDocId(username)) { isAAM = false; localStorage.setItem('abacus-aam','false'); updateMainDisplay(); }
+                alert(`AAM removed from ${target}.`);
+            } catch (e) { alert('Could not remove AAM.\n\n' + e.message); }
+        }
+
         function updateMainDisplay() {
-            document.getElementById('mainUsername').innerHTML = username.length > 15 ? username.substring(0, 13) + '...' :
-            username;
+            const displayName = getDisplayUsername();
+            document.getElementById('mainUsername').innerHTML = displayName.length > 15 ? displayName.substring(0, 13) + '...' : displayName;
             document.getElementById('mainFlair').innerHTML = selectedFlair;
             document.getElementById('userBottomRatingDisplay').innerText = rating;
             let frame = document.getElementById('profileAvatarDisplayFrame');
             if (frame) frame.innerText = selectedFlair;
-           let mainBadge = document.getElementById('mainTitleBadge');
-            if (username.toLowerCase() === 'aswinnk-elite') {
-                mainBadge.style.display = "inline-block";
-                mainBadge.className = "identity-title-badge founder-badge";
-                mainBadge.innerText = "FOUNDER";
+            let mainBadge = document.getElementById('mainTitleBadge');
+            if (!mainBadge) return;
+            if (isFounderUser()) {
+                mainBadge.style.display = 'inline-block';
+                mainBadge.className = 'identity-title-badge founder-badge';
+                mainBadge.innerText = 'FOUNDER & LEAD DEV';
+            } else if (isAAM) {
+                mainBadge.style.display = 'inline-block';
+                mainBadge.className = 'identity-title-badge aam-badge';
+                mainBadge.innerText = 'AAM';
             } else {
-                mainBadge.style.display = "none";
+                mainBadge.style.display = 'none';
             }
         }
 
         function updateProfileFullscreen() {
             document.getElementById('profileRatingLarge').innerText = rating;
-            document.getElementById('profileUsername').innerText = username;
+            document.getElementById('profileUsername').innerText = getDisplayUsername();
             updateProfileStats();
         }
 
@@ -4844,6 +4907,8 @@ syncRatingToCloud(rating);
         }
 
         function openProfileFullscreen() {
+            const aamControls = document.getElementById('founderAAMControls');
+            if (aamControls) aamControls.style.display = isFounderUser() ? 'block' : 'none';
             if (gameInProgress) return;
             updateProfileFullscreen();
             document.getElementById('profile-fullscreen').style.display = 'flex';
@@ -5137,13 +5202,24 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
         }
 
         // ─── RATING / DIFFICULTY ───
+        function getEffectiveRatingConfidence() {
+            const now = Date.now();
+            const last = Number(stats.lastActivity) || now;
+            const inactiveDays = Math.max(0, (now - last) / 86400000);
+            const inactivityBoost = inactiveDays > 1 ? Math.min(350, Math.floor((inactiveDays - 1) * 10)) : 0;
+            return Math.max(45, Math.min(350, Number(ratingConfidence) + inactivityBoost));
+        }
+
+        function updateRatingConfidenceAfterGame() {
+            const current = getEffectiveRatingConfidence();
+            ratingConfidence = Math.max(45, Math.min(350, current - 12));
+            localStorage.setItem('abacus-rating-confidence', String(ratingConfidence));
+        }
+
         function getActiveKFactor() {
-            // More forgiving progression so strong players can move through the ratings faster.
-            // The old permanent K=16 made established ratings unnecessarily difficult to improve.
-            if (gamesPlayed < 5) return 192;
-            if (gamesPlayed < 15) return 128;
-            if (gamesPlayed < 30) return 96;
-            return 64;
+            const confidence = getEffectiveRatingConfidence();
+            const newcomerBoost = gamesPlayed < 5 ? 110 : gamesPlayed < 15 ? 75 : gamesPlayed < 30 ? 45 : 20;
+            return Math.max(48, Math.min(280, Math.round(58 + newcomerBoost + confidence * 0.32)));
         }
 
         function calculateStakes() {
@@ -5241,14 +5317,6 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
 
         // ─── GAME LOOP ───
         async function initiateGame() {
-            if (!consumeDailySumSlot()) {
-                gameInProgress = false;
-                matchStateStep = "idle";
-                disableControls(false);
-                document.getElementById('action-btn').style.display = 'block';
-                canStartDailySum(true);
-                return;
-            }
             matchStateStep = "countdown";
             gameInProgress = true;
             if (appOperationalContext === 'rated') localStorage.setItem('abacus-sum-interrupted', 'true');
@@ -5802,6 +5870,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             if (win && opponentRatingVal > stats.highestBeaten) stats.highestBeaten = opponentRatingVal;
 
             stats.lastActivity = Date.now();
+            updateRatingConfidenceAfterGame();
 
             localStorage.setItem('stats-highestRating', stats.highestRating);
             localStorage.setItem('stats-highestBeaten', stats.highestBeaten);
@@ -5811,6 +5880,7 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
             localStorage.setItem('stats-totalDraws', stats.totalDraws);
             localStorage.setItem('stats-sumOpponentRatings', stats.sumOpponentRatings);
             localStorage.setItem('stats-lastActivity', stats.lastActivity);
+            localStorage.setItem('abacus-rating-confidence', String(ratingConfidence));
 
             // Persist the complete statistics snapshot in Firestore.
             syncStatsToCloud();
@@ -6274,6 +6344,8 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
                 localStorage.removeItem('stats-lastActivity');
 
                 rating = 1500;
+                ratingConfidence = 350;
+                localStorage.setItem('abacus-rating-confidence', '350');
                 gamesPlayed = 0;
                 historyGames = [];
                 lastCompletedGameDetails = null;
@@ -6503,7 +6575,7 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
                 <div class="rating-insight-item"><span class="rating-insight-label">Global Rank</span><span class="rating-insight-value" id="ratingInsightRank">—</span></div>
                 <div class="rating-insight-item"><span class="rating-insight-label">Percentile</span><span class="rating-insight-value" id="ratingInsightPercentile">—</span></div>
                 <div class="rating-insight-item"><span class="rating-insight-label">Tier</span><span class="rating-insight-value" id="ratingInsightTier">—</span></div>
-                <div class="rating-insight-item"><span class="rating-insight-label">Daily Sums</span><span class="rating-insight-value" id="ratingInsightDaily">0 / 40</span></div>
+                <div class="rating-insight-item"><span class="rating-insight-label">Rating Confidence</span><span class="rating-insight-value" id="ratingInsightConfidence">350</span></div>
             </div>
             <div id="ratingInsightNote" style="font-size:.82rem;line-height:1.5;opacity:.72;text-align:center;">Loading your ranking…</div>
         </div>
@@ -6530,10 +6602,9 @@ if (!isAnonymous && window.fbDb && username !== 'Anonymous') {
         async function openRatingInsights() {
             const modal = document.getElementById('rating-insight-modal');
             if (!modal) return;
-            refreshDailySumCounter();
             document.getElementById('ratingInsightTitle').innerText = Math.min(3499, rating);
-            document.getElementById('ratingInsightDaily').innerText = `${dailySumCount} / ${DAILY_SUM_LIMIT}`;
             document.getElementById('ratingInsightTier').innerText = getRatingTierName(rating);
+            document.getElementById('ratingInsightConfidence').innerText = Math.round(getEffectiveRatingConfidence());
             document.getElementById('ratingInsightRank').innerText = 'Loading…';
             document.getElementById('ratingInsightPercentile').innerText = 'Loading…';
             document.getElementById('ratingInsightNote').innerText = 'Calculating your current position…';
