@@ -2344,6 +2344,7 @@
 <!-- Firebase Modular SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import {
         getFirestore,
         doc,
@@ -2377,6 +2378,12 @@
         try {
             const app = initializeApp(firebaseConfig);
             const db = getFirestore(app);
+            const auth = getAuth(app);
+window.fbAuth = auth;
+window.fbSignInAnonymously = signInAnonymously;
+if (!auth.currentUser) {
+    await signInAnonymously(auth);
+}
 
             window.fbDb = db;
             window.fbDoc = doc;
@@ -3583,6 +3590,8 @@ style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:no
             showLoading();
             try {
                 const db = await waitForFirebase();
+const authUser = window.fbAuth.currentUser;
+const authUid = authUser.uid;
                 const userId = getUserDocId(input);
                 const docRef = window.fbDoc(db, 'users', userId);
 
@@ -3597,8 +3606,9 @@ style="background:linear-gradient(135deg,#f59e0b,#d97706); color:#fff; border:no
                 const now = Date.now();
                 await window.fbSetDoc(docRef, {
                     username: input,
-                    usernameLower: userId,
-                    rating: 1500,
+usernameLower: userId,
+authUid: authUid,
+rating: 1500,
                     ratingConfidence: 350,
                     aam: false,
                     flair: selectedFlair || '🏆',
