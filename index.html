@@ -3199,169 +3199,315 @@
         </div>
     </div>
     <!-- ─── FAQ FULLSCREEN ─── -->
-    <div id="faq-fullscreen" class="colorful-animated-bg">
-        <button class="back-arena-btn" onclick="closeFAQFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
-        <div class="faq-container" style="max-width:900px;margin:0 auto;width:100%;padding-top:20px;">
-            <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:18px;border-bottom:2px solid rgba(255,255,255,0.12);padding-bottom:12px;"><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+<div id="faq-fullscreen" class="colorful-animated-bg">
+    <button class="back-arena-btn" onclick="closeFAQFullscreen()">
+        <i class="fas fa-arrow-left"></i> Back to Arena
+    </button>
 
-            <div class="faq-section-title">General</div>
+    <div class="faq-container" style="max-width:900px;margin:0 auto;width:100%;padding-top:20px;">
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What is AbacusArena?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">AbacusArena is a free, ad-free platform for practicing mental arithmetic using Soroban (abacus) principles. It offers Rated and Manual practice modes with adaptive difficulty. Our goal is to provide a clean, competitive, and distraction-free environment for learners to sharpen their calculation skills.</div>
+        <h2 style="font-size:2rem;font-weight:800;color:#fff;margin-bottom:18px;border-bottom:2px solid rgba(255,255,255,0.12);padding-bottom:12px;">
+            <i class="fas fa-question-circle"></i> Frequently Asked Questions
+        </h2>
+
+        <div class="faq-section-title">General</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is AbacusArena?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Is AbacusArena really free?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by the open and accessible learning principles.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Who created AbacusArena?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p><strong>AbacusArena</strong> was created by:</p>
-                    <ul>
-                        <li><strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> – Founder & Lead Developer. Responsible for the core architecture, codebase, and overall platform direction.</li>
-                        <li><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span> – Co-Developer & Media Lead. Manages all YouTube content, promotional media, and community outreach.</li>
-                    </ul>
-                    <p>Development started on <strong style="color:#ffd700;">April 23, 2026</strong>.</p>
-                    <p><strong>Note:</strong> We are only responsible for the official YouTube channel and content we produce. Other third-party sites are not affiliated with us.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Where can I follow the founders?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="color:#60a5fa;font-weight:600;">LinkedIn</a>. For updates, tutorials, and community content, subscribe to our official YouTube channel (managed by Sreejeeth Vigneswaran).</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What is the benefit of practicing daily to reach a high rating?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Daily practice sharpens your working memory, visual bead processing, and mental focus. A higher rating reflects stronger speed and accuracy under increasingly difficult calculation settings.</p>
-                    <p><strong>Key benefits of high ratings:</strong></p>
-                    <ul>
-                        <li><strong>Competition Readiness (3000+ Rating):</strong> Reaching a 3000+ rating means you have developed elite calculation speed, allowing you to compete with total confidence in official state, national, and international abacus competitions against top peers.</li>
-                        <li><strong>Brain & Focus Training:</strong> Regular sessions condition your brain to process multi-digit sequences instantly without cognitive fatigue.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-section-title">Gameplay</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>How does the Rated Mode work?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is intentionally high and adaptive. New and returning players can see larger meaningful changes, while the system gradually becomes more stable as they play consistently. Rating confidence also changes with activity and inactivity.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What is Manual Practice Mode?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">Manual Practice Mode lets you customize your training with full control over:
-                    <ul>
-                        <li><strong>Digits:</strong> 1 to 5 digits per number</li>
-                        <li><strong>Rows:</strong> 2 to 100 rows per session</li>
-                        <li><strong>Speed:</strong> 0.25s to 5.0s display timing</li>
-                    </ul>
-                    This is perfect for targeted practice on specific skills.
-                </div>
-            </div>
-
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>How does rating confidence change?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Every new account starts with <strong>350 points of rating confidence</strong>. As you actively play rated sessions, this value gradually falls toward a minimum of <strong>45</strong>, making your rating more stable over time.</p>
-                    <p>When you stop playing for a while, the confidence value rises again. When you return and actively participate, it decreases again. This makes rating changes more responsive after inactivity and more stable during consistent activity.</p>
-                    <p>The confidence system works together with the high adaptive K-factor, so new and returning players can move through the ratings meaningfully while established active players get steadier results.</p>
-                </div>
-            </div>
-
-            <div class="faq-section-title">Ratings & Progression</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>What do the rating tiers mean?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">
-                    <ul>
-                        <li><strong>1000 - 1399:</strong> Developing</li>
-                        <li><strong>1400 - 1599:</strong> Intermediate</li>
-                        <li><strong>1600 - 1899:</strong> Advanced</li>
-                        <li><strong>1900 - 2199:</strong> Expert</li>
-                        <li><strong>2200 - 2499:</strong> Elite</li>
-                        <li><strong>2500 - 2799:</strong> Master</li>
-                        <li><strong>2800 - 3199:</strong> Grandmaster</li>
-                        <li><strong>3200 - 3499:</strong> Elite Limit</li>
-                        <li><strong>3500+:</strong> Not attainable — the rating ceiling is 3499</li>
-                        <li><strong>2800 - 3199:</strong> Elite Player</li>
-                        <li><strong>3200+:</strong> Grandmaster / Tournament Ready</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>How is the rating calculated?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">Your rating updates using an adaptive Elo system. Players receive high, adaptive rating movement that responds to both experience and rating confidence. Consistent activity makes the rating more stable, while inactivity makes the system more responsive again. The difficulty matrix increases smoothly with rating.</div>
-            </div>
-            </div>
-
-            <div class="faq-section-title">About the Founders</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Who is Aswin Krishnamoorthy?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer"><strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena. He is responsible for the core architecture, codebase, and overall platform direction. He started this project on April 23, 2026, with a vision to create a free, ad-free, and accessible speed calculation arena for students worldwide.</div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>Who is Sreejeeth Vigneswaran?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer"><strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong> <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span> is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.</div>
-            </div>
-
-            <div class="faq-section-title">Account & Data Management</div>
-
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
-                    <span>How can I delete everything and start fresh?</span>
-                    <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-                </div>
-                <div class="faq-answer">You can clear your browser data to reset your account. Alternatively, visit your <strong><a href="javascript:void(0)" onclick="openProfileAndHighlightDelete()" style="color:#60a5fa;text-decoration:underline;">Profile Page</a></strong>, scroll down to the bottom, and click the <strong>Delete Account &amp; All Data</strong> button. Confirm by typing <strong>DeleteEverything</strong> to permanently delete the account, game history, ratings, and statistics. If the deleted account previously held AAM, its AAM title is deleted with that account. A newly created account does not inherit the old title.</div>
+            <div class="faq-answer">
+                AbacusArena is a free, ad-free platform for practicing mental arithmetic using Soroban (abacus) principles. It offers Rated and Manual practice modes with adaptive difficulty. Our goal is to provide a clean, competitive, and distraction-free environment for learners to sharpen their calculation skills.
             </div>
         </div>
-    </div>
 
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Is AbacusArena really free?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                Yes! AbacusArena is <strong style="color:#ffd700;">100% free forever</strong>. No ads, no paywalls, no premium tiers. All features are available to every user without restrictions. We are inspired by open and accessible learning principles.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Who created AbacusArena?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <p><strong>AbacusArena</strong> was created by:</p>
+
+                <ul>
+                    <li>
+                        <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong>
+                        – Founder &amp; Lead Developer. Responsible for the core architecture, codebase, and overall platform direction.
+                    </li>
+
+                    <li>
+                        <strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong>
+                        <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span>
+                        – Co-Developer &amp; Media Lead. Manages all YouTube content, promotional media, and community outreach.
+                    </li>
+                </ul>
+
+                <p>
+                    Development started on <strong style="color:#ffd700;">April 23, 2026</strong>.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> We are only responsible for the official YouTube channel and content we produce. Other third-party sites are not affiliated with us.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Where can I follow the founders?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                You can follow <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> on
+                <a href="https://www.linkedin.com/in/aswin-n-k/" target="_blank" style="color:#60a5fa;font-weight:600;">
+                    LinkedIn
+                </a>.
+                For updates, tutorials, and community content, subscribe to our official YouTube channel managed by Sreejeeth Vigneswaran.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is the benefit of practicing daily to reach a high rating?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <p>
+                    Daily practice sharpens your working memory, visual bead processing, and mental focus. A higher rating reflects stronger speed and accuracy under increasingly difficult calculation settings.
+                </p>
+
+                <p><strong>Key benefits of high ratings:</strong></p>
+
+                <ul>
+                    <li>
+                        <strong>Competition Readiness (3000+ Rating):</strong>
+                        Reaching a 3000+ rating means you have developed elite calculation speed, allowing you to compete with confidence in official state, national, and international abacus competitions against top peers.
+                    </li>
+
+                    <li>
+                        <strong>Brain &amp; Focus Training:</strong>
+                        Regular sessions condition your brain to process multi-digit sequences instantly without cognitive fatigue.
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="faq-section-title">Gameplay</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How does the Rated Mode work?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                Rated Mode uses an adaptive Elo system. You start at 1500 rating. Correct answers increase your rating, incorrect answers decrease it. The difficulty (digits, rows, and speed) automatically adjusts based on your rating. The K-factor is intentionally high and adaptive. New and returning players can see larger meaningful changes, while the system gradually becomes more stable as they play consistently. Rating confidence also changes with activity and inactivity.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is Manual Practice Mode?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                Manual Practice Mode lets you customize your training with full control over:
+
+                <ul>
+                    <li><strong>Digits:</strong> 1 to 5 digits per number</li>
+                    <li><strong>Rows:</strong> 2 to 100 rows per session</li>
+                    <li><strong>Speed:</strong> 0.25s to 5.0s display timing</li>
+                </ul>
+
+                This is perfect for targeted practice on specific skills.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How does rating confidence change?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <p>
+                    Every new account starts with <strong>350 points of rating confidence</strong>. As you actively play rated sessions, this value gradually falls toward a minimum of <strong>45</strong>, making your rating more stable over time.
+                </p>
+
+                <p>
+                    When you stop playing for a while, the confidence value rises again. When you return and actively participate, it decreases again. This makes rating changes more responsive after inactivity and more stable during consistent activity.
+                </p>
+
+                <p>
+                    The confidence system works together with the high adaptive K-factor, so new and returning players can move through the ratings meaningfully while established active players get steadier results.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="faq-section-title">Ratings &amp; Progression</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What do the rating tiers mean?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <ul>
+                    <li><strong>1000 - 1399:</strong> Developing</li>
+                    <li><strong>1400 - 1599:</strong> Intermediate</li>
+                    <li><strong>1600 - 1899:</strong> Advanced</li>
+                    <li><strong>1900 - 2199:</strong> Expert</li>
+                    <li><strong>2200 - 2499:</strong> Elite</li>
+                    <li><strong>2500 - 2799:</strong> Master</li>
+                    <li><strong>2800 - 3199:</strong> Grandmaster</li>
+                    <li><strong>3200 - 3499:</strong> Elite Limit</li>
+                    <li><strong>3500+:</strong> Not attainable — the rating ceiling is 3499</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How is the rating calculated?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                Your rating updates using an adaptive Elo system. Players receive high, adaptive rating movement that responds to both experience and rating confidence. Consistent activity makes the rating more stable, while inactivity makes the system more responsive again. The difficulty matrix increases smoothly with rating.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How to get AAM title?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <p>
+                    <strong style="color:#ffd700;">AAM means AbacusArenaMaster.</strong>
+                    Once you reach a rating of <strong style="color:#ffd700;">2500</strong>, you will be awarded the AAM title.
+                </p>
+
+                <p>
+                    AAM represents reaching the <strong>Master</strong> level on AbacusArena.
+                </p>
+
+                <p>
+                    Once you earn AAM, the title <strong>will not be removed</strong> because of a rating drop, inactivity, or normal account activity. It remains permanently associated with that account.
+                </p>
+
+                <p>
+                    The title only disappears if the account itself is deleted. A newly created account does not inherit AAM from a previous deleted account.
+                </p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What happened to the global leaderboard?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <p>
+                    <strong>We're extremely sorry</strong> to everyone who has appeared on the AbacusArena leaderboard, especially those who worked hard to reach a position there.
+                </p>
+
+                <p>
+                    The global leaderboard and its associated database have been removed. As a <strong>non-profit project</strong>, we are not in a position to reliably manage the infrastructure and potential costs of maintaining a large-scale database as AbacusArena grows.
+                </p>
+
+                <p>
+                    We know that other non-profit platforms, such as Lichess, have successfully managed this at a very large scale. However, AbacusArena is maintained independently, and I, the Founder &amp; Lead Developer, do <strong>not work on this website as a full-time developer</strong>. Because of that, we have to be realistic about what we can continuously maintain.
+                </p>
+
+                <p>
+                    Currently, around <strong>100 different users use AbacusArena every day</strong>. If the platform eventually reaches lakhs of users, maintaining a large database could become significantly more difficult and expensive for us.
+                </p>
+
+                <p>
+                    We sincerely apologize to everyone who was previously listed on the leaderboard. Your achievements were meaningful, and we truly appreciate everyone who competed, practiced, and supported AbacusArena.
+                </p>
+
+                <p>
+                    Our priority remains the same:
+                    <strong>AbacusArena will remain free for everyone, forever</strong>
+                    — without advertisements, subscriptions, or paywalls.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="faq-section-title">About the Founders</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Who is Aswin Krishnamoorthy?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena. He is responsible for the core architecture, codebase, and overall platform direction. He started this project on April 23, 2026, with a vision to create a free, ad-free, and accessible speed calculation arena for students worldwide.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Who is Sreejeeth Vigneswaran?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                <strong style="color:#ffd700;">Sreejeeth Vigneswaran</strong>
+                <span style="font-size:0.58rem;padding:2px 6px;border-radius:4px;background:#2563eb;color:#fff;font-weight:800;">CO-DEV</span>
+                is the Co-Developer and Media Lead. He joined on July 29, 2026, and manages all YouTube content, promotional media, and community outreach to build a vibrant learning community around AbacusArena.
+            </div>
+        </div>
+
+
+        <div class="faq-section-title">Account &amp; Data Management</div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How can I delete everything and start fresh?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+
+            <div class="faq-answer">
+                You can clear your browser data to reset your account. Alternatively, visit your
+                <strong>
+                    <a href="javascript:void(0)" onclick="openProfileAndHighlightDelete()" style="color:#60a5fa;text-decoration:underline;">
+                        Profile Page
+                    </a>
+                </strong>,
+                scroll down to the bottom, and click the
+                <strong>Reset All Ratings &amp; Progress</strong> button.
+
+                Confirm by typing <strong>DeleteEverything</strong> to reset all ratings, games history, and statistics from the beginning.
+            </div>
+        </div>
+
+    </div>
+</div>
     <!-- ─── FOUNDER STORY OVERLAY ─── -->
     <div id="founder-story-modal" class="founder-modal-overlay">
         <div id="founder-screen-1" class="founder-story-screen active-screen">
