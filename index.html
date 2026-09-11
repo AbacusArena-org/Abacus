@@ -2339,7 +2339,188 @@
         .rating-insight-item { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:14px; text-align:center; }
         .rating-insight-label { display:block; font-size:.72rem; opacity:.65; text-transform:uppercase; letter-spacing:.6px; margin-bottom:5px; }
         .rating-insight-value { font-size:1.25rem; font-weight:850; }
+    /* ─── MODERN SOROBAN ABACUS ─── */
+    .abacus-wrapper {
+      max-width: 900px;
+      margin: auto;
+      overflow-x: auto;
+    }
 
+    .abacus {
+      min-width: 650px;
+      padding: 24px 16px;
+      background: #1e293b;
+      border: 6px solid #334155;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+    }
+
+    .place-values,
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    .place-values {
+      margin-bottom: 14px;
+    }
+
+    .place-values div {
+      padding: 8px 4px;
+      background: #334155;
+      color: #38bdf8;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+/* Lesson abacus uses only 4 columns (Thousands → Ones) */
+#lessons-fullscreen .place-values,
+#lessons-fullscreen .columns {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+    .column {
+      position: relative;
+      height: 380px;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .rod {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      transform: translateX(-50%);
+      border-radius: 3px;
+      background: linear-gradient(
+        to right,
+        #475569,
+        #cbd5e1,
+        #475569
+      );
+    }
+
+    .divider {
+      position: absolute;
+      z-index: 5;
+      left: -12px;
+      right: -12px;
+      top: 110px;
+      height: 20px;
+      background: linear-gradient(
+        to bottom,
+        #475569,
+        #1e293b,
+        #334155
+      );
+      border: 2px solid #64748b;
+      border-radius: 6px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .bead {
+      position: absolute;
+      z-index: 10;
+      left: 50%;
+      width: 44px;
+      height: 26px;
+      padding: 0;
+      border: 0;
+      cursor: grab;
+      background: transparent;
+      transform: translateX(-50%);
+      touch-action: none;
+      transition: top 0.08s ease-out;
+    }
+
+    .bead:active {
+      cursor: grabbing;
+      transition: none;
+    }
+
+    /* Modern Pill Bead Styling */
+    .bead::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 
+        inset 0 2px 4px rgba(255, 255, 255, 0.4),
+        inset 0 -3px 4px rgba(0, 0, 0, 0.4),
+        0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Upper Deck Bead Color (Vibrant Coral/Orange) */
+    .upper-bead::before {
+      background: linear-gradient(135deg, #fb923c, #ea580c);
+    }
+
+    /* Lower Deck Bead Color (Vibrant Teal/Cyan) */
+    .lower-bead::before {
+      background: linear-gradient(135deg, #38bdf8, #0284c7);
+    }
+
+    .number-display {
+      margin-top: 24px;
+      color: #38bdf8;
+      text-align: center;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px auto;
+    }
+
+    button.control {
+      padding: 12px 22px;
+      border: 0;
+      border-radius: 8px;
+      background: #0284c7;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    button.control:hover {
+      background: #0369a1;
+      transform: translateY(-1px);
+    }
+
+    button.control:active {
+      transform: translateY(0);
+    }
+
+    .help {
+      max-width: 900px;
+      margin: auto;
+      padding: 18px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      line-height: 1.6;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .help strong {
+      color: #f8fafc;
+    }
 </style>
 <!-- Firebase Modular SDKs -->
 <script type="module">
@@ -2475,9 +2656,9 @@
         <button class="check-level-btn" id="nav-faq-btn" onclick="openFAQFullscreen()" style="background:linear-gradient(135deg,#f1c40f,#f39c12);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
             <i class="fas fa-question-circle"></i> FAQ
         </button>
-        <button class="check-level-btn" id="nav-blog-btn" onclick="openBlogFullscreen()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
-            <i class="fas fa-newspaper"></i> Blog
-        </button>
+        <button class="check-level-btn" id="nav-lessons-btn" onclick="openLessonsFullscreen()" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+    <i class="fas fa-graduation-cap"></i> Lessons
+</button>
     </div>
 
     <!-- ─── MAIN WRAPPER ─── -->
@@ -2970,71 +3151,60 @@
             </ul>
 
             <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-chart-line"></i> Difficulty Cutoffs Table (Click Range to Expand)</h3>
-            <table class="rank-table">
-                <thead><tr><th>Rating Cutoff</th><th>Setup Configuration Matrix</th></tr></thead>
-                <tbody>
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1000-1400', this)">
-                        <td style="font-weight:700;color:#ffd700;">1000 - 1399 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 2-4 Rows | 1.10s - 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1000-1400"><td>1000 - 1199</td><td>1 Digit | 2 Rows | 1.10s</td></tr>
-                    <tr class="sub-tier-row sub-1000-1400"><td>1200 - 1299</td><td>1 Digit | 3 Rows | 1.05s</td></tr>
-                    <tr class="sub-tier-row sub-1000-1400"><td>1300 - 1399</td><td>1 Digit | 4 Rows | 1.00s</td></tr>
+            <table class="abacus-table">
+  <thead>
+    <tr>
+      <th>Thousands</th>
+      <th>Hundreds</th>
+      <th>Tens</th>
+      <th>Ones</th>
+    </tr>
+  </thead>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1400-1600', this)">
-                        <td style="font-weight:700;color:#ffd700;">1400 - 1599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 5-6 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1400-1600"><td>1400 - 1499</td><td>1 Digit | 5 Rows | 1.00s</td></tr>
-                    <tr class="sub-tier-row sub-1400-1600"><td>1500 - 1599</td><td>1 Digit | 6 Rows | 1.00s</td></tr>
+  <tbody>
+    <tr>
+      <td>
+        <div class="abacus-column">
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+        </div>
+      </td>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1600-1800', this)">
-                        <td style="font-weight:700;color:#ffd700;">1600 - 1799 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1 Digit | 7-8 Rows | 0.95s - 0.90s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1800"><td>1600 - 1699</td><td>1 Digit | 7 Rows | 0.95s</td></tr>
-                    <tr class="sub-tier-row sub-1600-1800"><td>1700 - 1799</td><td>1 Digit | 8 Rows | 0.90s</td></tr>
+      <td>
+        <div class="abacus-column">
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+        </div>
+      </td>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-1800-2000', this)">
-                        <td style="font-weight:700;color:#ffd700;">1800 - 1999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">1-2 Digits | 8-10 Rows | 0.90s - 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-1800-2000"><td>1800 - 1899</td><td>1 Digit | 10 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-1800-2000"><td>1900 - 1999</td><td>2 Digits | 8 Rows | 0.90s</td></tr>
+      <td>
+        <div class="abacus-column">
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+        </div>
+      </td>
 
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2000-2300', this)">
-                        <td style="font-weight:700;color:#ffd700;">2000 - 2299 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2 Digits | 10-15 Rows | 0.85s - 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2000-2300"><td>2000 - 2099</td><td>2 Digits | 10 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-2000-2300"><td>2100 - 2199</td><td>2 Digits | 12 Rows | 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2000-2300"><td>2200 - 2299</td><td>2 Digits | 15 Rows | 0.75s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2300-2600', this)">
-                        <td style="font-weight:700;color:#ffd700;">2300 - 2599 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">2-3 Digits | 10-15 Rows | 0.85s - 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2300-2600"><td>2300 - 2399</td><td>2 Digits | 15 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2300-2600"><td>2400 - 2499</td><td>3 Digits | 10 Rows | 0.85s</td></tr>
-                    <tr class="sub-tier-row sub-2300-2600"><td>2500 - 2599</td><td>3 Digits | 12 Rows | 0.80s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-2600-3000', this)">
-                        <td style="font-weight:700;color:#ffd700;">2600 - 2999 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">3-4 Digits | 15-18 Rows | 0.75s - 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-2600-3000"><td>2600 - 2699</td><td>3 Digits | 15 Rows | 0.75s</td></tr>
-                    <tr class="sub-tier-row sub-2600-3000"><td>2700 - 2799</td><td>3 Digits | 18 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-2600-3000"><td>2800 - 2899</td><td>4 Digits | 12 Rows | 0.80s</td></tr>
-                    <tr class="sub-tier-row sub-2600-3000"><td>2900 - 2999</td><td>4 Digits | 15 Rows | 0.75s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-3000-3200', this)">
-                        <td style="font-weight:700;color:#ffd700;">3000 - 3199 <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">4-5 Digits | 18-20 Rows | 0.70s - 0.65s</td></tr>
-                    <tr class="sub-tier-row sub-3000-3200"><td>3000 - 3099</td><td>4 Digits | 18 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-3000-3200"><td>3100 - 3199</td><td>4 Digits | 20 Rows | 0.65s</td></tr>
-
-                    <tr class="accordion-toggle-btn" onclick="toggleTableAccordion('sub-3200-plus', this)">
-                        <td style="font-weight:700;color:#ffd700;">3200 - 3499 (Elite Limit) <i class="fas fa-chevron-down tier-expand-icon"></i></td>
-                        <td style="font-weight:600;">5 Digits | 15-25 Rows | 0.70s - 0.55s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td>3200 - 3299</td><td>5 Digits | 15 Rows | 0.70s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td>3300 - 3399</td><td>5 Digits | 18 Rows | 0.65s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td>3400 - 3499</td><td>5 Digits | 25 Rows | 0.55s</td></tr>
-                    <tr class="sub-tier-row sub-3200-plus"><td>3500+</td><td>Not attainable — the Arena rating limit is 3499</td></tr>
-                </tbody>
-            </table>
+      <td>
+        <div class="abacus-column">
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+          <span class="bead"></span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
             <h3 style="color:#ffeb3b;margin:30px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;">Message From the Founder</h3>
             <p style="font-size:1rem;line-height:1.6;text-align:justify;color:#ffffff;opacity:0.9;margin-bottom:16px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to give students a focused place to practise mental arithmetic, improve speed, and track progress. Our goal is simple: provide a useful mental-arithmetic practice platform without ads or paywalls.</p>
@@ -6787,8 +6957,59 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
         // ─── OVERRIDE speakVoiceAnalysisText for ducking ───
         // Already done in initApp
     </script>
+<!-- ─── LESSONS FULLSCREEN (BEGINNER ONLY) ─── -->
+<div id="lessons-fullscreen" style="display:none;position:fixed;inset:0;z-index:7300;background:linear-gradient(-45deg,#0f172a,#1e1b4b,#312e81,#4c1d95);background-size:400% 400%;animation:aiTutorSmoothShift 18s ease infinite;flex-direction:column;padding:25px;overflow-y:auto;color:#e5e7eb;">
+    <button class="back-arena-btn" onclick="closeLessonsFullscreen()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
+    <div style="max-width:860px;margin:40px auto 0 auto;width:100%;">
+        <div style="text-align:center;margin-bottom:22px;">
+            <h1 style="font-family:'Orbitron',sans-serif;font-size:1.9rem;color:#ffd700;margin:0 0 6px 0;"><i class="fas fa-graduation-cap"></i> Beginner Lessons</h1>
+            <p style="opacity:0.7;font-size:0.88rem;margin:0;">30 fixed practice questions — drag the beads to build the number, then submit!</p>
+        </div>
 
-    <!-- ─── RATING INSIGHTS MODAL ─── -->
+        <!-- Progress -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+            <div style="font-weight:800;font-size:1.05rem;color:#38bdf8;" id="lessonStageTitle">Question 1 of 30</div>
+            <div style="font-size:0.8rem;opacity:0.7;" id="lessonScoreDisplay">Score: 0 / 0</div>
+        </div>
+
+        <!-- Instruction -->
+        <div id="lessonInstruction" style="background:rgba(0,0,0,0.25);border-left:4px solid #60a5fa;border-radius:12px;padding:12px 16px;font-size:0.9rem;line-height:1.5;margin-bottom:16px;"></div>
+
+        <!-- Prompt (question) -->
+        <div id="lessonPromptBox" style="text-align:center;font-size:1.6rem;font-weight:800;margin-bottom:14px;color:#38bdf8;min-height:34px;"></div>
+
+        <!-- Modern Soroban Abacus -->
+        <div class="abacus-wrapper" style="margin-bottom:16px;">
+            <div class="abacus">
+                <div class="place-values">
+    <div>Thousands</div>
+    <div>Hundreds</div>
+    <div>Tens</div>
+    <div>Ones</div>
+</div>                <div class="columns" id="lessonColumns"></div>
+                <div class="number-display" id="numberDisplay">0</div>
+            </div>
+        </div>
+        
+        <div class="controls" style="margin-top:0;margin-bottom:16px;">
+            <button class="control" id="resetButton" onclick="resetAbacus()">Reset</button>
+        </div>
+
+        <!-- Submit & Feedback -->
+        <div id="lessonInputRow" style="display:flex;justify-content:center;align-items:center;gap:15px;margin-bottom:14px;flex-wrap:wrap;">
+            <button id="lessonSubmitBtn" onclick="submitLessonAnswer()" style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:12px 28px;border-radius:40px;font-weight:800;cursor:pointer;font-size:1.05rem;"><i class="fas fa-check-circle"></i> Submit Answer</button>
+        </div>
+
+        <!-- Feedback -->
+        <div id="lessonFeedback" style="text-align:center;font-weight:800;font-size:1.05rem;min-height:28px;margin-bottom:14px;"></div>
+
+        <!-- Controls -->
+        <div style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;">
+            <button id="lessonNextBtn" onclick="lessonNextStep()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:12px 24px;border-radius:40px;font-weight:800;cursor:pointer;display:none;"><i class="fas fa-arrow-right"></i> Next Question</button>
+            <button onclick="closeLessonsFullscreen()" style="background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.15);padding:12px 20px;border-radius:40px;font-weight:700;cursor:pointer;"><i class="fas fa-times"></i> Close</button>
+        </div>
+    </div>
+</div>    <!-- ─── RATING INSIGHTS MODAL ─── -->
     <div id="rating-insight-modal" class="rating-insight-modal" onclick="if(event.target===this) closeRatingInsights()">
         <div class="rating-insight-card">
             <div style="display:flex;justify-content:space-between;align-items:center;gap:15px;">
@@ -6867,12 +7088,277 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
         }
 
         // Keep the displayed rating within the public 3499 ceiling.
-        const _originalUpdateRatingUI = updateRatingUI;
+               const _originalUpdateRatingUI = updateRatingUI;
         updateRatingUI = function() {
             rating = Math.min(3499, Math.max(1000, Number(rating) || 1500));
             _originalUpdateRatingUI();
         };
-    </script>
 
+                /* ============================================================
+            BEGINNER LESSONS MODULE — 30 fixed questions, modern soroban
+            ============================================================ */
+
+        const BEGINNER_QUESTIONS = [
+            [1,3], [2,5], [2,8], [3,4], [4,5],
+            [5,3], [6,2], [3,7], [4,6], [5,5],
+            [6,7], [8,9], [7,8], [9,6], [8,7],
+            [9,5], [7,9], [6,8], [8,8], [9,9],
+            [10,5], [12,4], [15,6], [18,3], [20,7],
+            [11,12], [23,14], [35,22], [41,36], [52,47]
+        ];
+
+        let lessonIndex = 0;
+        let lessonScore = 0;
+        let lessonAnsweredCurrent = false;
+
+        // State for 7 columns (2 hidden for this lesson, but kept for consistency)
+        const lessonState = Array.from({ length: 7 }, () => ({
+            upperActive: false,
+            lowerActive: 0
+        }));
+
+        const lessonPlaceValues = [1000000, 100000, 10000, 1000, 100, 10, 1];
+
+        function openLessonsFullscreen() {
+            if (gameInProgress) return;
+            lessonIndex = 0;
+            lessonScore = 0;
+            lessonAnsweredCurrent = false;
+            document.getElementById('lessons-fullscreen').style.display = 'flex';
+            renderLessonQuestion();
+        }
+
+        function closeLessonsFullscreen() {
+            document.getElementById('lessons-fullscreen').style.display = 'none';
+        }
+
+        function renderLessonQuestion() {
+            const total = BEGINNER_QUESTIONS.length;
+            const pair = BEGINNER_QUESTIONS[lessonIndex];
+            const a = pair[0], b = pair[1];
+
+            document.getElementById('lessonStageTitle').innerText = `Question ${lessonIndex + 1} of ${total}`;
+            document.getElementById('lessonScoreDisplay').innerText = `Score: ${lessonScore} / ${lessonIndex}`;
+
+            document.getElementById('lessonInstruction').innerHTML =
+                `Drag the beads smoothly across rods. Each orange bead equals 5, each blue bead equals 1. Set the abacus to the correct sum, then click <strong>Submit Answer</strong>!`;
+
+            document.getElementById('lessonPromptBox').innerHTML = `Calculate: <span style="color:#ffd700;">${a} + ${b}</span>`;
+
+            // Reset abacus
+            for (const col of lessonState) {
+                col.upperActive = false;
+                col.lowerActive = 0;
+            }
+
+            renderLessonAbacus();
+
+            document.getElementById('lessonFeedback').innerText = '';
+            document.getElementById('lessonFeedback').style.color = '#fff';
+            document.getElementById('lessonNextBtn').style.display = 'none';
+            document.getElementById('lessonSubmitBtn').style.display = 'inline-block';
+            lessonAnsweredCurrent = false;
+        }
+
+        function getActiveLessonAbacusTotal() {
+            let total = 0;
+            for (let i = 3; i < 7; i++) {
+                let digitValue = lessonState[i].lowerActive;
+                if (lessonState[i].upperActive) digitValue += 5;
+                total += digitValue * lessonPlaceValues[i];
+            }
+            return total;
+        }
+
+        function renderLessonAbacus() {
+            const columnsElement = document.getElementById('lessonColumns');
+            if (!columnsElement) return;
+            columnsElement.innerHTML = "";
+
+            for (let colIndex = 3; colIndex < 7; colIndex++) {
+                const column = document.createElement("div");
+                column.className = "column";
+
+                const rod = document.createElement("div");
+                rod.className = "rod";
+
+                const divider = document.createElement("div");
+                divider.className = "divider";
+
+                column.appendChild(rod);
+                column.appendChild(divider);
+
+                // --- UPPER BEAD ---
+                const upperActive = lessonState[colIndex].upperActive;
+                const upperBead = document.createElement("button");
+                upperBead.className = "bead upper-bead";
+                upperBead.style.top = (upperActive ? 76 : 15) + "px";
+                upperBead.setAttribute("aria-label", "Upper bead in column " + (7 - colIndex));
+                
+                upperBead.addEventListener("pointerdown", (e) => handleLessonPointerDown(e, colIndex, 'upper', 0));
+                column.appendChild(upperBead);
+
+                // --- LOWER BEADS (4 total) ---
+                const lowerCount = lessonState[colIndex].lowerActive;
+                for (let bIndex = 0; bIndex < 4; bIndex++) {
+                    const lowerBead = document.createElement("button");
+                    lowerBead.className = "bead lower-bead";
+                    
+                    let topPos;
+                    if (bIndex < lowerCount) {
+                        topPos = 134 + (bIndex * 32);
+                    } else {
+                        let offsetFromBottom = 3 - bIndex;
+                        topPos = 338 - (offsetFromBottom * 32);
+                    }
+                    
+                    lowerBead.style.top = topPos + "px";
+                    lowerBead.setAttribute("aria-label", `Lower bead ${bIndex + 1} in column ${7 - colIndex}`);
+
+                    lowerBead.addEventListener("pointerdown", (e) => handleLessonPointerDown(e, colIndex, 'lower', bIndex));
+                    column.appendChild(lowerBead);
+                }
+
+                columnsElement.appendChild(column);
+            }
+            updateLessonNumberDisplay();
+        }
+
+        function handleLessonPointerDown(event, colIndex, type, beadIndex) {
+            if (lessonAnsweredCurrent) return;
+            
+            const bead = event.target;
+            bead.setPointerCapture(event.pointerId);
+
+            const startY = event.clientY;
+            const startTop = parseFloat(bead.style.top);
+
+            function onPointerMove(e) {
+                const deltaY = e.clientY - startY;
+                let newTop = startTop + deltaY;
+
+                if (type === 'upper') {
+                    newTop = Math.max(15, Math.min(76, newTop));
+                } else {
+                    newTop = Math.max(134, Math.min(338, newTop));
+                }
+                bead.style.top = newTop + "px";
+            }
+
+            function onPointerUp(e) {
+                bead.removeEventListener("pointermove", onPointerMove);
+                bead.removeEventListener("pointerup", onPointerUp);
+
+                const finalTop = parseFloat(bead.style.top);
+
+                if (type === 'upper') {
+                    lessonState[colIndex].upperActive = finalTop >= 46;
+                } else {
+                    if (finalTop < 236) {
+                        lessonState[colIndex].lowerActive = Math.max(lessonState[colIndex].lowerActive, beadIndex + 1);
+                    } else {
+                        lessonState[colIndex].lowerActive = Math.min(lessonState[colIndex].lowerActive, beadIndex);
+                    }
+                }
+                renderLessonAbacus();
+            }
+
+            bead.addEventListener("pointermove", onPointerMove);
+            bead.addEventListener("pointerup", onPointerUp);
+        }
+
+        function updateLessonNumberDisplay() {
+            const display = document.getElementById('numberDisplay');
+            if (display) {
+                display.textContent = getActiveLessonAbacusTotal().toLocaleString();
+            }
+        }
+
+        function resetAbacus() {
+    // Always re-enable interaction, even if a previous answer locked it.
+    lessonAnsweredCurrent = false;
+    for (const col of lessonState) {
+        col.upperActive = false;
+        col.lowerActive = 0;
+    }
+    renderLessonAbacus();
+    // Restore the submit button and hide any "Next/Try again" button.
+    document.getElementById('lessonFeedback').innerText = '';
+    document.getElementById('lessonNextBtn').style.display = 'none';
+    document.getElementById('lessonSubmitBtn').style.display = 'inline-block';
+}
+
+        function randomAbacusNumber() {
+            for (let i = 3; i < 7; i++) {
+                const randomDigit = Math.floor(Math.random() * 10);
+                lessonState[i].upperActive = randomDigit >= 5;
+                lessonState[i].lowerActive = randomDigit >= 5 ? randomDigit - 5 : randomDigit;
+            }
+            renderLessonAbacus();
+        }
+
+        function submitLessonAnswer() {
+            if (lessonAnsweredCurrent) return;
+            const userTotal = getActiveLessonAbacusTotal();
+            const pair = BEGINNER_QUESTIONS[lessonIndex];
+            const correctSum = pair[0] + pair[1];
+            const feedback = document.getElementById('lessonFeedback');
+
+            lessonAnsweredCurrent = true;
+            document.getElementById('lessonSubmitBtn').style.display = 'none';
+
+            if (userTotal === correctSum) {
+    lessonScore++;
+    feedback.style.color = '#10b981';
+    feedback.innerText = `✓ Correct! ${pair[0]} + ${pair[1]} = ${correctSum}`;
+    document.getElementById('lessonScoreDisplay').innerText = `Score: ${lessonScore} / ${lessonIndex + 1}`;
+
+    // Show "Next Question" for a correct answer.
+    const nextBtn = document.getElementById('lessonNextBtn');
+    nextBtn.innerText = 'Next Question';
+    nextBtn.onclick = lessonNextStep;
+    nextBtn.style.display = 'inline-block';
+} else {
+    feedback.style.color = '#ef4444';
+    feedback.innerText = `✗ Not quite. You set ${userTotal}, but ${pair[0]} + ${pair[1]} = ${correctSum}. Try again!`;
+
+    // Show "Try again" so the user can retry the same question.
+    const nextBtn = document.getElementById('lessonNextBtn');
+    nextBtn.innerText = 'Try again';
+    nextBtn.onclick = retryLessonQuestion;
+    nextBtn.style.display = 'inline-block';
+}
+        }
+        function retryLessonQuestion() {
+            // Unlock input, reset the abacus, and let the user reattempt the same question.
+            lessonAnsweredCurrent = false;
+            for (const col of lessonState) {
+                col.upperActive = false;
+                col.lowerActive = 0;
+            }
+            renderLessonAbacus();
+            document.getElementById('lessonFeedback').innerText = '';
+            document.getElementById('lessonNextBtn').style.display = 'none';
+            document.getElementById('lessonSubmitBtn').style.display = 'inline-block';
+        }
+
+        function lessonNextStep() {
+
+        
+            lessonIndex++;
+            if (lessonIndex >= BEGINNER_QUESTIONS.length) {
+                document.getElementById('lessonStageTitle').innerText = 'Lesson Complete!';
+                document.getElementById('lessonScoreDisplay').innerText = `Final Score: ${lessonScore} / ${BEGINNER_QUESTIONS.length}`;
+                document.getElementById('lessonInstruction').innerHTML = 'Great work! You have completed all 30 beginner lessons. Head back to the Arena to keep practising.';
+                document.getElementById('lessonColumns').innerHTML = '<div style="font-size:4rem;padding:20px;text-align:center;grid-column:span 7;">🎉</div>';
+                document.getElementById('lessonPromptBox').innerHTML = '';
+                document.getElementById('lessonInputRow').style.display = 'none';
+                document.getElementById('lessonFeedback').innerText = '';
+                document.getElementById('lessonNextBtn').style.display = 'none';
+                return;
+            }
+            renderLessonQuestion();
+        }
+</script>
 </body>
 </html>
