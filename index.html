@@ -804,51 +804,64 @@
             transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 28px var(--green-glow);
         }
-        #action-btn {
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+                #action-btn {
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff, #5f27cd, #ff6b6b);
+            background-size: 400% 400%;
+            animation: newSessionRainbow 6s ease infinite;
             color: #fff;
-            box-shadow: 0 4px 16px var(--accent-glow);
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 6px 24px rgba(255, 107, 107, 0.4), 0 6px 24px rgba(84, 160, 255, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+            position: relative;
+            overflow: hidden;
+        }
+        #action-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -60%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+            transform: skewX(-25deg);
+            animation: newSessionShine 3s ease-in-out infinite;
+            pointer-events: none;
         }
         #action-btn:hover:not(:disabled) {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 28px var(--accent-glow);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 38px rgba(255, 107, 107, 0.55), 0 10px 38px rgba(84, 160, 255, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.25) inset;
         }
         #action-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none !important;
+            animation: none;
         }
-
-        /* ─── RATING CHANGE DISPLAY (in middle) ─── */
-        #rating-change-display {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 5000;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(16px);
-            color: #fff;
-            padding: 20px 32px;
-            border-radius: var(--radius);
-            font-size: 1.8rem;
-            font-weight: 900;
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+        #action-btn:disabled::after {
+            animation: none;
             display: none;
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            pointer-events: none;
-            text-align: center;
-            line-height: 1.4;
-            min-width: 200px;
         }
-        #rating-change-display.show {
-            display: block;
-            opacity: 1;
-            transform: translate(-50%, -50%) scale(1.05);
+        @keyframes newSessionRainbow {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        #rating-change-display .sub {
+        @keyframes newSessionShine {
+            0%   { left: -60%; }
+            55%  { left: 130%; }
+            100% { left: 130%; }
+}
+        #action-btn {
+            padding: 16px 34px;
+            font-size: 1.05rem;
+        }
+        /* ─── RATING CHANGE DISPLAY (in middle) ─── */
+                #rating-change-display {
+            display: none !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }        #rating-change-display .sub {
             font-size: 0.9rem;
             font-weight: 500;
             opacity: 0.7;
@@ -2521,6 +2534,105 @@
     .help strong {
       color: #f8fafc;
     }
+        /* ─── DIFFICULTY CUTOFFS TABLE (About Page) ─── */
+        .abacus-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 18px 0;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.28);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(10px);
+        }
+
+        .abacus-table thead {
+            background: linear-gradient(135deg, #1e3a8a, #4c1d95);
+        }
+
+        .abacus-table thead th {
+            color: #ffd700;
+            font-weight: 800;
+            font-size: 0.75rem;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            white-space: nowrap;
+        }
+
+        .abacus-table tbody td {
+            padding: 11px 16px;
+            color: #f1f5f9;
+            font-size: 0.88rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: background 0.18s ease, color 0.18s ease;
+            vertical-align: middle;
+        }
+
+        .abacus-table tbody tr:nth-child(even) {
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .abacus-table tbody tr:hover td {
+            background: rgba(96, 165, 250, 0.12);
+            color: #ffffff;
+        }
+
+        .abacus-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Make the Rating Range column stand out */
+        .abacus-table tbody td:first-child {
+            font-weight: 800;
+            color: #60a5fa;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        /* Numeric columns aligned center for easy scanning */
+        .abacus-table tbody td:nth-child(2),
+        .abacus-table tbody td:nth-child(3),
+        .abacus-table tbody td:nth-child(4) {
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+            font-weight: 600;
+        }
+
+        /* Difficulty column — color-coded chips */
+        .abacus-table tbody td:last-child {
+            font-weight: 700;
+            text-align: center;
+            font-size: 0.8rem;
+            letter-spacing: 0.3px;
+        }
+
+        /* Mobile: allow horizontal scroll instead of squashing */
+        @media (max-width: 700px) {
+            .abacus-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+                font-size: 0.82rem;
+            }
+            .abacus-table thead th,
+            .abacus-table tbody td {
+                padding: 9px 12px;
+            }
+        }
+        /* Color-code difficulty labels using :has() — safe in all modern browsers */
+        .abacus-table tbody tr:has(td:last-child) td:last-child {
+            border-radius: 20px;
+        }
+
+        .abacus-table tbody tr td:last-child {
+            background: rgba(255, 255, 255, 0.04);
+        }
 </style>
 <!-- Firebase Modular SDKs -->
 <script type="module">
@@ -2648,7 +2760,7 @@
 
     <!-- ─── TOP NAVBAR ─── -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
-        <button class="check-level-btn" onclick="openUserSearchModal()" style="background:rgba(255,255,255,0.12); color:var(--text); border:1px solid var(--border);"><i class="fas fa-search"></i> Search</button>
+        
         <button class="check-level-btn" id="nav-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
@@ -2920,7 +3032,7 @@
                 <button class="studio-trigger-btn" style="background:#10b981; margin-top:8px; padding:10px;" onclick="promptRegisterFromProfile()"><i class="fas fa-id-badge"></i> Register Permanent Account</button>
             </div>
 
-            <button class="history-btn" onclick="closeProfileFullscreen(); openUserSearchModal();"><i class="fas fa-search"></i> Search Other Solvers</button>
+            
             
             <button class="history-btn" style="background:rgba(239,68,68,0.2); border-color:rgba(239,68,68,0.4);" onclick="logoutAccount()"><i class="fas fa-sign-out-alt"></i> Logout / Switch Account</button>
 
@@ -3152,60 +3264,215 @@
 
             <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;"><i class="fas fa-chart-line"></i> Difficulty Cutoffs Table (Click Range to Expand)</h3>
             <table class="abacus-table">
-  <thead>
-    <tr>
-      <th>Thousands</th>
-      <th>Hundreds</th>
-      <th>Tens</th>
-      <th>Ones</th>
-    </tr>
-  </thead>
+  <h3 style="color:#ffeb3b;margin:26px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;">
+    <i class="fas fa-chart-line"></i> Difficulty Cutoffs Table (Click Range to Expand)
+</h3>
 
-  <tbody>
-    <tr>
-      <td>
-        <div class="abacus-column">
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-        </div>
-      </td>
+<table class="abacus-table">
+    <thead>
+        <tr>
+            <th>Rating Range</th>
+            <th>Digits</th>
+            <th>Rows</th>
+            <th>Time per Digit</th>
+            <th>Difficulty</th>
+        </tr>
+    </thead>
 
-      <td>
-        <div class="abacus-column">
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-        </div>
-      </td>
+    <tbody>
+        <tr>
+            <td>1000–1199</td>
+            <td>1</td>
+            <td>2</td>
+            <td>1.100s</td>
+            <td>Beginner</td>
+        </tr>
 
-      <td>
-        <div class="abacus-column">
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-        </div>
-      </td>
+        <tr>
+            <td>1200–1299</td>
+            <td>1</td>
+            <td>3</td>
+            <td>1.050s</td>
+            <td>Beginner</td>
+        </tr>
 
-      <td>
-        <div class="abacus-column">
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-          <span class="bead"></span>
-        </div>
-      </td>
-    </tr>
-  </tbody>
+        <tr>
+            <td>1300–1399</td>
+            <td>1</td>
+            <td>4</td>
+            <td>1.000s</td>
+            <td>Easy</td>
+        </tr>
+
+        <tr>
+            <td>1400–1499</td>
+            <td>1</td>
+            <td>5</td>
+            <td>1.000s</td>
+            <td>Easy</td>
+        </tr>
+
+        <tr>
+            <td>1500–1599</td>
+            <td>1</td>
+            <td>6</td>
+            <td>1.000s</td>
+            <td>Easy</td>
+        </tr>
+
+        <tr>
+            <td>1600–1699</td>
+            <td>2</td>
+            <td>6</td>
+            <td>0.950s</td>
+            <td>Intermediate</td>
+        </tr>
+
+        <tr>
+            <td>1700–1799</td>
+            <td>2</td>
+            <td>7</td>
+            <td>0.950s</td>
+            <td>Intermediate</td>
+        </tr>
+
+        <tr>
+            <td>1800–1899</td>
+            <td>2</td>
+            <td>8</td>
+            <td>0.900s</td>
+            <td>Intermediate</td>
+        </tr>
+
+        <tr>
+            <td>1900–1999</td>
+            <td>2</td>
+            <td>9</td>
+            <td>0.900s</td>
+            <td>Intermediate</td>
+        </tr>
+
+        <tr>
+            <td>2000–2099</td>
+            <td>2</td>
+            <td>10</td>
+            <td>0.850s</td>
+            <td>Advanced</td>
+        </tr>
+
+        <tr>
+            <td>2100–2199</td>
+            <td>3</td>
+            <td>10</td>
+            <td>0.850s</td>
+            <td>Advanced</td>
+        </tr>
+
+        <tr>
+            <td>2200–2299</td>
+            <td>3</td>
+            <td>11</td>
+            <td>0.800s</td>
+            <td>Advanced</td>
+        </tr>
+
+        <tr>
+            <td>2300–2399</td>
+            <td>3</td>
+            <td>12</td>
+            <td>0.800s</td>
+            <td>Advanced</td>
+        </tr>
+
+        <tr>
+            <td>2400–2499</td>
+            <td>3</td>
+            <td>13</td>
+            <td>0.750s</td>
+            <td>Expert</td>
+        </tr>
+
+        <tr>
+            <td>2500–2599</td>
+            <td>4</td>
+            <td>13</td>
+            <td>0.750s</td>
+            <td>Expert</td>
+        </tr>
+
+        <tr>
+            <td>2600–2699</td>
+            <td>4</td>
+            <td>14</td>
+            <td>0.700s</td>
+            <td>Expert</td>
+        </tr>
+
+        <tr>
+            <td>2700–2799</td>
+            <td>4</td>
+            <td>15</td>
+            <td>0.700s</td>
+            <td>Expert</td>
+        </tr>
+
+        <tr>
+            <td>2800–2899</td>
+            <td>4</td>
+            <td>16</td>
+            <td>0.650s</td>
+            <td>Master</td>
+        </tr>
+
+        <tr>
+            <td>2900–2999</td>
+            <td>4</td>
+            <td>17</td>
+            <td>0.650s</td>
+            <td>Master</td>
+        </tr>
+
+        <tr>
+            <td>3000–3099</td>
+            <td>5</td>
+            <td>17</td>
+            <td>0.650s</td>
+            <td>Master</td>
+        </tr>
+
+        <tr>
+            <td>3100–3199</td>
+            <td>5</td>
+            <td>18</td>
+            <td>0.650s</td>
+            <td>Master</td>
+        </tr>
+
+        <tr>
+            <td>3200–3299</td>
+            <td>5</td>
+            <td>18</td>
+            <td>0.650s</td>
+            <td>Grandmaster</td>
+        </tr>
+
+        <tr>
+            <td>3300–3399</td>
+            <td>5</td>
+            <td>20</td>
+            <td>0.600s</td>
+            <td>Grandmaster</td>
+        </tr>
+
+        <tr>
+            <td>3400–3499</td>
+            <td>5</td>
+            <td>25</td>
+            <td>0.550s</td>
+            <td>Grandmaster</td>
+        </tr>
+    </tbody>
 </table>
-
             <h3 style="color:#ffeb3b;margin:30px 0 8px 0;border-bottom:2px solid rgba(255,255,255,0.08);padding-bottom:4px;">Message From the Founder</h3>
             <p style="font-size:1rem;line-height:1.6;text-align:justify;color:#ffffff;opacity:0.9;margin-bottom:16px;"><strong>AbacusArena.org</strong> was built from the ground up by founder and lead developer <strong>Aswin Krishnamoorthy</strong> to give students a focused place to practise mental arithmetic, improve speed, and track progress. Our goal is simple: provide a useful mental-arithmetic practice platform without ads or paywalls.</p>
 
@@ -3449,6 +3716,42 @@
             </div>
         </div>
 
+<div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+        <span>How can I contribute to the website?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+
+    <div class="faq-answer">
+        AbacusArena is an open-source software project, so you can contribute through
+        <strong style="color:#ffd700;">Pull Requests</strong>. You can suggest improvements,
+        fix bugs, or add useful features by contributing to the codebase.
+
+        <p>
+            Please note that contributions are voluntary. We cannot promise monetary
+            compensation, a name credit on the website, or any other reward for your work.
+        </p>
+    </div>
+</div>
+
+<div class="faq-item">
+    <div class="faq-question" onclick="toggleFaq(this)">
+        <span>What about your future updates?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
+
+    <div class="faq-answer">
+        This is one of the most important questions. We will continue improving
+        AbacusArena whenever time permits. We will mostly aim to release updates
+        weekly or monthly, depending on the work involved.
+
+        <p>
+            However, since I, the founder, is not a full-time developer, it is not
+            possible to say exactly how frequently we will release updates. We are also planning to bring more developers into the project so that we can improve the website further and introduce more useful features.
+        </p>
+    </div>
+</div>
+
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
                 <span>What is the benefit of practicing daily to reach a high rating?</span>
@@ -3607,16 +3910,21 @@
         <div class="faq-section-title">About the Founders</div>
 
         <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
-                <span>Who is Aswin Krishnamoorthy?</span>
-                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
-            </div>
+    <div class="faq-question" onclick="toggleFaq(this)">
+        <span>Who is Aswin Krishnamoorthy?</span>
+        <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+    </div>
 
-            <div class="faq-answer">
-                <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena. He is responsible for the core architecture, codebase, and overall platform direction. He started this project on April 23, 2026, with a vision to create a free, ad-free, and accessible speed calculation arena for students worldwide.
-            </div>
-        </div>
+    <div class="faq-answer">
+        <strong style="color:#ffd700;">Aswin Krishnamoorthy</strong> is the Founder and Lead Developer of AbacusArena.
+        He is responsible for the website’s core architecture, codebase, design, and overall platform direction.
+        He started AbacusArena with the vision of creating a free, ad-free, and accessible speed calculation arena for students worldwide.
 
+        <br><br>
+
+        He is also a first-year B.Tech IT student at Chennai Institute of Technology, Chennai.
+    </div>
+</div>
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
                 <span>Who is Sreejeeth Vigneswaran?</span>
@@ -4766,33 +5074,9 @@ syncRatingToCloud(rating);
             showRatingChangePrediction();
         }
 
-        function showRatingChangePrediction() {
-            const disp = document.getElementById('rating-change-display');
-            if (!disp || !hasActiveOpponent) return;
-            let k = getActiveKFactor();
-            let expected = 1 / (1 + Math.pow(10, (opponentRating - rating) / 400));
-            let winDelta = Math.max(2, Math.min(k, Math.round(k * (1 - expected))));
-            let lossDelta = -Math.max(2, Math.min(k, Math.round(k * expected)));
-            let drawDelta = Math.round(k * (0.5 - expected));
-
-            disp.innerHTML = `
-                        <div class="delta positive">+${winDelta}</div>
-                        <div style="font-size:0.8rem;color:#10b981;">Win</div>
-                        <div style="display:flex;gap:16px;justify-content:center;margin:4px 0;">
-                            <span style="color:var(--yellow);">${drawDelta > 0 ? '+'+drawDelta : drawDelta}</span>
-                            <span style="color:var(--red);">${lossDelta}</span>
-                        </div>
-                        <div style="display:flex;gap:24px;justify-content:center;font-size:0.65rem;opacity:0.6;">
-                            <span>Draw</span>
-                            <span>Loss</span>
-                        </div>
-                        <div class="sub">vs ${document.getElementById('oppNameDisplay').innerText}</div>
-                    `;
-            disp.className = 'show';
-            clearTimeout(disp._hideTimer);
-            disp._hideTimer = setTimeout(() => {
-                disp.classList.remove('show');
-            }, 5000);
+                function showRatingChangePrediction() {
+            // Rating change prediction popup has been disabled.
+            return;
         }
 
         function clearOpponentDisplay() {
@@ -4856,8 +5140,9 @@ syncRatingToCloud(rating);
             let actionBtn = document.getElementById('action-btn');
             actionBtn.style.display = "block";
             actionBtn.disabled = false;
-            actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
-            actionBtn.style.background = "var(--green)";
+                        actionBtn.innerHTML = `<i class="fas fa-bolt"></i> Start Flashing (${gateSecondsLeft}s)`;
+            actionBtn.style.background = "linear-gradient(90deg, #10b981, #34d399, #10b981)";
+            actionBtn.style.backgroundSize = "200% 100%";
             actionBtn.onclick = launchConfirmedFlashing;
             document.getElementById('abort-match-btn').style.display = "block";
             document.getElementById('resign-match-btn').style.display = "none";
@@ -4871,11 +5156,11 @@ syncRatingToCloud(rating);
             }, 1000);
         }
 
-        function launchConfirmedFlashing() {
+                function launchConfirmedFlashing() {
             if (matchStateStep !== "gate") return;
             clearInterval(startGateTimeoutTracker);
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
+            actionBtn.style.removeProperty('background');
             actionBtn.style.display = "none";
             actionBtn.disabled = true;
             // Hide rating prediction
@@ -4884,11 +5169,10 @@ syncRatingToCloud(rating);
             initiateGame();
         }
 
-        function executeGateAbandonmentAbort() {
+                function executeGateAbandonmentAbort() {
             let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
-            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
-            actionBtn.onclick = startMatchmakingSequence;
+            actionBtn.style.removeProperty('background');
+            actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;            actionBtn.onclick = startMatchmakingSequence;
             triggerManualAbort();
         }
 
@@ -4919,12 +5203,11 @@ syncRatingToCloud(rating);
             display.innerText = "READY";
             display.className = "ready-text";
 
-            let actionBtn = document.getElementById('action-btn');
-            actionBtn.style.background = "var(--accent)";
+                       let actionBtn = document.getElementById('action-btn');
+            actionBtn.style.removeProperty('background');
             actionBtn.innerHTML = `<i class="fas fa-play"></i> NEW SESSION`;
             actionBtn.onclick = startMatchmakingSequence;
-            document.getElementById('abort-match-btn').style.display = "none";
-            document.getElementById('resign-match-btn').style.display = "none";
+            document.getElementById('abort-match-btn').style.display = "none";            document.getElementById('resign-match-btn').style.display = "none";
             document.getElementById('action-btn').style.display = "block";
             actionBtn.disabled = false;
 
@@ -5066,24 +5349,10 @@ syncRatingToCloud(rating);
             showMiddleRatingChange(deltaVal, bannerTitle);
         }
 
-        function showMiddleRatingChange(delta, result) {
-            const disp = document.getElementById('rating-change-display');
-            if (!disp) return;
-            let sign = delta > 0 ? '+' : (delta < 0 ? '' : '');
-            let text = `${sign}${delta}`;
-            if (delta === 0) text = '=0';
-            let cls = delta > 0 ? 'positive' : (delta < 0 ? 'negative' : 'draw');
-            disp.innerHTML = `
-                        <div class="delta ${cls}">${text}</div>
-                        <div class="sub">${result}</div>
-                    `;
-            disp.className = 'show';
-            clearTimeout(disp._hideTimer);
-            disp._hideTimer = setTimeout(() => {
-                disp.classList.remove('show');
-            }, 4000);
+                function showMiddleRatingChange(delta, result) {
+            // Post-game middle rating flash has been disabled.
+            return;
         }
-
         function dismissPerformanceOverlay() {
             document.getElementById('fide-match-outcome-overlay').style.display = "none";
             clearOpponentDisplay();
