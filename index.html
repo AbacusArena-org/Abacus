@@ -2662,14 +2662,14 @@
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
             const firebaseConfig = {
-        apiKey: "AIzaSyDXI9RpgeM31GytkHUSg5Xm8FcDyTQU9v0",
-        authDomain: "abacusarena-org.firebaseapp.com",
-        databaseURL: "https://abacusarena-org-default-rtdb.firebaseio.com",
-        projectId: "abacusarena-org",
-        storageBucket: "abacusarena-org.firebasestorage.app",
-        messagingSenderId: "1011973555157",
-        appId: "1:1011973555157:web:ffea897533d33d1470b35c"
-    };    
+    apiKey: "AIzaSyA6f1rUOMlQcQzjPmmMFb5M-Ed0TyNk4Wc",
+    authDomain: "abacusarena-6e0bb.firebaseapp.com",
+    databaseURL: "https://abacusarena-6e0bb-default-rtdb.firebaseio.com",
+    projectId: "abacusarena-6e0bb",
+    storageBucket: "abacusarena-6e0bb.firebasestorage.app",
+    messagingSenderId: "594905370259",
+    appId: "1:594905370259:web:0e587bcde99f508fcd4766"
+};
     // Expose one promise so the normal (non-module) app code can safely wait
     // for Firebase before attempting any read/write.
     window.firebaseReady = (async () => {
@@ -2731,9 +2731,9 @@
         <img src="https://raw.githubusercontent.com/AbacusArena-org/Abacus/6f61da37e915af4d573f09f3491fd4616ce46c8b/Abacus%20Arena%20Icon.png" alt="Abacus Arena Logo" class="splash-logo-rect">
         <div class="splash-logo">AbacusArena.org</div>
 
-        <!-- Initial Website Entry -->
+                <!-- Initial Website Entry -->
         <div class="modes-entry-grid" id="authChoiceView">
-            <button class="mode-entry-button" onclick="executeAnonymousEntry()"><i class="fas fa-arrow-right"></i> Enter the Website</button>
+            <button class="mode-entry-button" onclick="executeAnonymousEntry()" style="background:rgba(148,163,184,0.2); border-color:#94a3b8;"><i class="fas fa-user-secret"></i> Enter Anonymously</button>
             <button class="mode-entry-button" onclick="showAuthView('register')" style="background:rgba(16,185,129,0.15); border-color:#10b981;"><i class="fas fa-user-plus"></i> Register Nickname</button>
             <button class="mode-entry-button" onclick="showAuthView('login')" style="background:rgba(59,130,246,0.15); border-color:#3b82f6;"><i class="fas fa-sign-in-alt"></i> Login</button>
         </div>
@@ -3030,9 +3030,18 @@
                 </div>
             </div>
 
-            <div id="anonymousRegisterPromptBox" style="display:none; margin:10px 0; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); padding:12px; border-radius:12px; text-align:center;">
-                <span style="font-size:0.82rem; color:#fde68a;">You are playing Anonymously (Local browser only).</span><br>
-                <button class="studio-trigger-btn" style="background:#10b981; margin-top:8px; padding:10px;" onclick="promptRegisterFromProfile()"><i class="fas fa-id-badge"></i> Register Permanent Account</button>
+                        <div id="anonymousRegisterPromptBox" style="display:none; margin:10px 0; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); padding:14px; border-radius:12px; text-align:left;">
+                <div style="font-weight:800; font-size:0.85rem; color:#fde68a; margin-bottom:6px;">
+                    <i class="fas fa-user-secret"></i> You are playing Anonymously
+                </div>
+                <ul style="font-size:0.78rem; color:#fde68a; padding-left:18px; margin:0 0 10px 0; line-height:1.5;">
+                    <li>Rating saved only on this browser</li>
+                    <li>Not shown on the leaderboard</li>
+                    <li>Clearing browser data resets progress</li>
+                </ul>
+                <button class="studio-trigger-btn" style="background:#10b981; padding:10px;" onclick="promptRegisterFromProfile()">
+                    <i class="fas fa-id-badge"></i> Register Permanent Account
+                </button>
             </div>
 
             
@@ -3616,10 +3625,22 @@
 
 
             <div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);border-radius:16px;padding:16px 18px;margin:18px 0;color:#fff;">
-                <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:7px;"><i class="fas fa-crown"></i> AAM Policy</div>
-                
+                <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:10px;"><i class="fas fa-crown"></i> AAM Policy</div>
+                <p style="font-size:0.88rem;line-height:1.55;margin:0 0 10px 0;">
+                    <strong style="color:#ffd700;">AAM</strong> (AbacusArenaMaster) is the highest honorary title on AbacusArena.
+                    It is awarded exclusively by the <strong>Founder &amp; Lead Developer</strong> to players who demonstrate
+                    exceptional mastery — similar to the LM title on Lichess.org.
+                </p>
+                <ul style="font-size:0.85rem;line-height:1.55;padding-left:20px;margin:0 0 10px 0;color:#f1f5f9;">
+                    <li>Only the founder can award AAM — no one else has this ability.</li>
+                    <li>The title is <strong>permanent</strong> once granted.</li>
+                    <li>It appears on the leaderboard, sidebar, and profile.</li>
+                    <li>There is no automatic threshold. It is <strong>extremely rare</strong>.</li>
+                </ul>
+                <p style="font-size:0.85rem;line-height:1.55;margin:0;color:#fde68a;font-style:italic;">
+                    The AAM title is not something you grind for. It is a recognition of extraordinary skill and consistency.
+                </p>
             </div>
-
                     <!-- Footer -->
                     <footer style="margin-top:20px;padding-top:14px;border-top:1px solid rgba(59,130,246,0.2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
                         <div style="font-size:0.75rem;color:#94a3b8;">
@@ -3873,42 +3894,69 @@
 
         
         
+        <div class="faq-section-title">AAM Title &amp; Leaderboard</div>
 
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFaq(this)">
-                <span>What happened to the global leaderboard?</span>
+                <span>What is the leaderboard?</span>
                 <span class="arrow"><i class="fas fa-chevron-down"></i></span>
             </div>
-
             <div class="faq-answer">
                 <p>
-                    <strong>We're extremely sorry</strong> to everyone who has appeared on the AbacusArena leaderboard, especially those who worked hard to reach a position there.
+                    The <strong>global leaderboard</strong> shows the top 10 registered players on AbacusArena by rating.
+                    You can open it anytime from the <strong>🏆 Leaderboard</strong> button in the navbar.
                 </p>
-
                 <p>
-                    The global leaderboard and its associated database have been removed. As a <strong>non-profit project</strong>, we are not in a position to reliably manage the infrastructure and potential costs of maintaining a large-scale database as AbacusArena grows.
+                    Only <strong>registered accounts</strong> appear on the leaderboard. Players who use the site in
+                    anonymous mode are not listed, to keep it fair and simple.
                 </p>
-
                 <p>
-                    We know that other non-profit platforms, such as Lichess, have successfully managed this at a very large scale. However, AbacusArena is maintained independently, and I, the Founder &amp; Lead Developer, do <strong>not work on this website as a full-time developer</strong>. Because of that, we have to be realistic about what we can continuously maintain.
-                </p>
-
-                <p>
-                    Currently, around <strong>100 different users use AbacusArena every day</strong>. If the platform eventually reaches lakhs of users, maintaining a large database could become significantly more difficult and expensive for us.
-                </p>
-
-                <p>
-                    We sincerely apologize to everyone who was previously listed on the leaderboard. Your achievements were meaningful, and we truly appreciate everyone who competed, practiced, and supported AbacusArena.
-                </p>
-
-                <p>
-                    Our priority remains the same:
-                    <strong>AbacusArena will remain free for everyone, forever</strong>
-                    — without advertisements, subscriptions, or paywalls.
+                    The leaderboard is refreshed with live data every time you open it, and cached for a few minutes
+                    so it loads instantly on subsequent visits.
                 </p>
             </div>
         </div>
 
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is AAM? How can I get it?</span>
+                <span class="arrow"><i class="fas fa-chevron-down"></i></span>
+            </div>
+            <div class="faq-answer">
+                <p>
+                    <strong style="color:#ffd700;">AAM</strong> stands for <strong>AbacusArenaMaster</strong>. It is the
+                    highest honorary title on AbacusArena — reserved only for players who demonstrate extraordinary
+                    skill, consistency, and mastery of mental arithmetic.
+                </p>
+
+                <p>
+                    <strong style="color:#ffd700;">Who awards it?</strong><br>
+                    AAM is awarded exclusively by the <strong>Founder &amp; Lead Developer, Aswin Krishnamoorthy</strong>.
+                    There is no application form, no threshold you can grind for, and no automatic award. The founder
+                    personally decides when a player deserves it.
+                </p>
+
+                <p>
+                    <strong style="color:#ffd700;">How rare is it?</strong><br>
+                    Think of AAM like the <strong>LM (Lichess Master) title on Lichess.org</strong>. It is
+                    <strong>extremely exceptional</strong> — not something you can earn just by playing a lot. Only a
+                    very small number of players will ever receive it.
+                </p>
+
+                <p>
+                    <strong style="color:#ffd700;">How is it shown?</strong><br>
+                    Once awarded, the AAM badge appears next to your username on the leaderboard, in the sidebar
+                    identity card, and on your public profile. It is permanent — it cannot be removed or lost, even
+                    if your rating drops.
+                </p>
+
+                <p>
+                    <strong style="color:#ffd700;">Can someone else give it to me?</strong><br>
+                    No. Only the founder can award AAM. No third party, moderator, or other player has that ability.
+                </p>
+            </div>
+        </div>
+        
 
         <div class="faq-section-title">About the Founders</div>
 
@@ -4283,7 +4331,7 @@
             }
         }
 
-        function executeAnonymousEntry() {
+               function executeAnonymousEntry() {
             username = 'Anonymous';
             isAnonymous = true;
             localStorage.setItem('username', 'Anonymous');
@@ -4291,8 +4339,20 @@
             updateMainDisplay();
             updateRatingUI();
             launchDirectAppWorkspace('rated');
-        }
 
+            // Friendly heads-up after entering the arena
+            setTimeout(() => {
+                if (confirm(
+                    "👤 You're playing Anonymously.\n\n" +
+                    "• Your rating is saved only on this browser\n" +
+                    "• You won't appear on the leaderboard\n" +
+                    "• Clearing your browser data will reset your progress\n\n" +
+                    "Want to register a permanent nickname instead?"
+                )) {
+                    promptRegisterFromProfile();
+                }
+            }, 800);
+        }
         function promptRegisterFromProfile() {
             closeProfileFullscreen();
             document.getElementById('splash-screen').style.display = 'flex';
@@ -7024,13 +7084,10 @@ function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.
                     throw new Error("Your registered account could not be found.");
                 }
 
-                const userData = userSnap.data() || {};
-
-                // Never allow this browser to delete a different user's account.
-                if (userData.authUid !== authUser.uid) {
-                    throw new Error("This Firebase session is not authorized to delete this account.");
-                }
-
+                               const userData = userSnap.data() || {};
+                // Note: authUid is no longer stored in the user document,
+                // so we rely on the fact that the user reached this code
+                // by being logged in with the exact nickname from localStorage.
                 // Delete all game-history documents under users/{userId}/games.
                 // Firestore does not automatically delete subcollection documents.
                 const gamesRef = window.fbCollection(db, 'users', userId, 'games');
