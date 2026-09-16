@@ -4245,17 +4245,18 @@
                     alert('⚠️ That nickname is already registered. Please choose another.');
                     return;
                 }
-
-                                const now = Date.now();
+                const now = Date.now();
                 await window.fbSetDoc(docRef, {
                     username: input,
                     usernameLower: userId,
                     rating: 1500,
                     aam: false,
                     flair: selectedFlair || '🏆',
+                    deviceId: deviceId,
                     createdAt: now,
                     updatedAt: now
                 });
+
                 // Only mark the account as logged in AFTER Firestore succeeds.
                 username = input;
                 rating = 1500;
@@ -4298,7 +4299,28 @@
                     return;
                 }
 
-                                const data = snap.data();
+                const data = snap.data();
+
+                // ─── ONE-DEVICE LOCK ───
+                // Only the browser that registered this account may log in.
+                if (!data.deviceId) {
+                    hideLoading();
+                    alert(
+                        '🔒 This account was created before device-locking was enabled.\n\n' +
+                        'It cannot be logged into from this browser. Please register a new nickname, or contact the founder.'
+                    );
+                    return;
+                }
+
+                if (String(data.deviceId) !== String(deviceId)) {
+                    hideLoading();
+                    alert(
+                        '🚫 LOGIN BLOCKED\n\n' +
+                        'This account is registered on another device.\n\n' +
+                        'You can only log in on the device where this account was originally registered.'
+                    );
+                    return;
+                }
 
                 username = isFounderRecord(data) ? FOUNDER_USERNAME : (data.username || input);
                 rating = Math.min(3499, Math.max(1000, Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500));
@@ -4376,11 +4398,12 @@
                 const userId = getUserDocId(username);
                 const userRef = window.fbDoc(db, "users", userId);
 
-                await window.fbSetDoc(userRef, {
+                               await window.fbSetDoc(userRef, {
                     username: username,
                     usernameLower: userId,
                     rating: Number(newRating),
                     aam: !!isAAM,
+                    deviceId: deviceId,
                     updatedAt: Date.now()
                 }, { merge: true });
 
@@ -4418,20 +4441,31 @@
             return null;
         }
 
-        function renderLeaderboardRows(rows) {
+              function renderLeaderboardRows(rows) {
             const container = document.getElementById('leaderboardRows');
             if (!rows || rows.length === 0) {
                 container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.5;">No ranked players yet. Be the first!</div>';
                 return;
             }
 
+            const founderMode = isFounderUser();
+
             container.innerHTML = rows.map((p, idx) => {
                 const rank = idx + 1;
                 const medal = getLeaderboardMedal(rank);
                 const isMe = !isAnonymous && username && (p.username || '').toLowerCase() === (username || '').toLowerCase();
-                const badgeTag = p.aam === true
-                    ? '<span class="identity-title-badge aam-badge" style="margin-right:6px;">AAM</span>'
-                    : '';
+                const lowerName = (p.username || '').toLowerCase();
+                const isFounderEntry = lowerName === FOUNDER_USERNAME.toLowerCase()
+                                    || lowerName === LEGACY_FOUNDER_USERNAME;
+                const alreadyAAM = p.aam === true;
+
+                let badgeTag = '';
+                if (isFounderEntry) {
+                    badgeTag = '<span class="identity-title-badge founder-badge" style="margin-right:6px;">FOUNDER</span>';
+                } else if (alreadyAAM) {
+                    badgeTag = '<span class="identity-title-badge aam-badge" style="margin-right:6px;">AAM</span>';
+                }
+
                 const youTag = isMe
                     ? '<span style="font-size:0.6rem; background:#3b82f6; color:#fff; padding:2px 8px; border-radius:10px; font-weight:800; margin-left:6px;">YOU</span>'
                     : '';
@@ -4447,24 +4481,64 @@
 
                 const ratingColor = rank === 1 ? '#ffd700' : rank === 2 ? '#e5e7eb' : rank === 3 ? '#f0c69b' : '#60a5fa';
 
+                // Award AAM button — only for the founder, not on own row, not if already AAM
+                let awardBtnHTML = '';
+                if (founderMode && !isMe && !alreadyAAM && !isFounderEntry) {
+                    awardBtnHTML = `
+                        <button
+                            onclick="awardAAMFromLeaderboard('${escapeHtml(p.username || '')}', this)"
+                            title="Award AAM"
+                            style="
+                                background:linear-gradient(135deg,#b45309,#f59e0b);
+                                color:#fff;
+                                border:none;
+                                border-radius:20px;
+                                padding:6px 12px;
+                                font-size:0.72rem;
+                                font-weight:800;
+                                cursor:pointer;
+                                margin-left:10px;
+                                display:inline-flex;
+                                align-items:center;
+                                gap:4px;
+                                box-shadow:0 4px 12px rgba(245,158,11,0.4);
+                                transition:transform .15s ease, box-shadow .15s ease;
+                            "
+                            onmouseover="this.style.transform='translateY(-1px)';this.style.boxShadow='0 6px 18px rgba(245,158,11,0.55)'"
+                            onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 4px 12px rgba(245,158,11,0.4)'"
+                        >
+                            <i class="fas fa-award"></i> AAM
+                        </button>
+                    `;
+                }
+
                 return `
                     <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.05); background:${rowBg}; ${isMe ? 'box-shadow:inset 0 0 0 2px rgba(59,130,246,0.35);' : ''}">
                         <div style="display:flex; align-items:center; gap:12px; min-width:0;">
                             <div style="min-width:36px; display:flex; align-items:center; justify-content:center;">${rankDisplay}</div>
                             <div style="font-size:1.5rem; line-height:1;">${p.flair || '🏆'}</div>
                             <div style="min-width:0;">
-                                <div style="font-weight:800; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:240px;">
+                                <div style="font-weight:800; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px;">
                                     ${badgeTag}${escapeHtml(p.username || 'Unknown')}${youTag}
                                 </div>
                             </div>
                         </div>
-                        <div style="font-weight:900; font-size:1.15rem; color:${ratingColor}; font-variant-numeric:tabular-nums;">
-                            ${Number(p.rating).toLocaleString()}
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <div style="font-weight:900; font-size:1.15rem; color:${ratingColor}; font-variant-numeric:tabular-nums;">
+                                ${Number(p.rating).toLocaleString()}
+                            </div>
+                            ${awardBtnHTML}
                         </div>
                     </div>
                 `;
             }).join('');
         }
+
+
+
+
+
+
 
         async function renderLeaderboard() {
             const rowsContainer = document.getElementById('leaderboardRows');
@@ -4528,6 +4602,92 @@
                 }
             }
         }
+        // ─── LEADERBOARD AAM AWARD ───
+        async function awardAAMFromLeaderboard(targetUsername, buttonEl) {
+            if (!isFounderUser()) {
+                alert('Only Aswin-Krishnamoorthy can award AAM.');
+                return;
+            }
+            if (!targetUsername || targetUsername === 'Anonymous') {
+                alert('Invalid player.');
+                return;
+            }
+
+            const cleanTarget = String(targetUsername).trim();
+            if (!isValidNickname(cleanTarget)) {
+                alert('This player has an invalid nickname and cannot be awarded AAM.');
+                return;
+            }
+
+            if (!confirm(`Award AAM to "${cleanTarget}"?\n\nThis action is permanent and cannot be undone.`)) {
+                return;
+            }
+
+            // Disable the button while processing
+            let originalHTML = '';
+            if (buttonEl) {
+                originalHTML = buttonEl.innerHTML;
+                buttonEl.disabled = true;
+                buttonEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                buttonEl.style.opacity = '0.6';
+            }
+
+            try {
+                const db = await waitForFirebase();
+                const ref = window.fbDoc(db, 'users', getUserDocId(cleanTarget));
+                const snap = await window.fbGetDoc(ref);
+
+                if (!snap.exists()) {
+                    alert(`Player "${cleanTarget}" not found in Firestore.`);
+                    if (buttonEl) { buttonEl.disabled = false; buttonEl.innerHTML = originalHTML; buttonEl.style.opacity = '1'; }
+                    return;
+                }
+
+                const existing = snap.data() || {};
+                if (existing.aam === true) {
+                    alert(`AAM is already awarded to ${cleanTarget}.`);
+                    if (buttonEl) { buttonEl.disabled = false; buttonEl.innerHTML = originalHTML; buttonEl.style.opacity = '1'; }
+                    return;
+                }
+
+                await window.fbSetDoc(ref, {
+                    aam: true,
+                    updatedAt: Date.now()
+                }, { merge: true });
+
+                // If the target is the currently logged-in user (not normally possible since
+                // founder can't award to themselves via this button), keep local state in sync.
+                if (getUserDocId(cleanTarget) === getUserDocId(username)) {
+                    isAAM = true;
+                    localStorage.setItem('abacus-aam', 'true');
+                    updateMainDisplay();
+                }
+
+                // Invalidate leaderboard cache so next open shows the new AAM badge
+                try { localStorage.removeItem(LEADERBOARD_CACHE_KEY); } catch (e) {}
+
+                if (buttonEl) {
+                    buttonEl.innerHTML = '<i class="fas fa-check"></i> Awarded';
+                    buttonEl.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+                    buttonEl.style.boxShadow = '0 4px 12px rgba(16,185,129,0.4)';
+                }
+
+                // Brief confirmation, then re-render leaderboard
+                setTimeout(() => {
+                    renderLeaderboard();
+                }, 600);
+
+            } catch (e) {
+                console.error('AAM award from leaderboard failed:', e);
+                alert('Could not award AAM.\n\n' + (e && e.message ? e.message : e));
+                if (buttonEl) {
+                    buttonEl.disabled = false;
+                    buttonEl.innerHTML = originalHTML;
+                    buttonEl.style.opacity = '1';
+                }
+            }
+        }
+
         function openUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'flex'; }
         function closeUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'none'; }
 
@@ -5502,14 +5662,19 @@ syncRatingToCloud(rating);
         async function syncAAMStatusToCloud(status, targetUsername = username) {
             if (!targetUsername || targetUsername === 'Anonymous') return false;
             const db = await waitForFirebase();
+           
             const userRef = window.fbDoc(db, 'users', getUserDocId(targetUsername));
             await window.fbSetDoc(userRef, { aam: !!status, updatedAt: Date.now() }, { merge: true });
-            return true;
-        }
+            return true;        }
 
-        async function setAAMForPlayer() {
+                async function setAAMForPlayer() {
             if (!isFounderUser()) {
-                alert('Only Aswin-Krishnamoorthy can award AAM.');
+                alert(
+                    '🚫 Only Aswin-Krishnamoorthy can award AAM.\n\n' +
+                    'Current state:\n' +
+                    '• username: ' + username + '\n' +
+                    '• isAnonymous: ' + isAnonymous
+                );
                 return;
             }
 
@@ -5528,13 +5693,16 @@ syncRatingToCloud(rating);
                 const snap = await window.fbGetDoc(ref);
 
                 if (!snap.exists()) {
-                    alert('Player not found. Make sure the username is an existing registered account.');
+                    alert(
+                        `❌ Player "${target}" not found.\n\n` +
+                        'The Firestore document does not exist. Make sure the player has registered.'
+                    );
                     return;
                 }
 
                 const currentData = snap.data() || {};
                 if (currentData.aam === true) {
-                    alert(`AAM is already awarded to ${target}. It cannot be manually removed.`);
+                    alert(`✅ AAM is already awarded to ${target}. It cannot be manually removed.`);
                     return;
                 }
 
