@@ -2661,15 +2661,14 @@
         writeBatch
     } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyBpuExsr5Q8jiRatCqj83b9X_FTtjI4huo",
-        authDomain: "abacusarena-23c43.firebaseapp.com",
-        projectId: "abacusarena-23c43",
-        storageBucket: "abacusarena-23c43.firebasestorage.app",
-        messagingSenderId: "283225896214",
-        appId: "1:283225896214:web:d498f302ae3dbd704e4c37"
+        const firebaseConfig = {
+        apiKey: "AIzaSyAwUkqqTvYo3fzOo7yNyKJwySzWalF3MBQ",
+        authDomain: "abacusarena-e08ca.firebaseapp.com",
+        projectId: "abacusarena-e08ca",
+        storageBucket: "abacusarena-e08ca.firebasestorage.app",
+        messagingSenderId: "587038726682",
+        appId: "1:587038726682:web:2413807f878b8289590fa3"
     };
-
     // Expose one promise so the normal (non-module) app code can safely wait
     // for Firebase before attempting any read/write.
     window.firebaseReady = (async () => {
@@ -2734,8 +2733,9 @@
         <!-- Initial Website Entry -->
         <div class="modes-entry-grid" id="authChoiceView">
             <button class="mode-entry-button" onclick="executeAnonymousEntry()"><i class="fas fa-arrow-right"></i> Enter the Website</button>
+            <button class="mode-entry-button" onclick="showAuthView('register')" style="background:rgba(16,185,129,0.15); border-color:#10b981;"><i class="fas fa-user-plus"></i> Register Nickname</button>
+            <button class="mode-entry-button" onclick="showAuthView('login')" style="background:rgba(59,130,246,0.15); border-color:#3b82f6;"><i class="fas fa-sign-in-alt"></i> Login</button>
         </div>
-
         <!-- Animated Register View -->
         <div class="modes-entry-grid" id="authRegisterView" style="display:none; max-width:420px;">
             <div style="font-size:0.8rem; color:#fde68a; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); border-radius:12px; padding:10px; text-align:left; margin-bottom:10px;">
@@ -2760,7 +2760,9 @@
 
     <!-- ─── TOP NAVBAR ─── -->
     <div class="top-navbar" id="appNavbar" style="display: none;">
-        
+                <button class="check-level-btn" id="nav-leaderboard-btn" onclick="openLeaderboard()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-trophy"></i> Leaderboard
+        </button>
         <button class="check-level-btn" id="nav-level-btn" onclick="openLevelCheckFullscreen()"><i class="fas fa-chart-bar"></i> Check Level</button>
         <button class="profile-btn" id="profileBtn" onclick="openProfileFullscreen()"><i class="fas fa-user-circle"></i></button>
         <button class="notification-bell-btn" id="notificationBellBtn" onclick="triggerNotificationCenterLaunch()"><i class="fas fa-bell"></i><div class="notification-indicator-dot" id="bellIndicatorDot"></div></button>
@@ -4005,7 +4007,32 @@
             </div>
         </div>
     </div>
+    <!-- ─── LEADERBOARD MODAL ─── -->
+    <div id="leaderboard-fullscreen" class="colorful-animated-bg" style="display:none; position:fixed; inset:0; z-index:9100; flex-direction:column; padding:25px; overflow-y:auto; color:#fff;">
+        <button class="back-arena-btn" onclick="closeLeaderboard()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
 
+        <div style="max-width:620px; margin:40px auto; width:100%;">
+            <div style="text-align:center; margin-bottom:24px;">
+                <div style="font-size:3rem; margin-bottom:8px;">🏆</div>
+                <h1 style="font-family:'Orbitron',sans-serif; font-size:1.8rem; color:#ffd700; margin:0 0 6px 0;">Global Leaderboard</h1>
+                <p style="opacity:0.75; font-size:0.9rem; margin:0;">Top 10 Arena Ratings</p>
+                <p id="leaderboardPlayerCount" style="opacity:0.6; font-size:0.8rem; margin:8px 0 0 0;">Loading player count…</p>
+            </div>
+
+            <div style="background:rgba(15,23,42,0.9); border:1px solid rgba(255,255,255,0.12); border-radius:20px; overflow:hidden; backdrop-filter:blur(12px); box-shadow:0 20px 60px rgba(0,0,0,0.4);">
+                <div id="leaderboardRows" style="padding:8px 0;">
+                    <div style="text-align:center; padding:40px 20px; opacity:0.5;">
+                        <i class="fas fa-spinner fa-spin" style="font-size:1.6rem;"></i>
+                        <div style="margin-top:12px; font-size:0.9rem;">Fetching rankings…</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align:center; font-size:0.75rem; opacity:0.5; margin-top:16px;">
+                Live data from registered AbacusArena players. Updated on each page visit.
+            </p>
+        </div>
+    </div>
     <!-- ─── USER SEARCH MODAL ─── -->
     <div id="user-search-fullscreen" class="colorful-animated-bg" style="display:none; position:fixed; inset:0; z-index:9000; flex-direction:column; padding:25px; overflow-y:auto; color:#fff;">
         <button class="back-arena-btn" onclick="closeUserSearchModal()"><i class="fas fa-arrow-left"></i> Back to Arena</button>
@@ -4170,33 +4197,16 @@
                     return;
                 }
 
-                const now = Date.now();
+                                const now = Date.now();
                 await window.fbSetDoc(docRef, {
                     username: input,
                     usernameLower: userId,
-                    authUid: authUid,
                     rating: 1500,
-                    ratingConfidence: 350,
                     aam: false,
                     flair: selectedFlair || '🏆',
-                    deviceId: deviceId,
-                    deviceLockedAt: now,
                     createdAt: now,
-                    updatedAt: now,
-                    gamesPlayed: 0,
-                    kFactor: 256,
-                    stats: {
-                        highestRating: 1500,
-                        highestBeaten: 0,
-                        totalGames: 0,
-                        totalWins: 0,
-                        totalLosses: 0,
-                        totalDraws: 0,
-                        sumOpponentRatings: 0,
-                        lastActivity: now
-                    }
+                    updatedAt: now
                 });
-
                 // Only mark the account as logged in AFTER Firestore succeeds.
                 username = input;
                 rating = 1500;
@@ -4239,53 +4249,20 @@
                     return;
                 }
 
-                const data = snap.data();
+                                const data = snap.data();
 
-                // IMPORTANT: Never claim an old/unlocked account automatically.
-                if (!data.deviceId) {
-                    hideLoading();
-                    alert('🔒 This account is not registered with the one-device system yet.\n\nPlease contact the site administrator.');
-                    return;
-                }
-
-                // The ONLY device allowed is the device that registered the account.
-                if (String(data.deviceId) !== String(deviceId)) {
-                    hideLoading();
-                    alert('🚫 LOGIN BLOCKED\n\nThis account is registered on another device.\n\nYou can only log in on the device where this account was originally registered.');
-                    return;
-                }
-
-                // Correct device → restore the cloud account.
                 username = isFounderRecord(data) ? FOUNDER_USERNAME : (data.username || input);
                 rating = Math.min(3499, Math.max(1000, Number.isFinite(Number(data.rating)) ? Number(data.rating) : 1500));
-                ratingConfidence = Math.max(45, Math.min(350, Number(data.ratingConfidence) || 350));
                 isAAM = data.aam === true;
                 selectedFlair = data.flair || '🏆';
                 isAnonymous = false;
-// Sync cloud notifications into local storage so the bell indicator lights up
+
+                // Cloud notifications (kept for future use)
                 if (Array.isArray(data.notifications)) {
                     systemNotificationsList = data.notifications;
                     localStorage.setItem('abacus-system-notifications', JSON.stringify(systemNotificationsList));
                     evaluateBellNotificationIndicatorState();
                 }
-
-                if (data.stats) {
-                    stats = {
-                        highestRating: Number(data.stats.highestRating) || rating,
-                        highestBeaten: Number(data.stats.highestBeaten) || 0,
-                        totalGames: Number(data.stats.totalGames) || 0,
-                        totalWins: Number(data.stats.totalWins) || 0,
-                        totalLosses: Number(data.stats.totalLosses) || 0,
-                        totalDraws: Number(data.stats.totalDraws) || 0,
-                        sumOpponentRatings: Number(data.stats.sumOpponentRatings) || 0,
-                        lastActivity: Number(data.stats.lastActivity) || Date.now()
-                    };
-                }
-
-                // Keep the adaptive K-factor progression tied to the real cloud game count.
-                // New accounts therefore start with K=256 for their first 3 rated games.
-                gamesPlayed = Number(stats.totalGames) || 0;
-                localStorage.setItem('abacus-games', String(gamesPlayed));
 
                 localStorage.setItem('username', username);
                 localStorage.setItem('abacus-rating', String(rating));
@@ -4330,7 +4307,6 @@
                 window.location.reload();
             }
         }
-
         async function syncRatingToCloud(newRating) {
             if (isAnonymous || !username || username === 'Anonymous') return false;
 
@@ -4339,81 +4315,158 @@
                 const userId = getUserDocId(username);
                 const userRef = window.fbDoc(db, "users", userId);
 
-                // setDoc + merge also works if an older account is missing a field.
                 await window.fbSetDoc(userRef, {
                     username: username,
                     usernameLower: userId,
                     rating: Number(newRating),
-                    ratingConfidence: Number(ratingConfidence),
                     aam: !!isAAM,
                     updatedAt: Date.now()
                 }, { merge: true });
 
-                console.log("Cloud rating synced:", userId, newRating);
                 return true;
             } catch (e) {
                 console.error("Cloud rating sync error:", e);
                 return false;
             }
         }
-
-        async function syncStatsToCloud() {
-            if (isAnonymous || !username || username === 'Anonymous') return false;
-
-            try {
-                const db = await waitForFirebase();
-                const userId = getUserDocId(username);
-                const userRef = window.fbDoc(db, "users", userId);
-
-                await window.fbSetDoc(userRef, {
-                    username: username,
-                    usernameLower: userId,
-                    rating: Number(rating),
-                    flair: selectedFlair || '🏆',
-                    stats: {
-                        highestRating: Number(stats.highestRating) || Number(rating),
-                        highestBeaten: Number(stats.highestBeaten) || 0,
-                        totalGames: Number(stats.totalGames) || 0,
-                        totalWins: Number(stats.totalWins) || 0,
-                        totalLosses: Number(stats.totalLosses) || 0,
-                        totalDraws: Number(stats.totalDraws) || 0,
-                        sumOpponentRatings: Number(stats.sumOpponentRatings) || 0,
-                        lastActivity: Number(stats.lastActivity) || Date.now(),
-                        ratingConfidence: Number(ratingConfidence) || 350
-                    },
-                    updatedAt: Date.now()
-                }, { merge: true });
-
-                return true;
-            } catch (e) {
-                console.error("Cloud stats sync error:", e);
-                return false;
-            }
+    
+               async function syncStatsToCloud() {
+            return false; // Stats are now local-only
         }
 
         async function saveGameToCloud(entry) {
-            if (isAnonymous || !username || username === 'Anonymous' || !entry) return false;
+            return false; // Game history is now local-only
+        }        // ─── LEADERBOARD ───
+        const LEADERBOARD_CACHE_KEY = 'abacus-leaderboard-cache-v1';
+        const LEADERBOARD_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
-            try {
-                const db = await waitForFirebase();
-                const userId = getUserDocId(username);
-                const gamesRef = window.fbCollection(db, "users", userId, "games");
-
-                await window.fbAddDoc(gamesRef, {
-                    ...entry,
-                    username: username,
-                    ratingAfter: Number(rating),
-                    opponentRating: Number(opponentRating) || 0,
-                    serverCreatedAt: window.fbServerTimestamp()
-                });
-
-                return true;
-            } catch (e) {
-                console.error("Cloud game save error:", e);
-                return false;
-            }
+        function openLeaderboard() {
+            if (gameInProgress) return;
+            document.getElementById('leaderboard-fullscreen').style.display = 'flex';
+            renderLeaderboard();
         }
 
+        function closeLeaderboard() {
+            document.getElementById('leaderboard-fullscreen').style.display = 'none';
+        }
+
+        function getLeaderboardMedal(rank) {
+            if (rank === 1) return '🥇';
+            if (rank === 2) return '🥈';
+            if (rank === 3) return '🥉';
+            return null;
+        }
+
+        function renderLeaderboardRows(rows) {
+            const container = document.getElementById('leaderboardRows');
+            if (!rows || rows.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.5;">No ranked players yet. Be the first!</div>';
+                return;
+            }
+
+            container.innerHTML = rows.map((p, idx) => {
+                const rank = idx + 1;
+                const medal = getLeaderboardMedal(rank);
+                const isMe = !isAnonymous && username && (p.username || '').toLowerCase() === (username || '').toLowerCase();
+                const badgeTag = p.aam === true
+                    ? '<span class="identity-title-badge aam-badge" style="margin-right:6px;">AAM</span>'
+                    : '';
+                const youTag = isMe
+                    ? '<span style="font-size:0.6rem; background:#3b82f6; color:#fff; padding:2px 8px; border-radius:10px; font-weight:800; margin-left:6px;">YOU</span>'
+                    : '';
+
+                const rowBg = rank === 1 ? 'linear-gradient(90deg, rgba(255,215,0,0.12), rgba(255,215,0,0.02))'
+                    : rank === 2 ? 'linear-gradient(90deg, rgba(192,192,192,0.10), rgba(192,192,192,0.02))'
+                    : rank === 3 ? 'linear-gradient(90deg, rgba(205,127,50,0.12), rgba(205,127,50,0.02))'
+                    : 'transparent';
+
+                const rankDisplay = medal
+                    ? `<span style="font-size:1.7rem; line-height:1;">${medal}</span>`
+                    : `<span style="font-size:1rem; font-weight:800; opacity:0.5; width:24px; text-align:center; display:inline-block;">#${rank}</span>`;
+
+                const ratingColor = rank === 1 ? '#ffd700' : rank === 2 ? '#e5e7eb' : rank === 3 ? '#f0c69b' : '#60a5fa';
+
+                return `
+                    <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid rgba(255,255,255,0.05); background:${rowBg}; ${isMe ? 'box-shadow:inset 0 0 0 2px rgba(59,130,246,0.35);' : ''}">
+                        <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+                            <div style="min-width:36px; display:flex; align-items:center; justify-content:center;">${rankDisplay}</div>
+                            <div style="font-size:1.5rem; line-height:1;">${p.flair || '🏆'}</div>
+                            <div style="min-width:0;">
+                                <div style="font-weight:800; font-size:0.95rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:240px;">
+                                    ${badgeTag}${escapeHtml(p.username || 'Unknown')}${youTag}
+                                </div>
+                            </div>
+                        </div>
+                        <div style="font-weight:900; font-size:1.15rem; color:${ratingColor}; font-variant-numeric:tabular-nums;">
+                            ${Number(p.rating).toLocaleString()}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function renderLeaderboard() {
+            const rowsContainer = document.getElementById('leaderboardRows');
+            const countNode = document.getElementById('leaderboardPlayerCount');
+
+            // 1) Try local cache first (instant display)
+            let usedCache = false;
+            try {
+                const cached = JSON.parse(localStorage.getItem(LEADERBOARD_CACHE_KEY) || 'null');
+                if (cached && cached.timestamp && (Date.now() - cached.timestamp < LEADERBOARD_CACHE_TTL_MS)) {
+                    renderLeaderboardRows(cached.rows);
+                    if (typeof cached.total === 'number') {
+                        countNode.innerText = `🧮 ${cached.total.toLocaleString()} registered player${cached.total === 1 ? '' : 's'}`;
+                    }
+                    usedCache = true;
+                }
+            } catch (e) { /* ignore cache read errors */ }
+
+            // 2) Fetch live data (silently refresh, don't block UI)
+            try {
+                await waitForFirebase();
+                const users = window.fbCollection(window.fbDb, 'users');
+
+                // Top 10 by rating descending
+                const topQuery = window.fbQuery(users, window.fbOrderBy('rating', 'desc'), window.fbLimit(10));
+                const [topSnap, countSnap] = await Promise.all([
+                    window.fbGetDocs(topQuery),
+                    window.fbGetCountFromServer(users)
+                ]);
+
+                const rows = [];
+                topSnap.forEach(doc => {
+                    const d = doc.data() || {};
+                    rows.push({
+                        username: d.username || doc.id,
+                        rating: Number(d.rating) || 1500,
+                        flair: d.flair || '🏆',
+                        aam: d.aam === true
+                    });
+                });
+
+                const total = Number(countSnap.data().count || 0);
+
+                renderLeaderboardRows(rows);
+                countNode.innerText = `🧮 ${total.toLocaleString()} registered player${total === 1 ? '' : 's'}`;
+
+                // Save to cache
+                try {
+                    localStorage.setItem(LEADERBOARD_CACHE_KEY, JSON.stringify({
+                        timestamp: Date.now(),
+                        rows,
+                        total
+                    }));
+                } catch (e) { /* quota might be full — ignore */ }
+
+            } catch (e) {
+                console.warn('Leaderboard fetch failed:', e);
+                if (!usedCache) {
+                    rowsContainer.innerHTML = '<div style="text-align:center; padding:40px 20px; opacity:0.6;">Leaderboard is currently offline. Please try again later.</div>';
+                    countNode.innerText = '';
+                }
+            }
+        }
         function openUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'flex'; }
         function closeUserSearchModal() { document.getElementById('user-search-fullscreen').style.display = 'none'; }
 
@@ -5377,10 +5430,12 @@ syncRatingToCloud(rating);
         function getDisplayUsername() {
             return isFounderUser() ? FOUNDER_USERNAME : username;
         }
-
         function isFounderUser() {
+            // Primary check: local username matches the founder's registered handle
             const u = String(username || '').toLowerCase();
-            return u === FOUNDER_USERNAME.toLowerCase() || u === LEGACY_FOUNDER_USERNAME;
+            const matchesName = u === FOUNDER_USERNAME.toLowerCase() || u === LEGACY_FOUNDER_USERNAME;
+            // Must also be logged in (not anonymous) to be considered the founder
+            return matchesName && !isAnonymous;
         }
 
         async function syncAAMStatusToCloud(status, targetUsername = username) {
