@@ -2771,6 +2771,9 @@
         <button class="check-level-btn" id="nav-faq-btn" onclick="openFAQFullscreen()" style="background:linear-gradient(135deg,#f1c40f,#f39c12);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
             <i class="fas fa-question-circle"></i> FAQ
         </button>
+<button class="check-level-btn" id="nav-tos-btn" onclick="openToSFullscreen()" style="background:linear-gradient(135deg,#64748b,#334155);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
+    <i class="fas fa-shield-alt"></i> Terms
+</button>
         <button class="check-level-btn" id="nav-lessons-btn" onclick="openLessonsFullscreen()" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);color:#fff;border:none;border-radius:40px;padding:8px 16px;font-size:0.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:6px;">
     <i class="fas fa-graduation-cap"></i> Lessons
 </button>
@@ -4014,6 +4017,155 @@
 
     </div>
 </div>
+<!-- ─── TERMS OF SERVICE FULLSCREEN ─── -->
+<div id="tos-fullscreen" class="colorful-animated-bg" style="display:none;position:fixed;inset:0;z-index:10050;flex-direction:column;padding:25px;overflow-y:auto;color:#fff;">
+    
+
+    <div style="max-width:820px;margin:40px auto 0 auto;width:100%;">
+        <h1 style="font-family:'Orbitron',sans-serif;font-size:1.9rem;color:#ffd700;margin:0 0 6px 0;text-align:center;">
+            <i class="fas fa-shield-alt"></i> Terms of Service &amp; Fair Play
+        </h1>
+        <p style="text-align:center;opacity:0.75;font-size:0.9rem;margin:0 0 26px 0;">AbacusArena.org — Please read before you play.</p>
+
+        <!-- FAIR PLAY -->
+        <div class="philosophy-section" style="margin-top:0;">
+            <h3><i class="fas fa-handshake"></i> Fair Play — Do Not Cheat</h3>
+            <ul style="font-size:0.95rem;line-height:1.7;">
+                <li><strong>Do not cheat or use external calculators</strong> while playing.</li>
+                <li><strong>Do not get help from any friends</strong> or other people during a match.</li>
+                <li><strong>One account is awarded to only one player.</strong> No other person may play using the same account.</li>
+            </ul>
+            <p style="font-size:0.9rem;line-height:1.6;color:#fde68a;font-style:italic;margin-bottom:0;">
+                Breaking these rules undermines the entire purpose of the arena. Play honestly — your rating only means something if it is truly yours.
+            </p>
+</div>
+
+           
+            <!-- BAN WARNING -->
+            <div style="margin-top:14px;padding:14px 16px;background:linear-gradient(135deg,rgba(239,68,68,0.15),rgba(220,38,38,0.1));border:1px solid rgba(239,68,68,0.35);border-left:4px solid #ef4444;border-radius:12px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <i class="fas fa-gavel" style="color:#ff6b6b;font-size:1.1rem;flex-shrink:0;"></i>
+                    <p style="font-size:0.95rem;line-height:1.6;margin:0;color:#fee2e2;">
+                        <strong style="color:#ff6b6b;">Not following these rules may result in a temporary ban.</strong>
+                    </p>
+                </div>
+            </div>
+
+
+
+
+        <!-- SAFETY -->
+        <div class="philosophy-section">
+            <h3><i class="fas fa-lock"></i> How to Be Safe on the Internet</h3>
+            <p style="font-size:0.95rem;line-height:1.7;">
+                Since we <strong>don't maintain a separate password or email</strong> system, using our website is genuinely simple and safe.
+                There is no password to leak, no email to phish, and no personal inbox tied to your account.
+            </p>
+            <p style="font-size:0.95rem;line-height:1.7;">
+                However, if you do not feel comfortable registering, but still want to play — <strong>you can play without logging in</strong>.
+                In anonymous mode, your ratings are saved <strong>only in your browser</strong>. Clearing your browser data will reset your progress,
+                and anonymous players are not shown on the leaderboard.
+            </p>
+            <p style="font-size:0.95rem;line-height:1.7;margin-bottom:0;">
+                Either way, you are in control. Register for a permanent nickname, or stay anonymous — both are fully supported.
+            </p>
+        </div>
+
+        <!-- NO ADS / NO TRACKING -->
+        <div class="philosophy-section">
+            <h3><i class="fas fa-ban"></i> No Ads. No Tracking. Ever.</h3>
+            <p style="font-size:0.95rem;line-height:1.7;">
+                <strong>Our website will never have ads.</strong> Advertisements sell our screen space and influence the experience we build for you.
+            </p>
+            <p style="font-size:0.95rem;line-height:1.7;margin-bottom:0;">
+                <strong>Tracking sells personal information</strong> to increase advertising effectiveness. <strong>None of that exists on AbacusArena.org — forever.</strong>
+                We do not sell your data, because we do not collect it for that purpose.
+            </p>
+        </div>
+
+        <!-- AAM -->
+        <div style="background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.22);border-radius:16px;padding:16px 18px;margin:18px 0;color:#fff;">
+            <div style="font-size:.78rem;text-transform:uppercase;letter-spacing:1px;color:#ffd700;font-weight:900;margin-bottom:10px;">
+                <i class="fas fa-crown"></i> The AAM Title
+            </div>
+            <p style="font-size:0.95rem;line-height:1.7;margin:0 0 10px 0;">
+                <strong style="color:#ffd700;">You don't get the AAM title — the AAM title gets you.</strong>
+            </p>
+            <p style="font-size:0.9rem;line-height:1.6;margin:0 0 10px 0;">
+                We kindly request that you <strong>do not ask for AAM</strong>. Asking for it actually <strong>reduces</strong> your chance of receiving it.
+                Instead, train.
+            </p>
+            <p style="font-size:0.9rem;line-height:1.6;margin:0;">
+                Aim for <strong>2500+ rating</strong>. The higher your rating, and the more consistent your skill, the higher your chances of being recognised.
+                AAM is awarded only by the Founder, and only when it is truly deserved.
+            </p>
+        </div>
+
+                <!-- FAIR-PLAY TOGGLE CHECKLIST -->
+        <div id="tosToggleChecklist" style="margin:26px auto 6px auto;max-width:620px;padding:18px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.12);border-radius:16px;">
+            <div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1.2px;color:#93c5fd;font-weight:900;margin-bottom:14px;">
+                <i class="fas fa-list-check"></i> Confirm each point before continuing
+            </div>
+
+            <!-- Toggle 1 -->
+            <div class="tos-toggle-row" id="tosToggle1" onclick="toggleToSItem(1)" style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;margin-bottom:8px;background:rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.14);border-radius:12px;cursor:pointer;transition:all 0.22s ease;user-select:none;">
+                <div class="tos-toggle-box" id="tosToggleBox1" style="width:26px;height:26px;border-radius:8px;border:2px solid rgba(255,255,255,0.4);background:rgba(0,0,0,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.22s ease;">
+                    <i class="fas fa-check" style="color:#fff;font-size:0.85rem;opacity:0;transition:opacity 0.2s ease;"></i>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.92rem;font-weight:800;color:#fff;line-height:1.4;">I will not cheat, use external calculators, or get help from friends.</div>
+                </div>
+            </div>
+
+            <!-- Toggle 2 -->
+            <div class="tos-toggle-row" id="tosToggle2" onclick="toggleToSItem(2)" style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;margin-bottom:8px;background:rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.14);border-radius:12px;cursor:pointer;transition:all 0.22s ease;user-select:none;">
+                <div class="tos-toggle-box" id="tosToggleBox2" style="width:26px;height:26px;border-radius:8px;border:2px solid rgba(255,255,255,0.4);background:rgba(0,0,0,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.22s ease;">
+                    <i class="fas fa-check" style="color:#fff;font-size:0.85rem;opacity:0;transition:opacity 0.2s ease;"></i>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.92rem;font-weight:800;color:#fff;line-height:1.4;">I will use one account, and no one else will play on it.</div>
+                </div>
+            </div>
+
+            <!-- Toggle 3 -->
+            <div class="tos-toggle-row" id="tosToggle3" onclick="toggleToSItem(3)" style="display:flex;align-items:flex-start;gap:12px;padding:12px 14px;margin-bottom:8px;background:rgba(0,0,0,0.18);border:2px solid rgba(255,255,255,0.14);border-radius:12px;cursor:pointer;transition:all 0.22s ease;user-select:none;">
+                <div class="tos-toggle-box" id="tosToggleBox3" style="width:26px;height:26px;border-radius:8px;border:2px solid rgba(255,255,255,0.4);background:rgba(0,0,0,0.25);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all 0.22s ease;">
+                    <i class="fas fa-check" style="color:#fff;font-size:0.85rem;opacity:0;transition:opacity 0.2s ease;"></i>
+                </div>
+                <div style="flex:1;">
+                    <div style="font-size:0.92rem;font-weight:800;color:#fff;line-height:1.4;">I have read and accept the Terms of Service &amp; Fair Play rules above.</div>
+                </div>
+            </div>
+
+            <!-- Status message -->
+            <div id="tosStatusMsg" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;color:#fecaca;font-size:0.85rem;font-weight:700;text-align:center;">
+                <i class="fas fa-exclamation-triangle"></i> You must accept our ToS to continue.
+            </div>
+        </div>
+
+        <!-- ACCEPT BUTTON -->
+        <div style="text-align:center;margin:20px 0 10px 0;">
+            <button id="tosAcceptBtn" onclick="acceptToSAndClose()" disabled
+                    style="background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:14px 30px;border-radius:40px;font-weight:800;font-size:1rem;cursor:not-allowed;box-shadow:0 6px 24px rgba(16,185,129,0.4);opacity:0.4;transition:all 0.25s ease;">
+                <i class="fas fa-check-circle"></i> I Understand &amp; Accept
+            </button>
+        </div>
+        <p style="text-align:center;font-size:0.72rem;opacity:0.55;margin-top:8px;">All confirmations must be green before you can continue.</p>
+
+<div style="text-align:center;margin-top:20px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.08);">
+    <a href="https://firebase.google.com/" target="_blank" rel="noopener noreferrer"
+       style="display:inline-flex;align-items:center;gap:8px;font-size:0.78rem;font-weight:600;color:#fbbf24;background:rgba(251,191,36,0.08);padding:6px 16px;border-radius:20px;border:1px solid rgba(251,191,36,0.25);text-decoration:none;transition:all 0.2s ease;"
+       onmouseover="this.style.background='rgba(251,191,36,0.16)';this.style.transform='translateY(-1px)'"
+       onmouseout="this.style.background='rgba(251,191,36,0.08)';this.style.transform='translateY(0)'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;">
+            <path d="M4.5 18.5L7.5 4.5L12 9L16.5 3L19.5 18.5H4.5Z" fill="#FBBF24"/>
+            <path d="M7.5 4.5L4.5 18.5L12 9L7.5 4.5Z" fill="#F59E0B" opacity="0.6"/>
+        </svg>
+        Powered by Firebase
+    </a>
+</div>
+    </div>
+</div>
     <!-- ─── FOUNDER STORY OVERLAY ─── -->
     <div id="founder-story-modal" class="founder-modal-overlay">
         <div id="founder-screen-1" class="founder-story-screen active-screen">
@@ -5109,6 +5261,7 @@ syncRatingToCloud(rating);
 
             if (Date.now() < lockUntilTimestamp) startCooldownTickerLoop();
             evaluateBellNotificationIndicatorState();
+       	    maybeShowToSOnFirstVisit();
             updateRatingUI();
             updateMainDisplay();
             updateVoiceMuteUI();
@@ -5824,6 +5977,126 @@ syncRatingToCloud(rating);
         }
 
 function closeFAQFullscreen() { document.getElementById('faq-fullscreen').style.display = 'none'; }
+/* ─── FAIR-PLAY TOGGLE CHECKLIST ─── */
+const tosToggleState = { 1: false, 2: false, 3: false };
+
+function toggleToSItem(n) {
+    tosToggleState[n] = !tosToggleState[n];
+    applyToSToggleVisual(n);
+    refreshToSAcceptState();
+    // Hide the warning message as soon as the user starts interacting
+    const msg = document.getElementById('tosStatusMsg');
+    if (msg) msg.style.display = 'none';
+}
+
+function applyToSToggleVisual(n) {
+    const row = document.getElementById('tosToggle' + n);
+    const box = document.getElementById('tosToggleBox' + n);
+    if (!row || !box) return;
+    const icon = box.querySelector('i');
+    if (tosToggleState[n]) {
+        row.style.background = 'rgba(16,185,129,0.14)';
+        row.style.borderColor = 'rgba(16,185,129,0.65)';
+        box.style.background = 'linear-gradient(135deg,#10b981,#059669)';
+        box.style.borderColor = '#10b981';
+        icon.style.opacity = '1';
+    } else {
+        row.style.background = 'rgba(0,0,0,0.18)';
+        row.style.borderColor = 'rgba(255,255,255,0.14)';
+        box.style.background = 'rgba(0,0,0,0.25)';
+        box.style.borderColor = 'rgba(255,255,255,0.4)';
+        icon.style.opacity = '0';
+    }
+}
+
+function refreshToSAcceptState() {
+    const allOn = tosToggleState[1] && tosToggleState[2] && tosToggleState[3];
+    const btn = document.getElementById('tosAcceptBtn');
+    if (!btn) return;
+    if (allOn) {
+        btn.disabled = false;
+        btn.style.cursor = 'pointer';
+        btn.style.opacity = '1';
+        btn.style.transform = 'scale(1.03)';
+    } else {
+        btn.disabled = true;
+        btn.style.cursor = 'not-allowed';
+        btn.style.opacity = '0.4';
+        btn.style.transform = 'scale(1)';
+    }
+}
+
+function resetToSToggles() {
+    tosToggleState[1] = false;
+    tosToggleState[2] = false;
+    tosToggleState[3] = false;
+    for (let i = 1; i <= 3; i++) applyToSToggleVisual(i);
+    refreshToSAcceptState();
+    const msg = document.getElementById('tosStatusMsg');
+    if (msg) msg.style.display = 'none';
+}
+
+
+/* ─── TERMS OF SERVICE — MANDATORY GATE, NO ESCAPE EVER ─── */
+function openToSFullscreen() {
+    if (gameInProgress) return;
+    // Back button is never shown — ToS is always a mandatory gate.
+    const backBtn = document.getElementById('tosBackBtn');
+    if (backBtn) backBtn.style.display = 'none';
+    document.getElementById('tos-fullscreen').style.display = 'flex';
+}
+
+function closeToSFullscreen() {
+    // Kept for safety, but the back button no longer calls this.
+    document.getElementById('tos-fullscreen').style.display = 'none';
+}
+
+function acceptToSAndClose() {
+    // Guard: all three toggles must be green
+    const allOn = tosToggleState[1] && tosToggleState[2] && tosToggleState[3];
+    if (!allOn) {
+        // Show the refusal message
+        const msg = document.getElementById('tosStatusMsg');
+        if (msg) {
+            msg.style.display = 'block';
+            msg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        // Shake the disabled button as feedback
+        const btn = document.getElementById('tosAcceptBtn');
+        if (btn) {
+            btn.style.transition = 'transform 0.08s ease';
+            let shakes = 0;
+            const iv = setInterval(() => {
+                btn.style.transform = shakes % 2 === 0 ? 'translateX(-6px)' : 'translateX(6px)';
+                shakes++;
+                if (shakes >= 6) {
+                    clearInterval(iv);
+                    btn.style.transform = '';
+                }
+            }, 70);
+        }
+        return;
+    }
+
+    // All green — close the gate
+    document.getElementById('tos-fullscreen').style.display = 'none';
+    // Reset toggles so next visit starts fresh
+    resetToSToggles();
+}
+
+/* Fires on EVERY page load. No escape. Must toggle all + Accept. */
+function maybeShowToSOnFirstVisit() {
+    // Always start with toggles off
+    resetToSToggles();
+
+    // Show the ToS after the splash screen is fully visible behind it
+    setTimeout(() => {
+        document.getElementById('tos-fullscreen').style.display = 'flex';
+    }, 900);
+}
+
+
+
 
         function openBlogFullscreen() {
             if (gameInProgress) return;
