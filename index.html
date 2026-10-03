@@ -1677,6 +1677,41 @@
             box-shadow: var(--card-shadow);
             border-color: var(--accent-light);
         }
+        /* ─── Animated Sun / Moon theme icons ─── */
+        .theme-btn svg {
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.45s ease;
+        }
+
+        /* Sun (first button) — spins + glows on hover */
+        .theme-btn:nth-child(1):hover svg {
+            transform: rotate(45deg) scale(1.12);
+            filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.65));
+        }
+        .theme-btn:nth-child(1):active svg {
+            transform: rotate(-15deg) scale(0.92);
+        }
+
+        /* Moon (second button) — gentle float + glow on hover */
+        .theme-btn:nth-child(2):hover svg {
+            transform: translateY(-3px) scale(1.12);
+            filter: drop-shadow(0 0 10px rgba(129, 140, 248, 0.7));
+        }
+        .theme-btn:nth-child(2):active svg {
+            transform: translateY(1px) scale(0.92);
+        }
+
+        /* Continuous slow rotation on the sun while its page is idle
+           (only when user prefers motion) */
+        @media (prefers-reduced-motion: no-preference) {
+            .theme-btn:nth-child(1) svg {
+                animation: sunIdleSpin 24s linear infinite;
+            }
+        }
+        @keyframes sunIdleSpin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
 
         /* ─── ABOUT ─── */
         .about-centered {
@@ -3187,14 +3222,48 @@
             </div>
             <div id="pane-themes" class="settings-pane-section pane-active">
                 <h3>🎨 System Themes (5)</h3>
-                <div class="themes-horizontal">
-                    <button class="theme-btn" onclick="applyThemeWithLoading('light')"><i class="fas fa-sun"></i> Light</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('dark')"><i class="fas fa-moon"></i> Dark</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('nature')"><i class="fas fa-tree"></i> Nature</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('ocean')"><i class="fas fa-water"></i> Ocean</button>
-                    <button class="theme-btn" onclick="applyThemeWithLoading('space')"><i class="fas fa-user-astronaut"></i> Space</button>
-                </div>
-                <div style="margin-top:12px;font-size:0.75rem;opacity:0.5;">Ambient sounds change with theme.</div>
+                <div class="themes-horizontal" style="grid-template-columns: repeat(2, 1fr);">
+    <button class="theme-btn" onclick="applyThemeWithLoading('light')" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;">
+        <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="32" cy="32" r="13" fill="#fbbf24"/>
+            <g stroke="#f59e0b" stroke-width="3.5" stroke-linecap="round">
+                <line x1="32" y1="4"  x2="32" y2="13"/>
+                <line x1="32" y1="51" x2="32" y2="60"/>
+                <line x1="4"  y1="32" x2="13" y2="32"/>
+                <line x1="51" y1="32" x2="60" y2="32"/>
+                <line x1="12" y1="12" x2="18" y2="18"/>
+                <line x1="46" y1="46" x2="52" y2="52"/>
+                <line x1="12" y1="52" x2="18" y2="46"/>
+                <line x1="46" y1="18" x2="52" y2="12"/>
+            </g>
+        </svg>
+        <span style="font-weight:700;font-size:0.85rem;">Light</span>
+    </button>
+
+    <button class="theme-btn" onclick="applyThemeWithLoading('dark')" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 10px;">
+        <svg width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="moonGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#e0e7ff"/>
+                    <stop offset="100%" stop-color="#818cf8"/>
+                </linearGradient>
+            </defs>
+            <!-- Crescent moon: large circle with a bite taken out -->
+            <path d="M40 12
+                     a 22 22 0 1 0 0 40
+                     a 17 17 0 1 1 0 -40 Z"
+                  fill="url(#moonGrad)"/>
+            <!-- Small star to the side -->
+            <circle cx="50" cy="20" r="1.8" fill="#fbbf24"/>
+            <circle cx="54" cy="28" r="1.2" fill="#fbbf24"/>
+            <circle cx="48" cy="34" r="1.4" fill="#fbbf24"/>
+        </svg>
+        <span style="font-weight:700;font-size:0.85rem;">Dark</span>
+    </button>
+</div>
+<div style="margin-top:12px;font-size:0.75rem;opacity:0.5;">Choose between Light and Dark.</div>
+
+
             </div>
             <div id="pane-stats" class="settings-pane-section">
                 <h3>📊 Full Career Stats</h3>
@@ -5480,13 +5549,10 @@ async function executePlayerSearch() {
         const bgAudio = document.getElementById('bg-audio');
 
         // ─── BACKGROUND SOUNDS ───
-        const themeSounds = {
-            light: { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' }, // silent
-            dark: { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' },
-            nature: { url: 'https://www.soundjay.com/nature/birds-forest-01.wav', type: 'nature' },
-            ocean: { url: 'https://www.soundjay.com/nature/ocean-waves-01.wav', type: 'ocean' },
-            space: { url: 'https://www.soundjay.com/ambient/space-ambient-01.wav', type: 'space' }
-        };
+       const themeSounds = {
+    light: { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' },
+    dark:  { url: 'data:audio/wav;base64,U3R1ZmY=', type: 'silent' }
+};
 
         // We'll use Web Audio oscillators for ambient sounds since external files might not load
         let ambientOsc = null;
@@ -6630,24 +6696,20 @@ function maybeShowToSOnFirstVisit() {
         }
 
         const themesData = {
-            light: { type: 'gradient', cycle: [
-                    ['#eee3ff', '#e0f2fe'],
-                    ['#e0f2fe', '#e6fffa']
-                ], panClass: 'gradient-pan-effect' },
-            dark: { type: 'gradient', cycle: [
-                    ['#0a1628', '#1a2a4a'],
-                    ['#0a1f1a', '#1a3a2a']
-                ], panClass: 'gradient-pan-effect' },
-            nature: { type: 'image', cycle: [
-                    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80'
-                ], panClass: 'nature-pan-effect' },
-            ocean: { type: 'image', cycle: [
-                    'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80'
-                ], panClass: 'nature-pan-effect' },
-            space: { type: 'image', cycle: [
-                    'https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?auto=format&fit=crop&w=1400&q=80'
-                ], panClass: 'space-pan-effect' }
-        };
+    light: { type: 'gradient', cycle: [
+            ['#eee3ff', '#e0f2fe'],
+            ['#e0f2fe', '#e6fffa']
+        ], panClass: 'gradient-pan-effect' },
+    dark: { type: 'gradient', cycle: [
+            ['#0a1628', '#1a2a4a'],
+            ['#0a1f1a', '#1a3a2a']
+        ], panClass: 'gradient-pan-effect' }
+};
+
+
+
+
+
         let currentActiveLayer = 1,
             themeCycleIndex = 0;
 
