@@ -6810,10 +6810,26 @@ function maybeShowToSOnFirstVisit() {
         // ─── RATING / DIFFICULTY ───
                 function getEffectiveRatingConfidence() {
             return Math.max(45, Math.min(350, getEffectiveRD()));
-        }        function getActiveKFactor() {
-            const confidence = getEffectiveRatingConfidence();
-            const newcomerBoost = gamesPlayed < 5 ? 110 : gamesPlayed < 15 ? 75 : gamesPlayed < 30 ? 45 : 20;
-            return Math.max(48, Math.min(280, Math.round(58 + newcomerBoost + confidence * 0.32)));
+        }  
+        function getActiveKFactor() {
+            // RD drives the K-factor directly.
+            // High RD (new / returning player)  -> large K -> big rating swings
+            // Low RD  (established active player) -> small K -> stable rating
+            const currentRD = getEffectiveRD();
+
+            // Map RD range [45 .. 320] -> K range [24 .. 160]
+            const RD_K_MIN = 24;    // K when RD is at its lowest (45) — very stable
+            const RD_K_MAX = 160;   // K when RD is at its highest (320) — very responsive
+
+            const clamped = Math.max(RD_MIN, Math.min(RD_MAX, currentRD));
+            const t = (clamped - RD_MIN) / (RD_MAX - RD_MIN);   // 0 .. 1
+            let k = RD_K_MIN + t * (RD_K_MAX - RD_K_MIN);
+
+            // Small extra boost for the very first few games so brand-new
+            // accounts aren't stuck near 1500 forever.
+            if (gamesPlayed < 3) k = Math.min(200, k * 1.25);
+
+            return Math.round(k);
         }
 
         function calculateStakes() {
@@ -6892,20 +6908,37 @@ function maybeShowToSOnFirstVisit() {
                     // ─── RD (Rating Deviation) — local only ───
         const RD_MIN = 45.00;
         const RD_MAX = 320.00;
-        const RD_START = 360.00;
-        const RD_INACTIVITY_STEP = 0.01;
-        const RD_INACTIVITY_INTERVAL_MS = 10 * 60 * 1000;
+        const RD_START = 360.00;                          // Starting uncertainty for brand-new players
+        const RD_INACTIVITY_STEP = 0.01;                  // RD points gained per inactivity period
+        const RD_INACTIVITY_INTERVAL_MS = 60 * 1000;      // 1 minute
 
+        // Load persisted RD (single source of truth)
         let rd = Number(localStorage.getItem('abacus-rd'));
         if (!isFinite(rd) || rd <= 0) {
-            rd = gamesPlayed === 0 ? RD_START : 320.00;
+            rd = (gamesPlayed === 0) ? RD_START : RD_MAX;
         }
+
         let rdLastActivityTs = Number(localStorage.getItem('abacus-rd-last-activity')) || Date.now();
 
-        function applyInactivityGrowthToRD() {
+        // Pure function: compute current RD including inactivity growth, WITHOUT writing
+        function computeRDWithInactivity() {
             const now = Date.now();
             const elapsed = now - rdLastActivityTs;
-            if (elapsed <= 0) return;
+            if (elapsed <= 0) return Math.max(RD_MIN, Math.min(RD_MAX, rd));
+            const steps = Math.floor(elapsed / RD_INACTIVITY_INTERVAL_MS);
+            const grown = rd + steps * RD_INACTIVITY_STEP;
+            return Math.max(RD_MIN, Math.min(RD_MAX, grown));
+        }
+
+        // Read-only getter (safe to call from render functions)
+        function getEffectiveRD() {
+            return computeRDWithInactivity();
+        }
+
+        // Call this when you actually want to commit the inactivity growth to storage
+        function commitRDInactivityGrowth() {
+            const now = Date.now();
+            const elapsed = now - rdLastActivityTs;
             const steps = Math.floor(elapsed / RD_INACTIVITY_INTERVAL_MS);
             if (steps > 0) {
                 rd = Math.min(RD_MAX, rd + steps * RD_INACTIVITY_STEP);
@@ -6915,13 +6948,9 @@ function maybeShowToSOnFirstVisit() {
             }
         }
 
-        function getEffectiveRD() {
-            applyInactivityGrowthToRD();
-            return Math.max(RD_MIN, Math.min(RD_MAX, rd));
-        }
-
+        // Call this once when a rated game finishes
         function updateRatingConfidenceAfterGame() {
-            applyInactivityGrowthToRD();
+            commitRDInactivityGrowth();
             let drop;
             if (gamesPlayed <= 1)        drop = 40;
             else if (gamesPlayed <= 4)   drop = 18;
@@ -6931,11 +6960,17 @@ function maybeShowToSOnFirstVisit() {
             else                          drop = 2;
             rd = Math.max(RD_MIN, Math.min(RD_MAX, rd - drop));
             rdLastActivityTs = Date.now();
-            ratingConfidence = Math.max(45, Math.min(350, rd));
             localStorage.setItem('abacus-rd', rd.toFixed(2));
             localStorage.setItem('abacus-rd-last-activity', String(rdLastActivityTs));
+            // Keep legacy key in sync for any code still reading it
+            ratingConfidence = rd;
             localStorage.setItem('abacus-rating-confidence', String(Math.round(ratingConfidence)));
         }
+
+
+
+
+
         function getNormalDifficulty() {
             return (appOperationalContext === 'manual') ? { digits: manualDigits, rows: manualRows, time: manualTime } :
                 getRatingBoundDifficulty(rating);
@@ -7186,8 +7221,7 @@ function maybeShowToSOnFirstVisit() {
                     updateStats(false, false, true, oldUserRating, opponentRating);
                 } else if (userCorrect && (!botCorrect || timeGapMs > 1000)) {
                     let baseGain = k * (1 - expected);
-                    let speedMult = Math.max(0.7, 1.3 - (userElapsedMs / 7000));
-                    ratingDelta = Math.max(2, Math.min(k, Math.round(baseGain * speedMult)));
+                    ratingDelta = Math.max(2, Math.min(k, Math.round(baseGain)));
                     rating = Math.min(3499, Math.max(1000, rating + ratingDelta));
                     let timeDiff = (userElapsedMs - botSubmissionTimeMs) / 1000;
                     if (botCorrect) {
@@ -7206,8 +7240,7 @@ function maybeShowToSOnFirstVisit() {
                     updateStats(true, false, false, oldUserRating, opponentRating);
                 } else {
                     let baseLoss = k * expected;
-                    let speedMult = Math.max(0.7, 0.5 + (userElapsedMs / 7000));
-                    ratingDelta = -Math.max(2, Math.min(k, Math.round(baseLoss * speedMult)));
+                    ratingDelta = -Math.max(2, Math.min(k, Math.round(baseLoss)));
                     rating = Math.min(3499, Math.max(1000, rating + ratingDelta));
                     if (botCorrect && !userCorrect) {
                         bannerTitle = "Loss";
