@@ -6967,14 +6967,13 @@ function maybeShowToSOnFirstVisit() {
             return { digits: bracket.digits, rows, time };
         }
 
-                    // ─── RD (Rating Deviation) — local only ───
+                    // ─── RD (Rating Deviation) — Lichess / Glicko-2 Style ───
         const RD_MIN = 45.00;
-        const RD_MAX = 320.00;
-        const RD_START = 360.00;                          // Starting uncertainty for brand-new players
-        const RD_INACTIVITY_STEP = 0.01;                  // RD points gained per inactivity period
-        const RD_INACTIVITY_INTERVAL_MS = 60 * 1000;      // 1 minute
+        const RD_MAX = 350.00;
+        const RD_START = 350.00;   
+        const C_CONSTANT = 34.6;   // Controls how fast RD increases during inactivity
 
-        // Load persisted RD (single source of truth)
+        // Load persisted RD
         let rd = Number(localStorage.getItem('abacus-rd'));
         if (!isFinite(rd) || rd <= 0) {
             rd = (gamesPlayed === 0) ? RD_START : RD_MAX;
@@ -6982,54 +6981,38 @@ function maybeShowToSOnFirstVisit() {
 
         let rdLastActivityTs = Number(localStorage.getItem('abacus-rd-last-activity')) || Date.now();
 
-        // Pure function: compute current RD including inactivity growth, WITHOUT writing
+        // Lichess-style time decay: increases uncertainty over time of inactivity
         function computeRDWithInactivity() {
             const now = Date.now();
-            const elapsed = now - rdLastActivityTs;
-            if (elapsed <= 0) return Math.max(RD_MIN, Math.min(RD_MAX, rd));
-            const steps = Math.floor(elapsed / RD_INACTIVITY_INTERVAL_MS);
-            const grown = rd + steps * RD_INACTIVITY_STEP;
+            const daysInactive = (now - rdLastActivityTs) / (1000 * 60 * 60 * 24);
+            if (daysInactive <= 0) return Math.max(RD_MIN, Math.min(RD_MAX, rd));
+
+            const grown = Math.sqrt((rd * rd) + (C_CONSTANT * C_CONSTANT * daysInactive));
             return Math.max(RD_MIN, Math.min(RD_MAX, grown));
         }
 
-        // Read-only getter (safe to call from render functions)
         function getEffectiveRD() {
             return computeRDWithInactivity();
         }
 
-        // Call this when you actually want to commit the inactivity growth to storage
-        function commitRDInactivityGrowth() {
-            const now = Date.now();
-            const elapsed = now - rdLastActivityTs;
-            const steps = Math.floor(elapsed / RD_INACTIVITY_INTERVAL_MS);
-            if (steps > 0) {
-                rd = Math.min(RD_MAX, rd + steps * RD_INACTIVITY_STEP);
-                rdLastActivityTs += steps * RD_INACTIVITY_INTERVAL_MS;
-                localStorage.setItem('abacus-rd', rd.toFixed(2));
-                localStorage.setItem('abacus-rd-last-activity', String(rdLastActivityTs));
-            }
-        }
-
-        // Call this once when a rated game finishes
+        // Tightens RD using Glicko variance reduction after each rated game
         function updateRatingConfidenceAfterGame() {
-            commitRDInactivityGrowth();
-            let drop;
-            if (gamesPlayed <= 1)        drop = 40;
-            else if (gamesPlayed <= 4)   drop = 18;
-            else if (gamesPlayed <= 10)  drop = 12;
-            else if (gamesPlayed <= 25)  drop = 8;
-            else if (gamesPlayed <= 60)  drop = 4;
-            else                          drop = 2;
-            rd = Math.max(RD_MIN, Math.min(RD_MAX, rd - drop));
+            const currentRD = computeRDWithInactivity();
+            
+            const q = Math.LN10 / 400;
+            const gRD = 1 / Math.sqrt(1 + (3 * q * q * (150 * 150)) / (Math.PI * Math.PI));
+            const E = 1 / (1 + Math.pow(10, -gRD * (rating - (opponentRating || rating)) / 400));
+            const dSquaredInv = q * q * gRD * gRD * E * (1 - E);
+            
+            const newRD = Math.sqrt(1 / ((1 / (currentRD * currentRD)) + dSquaredInv));
+            rd = Math.max(RD_MIN, Math.min(RD_MAX, newRD));
             rdLastActivityTs = Date.now();
+
             localStorage.setItem('abacus-rd', rd.toFixed(2));
             localStorage.setItem('abacus-rd-last-activity', String(rdLastActivityTs));
-            // Keep legacy key in sync for any code still reading it
             ratingConfidence = rd;
             localStorage.setItem('abacus-rating-confidence', String(Math.round(ratingConfidence)));
         }
-
-
 
 
 
